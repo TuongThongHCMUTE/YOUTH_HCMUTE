@@ -1,4 +1,4 @@
-// CÁC BẢNg BÊN DƯỚI KÈM THEO ID, CREATE DATE, DATE UPDATE
+// CÁC BẢNG BÊN DƯỚI KÈM THEO ID, CREATE DATE, DATE UPDATE
 
 const Student = {
     fristName: 'Tường',
