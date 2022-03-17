@@ -7,15 +7,18 @@ const classSchema = new mongoose.Schema({
     moTa: {type: String},
     donVi: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Faculty'
+        ref: 'DonVi'
     },
-    quanLy: {
+    quanLy: [{
         chucVu: {type: String},
-        maSoSV: {type: String}
-    },
-    hienThi: {type: Boolean, default: true}
+        sinhVienId: {type: String}, // Id sinh viên
+        hoTen: {type: String}
+    }],
+    hienThi: {type: Boolean, default: true},
+    createBy: {type: Number},
+    updateBy: {type: Date}
 }, {timestamps: true})
 
-const Class = mongoose.model('Class', classSchema)
+const Lop = mongoose.model('Lop', classSchema)
 
-module.exports = Class
+module.exports = Lop

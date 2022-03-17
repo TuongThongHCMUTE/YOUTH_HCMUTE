@@ -14,9 +14,11 @@ const managerSchema = new mongoose.Schema({
     image: {type: String},
     googleId: {type: String, trim: true},
     role: {type: String, trim: true}, // DOAN_KHOA, CTV_DOAN_TRUONG, DOAN_TRUONG
-    trangThai: {type: Boolean, default: true} // true, false (Đang dùng, tạm khóa)
+    trangThai: {type: Boolean, default: true}, // true, false (Đang dùng, tạm khóa)
+    createBy: {type: Number},
+    updateBy: {type: Date}
 }, {timestamps: true})
 
-const Manager = mongoose.model('Manager', managerSchema)
+const QuanLy = mongoose.model('QuanLy', managerSchema)
 
-module.exports = Manager
+module.exports = QuanLy

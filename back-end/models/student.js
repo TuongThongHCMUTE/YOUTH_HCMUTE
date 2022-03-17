@@ -16,7 +16,7 @@ const studentSchema = new mongoose.Schema({
     khoaHoc: {type: String, trim: true}, // 2018, 2019
     donVi: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Faculty'
+        ref: 'DonVi'
     }, // Khoa ĐT CLC
     nganhHoc: {type: String, trim: true},
     lopSV: {type: String, trim: true},
@@ -31,7 +31,9 @@ const studentSchema = new mongoose.Schema({
     image: {type: String},
     googleId: {type: String},
     role: {type: String, trim: true}, // SINH_VIEN, DOAN_VIEN
-    trangThai: {type: Boolean, default: true} // true, false (Đang dùng, tạm khóa)
+    trangThai: {type: Boolean, default: true}, // true, false (Đang dùng, tạm khóa),
+    createBy: {type: Number},
+    updateBy: {type: Date}
 }, {timestamps: true})
 
 // Vital property
@@ -39,6 +41,6 @@ studentSchema.virtual('hoVaTen').get(function() {
     return this.ho + ' ' + this.ten
 })
 
-const Student = mongoose.model('Student', studentSchema)
+const SinhVien = mongoose.model('SinhVien', studentSchema)
 
-module.exports = Student
+module.exports = SinhVien

@@ -8,9 +8,11 @@ const facultySchema = new mongoose.Schema({
     email: {type: String, unique: [true, 'Email đã tồn tại'], trim: true, required: [true, 'Nhập email quản lý']},
     image: {type: String},
     loaiDonVi: {type: String, trim: true}, // DOAN_KHOA, DOAN_TRUONG, PHONG_BAN
-    hienThi: {type: Boolean, default: false}
+    hienThi: {type: Boolean, default: false},
+    createBy: {type: Number},
+    updateBy: {type: Date}
 }, {timestamps: true})
 
-const Faculty = mongoose.model('Faculty', facultySchema)
+const DonVi = mongoose.model('DonVi', facultySchema)
 
-module.exports = Faculty
+module.exports = DonVi
