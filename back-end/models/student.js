@@ -32,8 +32,8 @@ const studentSchema = new mongoose.Schema({
     googleId: {type: String},
     role: {type: String, trim: true}, // SINH_VIEN, DOAN_VIEN
     trangThai: {type: Boolean, default: true}, // true, false (Đang dùng, tạm khóa),
-    createBy: {type: Number},
-    updateBy: {type: Date}
+    createBy: {type: String},
+    updateBy: {type: String}
 }, {timestamps: true})
 
 // Vital property
@@ -41,6 +41,6 @@ studentSchema.virtual('hoVaTen').get(function() {
     return this.ho + ' ' + this.ten
 })
 
-const SinhVien = mongoose.model('SinhVien', studentSchema)
+const Student = mongoose.model('Student', studentSchema)
 
-module.exports = SinhVien
+module.exports = Student

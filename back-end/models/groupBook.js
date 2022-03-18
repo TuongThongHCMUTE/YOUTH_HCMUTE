@@ -25,10 +25,10 @@ const groupBookSchema = new mongoose.Schema({
         createBy: {type: Number},
     }],
     trangThaiSo: {type: Boolean, default: true}, // Chưa nộp, đã nộp (Giống trạng thái bên sinh viên)
-    createBy: {type: Number},
-    updateBy: {type: Date}
+    createBy: {type: String},
+    updateBy: {type: String}
 }, {timestamps: true})
 
-const SoDoan = mongoose.model('SoDoan', groupBookSchema)
+const GroupBook = mongoose.model('SoDoan', groupBookSchema)
 
-module.exports = SoDoan
+module.exports = GroupBook

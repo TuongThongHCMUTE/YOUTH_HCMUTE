@@ -15,10 +15,10 @@ const classSchema = new mongoose.Schema({
         hoTen: {type: String}
     }],
     hienThi: {type: Boolean, default: true},
-    createBy: {type: Number},
-    updateBy: {type: Date}
+    createBy: {type: String},
+    updateBy: {type: String}
 }, {timestamps: true})
 
-const Lop = mongoose.model('Lop', classSchema)
+const Class = mongoose.model('Class', classSchema)
 
-module.exports = Lop
+module.exports = Class

@@ -16,10 +16,10 @@ const schoolYearSchema = new mongoose.Schema({
         ngayKetThuc: {type: Date},
         ngayBatDau: {type: Date}
     }],
-    createBy: {type: Number},
-    updateBy: {type: Date}
+    createBy: {type: String},
+    updateBy: {type: String}
 }, {timestamps: true})
 
-const NamHoc = mongoose.model('NamHoc', schoolYearSchema)
+const SchoolYear = mongoose.model('SchoolYear', schoolYearSchema)
 
-module.exports = NamHoc
+module.exports = SchoolYear

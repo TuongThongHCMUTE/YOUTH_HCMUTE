@@ -19,10 +19,10 @@ const billSchema = new mongoose.Schema({
     tongTien: {type: Number},
     ngayThanhToan: {type: Date},
     trangThai: {type: Boolean, default: false}, // Chưa đóng đoàn phí, Đã đóng đoàn phí
-    createBy: {type: Number},
-    updateBy: {type: Date}
+    createBy: {type: String},
+    updateBy: {type: String}
 }, {timestamps: true})
 
-const HoaDon = mongoose.model('HoaDon', billSchema)
+const Bill = mongoose.model('Bill', billSchema)
 
-module.exports = HoaDon
+module.exports = Bill

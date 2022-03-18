@@ -8,10 +8,10 @@ const priceListSchema = new mongoose.Schema({
     donGia: {type: Number, default: 0},
     ghiChu: {type: String}, // Từ ngày 1/1/2022 đến ngày 31/12/2022
     hienThi: {type: Boolean, default: false}, // Chưa đóng đoàn phí, Đã đóng đoàn phí
-    createBy: {type: Number},
-    updateBy: {type: Date}
+    createBy: {type: String},
+    updateBy: {type: String}
 }, {timestamps: true})
 
-const LoaiPhi = mongoose.model('LoaiPhi', priceListSchema)
+const PriceList = mongoose.model('PriceList', priceListSchema)
 
-module.exports = LoaiPhi
+module.exports = PriceList

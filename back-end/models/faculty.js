@@ -9,10 +9,10 @@ const facultySchema = new mongoose.Schema({
     image: {type: String},
     loaiDonVi: {type: String, trim: true}, // DOAN_KHOA, DOAN_TRUONG, PHONG_BAN
     hienThi: {type: Boolean, default: false},
-    createBy: {type: Number},
-    updateBy: {type: Date}
+    createBy: {type: String},
+    updateBy: {type: String}
 }, {timestamps: true})
 
-const DonVi = mongoose.model('DonVi', facultySchema)
+const Faculty = mongoose.model('Faculty', facultySchema)
 
-module.exports = DonVi
+module.exports = Faculty

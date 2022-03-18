@@ -17,6 +17,7 @@ exports.errorHandler = (err, req, res, test) => {
 
     // Validation
     if (err.errors) {
+        console.log(err)
         err.statusCode = 400;
         err.message = []
         for (let p in err.errors){
