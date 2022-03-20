@@ -1,5 +1,6 @@
 const Common = require('../common/methods')
 const Student = require('../models/student')
+const Bill = require('../models/bill')
 
 // Get all student
 exports.getAllStudents = async (req, res, next) => {
@@ -45,6 +46,28 @@ exports.getOneStudent = async (req, res, next) => {
         res.status(200).json({
             status: 'success',
             data: {student}
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
+// Get student info by maSoSV
+exports.getStudentInfo = async (req, res, next) => {
+    try {
+        const { maSoSV } = req.params
+        const { maNamHoc } = req.query
+
+        const student = await Student.findOne({ maSoSV })
+        const bill = await Bill.findOne({ maSoSV, maNamHoc })
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                student,
+                bill
+            }
         })
     } catch (e) {
         console.log(e)

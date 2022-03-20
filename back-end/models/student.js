@@ -16,7 +16,7 @@ const studentSchema = new mongoose.Schema({
     khoaHoc: {type: String, trim: true}, // 2018, 2019
     donVi: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'DonVi'
+        ref: 'Faculty'
     }, // Khoa ĐT CLC
     nganhHoc: {type: String, trim: true},
     lopSV: {type: String, trim: true},
