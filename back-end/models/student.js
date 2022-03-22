@@ -19,7 +19,10 @@ const studentSchema = new mongoose.Schema({
         ref: 'Faculty'
     }, // Khoa ĐT CLC
     nganhHoc: {type: String, trim: true},
-    lopSV: {type: String, trim: true},
+    lopSV: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Class'
+    },
     chucVu: {type: String, trim: true}, // Bí thư chi đoàn, Phó bí thư chi đoàn
     thongTinDoanVien: {
         ngayVaoDoan: {type: Date},
