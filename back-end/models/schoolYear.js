@@ -13,8 +13,8 @@ const schoolYearSchema = new mongoose.Schema({
     hocKy: [{
         maHocKy: {type: String},
         tenHocKy: {type: String},
-        ngayKetThuc: {type: Date},
-        ngayBatDau: {type: Date}
+        ngayBatDau: {type: Date},
+        ngayKetThuc: {type: Date}
     }],
     createBy: {type: String},
     updateBy: {type: String}

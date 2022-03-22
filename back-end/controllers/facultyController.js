@@ -1,7 +1,7 @@
 const Common = require('../common/methods')
 const Faculty = require('../models/faculty')
 
-// Get all faculty
+// Get all faculties
 exports.getAllFaculties = async (req, res, next) => {
     try {
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
@@ -24,14 +24,15 @@ exports.getAllFaculties = async (req, res, next) => {
 // Create new faculty
 exports.createOneFaculty = async (req, res, next) => {
     try {
-        const faculties = await Faculty.create({...req.body})
+        const faculty = await Faculty.create({ ...req.body })
 
         res.status(200).json({
             status: 'success',
-            data: {faculties}
+            data: { faculty }
         })
-    } catch (error) {
-        next(error)
+    } catch (e) {
+        console.log(e)
+        next(e)
     }
 }
 

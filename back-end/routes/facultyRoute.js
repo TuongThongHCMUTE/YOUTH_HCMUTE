@@ -1,7 +1,7 @@
 const express = require('express')
 
 const { getAllFaculties, createOneFaculty, getOneFaculty,
-        updateOneFaculty, deleteOneFaculty}
+        updateOneFaculty, deleteOneFaculty }
     = require('../controllers/facultyController')
 
 const Router = express.Router()
