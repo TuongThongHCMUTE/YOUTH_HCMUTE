@@ -1,7 +1,7 @@
 const Common = require('../common/methods')
 const Faculty = require('../models/faculty')
 
-// Get all faculties
+// Get all Faculties
 exports.getAllFaculties = async (req, res, next) => {
     try {
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
@@ -21,7 +21,7 @@ exports.getAllFaculties = async (req, res, next) => {
     }
 }
 
-// Create new faculty
+// Create new Faculty
 exports.createOneFaculty = async (req, res, next) => {
     try {
         const faculty = await Faculty.create({ ...req.body })
@@ -36,7 +36,7 @@ exports.createOneFaculty = async (req, res, next) => {
     }
 }
 
-// Get one faculty
+// Get one Faculty
 exports.getOneFaculty = async (req, res, next) => {
     try {
         const { id } = req.params
@@ -53,7 +53,7 @@ exports.getOneFaculty = async (req, res, next) => {
     }
 }
 
-// Update one faculty
+// Update one Faculty
 exports.updateOneFaculty = async (req, res, next) => {
     try {
         const { id } = req.params
@@ -70,7 +70,7 @@ exports.updateOneFaculty = async (req, res, next) => {
     }
 }
 
-// Delete one faculty
+// Delete one Faculty
 exports.deleteOneFaculty = async (req, res, next) => {
     try {
         const { id } = req.params
