@@ -8,9 +8,11 @@ exports.getAllStudents = async (req, res, next) => {
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
 
         const students = await Student.find(query).sort(sort).skip(skip).limit(limit);
+        const countAll = await Student.countDocuments({})
 
         res.status(200).json({
             status: 'success',
+            all: countAll,
             results: students.length,
             data: {students}
         })
