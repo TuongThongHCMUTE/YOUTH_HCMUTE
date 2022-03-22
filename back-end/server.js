@@ -15,8 +15,10 @@ const cors = require('cors')
 // Connect to routers from in Routes
 const authRoute = require('./routes/authRoute')
 const facultyRoute = require('./routes/facultyRoute')
-const studentRoute = require('./routes/studentRoute')
+const priceListRoute = require('./routes/priceListRoute')
 const schoolYearRoute = require('./routes/schoolYearRoute')
+const studentRoute = require('./routes/studentRoute')
+
 
 // Import error handler, must after Routers
 const {errorHandler} = require('./middleware/errorHandler')
@@ -29,8 +31,9 @@ app.use(express.json()) // Body parse. It parses incoming requests with JSON pay
 // Mount the route, connect route with server
 app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/faculties/', facultyRoute)
-app.use('/api/v1/students/', studentRoute)
+app.use('/api/v1/price-lists', priceListRoute)
 app.use('/api/v1/school-years/', schoolYearRoute)
+app.use('/api/v1/students/', studentRoute)
 
 app.get('/', (req, res, next) => {
     res.status(200).json({
