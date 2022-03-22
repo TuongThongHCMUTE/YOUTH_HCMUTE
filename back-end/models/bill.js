@@ -11,12 +11,13 @@ const billSchema = new mongoose.Schema({
             ref: 'PriceList'
         },
         tenChiPhi: {type: String, trim: true}, // Truy thu Đoàn phí
-        thoiGian: {type: String, trim: true}, // 09/2021-08/2022 
+        thangBatDau: {type: Date},
+        thangKetThuc: {type: Date},
         donViTinh: {type: String, trim: true}, // Tháng
-        donGia: {type: Number},
         soLuong: {type: Number},
+        donGia: {type: Number},
         thanhTien: {type: Number},
-        ghiChu: {type: String} // Từ ngày 1/1/2022 đến ngày 31/12/2022
+        ghiChu: {type: String} // Từ tháng 1/2022 đến tháng 12/2022
     }],
     tongTien: {type: Number},
     ngayThanhToan: {type: Date},

@@ -59,7 +59,7 @@ exports.getStudentInfo = async (req, res, next) => {
         const { maSoSV } = req.params
         const { maNamHoc } = req.query
 
-        const student = await Student.findOne({ maSoSV })
+        const student = await Student.findOne({ maSoSV }).populate('donVi', 'tenDonVi')
         const bill = await Bill.findOne({ maSoSV, maNamHoc })
 
         res.status(200).json({
