@@ -7,7 +7,10 @@ exports.getAllStudents = async (req, res, next) => {
     try {
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
 
-        const students = await Student.find(query).sort(sort).skip(skip).limit(limit);
+        const students = await Student.find(query).sort(sort).skip(skip).limit(limit)
+                                                .populate('donVi', 'tenDonVi')
+                                                .populate('lopSV', 'tenLop')
+
         const countAll = await Student.countDocuments({})
 
         res.status(200).json({
@@ -44,6 +47,8 @@ exports.getOneStudent = async (req, res, next) => {
         const { id } = req.params
 
         const student = await Student.findById(id)
+                                            .populate('donVi', 'tenDonVi')
+                                            .populate('lopSV', 'tenLop')
 
         res.status(200).json({
             status: 'success',
@@ -61,7 +66,9 @@ exports.getStudentInfo = async (req, res, next) => {
         const { maSoSV } = req.params
         const { maNamHoc } = req.query
 
-        const student = await Student.findOne({ maSoSV }).populate('donVi', 'tenDonVi')
+        const student = await Student.findOne({ maSoSV })
+                                                .populate('donVi', 'tenDonVi')
+                                                .populate('lopSV', 'tenLop')
         const bill = await Bill.findOne({ maSoSV, maNamHoc })
 
         res.status(200).json({
