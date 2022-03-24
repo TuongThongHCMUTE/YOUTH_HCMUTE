@@ -4,15 +4,15 @@ const mongoose = require('mongoose')
 const billSchema = new mongoose.Schema({
     maSoSV: {type: String, trim: true},
     namHoc: {type: String, trim: true},
-    phiCanDong: [{
+    cacKhoanPhi: [{
         thuTu: {type: Number},
         bieuPhi: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'PriceList'
         },
         tenChiPhi: {type: String, trim: true}, // Truy thu Đoàn phí
-        thangBatDau: {type: Date},
-        thangKetThuc: {type: Date},
+        ngayBatDau: {type: Date},
+        ngayKetThuc: {type: Date},
         donViTinh: {type: String, trim: true}, // Tháng
         soLuong: {type: Number},
         donGia: {type: Number},
