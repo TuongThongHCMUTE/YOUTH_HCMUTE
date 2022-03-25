@@ -1,0 +1,18 @@
+.text-field {
+    width: 100%;
+}
+
+.text-field > div {
+    border-radius: 0px;
+}
+
+.button {
+    background-color: var(--color-primary-400);
+    border-radius: 0;
+    padding: 4px 24px;
+    height: 40px;
+}
+
+.button:hover {
+    background-color: var(--color-primary-800);
+}

@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('md')]: {
             width: drawerWidth,
             flexShrink: 0
-        }
+        },
+        position: 'fixed'
     },
     drawerPaper: {
         position: 'relative',

@@ -1,0 +1,28 @@
+.SectionTitle {
+    text-transform: uppercase;
+    margin-left: 16px;
+    margin-top: 24px;
+    color: var(--color-black);
+}
+
+.TextField {
+    width: 100%;
+}
+
+.TextField > div {
+    border-radius: 0px;
+}
+
+.Button {
+    background-color: var(--color-primary-400);
+    border-radius: 0;
+    float: right;
+    padding: 4px 24px;
+    margin-bottom: 16px;
+    height: 40px;
+    line-height: 40px;
+}
+
+.Button:hover {
+    background-color: var(--color-primary-800);
+}

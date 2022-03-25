@@ -12,6 +12,8 @@ import App from './App';
 
 // style + assets
 import './assets/scss/style.scss';
+import './assets/css/colors.css';
+import './assets/css/components.css';
 
 // ===========================|| REACT DOM RENDER  ||=========================== //
 

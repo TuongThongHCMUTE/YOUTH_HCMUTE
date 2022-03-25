@@ -87,7 +87,7 @@ export default function themeTypography(theme) {
             width: '100%',
             minHeight: 'calc(100vh - 80px)',
             flexGrow: 1,
-            padding: '20px',
+            padding: '0px',
             marginTop: '80px',
             borderRadius: `${theme.customization.borderRadius}px`
         },
