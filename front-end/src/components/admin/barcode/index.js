@@ -53,6 +53,10 @@ const BarcodePage = () => {
     }, []);
 
     const searchStudent = async () => {
+        if (!searchValue) {
+            return;
+        }
+        
         try {
             const res = await getOneStudentByStudentId(searchValue);
 
@@ -155,7 +159,12 @@ const BarcodePage = () => {
                 </> : 
                 <Grid item xs={12} className={styles.NoData}>Không có dữ liệu</Grid>
             }
-            <ReceiptModal openModal={openModal} onClose={handleCloseModal} />
+            <ReceiptModal 
+                openModal={openModal} 
+                onClose={handleCloseModal} 
+                student={student}
+                bill={bill}
+            />
         </Grid>
     );
 };
