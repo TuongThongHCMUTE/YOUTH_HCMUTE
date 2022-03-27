@@ -7,7 +7,7 @@ exports.getAllClasses = async (req, res, next) => {
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
 
         const classes = await Class.find(query).sort(sort).skip(skip).limit(limit);
-        const countAll = await Class.countDocuments({})
+        const countAll = await Class.countDocuments(query)
         
         res.status(200).json({
             status: 'success',

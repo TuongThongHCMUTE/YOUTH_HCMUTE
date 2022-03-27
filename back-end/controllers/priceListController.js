@@ -7,7 +7,7 @@ exports.getAllPriceLists = async (req, res, next) => {
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
 
         const priceLists = await PriceList.find(query).sort(sort).skip(skip).limit(limit);
-        const countAll = await PriceList.countDocuments({})
+        const countAll = await PriceList.countDocuments(query)
         
         res.status(200).json({
             status: 'success',

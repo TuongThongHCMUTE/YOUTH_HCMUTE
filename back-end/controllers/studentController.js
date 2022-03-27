@@ -8,10 +8,10 @@ exports.getAllStudents = async (req, res, next) => {
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
 
         const students = await Student.find(query).sort(sort).skip(skip).limit(limit)
-                                                .populate('donVi', 'tenDonVi')
-                                                .populate('lopSV', 'tenLop nganhHoc')
+                                        .populate('donVi', 'tenDonVi')
+                                        .populate('lopSV', 'tenLop nganhHoc')
 
-        const countAll = await Student.countDocuments({})
+        const countAll = await Student.countDocuments(query)
 
         res.status(200).json({
             status: 'success',
@@ -31,6 +31,8 @@ exports.createOneStudent = async (req, res, next) => {
         console.log(req.body)
         
         const student = await Student.create({...req.body})
+                                        .populate('donVi', 'tenDonVi')
+                                        .populate('lopSV', 'tenLop nganhHoc')
 
         res.status(200).json({
             status: 'success',
@@ -47,8 +49,8 @@ exports.getOneStudent = async (req, res, next) => {
         const { id } = req.params
 
         const student = await Student.findById(id)
-                                            .populate('donVi', 'tenDonVi')
-                                            .populate('lopSV', 'tenLop')
+                                        .populate('donVi', 'tenDonVi')
+                                        .populate('lopSV', 'tenLop')
 
         res.status(200).json({
             status: 'success',
@@ -67,8 +69,8 @@ exports.getStudentInfo = async (req, res, next) => {
         const { maNamHoc } = req.query
 
         const student = await Student.findOne({ maSoSV })
-                                                .populate('donVi', 'tenDonVi')
-                                                .populate('lopSV', 'tenLop')
+                                        .populate('donVi', 'tenDonVi')
+                                        .populate('lopSV', 'tenLop')
         const bill = await Bill.findOne({ maSoSV, maNamHoc })
 
         res.status(200).json({
@@ -90,6 +92,8 @@ exports.updateOneStudent = async (req, res, next) => {
         const { id } = req.params
 
         const student = await Student.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
+                                        .populate('donVi', 'tenDonVi')
+                                        .populate('lopSV', 'tenLop nganhHoc')
 
         res.status(200).json({
             status: 'success',
@@ -107,6 +111,8 @@ exports.deleteOneStudent = async (req, res, next) => {
         const { id } = req.params
 
         const student = await Student.findByIdAndDelete(id)
+                                        .populate('donVi', 'tenDonVi')
+                                        .populate('lopSV', 'tenLop nganhHoc')
 
         res.status(200).json({
             status: 'success',
