@@ -17,11 +17,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import InfoForm from './components/InfoForm';
 import BillForm from './components/BillForm';
 import BarcodeSection from './components/BarcodeSection';
+import { handleBreakpoints } from '@material-ui/system';
 
 // ==============================|| BARCODE ||============================== //
 const BarcodePage = () => {
     const [searchValue, setSearchValue] = useState('');
     const [student, setStudent] = useState(null);
+    const [bill, setBill] = useState(null);
     const [faculties, setFaculties] = useState([]);
     const [classes, setClasses] = useState([]);
 
@@ -55,6 +57,7 @@ const BarcodePage = () => {
 
             if (res.data.status === 'success') {
                 setStudent(res.data.data.student);
+                setBill(res.data.data.bill);
             }
         } catch (err) {
             alert(err);
@@ -132,7 +135,7 @@ const BarcodePage = () => {
                             xs={5}
                             className={styles.BillForm}
                         >
-                            <BillForm />
+                            { bill ? <BillForm bill={bill} onCheckOut={bill => setBill(bill)} /> : <p>Không có dữ liệu hóa đơn</p> }
                         </Grid>
                     </Grid>
                     <div className={styles.Line} />

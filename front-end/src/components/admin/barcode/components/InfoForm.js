@@ -329,6 +329,7 @@ const InfoForm = (props) => {
                                 type='submit'
                                 variant='contained'
                                 className={styles.Button}
+                                disabled={isSubmitting}
                             >
                                 LƯU THAY ĐỔI
                             </Button>
