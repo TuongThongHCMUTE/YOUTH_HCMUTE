@@ -1,5 +1,5 @@
 // Node Modules ============================================================ //
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useReactToPrint } from 'react-to-print'
 
 // Styles ================================================================== //
@@ -11,6 +11,12 @@ import PrintIcon from '@mui/icons-material/Print';
 
 // ===========================|| RECEIPT MODAL ||=========================== //
 const ReceiptModal = ({ openModal, onClose }) => {
+    const componentRef = useRef();
+
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
+
     return (
         <div>
             <Modal
@@ -25,8 +31,11 @@ const ReceiptModal = ({ openModal, onClose }) => {
                 // }}
             >
                 <>
-                    <div className={styles.Header}>Header</div>
-                    <div className={styles.Content}>Content</div>
+                    <div className={styles.Header}>
+                        <Button onClick={handlePrint}>Print</Button>
+                        <Button onClick={onClose}>Close</Button>
+                    </div>
+                    <div className={styles.Content} ref={componentRef}>Content</div>
                 </>
             </Modal>
         </div>
