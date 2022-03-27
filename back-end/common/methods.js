@@ -7,7 +7,7 @@ exports.getQueryParameter = (req) => {
         delete req.query.sortBy
     }
 
-    const limit = req.query.limit ? parseInt(req.query.limit) : 50
+    const limit = req.query.limit ? parseInt(req.query.limit) : null
     delete req.query.limit
 
     const skip = req.query.offset ? parseInt(req.query.offset) * limit : 0

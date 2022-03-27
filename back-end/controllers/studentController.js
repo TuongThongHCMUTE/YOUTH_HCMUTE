@@ -9,7 +9,7 @@ exports.getAllStudents = async (req, res, next) => {
 
         const students = await Student.find(query).sort(sort).skip(skip).limit(limit)
                                                 .populate('donVi', 'tenDonVi')
-                                                .populate('lopSV', 'tenLop')
+                                                .populate('lopSV', 'tenLop nganhHoc')
 
         const countAll = await Student.countDocuments({})
 
