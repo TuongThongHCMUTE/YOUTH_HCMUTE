@@ -59,6 +59,7 @@ const BarcodePage = () => {
             if (res.data.status === 'success') {
                 setStudent(res.data.data.student);
                 setBill(res.data.data.bill);
+                setSearchValue('');
             }
         } catch (err) {
             alert(err);
