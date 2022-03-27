@@ -19,6 +19,7 @@
     overflow: hidden;
     border: solid 2px #000;
     margin: 12px 8px 10px;
+    color: var(--color-black);
 }
 
 .Infomation {
