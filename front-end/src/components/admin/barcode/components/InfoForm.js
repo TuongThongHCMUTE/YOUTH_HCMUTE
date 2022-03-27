@@ -26,6 +26,8 @@ import { bookStatuses, studentStatuses } from 'store/constant';
 const InfoForm = (props) => {
     const { student, faculties, classes, onSubmit } = props;
 
+    console.log(">> student: ", student)
+
     const validateData = (values) => {
         const errors = {};
         return errors;
@@ -35,6 +37,7 @@ const InfoForm = (props) => {
         <Formik 
             className={styles.InfoForm}
             initialValues={student}
+            enableReinitialize
             validate={values => validateData(values)}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(true);
@@ -162,7 +165,7 @@ const InfoForm = (props) => {
                                     name='donVi._id'
                                     labelId="faculty-group"
                                     id="input-faculty"
-                                    value={values.donVi._id || undefined}
+                                    value={values?.donVi?._id || undefined}
                                     label="Khoa"
                                     onChange={handleChange}
                                     onBlur={handleBlur}

@@ -2,6 +2,7 @@ const  mongoose = require('mongoose')
 
 // Init schema
 const facultySchema = new mongoose.Schema({
+    thuTu: {type: Number},
     tenDonVi: {type: String, trim: true, required: [true, 'Nhập tên đơn vị']},
     moTa: {type: String},
     soDienThoai: {type: String, trim: true},
