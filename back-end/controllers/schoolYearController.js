@@ -7,7 +7,7 @@ exports.getAllSchoolYears = async (req, res, next) => {
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
 
         const schoolYears = await SchoolYear.find(query).sort(sort).skip(skip).limit(limit);
-        const countAll = await SchoolYear.countDocuments({})
+        const countAll = await SchoolYear.countDocuments(query)
         
         res.status(200).json({
             status: 'success',

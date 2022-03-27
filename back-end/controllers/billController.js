@@ -7,7 +7,7 @@ exports.getAllBills = async (req, res, next) => {
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
 
         const bills = await Bill.find(query).sort(sort).skip(skip).limit(limit);
-        const countAll = await Bill.countDocuments({})
+        const countAll = await Bill.countDocuments(query)
         
         res.status(200).json({
             status: 'success',

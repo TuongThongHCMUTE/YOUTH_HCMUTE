@@ -11,7 +11,7 @@ exports.getAllStudents = async (req, res, next) => {
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
 
-        const countAll = await Student.countDocuments({})
+        const countAll = await Student.countDocuments(query)
 
         res.status(200).json({
             status: 'success',
