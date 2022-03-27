@@ -20,4 +20,6 @@
     --color-grey-300: #dadada;
     --color-grey-200: #e5e5e5;
     --color-grey-100: #efefef;
+
+    --color-gradient: linear-gradient(90deg, #ec1f25, #2c3192)
 }

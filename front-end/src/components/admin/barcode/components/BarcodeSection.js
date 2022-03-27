@@ -16,31 +16,6 @@ const BarcodeSection = (props) => {
 
     const componentRef = useRef();
 
-    const barcodeToPrint = () => {
-        return (
-            <div className={styles.PrintRectangle}>
-                <ul className={styles.Infomation}>
-                    <li className={styles.Item}>
-                        <p>Họ tên: </p>
-                        <p><b>{data ? `${data.ho} ${data.ten}` : ''}</b></p>
-                    </li>
-                    <li className={styles.Item}>
-                        <p>Lớp: </p>
-                        <p><b>{data && data.lopSV ? data.lopSV.tenLop : ''}</b></p>
-                    </li>
-                    <li className={styles.Item}>
-                        <p>Khoa: </p>
-                        <p><b>{data && data.donVi ? data.donVi.tenDonVi : ''}</b></p>
-                    </li>
-                </ul>
-                <Barcode
-                    className={styles.BarcodeToPrint} 
-                    value={(data && data.maSoSV) ? data.maSoSV : '' } 
-                /> 
-            </div>
-        )
-    }
-
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
