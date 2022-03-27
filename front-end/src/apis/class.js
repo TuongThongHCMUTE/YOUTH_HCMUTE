@@ -8,7 +8,7 @@ export const getAllClasses = () => {
     const option = {
         method: 'get',
         url: `${url}/classes`,
-        params: { offset: 0, limit: 50, sortBy: 'tenLop'}
+        params: {sortBy: 'tenLop'}
     }
 
     return axios(option)

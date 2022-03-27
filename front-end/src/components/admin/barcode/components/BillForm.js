@@ -1,5 +1,5 @@
 // Node Modules ============================================================ //
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 
 // Styles ================================================================== //
@@ -26,6 +26,10 @@ const BillForm = (props) => {
     const { onCheckOut } = props;
 
     const [bill, setBill] = useState(props.bill);
+
+    useEffect(() => {
+        setBill(props.bill);
+    }, [props.bill])
 
     // Các khoản phí
     const fees = bill?.cacKhoanPhi;
@@ -141,7 +145,8 @@ const BillForm = (props) => {
                     >
                         <Grid item xs={4} sx={{ p: 1 }}>
                             <DatePicker
-                                views={['year', 'month']}
+                                views={['year', 'month', 'day']}
+                                inputFormat="DD/MM/yyyy"
                                 label="Từ tháng"
                                 value={feeStartDate}
                                 onChange={(newValue) => {
@@ -158,7 +163,8 @@ const BillForm = (props) => {
                         </Grid>
                         <Grid item xs={4} sx={{ p: 1 }}>
                             <DatePicker
-                                views={['year', 'month']}
+                                views={['year', 'month', 'day']}
+                                inputFormat="DD/MM/yyyy"
                                 label="Đến tháng"
                                 value={feeEndDate}
                                 onChange={(newValue) => {

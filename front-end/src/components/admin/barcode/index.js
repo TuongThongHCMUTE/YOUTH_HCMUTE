@@ -53,6 +53,10 @@ const BarcodePage = () => {
     }, []);
 
     const searchStudent = async () => {
+        if (!searchValue) {
+            return;
+        }
+        
         try {
             const res = await getOneStudentByStudentId(searchValue);
 
