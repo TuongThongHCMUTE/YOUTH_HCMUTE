@@ -17,7 +17,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import InfoForm from './components/InfoForm';
 import BillForm from './components/BillForm';
 import BarcodeSection from './components/BarcodeSection';
-import { handleBreakpoints } from '@material-ui/system';
+import ReceiptModal from './components/ReceiptModal';
 
 // ==============================|| BARCODE ||============================== //
 const BarcodePage = () => {
@@ -26,6 +26,7 @@ const BarcodePage = () => {
     const [bill, setBill] = useState(null);
     const [faculties, setFaculties] = useState([]);
     const [classes, setClasses] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(async () => {
         try {
@@ -69,11 +70,22 @@ const BarcodePage = () => {
             const res = await updateOneStudent(student);
 
             if (res.data.status === 'success') {
+                console.log('res: ', res.data.data.student);
                 setStudent(res.data.data.student);
             }
         } catch (err) {
             alert(err)
         }
+    }
+
+    const handleCheckOut = (bill) => {
+        setBill(bill);
+        console.log("checkout");
+        setOpenModal(true);
+    }
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
     }
 
     return (
@@ -135,13 +147,14 @@ const BarcodePage = () => {
                             xs={5}
                             className={styles.BillForm}
                         >
-                            { bill ? <BillForm bill={bill} onCheckOut={bill => setBill(bill)} /> : <p>Không có dữ liệu hóa đơn</p> }
+                            { bill ? <BillForm bill={bill} onCheckOut={bill => handleCheckOut(bill)} /> : <p>Không có dữ liệu hóa đơn</p> }
                         </Grid>
                     </Grid>
                     <div className={styles.Line} />
                 </> : 
                 <Grid item xs={12} className={styles.NoData}>Không có dữ liệu</Grid>
             }
+            <ReceiptModal openModal={openModal} onClose={handleCloseModal} />
         </Grid>
     );
 };

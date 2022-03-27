@@ -96,7 +96,7 @@ const BillForm = (props) => {
             const res = await updateOneBill(data);
 
             if(res.data.status === 'success') {
-                alert('Thanh toan thanh cong');
+                // alert('Thanh toan thanh cong');
                 onCheckOut(res.data.data.bill);
             }
         } catch(err) {
