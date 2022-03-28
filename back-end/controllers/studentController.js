@@ -84,7 +84,7 @@ exports.getStudentInfo = async (req, res, next) => {
                 cacKhoanPhi: [] 
             });
 
-            const priceLists =  await PriceList.find({'hienThi': true})
+            const priceLists =  await PriceList.find({'hienThi': true}).sort({thuTu:1})
             
             let khoanPhi = {}
             let tongTien = 0
