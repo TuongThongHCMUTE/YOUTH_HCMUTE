@@ -7,8 +7,11 @@ import moment from 'moment';
 import styles from './ReceiptModal.module.css';
 
 // Material UI ============================================================= //
-import { Backdrop, Box, Button, Modal } from '@mui/material';
+import { Button, Modal } from '@mui/material';
 import PrintIcon from '@mui/icons-material/Print';
+
+// APIs ==================================================================== //
+import { updateOneBill } from 'apis/bill';
 
 // ===========================|| RECEIPT MODAL ||=========================== //
 const ReceiptModal = ({ openModal, onClose, student, bill }) => {
@@ -79,7 +82,10 @@ const ReceiptModal = ({ openModal, onClose, student, bill }) => {
                     <div className={styles.Header}>
                         <Button onClick={onClose}>Về trang barcode</Button>
                         <Button 
-                            onClick={handlePrint} 
+                            onClick={async () => {
+                                await updateOneBill({ ...bill, trangThai: true, ngatThanhToan: moment() })
+                                handlePrint()
+                            }} 
                             variant='contained' 
                             className='button'
                             endIcon={<PrintIcon />}

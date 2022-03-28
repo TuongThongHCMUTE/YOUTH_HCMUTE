@@ -6,7 +6,7 @@ import moment from 'moment';
 import styles from './BillForm.module.css';
 
 // APIs ==================================================================== //
-import { updateOneBill } from 'apis/bill';
+import { createOneBill, updateOneBill } from 'apis/bill';
 
 // Material UI ============================================================= //
 import { 
@@ -23,7 +23,7 @@ import DatePicker from '@mui/lab/DatePicker';
 
 // =============================|| BILL FORM ||============================= //
 const BillForm = (props) => {
-    const { onCheckOut } = props;
+    const { onCheckOut, newBill } = props;
 
     const [bill, setBill] = useState(props.bill);
 
@@ -90,22 +90,21 @@ const BillForm = (props) => {
     }
 
     const handleCheckOut = async () => {
-        const data = { 
-            ...bill,
-            ngayThanhToan: moment(),
-            trangThai: true
-        }
-
         try {
-            const res = await updateOneBill(data);
+            const res = newBill ? await createOneBill(bill) : await updateOneBill(bill);
 
             if(res.data.status === 'success') {
-                // alert('Thanh toan thanh cong');
                 onCheckOut(res.data.data.bill);
             }
         } catch(err) {
             alert(err);
         }
+    }
+
+    const generateStatus = () => {
+        if (bill.trangThai === false && newBill === false) return (<p>Chưa thanh toán</p>);
+        if (bill.trangThai === true && newBill === false) return (<p>Đã thanh toán</p>);
+        if (newBill === true) return (<p>Chưa xuất hóa đơn</p>)
     }
 
     return (
@@ -133,7 +132,7 @@ const BillForm = (props) => {
                 >
                     XUẤT HÓA ĐƠN
                 </Button>
-                {bill.trangThai ? <p>Đã thanh toán</p> : <p>Chưa thanh toán</p>}
+                {generateStatus()}
             </div>
             <div className={styles.Line} />
             <div className={styles.BillOptions}>
