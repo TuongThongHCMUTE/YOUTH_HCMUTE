@@ -24,6 +24,7 @@ const BarcodePage = () => {
     const [searchValue, setSearchValue] = useState('');
     const [student, setStudent] = useState(null);
     const [bill, setBill] = useState(null);
+    const [newBill, setNewBill] = useState(true);
     const [faculties, setFaculties] = useState([]);
     const [classes, setClasses] = useState([]);
     const [openModal, setOpenModal] = useState(false);
@@ -63,6 +64,7 @@ const BarcodePage = () => {
             if (res.data.status === 'success') {
                 setStudent(res.data.data.student);
                 setBill(res.data.data.bill);
+                setNewBill(res.data.data.hoaDonMoi)
                 setSearchValue('');
             }
         } catch (err) {
@@ -85,7 +87,7 @@ const BarcodePage = () => {
 
     const handleCheckOut = (bill) => {
         setBill(bill);
-        console.log("checkout");
+        setNewBill(false);
         setOpenModal(true);
     }
 
@@ -152,7 +154,7 @@ const BarcodePage = () => {
                             xs={5}
                             className={styles.BillForm}
                         >
-                            { bill ? <BillForm bill={bill} onCheckOut={bill => handleCheckOut(bill)} /> : <p>Không có dữ liệu hóa đơn</p> }
+                            { bill ? <BillForm newBill={newBill} bill={bill} onCheckOut={bill => handleCheckOut(bill)} /> : <p>Không có dữ liệu hóa đơn</p> }
                         </Grid>
                     </Grid>
                     <div className={styles.Line} />
