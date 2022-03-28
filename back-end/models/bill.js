@@ -14,12 +14,12 @@ const billSchema = new mongoose.Schema({
         ngayBatDau: {type: Date},
         ngayKetThuc: {type: Date},
         donViTinh: {type: String, trim: true}, // Tháng
-        soLuong: {type: Number},
+        soLuong: {type: Number, default: 0},
         donGia: {type: Number},
-        thanhTien: {type: Number},
+        thanhTien: {type: Number, default: 0},
         ghiChu: {type: String} // Từ tháng 1/2022 đến tháng 12/2022
     }],
-    tongTien: {type: Number},
+    tongTien: {type: Number, default: 0},
     ngayThanhToan: {type: Date},
     trangThai: {type: Boolean, default: false}, // Chưa đóng đoàn phí, Đã đóng đoàn phí
     createBy: {type: String},

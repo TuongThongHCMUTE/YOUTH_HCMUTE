@@ -1,6 +1,7 @@
 const Common = require('../common/methods')
 const Student = require('../models/student')
 const Bill = require('../models/bill')
+const PriceList = require('../models/priceList')
 
 // Get all student
 exports.getAllStudents = async (req, res, next) => {
@@ -71,13 +72,47 @@ exports.getStudentInfo = async (req, res, next) => {
         const student = await Student.findOne({ maSoSV })
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop')
-        const bill = await Bill.findOne({ maSoSV, maNamHoc })
+        let bill = await Bill.findOne({ maSoSV, maNamHoc })
+
+        let newBill = false
+        if (student && !bill) {
+            newBill = true
+
+            bill = new Bill({
+                maSoSV: student.maSoSV,
+                namHoc: '2021-2022',
+                cacKhoanPhi: [] 
+            });
+
+            const priceLists =  await PriceList.find({'hienThi': true}).sort({thuTu:1})
+            
+            let khoanPhi = {}
+            let tongTien = 0
+            priceLists.forEach((priceList) => {
+                khoanPhi = {
+                    ...priceList.thongTinMacDinh,
+                    thuTu: priceList.thuTu,
+                    bieuPhi: priceList._id,
+                    tenChiPhi: priceList.tenChiPhi,
+                    donViTinh: priceList.donViTinh,
+                    donGia: priceList.donGia,
+                    ghiChu: priceList.ghiChu
+                }
+
+                tongTien += khoanPhi.thanhTien
+                bill.cacKhoanPhi.push(khoanPhi)
+            })
+
+            bill.tongTien = tongTien
+            console.log(bill)
+        }
 
         res.status(200).json({
             status: 'success',
             data: {
                 student,
-                bill
+                bill,
+                hoaDonMoi: newBill
             }
         })
     } catch (e) {
