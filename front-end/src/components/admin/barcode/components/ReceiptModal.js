@@ -14,7 +14,7 @@ import PrintIcon from '@mui/icons-material/Print';
 import { updateOneBill } from 'apis/bill';
 
 // ===========================|| RECEIPT MODAL ||=========================== //
-const ReceiptModal = ({ openModal, onClose, student, bill }) => {
+const ReceiptModal = ({ openModal, onClose, onCheckOut, student, bill }) => {
     const componentRef = useRef();
 
     const handlePrint = useReactToPrint({
@@ -34,7 +34,7 @@ const ReceiptModal = ({ openModal, onClose, student, bill }) => {
                         <div><b><u>ĐOÀN TNCS HỒ CHÍ MINH</u></b></div>
                     </div>
                 </div>
-                <div className={styles.Date}>TP. Hồ Chí Minh, ngày {moment(bill?.ngatThanhToan).get('date')} tháng {moment(bill?.ngatThanhToan).get('month') + 1} năm {moment(bill?.ngatThanhToan).get('year')}</div>
+                <div className={styles.Date}>TP. Hồ Chí Minh, ngày {moment(bill?.ngayThanhToan).get('date')} tháng {moment(bill?.ngayThanhToan).get('month') + 1} năm {moment(bill?.ngayThanhToan).get('year')}</div>
                 <div className={styles.Title}><h3>BIÊN NHẬN</h3></div>
                 <div className={styles.Body}>
                     <div className={styles.Cols}>
@@ -83,8 +83,17 @@ const ReceiptModal = ({ openModal, onClose, student, bill }) => {
                         <Button onClick={onClose}>Về trang barcode</Button>
                         <Button 
                             onClick={async () => {
-                                await updateOneBill({ ...bill, trangThai: true, ngatThanhToan: moment() })
-                                handlePrint()
+                                try {
+                                    const res = await updateOneBill({ ...bill, trangThai: true, ngayThanhToan: moment() })
+                                    if(res.data.status === 'success') {
+                                        onCheckOut(res.data.data.bill);
+                                        handlePrint()
+                                    } else {
+                                        alert('Oops! Something went wrong...')
+                                    }
+                                } catch(err) {
+                                    alert(err)
+                                }
                             }} 
                             variant='contained' 
                             className='button'

@@ -154,7 +154,11 @@ const BarcodePage = () => {
                             xs={5}
                             className={styles.BillForm}
                         >
-                            { bill ? <BillForm newBill={newBill} bill={bill} onCheckOut={bill => handleCheckOut(bill)} /> : <p>Không có dữ liệu hóa đơn</p> }
+                            {   
+                                bill 
+                                ? <BillForm newBill={newBill} bill={bill} onCheckOut={bill => handleCheckOut(bill)} /> 
+                                : <p>Không có dữ liệu hóa đơn</p> 
+                            }
                         </Grid>
                     </Grid>
                     <div className={styles.Line} />
@@ -164,6 +168,7 @@ const BarcodePage = () => {
             <ReceiptModal 
                 openModal={openModal} 
                 onClose={handleCloseModal} 
+                onCheckOut={bill => handleCheckOut(bill)}
                 student={student}
                 bill={bill}
             />
