@@ -1,6 +1,7 @@
 // Node Modules ============================================================ //
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
+import 'moment/locale/vi';
 
 // Styles ================================================================== //
 import styles from './BillForm.module.css';
@@ -18,8 +19,7 @@ import {
     Button,
 } from '@mui/material';
 import DateAdapter from '@mui/lab/AdapterMoment';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
+import { LocalizationProvider, DatePicker} from '@mui/lab';
 
 // =============================|| BILL FORM ||============================= //
 const BillForm = (props) => {
@@ -137,7 +137,7 @@ const BillForm = (props) => {
             <div className={styles.Line} />
             <div className={styles.BillOptions}>
                 <h3 className={styles.OptionTitle}>Đoàn phí</h3>
-                <LocalizationProvider dateAdapter={DateAdapter}>
+                <LocalizationProvider locale='vi' dateAdapter={DateAdapter}>
                     <Grid 
                         container
                         className={styles.Fields}
