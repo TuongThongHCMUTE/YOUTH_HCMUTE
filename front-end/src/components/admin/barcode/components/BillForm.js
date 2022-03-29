@@ -103,7 +103,7 @@ const BillForm = (props) => {
 
     const generateStatus = () => {
         if (bill.trangThai === false && newBill === false) return (<p>Chưa thanh toán</p>);
-        if (bill.trangThai === true && newBill === false) return (<p>Đã thanh toán</p>);
+        if (bill.trangThai === true && newBill === false) return (<p>Đã thanh toán vào {moment(bill.ngayThanhToan).format('DD/MM/YYYY')}</p>);
         if (newBill === true) return (<p>Chưa xuất hóa đơn</p>)
     }
 
