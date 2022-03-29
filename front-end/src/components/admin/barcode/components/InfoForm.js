@@ -89,22 +89,6 @@ const InfoForm = (props) => {
                                 />
                             </Grid>
                             <Grid item xs={6} sx={{ p: 2 }}>
-                                <TextField 
-                                    name='ngaySinh'
-                                    className={styles.TextField}
-                                    variant="filled"
-                                    label="Ngày sinh"
-                                    type='date'
-                                    defaultValue={moment('01-01-1990').format('YYYY-MM-DD')}
-                                    value={values.ngaySinh ? moment(values.ngaySinh).format('YYYY-MM-DD') : moment('1990-01-01').format('YYY-MM-DD')}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sx={{ p: 2 }}>
                                 <DatePicker
                                     name='ngaySinh'
                                     views={['year', 'month', 'day']}
