@@ -1,7 +1,7 @@
 const express = require('express')
 
 const { getAllBills, createOneBill, getOneBill,
-        updateOneBill, deleteOneBill, checkOutBill, updateMany}
+        updateOneBill, deleteOneBill, checkOutBill}
     = require('../controllers/billController')
 
 const Router = express.Router()
