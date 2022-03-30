@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 // Init schema
 const billSchema = new mongoose.Schema({
-    idSinhVien: {
+    sinhVien: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Student'
     },

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 // Init schema
 const groupBookSchema = new mongoose.Schema({
-    idSinhVien: {
+    sinhVien: {
         type: mongoose.Schema.Types.ObjectId,
         trim: true,
         required: [true, 'Nhập sinh viên'],
