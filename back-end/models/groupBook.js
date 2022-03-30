@@ -2,13 +2,13 @@ const mongoose = require('mongoose')
 
 // Init schema
 const groupBookSchema = new mongoose.Schema({
-    sinhVien: {
+    idSinhVien: {
         type: mongoose.Schema.Types.ObjectId,
         trim: true,
-        required: [true, 'Nhập sinh viên '],
+        required: [true, 'Nhập sinh viên'],
         ref: 'SinhVien'
     },
-    maSV: {type: String, trim: true},
+    maSoSV: {type: String, trim: true},
     viTri: {type: String, trim: true},
     moTa: {type: String},
     pheSo: [{
@@ -24,7 +24,9 @@ const groupBookSchema = new mongoose.Schema({
         noiDungDuyet: {type: String},
         createBy: {type: Number},
     }],
-    trangThaiSo: {type: Boolean, default: true}, // Chưa nộp, đã nộp (Giống trạng thái bên sinh viên)
+    trangThaiSoDoan: {type: String, trim: true}, // Chưa nộp, Đã nộp, Đã rút sổ đoàn (Giống trạng thái bên sinh viên)
+    ngayNopSo: {type: Date, default: Date.Now},
+    ngayRutSo: {type: Date},
     createBy: {type: String},
     updateBy: {type: String}
 }, {timestamps: true})
