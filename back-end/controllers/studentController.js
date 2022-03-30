@@ -72,6 +72,7 @@ exports.getStudentInfo = async (req, res, next) => {
         const student = await Student.findOne({ maSoSV })
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop')
+                                        .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
         let bill = await Bill.findOne({ maSoSV, maNamHoc })
 
         let newBill = false
@@ -79,6 +80,7 @@ exports.getStudentInfo = async (req, res, next) => {
             newBill = true
 
             bill = new Bill({
+                idSinhVien: student._id,
                 maSoSV: student.maSoSV,
                 namHoc: '2021-2022',
                 cacKhoanPhi: [] 
