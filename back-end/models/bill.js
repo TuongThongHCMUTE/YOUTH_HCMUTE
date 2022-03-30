@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 
 // Init schema
 const billSchema = new mongoose.Schema({
+    idSinhVien: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Student'
+    },
     maSoSV: {type: String, trim: true},
     namHoc: {type: String, trim: true},
     cacKhoanPhi: [{
