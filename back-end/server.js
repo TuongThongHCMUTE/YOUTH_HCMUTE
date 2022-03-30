@@ -63,7 +63,3 @@ port = process.env.PORT || process.env.APP_PORT
 app.listen(port, () => {
     console.log(`Server in running on port ${port}`)
 })
-
-var date = new Date()
-
-console.log(date.toDateString())
