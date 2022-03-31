@@ -79,33 +79,45 @@ exports.checkOutBill = async (req, res, next) => {
     try {
         const { id } = req.params
 
-        const bill = await Bill.findByIdAndUpdate(id, {trangThai: true, ngayThanhToan: new Date()},
-                                                                    {new: true, runValidators: true})
+        const bill = await Bill.findById(id)
+        if (!bill.trangThai) {
+            bill.trangThai = true
+            bill.ngayThanhToan = bill.ngayThanhToan ? bill.ngayThanhToan : new Date()
+            await bill.save()
+        }
         
-        let bookSummit = bill ? bill.cacKhoanPhi.find(data => data.tenChiPhi == 'Sổ đoàn viên' && data.soLuong == 1) : null      
-        const groupBook = bill ? await GroupBook.findOne({maSoSV: bill.maSoSV}) : null
+        let bookSummit = bill.cacKhoanPhi.find(data => data.tenChiPhi == 'Sổ đoàn viên' && data.soLuong == 1)    
+        const groupBook = await GroupBook.findOne({maSoSV: bill.maSoSV})
 
+        let student = await Student.findOne({maSoSV: bill.maSoSV})
+                                            .populate('donVi', 'tenDonVi')
+                                            .populate('lopSV', 'tenLop')
+                                            .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
         if (bookSummit && !groupBook) {
             let groupBookInfo = {
                 sinhVien: bill.sinhVien,
                 maSoSV: bill.maSoSV,
                 trangThaiSoDoan: 'DA_NOP',
-                ngayNopSo: new Date()
+                ngayNopSo: bill.ngayThanhToan
             }
             
             const newGroupBook = await GroupBook.create({...groupBookInfo})
-            let student = await Student.findOneAndUpdate({maSoSV: newGroupBook.maSoSV},
-                                                {
-                                                    'thongTinDoanVien.trangThaiSoDoan': newGroupBook.trangThaiSoDoan,
-                                                    'thongTinDoanVien.soDoan': newGroupBook._id
-                                                })
+
+            student.thongTinDoanVien.trangThaiSoDoan = newGroupBook.trangThaiSoDoan,
+            student.thongTinDoanVien.soDoan = newGroupBook._id
+            await student.save()
+
+            student = await Student.findOne({maSoSV: bill.maSoSV})
+                                        .populate('donVi', 'tenDonVi')
+                                        .populate('lopSV', 'tenLop')
+                                        .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
         }
 
         res.status(200).json({
             status: 'success',
             data: {
                 bill,
-                trangThaiSoDoan: 'DA_NOP'
+                student
             }
         })
     } catch (e) {
