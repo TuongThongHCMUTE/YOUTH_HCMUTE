@@ -11,6 +11,7 @@ exports.getAllStudents = async (req, res, next) => {
         const students = await Student.find(query).sort(sort).skip(skip).limit(limit)
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
+                                        .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
 
         const countAll = await Student.countDocuments(query)
 
@@ -34,6 +35,7 @@ exports.createOneStudent = async (req, res, next) => {
         const student = await Student.create({...req.body})
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
+                                        .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
 
         res.status(200).json({
             status: 'success',
@@ -131,6 +133,7 @@ exports.updateOneStudent = async (req, res, next) => {
         const student = await Student.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
+                                        .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
 
         res.status(200).json({
             status: 'success',
@@ -150,6 +153,7 @@ exports.deleteOneStudent = async (req, res, next) => {
         const student = await Student.findByIdAndDelete(id)
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
+                                        .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
 
         res.status(200).json({
             status: 'success',
