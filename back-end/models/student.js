@@ -29,6 +29,10 @@ const studentSchema = new mongoose.Schema({
         noiVaoDoan: {type: String, trim: true},
         soTheDoan: {type: String, trim: true},
         trangThaiSoDoan: {type: String, trim: true}, // Chưa nộp, Đã nộp, Đã rút sổ đoàn
+        soDoan: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'GroupBook'
+        }
     },
     inBarCode: {type: Boolean, default: false},
     email: {type: String, unique: [true, 'Email đã tồn tại'], trim: true, required: [true, 'Nhập email sinh viên']},
