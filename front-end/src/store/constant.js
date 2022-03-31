@@ -4,7 +4,7 @@ export const drawerWidth = 260;
 export const appDrawerWidth = 320;
 
 // server
-export const url = 'https://youthhcmute-be.herokuapp.com/api/v1';
+export const url = 'https://dev-youthhcmute-be.herokuapp.com/api/v1';
 
 // student
 export const bookStatuses = [
