@@ -23,3 +23,13 @@ export const updateOneBill = (bill) => {
   
     return axios(option);
 }
+
+export const checkOutBill = (billId) => {
+    const option = {
+        method: "put",
+        url: `${url}/bills/thanh-toan/${billId}`,
+        data: {}
+    }
+  
+    return axios(option);
+}

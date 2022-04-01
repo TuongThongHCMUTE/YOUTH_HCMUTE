@@ -11,7 +11,7 @@ import { Button, Modal } from '@mui/material';
 import PrintIcon from '@mui/icons-material/Print';
 
 // APIs ==================================================================== //
-import { updateOneBill } from 'apis/bill';
+import { checkOutBill } from 'apis/bill';
 
 // ===========================|| RECEIPT MODAL ||=========================== //
 const ReceiptModal = ({ openModal, onClose, onCheckOut, student, bill }) => {
@@ -84,9 +84,10 @@ const ReceiptModal = ({ openModal, onClose, onCheckOut, student, bill }) => {
                         <Button 
                             onClick={async () => {
                                 try {
-                                    const res = await updateOneBill({ ...bill, trangThai: true, ngayThanhToan: moment() })
+                                    console.log('>>> bill: ', bill)
+                                    const res = await checkOutBill(bill?._id)
                                     if(res.data.status === 'success') {
-                                        onCheckOut(res.data.data.bill);
+                                        onCheckOut(res.data.data.bill, res.data.data.student);
                                         handlePrint()
                                     } else {
                                         alert('Oops! Something went wrong...')
