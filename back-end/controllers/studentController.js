@@ -82,7 +82,7 @@ exports.getStudentInfo = async (req, res, next) => {
             newBill = true
 
             bill = new Bill({
-                idSinhVien: student._id,
+                sinhVien: student._id,
                 maSoSV: student.maSoSV,
                 namHoc: '2021-2022',
                 cacKhoanPhi: [] 
