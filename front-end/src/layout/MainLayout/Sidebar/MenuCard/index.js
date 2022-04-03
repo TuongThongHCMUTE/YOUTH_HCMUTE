@@ -10,6 +10,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 // style constant
 const useStyles = makeStyles((theme) => ({
     card: {
+        display: 'none',
         background: theme.palette.warning.light,
         marginTop: '16px',
         marginBottom: '16px',
