@@ -44,11 +44,11 @@ const useStyles = makeStyles((theme) => ({
         ...theme.typography.commonAvatar,
         ...theme.typography.mediumAvatar,
         transition: 'all .2s ease-in-out',
-        background: theme.palette.secondary.light,
-        color: theme.palette.secondary.dark,
+        background: 'var(--color-primary-200)',
+        color: 'var(--color-primary-400)',
         '&[aria-controls="menu-list-grow"],&:hover': {
-            background: theme.palette.secondary.dark,
-            color: theme.palette.secondary.light
+            background: 'var(--color-primary-400)',
+            color: 'var(--color-white)'
         }
     },
     cardContent: {

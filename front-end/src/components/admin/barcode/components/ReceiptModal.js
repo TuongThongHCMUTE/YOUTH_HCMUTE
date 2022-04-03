@@ -84,7 +84,6 @@ const ReceiptModal = ({ openModal, onClose, onCheckOut, student, bill }) => {
                         <Button 
                             onClick={async () => {
                                 try {
-                                    console.log('>>> bill: ', bill)
                                     const res = await checkOutBill(bill?._id)
                                     if(res.data.status === 'success') {
                                         onCheckOut(res.data.data.bill, res.data.data.student);

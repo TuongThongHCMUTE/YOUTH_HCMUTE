@@ -1,8 +1,10 @@
 // assets
 import { IconDashboard, IconDeviceAnalytics } from '@tabler/icons';
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
 
 // constant
 const icons = {
+    QueryStatsIcon,
     IconDashboard,
     IconDeviceAnalytics
 };
@@ -19,7 +21,7 @@ const dashboard = {
             title: 'Dashboard',
             type: 'item',
             url: '/dashboard/default',
-            icon: icons.IconDashboard,
+            icon: icons.QueryStatsIcon,
             breadcrumbs: false
         }
     ]
