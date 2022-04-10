@@ -80,12 +80,10 @@ exports.checkOutBill = async (req, res, next) => {
         const { id } = req.params
 
         let bill = await Bill.findById(id)
-
         if (bill) {
-            bill = await Bill.findByIdAndUpdate(id, {
-                trangThai: true,
-                ngayThanhToan: bill.ngayThanhToan ? bill.ngayThanhToan : new Date()
-            })
+            bill.trangThai = true,
+            bill.ngayThanhToan = bill.ngayThanhToan ? bill.ngayThanhToan : new Date()
+            await bill.save()
         }
         
         let bookSummit = bill.cacKhoanPhi.find(data => data.tenChiPhi == 'Sổ đoàn viên' && data.soLuong == 1)    
