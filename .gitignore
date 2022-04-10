@@ -9,3 +9,6 @@ back-end/routes/processDataRoute.js
 # For front-end
 front-end/node_modules
 front-end/package-lock.json
+
+# For vs code
+.vscode
