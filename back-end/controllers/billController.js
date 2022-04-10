@@ -6,6 +6,19 @@ const Student = require('../models/student')
 // Get all Bills
 exports.getAllBills = async (req, res, next) => {
     try {
+        if (req.query.startDate && req.query.endDate) {
+            const startDate = new Date(req.query.startDate)
+            const endDate = new Date(req.query.endDate)
+            endDate.setDate(endDate.getDate() + 1)
+    
+            delete req.query.startDate
+            delete req.query.endDate
+
+            req.query.ngayThanhToan = {
+                $gte: startDate, 
+                $lt: endDate 
+            }
+        }
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
 
         const bills = await Bill.find(query).sort(sort).skip(skip).limit(limit);
@@ -16,6 +29,68 @@ exports.getAllBills = async (req, res, next) => {
             all: countAll,
             results: bills.length,
             data: {bills}
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
+exports.getKPIValuesByCheckoutDate = async (req, res, next) => {
+    try {
+        const startDate = new Date(req.query.startDate)
+        const endDate = new Date(req.query.endDate)
+        endDate.setDate(endDate.getDate() + 1)
+
+        delete req.query.startDate
+        delete req.query.endDate
+
+        const bills = await Bill.find({
+            ...req.query,
+            ngayThanhToan: {
+                $gte: startDate, 
+                $lt: endDate 
+            }
+        })
+
+        let kpiValues = []
+        let tongDoanPhi = 0
+        bills.forEach(bill => {
+            let priceLists = bill.cacKhoanPhi
+
+            priceLists.forEach(priceList => {
+                let value = priceList.tenChiPhi == 'Sổ đoàn viên' ? priceList.soLuong : priceList.thanhTien
+                let kpi = kpiValues.find(kpi => kpi.name == priceList.tenChiPhi)
+
+                if (kpi) {
+                    kpi.total += value
+                } else {
+                    kpi = {
+                        name: priceList.tenChiPhi,
+                        total: value
+                    }
+                    kpiValues.push(kpi)
+                }
+            })
+
+            tongDoanPhi += bill.tongTien
+        })
+
+        kpiValues.unshift(
+            {
+                name: 'Tổng tiền đã thu',
+                total: tongDoanPhi
+            },
+            {
+                name: 'Tổng số hóa đơn',
+                total: bills.length
+            }
+        )
+
+        res.status(200).json({
+            status: 'success',
+            results: kpiValues.length,
+            data: {kpiValues}
         })
     } catch (e) {
         console.log(e)
