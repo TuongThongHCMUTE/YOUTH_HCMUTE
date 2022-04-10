@@ -79,39 +79,37 @@ exports.checkOutBill = async (req, res, next) => {
     try {
         const { id } = req.params
 
-        const bill = await Bill.findById(id)
-        if (!bill.trangThai) {
-            bill.trangThai = true
-            bill.ngayThanhToan = bill.ngayThanhToan ? bill.ngayThanhToan : new Date()
-            await bill.save()
+        let bill = await Bill.findById(id)
+
+        if (bill) {
+            bill = await Bill.findByIdAndUpdate(id, {
+                trangThai: true,
+                ngayThanhToan: bill.ngayThanhToan ? bill.ngayThanhToan : new Date()
+            })
         }
         
         let bookSummit = bill.cacKhoanPhi.find(data => data.tenChiPhi == 'Sổ đoàn viên' && data.soLuong == 1)    
-        const groupBook = await GroupBook.findOne({maSoSV: bill.maSoSV})
+        let groupBook = await GroupBook.findOne({maSoSV: bill.maSoSV})
 
-        let student = await Student.findOne({maSoSV: bill.maSoSV})
-                                            .populate('donVi', 'tenDonVi')
-                                            .populate('lopSV', 'tenLop')
-                                            .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
-        if (bookSummit && !groupBook) {
-            let groupBookInfo = {
+        if (bookSummit) {
+            groupBook = groupBook ? groupBook : await GroupBook.create({
                 sinhVien: bill.sinhVien,
                 maSoSV: bill.maSoSV,
                 trangThaiSoDoan: 'DA_NOP',
                 ngayNopSo: bill.ngayThanhToan
-            }
-            
-            const newGroupBook = await GroupBook.create({...groupBookInfo})
+            })
 
-            student.thongTinDoanVien.trangThaiSoDoan = newGroupBook.trangThaiSoDoan,
-            student.thongTinDoanVien.soDoan = newGroupBook._id
-            await student.save()
+            await Student.findOneAndUpdate({maSoSV: bill.maSoSV},
+                {
+                    'thongTinDoanVien.trangThaiSoDoan': groupBook.trangThaiSoDoan,
+                    'thongTinDoanVien.soDoan': groupBook._id
+                })
+        }
 
-            student = await Student.findOne({maSoSV: bill.maSoSV})
+        const student = await Student.findOne({maSoSV: bill.maSoSV})
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop')
                                         .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
-        }
 
         res.status(200).json({
             status: 'success',

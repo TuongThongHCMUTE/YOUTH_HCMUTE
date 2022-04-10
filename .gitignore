@@ -3,6 +3,9 @@ back-end/node_modules
 back-end/package-lock.json
 back-end/.env
 
+back-end/controllers/processDataController.js
+back-end/routes/processDataRoute.js
+
 # For front-end
 front-end/node_modules
 front-end/package-lock.json
