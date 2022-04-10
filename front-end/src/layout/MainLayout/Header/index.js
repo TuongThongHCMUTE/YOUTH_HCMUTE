@@ -11,8 +11,8 @@ import SearchSection from './SearchSection';
 import ProfileSection from './ProfileSection';
 import NotificationSection from './NotificationSection';
 
-// assets
-import { IconMenu2 } from '@tabler/icons';
+// assets 
+import MenuIcon from '@mui/icons-material/Menu';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -37,12 +37,12 @@ const useStyles = makeStyles((theme) => ({
     headerAvatar: {
         ...theme.typography.commonAvatar,
         ...theme.typography.mediumAvatar,
+        borderRadius: '0px',
         transition: 'all .2s ease-in-out',
-        background: theme.palette.secondary.light,
-        color: theme.palette.secondary.dark,
+        background: 'var(--color-white)',
+        color: 'var(--color-primary-400)',
         '&:hover': {
-            background: theme.palette.secondary.dark,
-            color: theme.palette.secondary.light
+            background: 'var(--color-primary-200)'
         }
     },
     boxContainer: {
@@ -66,9 +66,9 @@ const Header = ({ handleLeftDrawerToggle }) => {
                 <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
                     <LogoSection />
                 </Box>
-                <ButtonBase sx={{ borderRadius: '12px', overflow: 'hidden' }}>
+                <ButtonBase sx={{ borderRadius: '12px' }}>
                     <Avatar variant="rounded" className={classes.headerAvatar} onClick={handleLeftDrawerToggle} color="inherit">
-                        <IconMenu2 stroke={1.5} size="1.3rem" />
+                        <MenuIcon stroke={2} size="1.3rem" />
                     </Avatar>
                 </ButtonBase>
             </div>

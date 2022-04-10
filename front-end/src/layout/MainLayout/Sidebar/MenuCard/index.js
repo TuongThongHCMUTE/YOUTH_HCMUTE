@@ -10,6 +10,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 // style constant
 const useStyles = makeStyles((theme) => ({
     card: {
+        display: 'none',
         background: theme.palette.warning.light,
         marginTop: '16px',
         marginBottom: '16px',
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         color: theme.palette.grey[800],
+        borderRadius: '0',
         backgroundColor: theme.palette.warning.main,
         textTransform: 'capitalize',
         boxShadow: 'none',
@@ -63,11 +65,11 @@ const UpgradePlanCard = () => {
             <CardContent>
                 <Grid container direction="column" spacing={2}>
                     <Grid item>
-                        <Typography variant="h4">Upgrade to Pro</Typography>
+                        <Typography variant="h4">Sinh viên 5 tốt</Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant="subtitle2" className={classes.tagLine}>
-                            For more premium pages & features
+                            Website hỗ trợ tư vấn & bình xét phong trào "Sinh viên 5 tốt"
                         </Typography>
                     </Grid>
                     <Grid item>
@@ -75,12 +77,12 @@ const UpgradePlanCard = () => {
                             <AnimateButton>
                                 <Button
                                     component={Link}
-                                    href="https://berrydashboard.io/"
+                                    href="https://main.d2w26m07cywgez.amplifyapp.com/"
                                     target="_blank"
                                     variant="contained"
                                     className={classes.button}
                                 >
-                                    Go Premium
+                                    Truy cập ngay
                                 </Button>
                             </AnimateButton>
                         </Stack>

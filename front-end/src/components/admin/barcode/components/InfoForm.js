@@ -319,11 +319,11 @@ const InfoForm = (props) => {
                                             />
                                         </Grid>
                                         <Grid item xs={6} sx={{ p: 2 }}>
-                                            <FormControl fullWidth variant='filled' className='text-field'>
+                                            <FormControl fullWidth variant='filled' className='text-field' disabled>
                                                 <InputLabel>Tình trạng sổ đoàn</InputLabel>
                                                 <Select
-                                                    name='thongTinDoanVien.trangThaiSoDoan'
-                                                    value={values.thongTinDoanVien?.trangThaiSoDoan || 'CHUA_NOP'}
+                                                    name='thongTinDoanVien.soDoan.trangThaiSoDoan'
+                                                    value={values.thongTinDoanVien?.soDoan?.trangThaiSoDoan || 'CHUA_NOP'}
                                                     label="Tình trạng sổ đoàn"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
