@@ -16,12 +16,22 @@ exports.getAllBills = async (req, res, next) => {
 
             req.query.ngayThanhToan = {
                 $gte: startDate, 
-                $lt: endDate 
+                $lt: endDate
             }
         }
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
 
-        const bills = await Bill.find(query).sort(sort).skip(skip).limit(limit);
+        const bills = await Bill.find(query).sort(sort).skip(skip).limit(limit)
+                                    .populate({
+                                        path: 'sinhVien',
+                                        match: {},
+                                        select: 'ho ten',
+                                        populate: {
+                                            path: 'donVi',
+                                            select: 'tenDonVi'
+                                        }
+                                    })
+                                    
         const countAll = await Bill.countDocuments(query)
         
         res.status(200).json({
