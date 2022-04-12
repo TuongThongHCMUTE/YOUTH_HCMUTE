@@ -73,7 +73,7 @@ const SearchBar = (props) => {
                   sx={{ width: '100% !important' }}
                   onClick={() => onSearch(searchValues)}
               >
-                  Lọc dữ liệu
+                  Lọc
               </Button>
           </Grid>
         </Grid>
