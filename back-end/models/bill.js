@@ -6,6 +6,10 @@ const billSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Student'
     },
+    donVi: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Faculty'
+    },
     maSoSV: {type: String, trim: true},
     namHoc: {type: String, trim: true},
     cacKhoanPhi: [{

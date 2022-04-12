@@ -8,29 +8,20 @@ exports.getAllBills = async (req, res, next) => {
     try {
         if (req.query.startDate && req.query.endDate) {
             const startDate = new Date(req.query.startDate)
-            const endDate = new Date(req.query.endDate)
-            endDate.setDate(endDate.getDate() + 1)
-    
             delete req.query.startDate
+            const endDate = new Date(req.query.endDate)
             delete req.query.endDate
 
             req.query.ngayThanhToan = {
                 $gte: startDate, 
-                $lt: endDate
+                $lte: endDate
             }
         }
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
 
         const bills = await Bill.find(query).sort(sort).skip(skip).limit(limit)
-                                    .populate({
-                                        path: 'sinhVien',
-                                        match: {},
-                                        select: 'ho ten',
-                                        populate: {
-                                            path: 'donVi',
-                                            select: 'tenDonVi'
-                                        }
-                                    })
+                                    .populate('sinhVien','ho ten')
+                                    .populate('donVi', 'tenDonVi')
                                     
         const countAll = await Bill.countDocuments(query)
         
@@ -49,17 +40,15 @@ exports.getAllBills = async (req, res, next) => {
 exports.getKPIValuesByCheckoutDate = async (req, res, next) => {
     try {
         const startDate = new Date(req.query.startDate)
-        const endDate = new Date(req.query.endDate)
-        endDate.setDate(endDate.getDate() + 1)
-
         delete req.query.startDate
+        const endDate = new Date(req.query.endDate)
         delete req.query.endDate
 
         const bills = await Bill.find({
             ...req.query,
             ngayThanhToan: {
                 $gte: startDate, 
-                $lt: endDate 
+                $lte: endDate 
             }
         })
 
