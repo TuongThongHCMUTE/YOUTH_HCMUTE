@@ -20,10 +20,24 @@ const other = {
         {
             id: 'barcode',
             title: 'Barcode',
-            type: 'item',
-            url: '/barcode',
+            type: 'collapse',
             icon: icons.FitScreenIcon,
-            breadcrumbs: false
+            children: [
+                {
+                    id: 'search',
+                    title: 'Tra cứu',
+                    url: '/barcode',
+                    type: 'item',
+                    breadcrumbs: false,
+                },
+                {
+                    id: 'thong-ke',
+                    title: 'Thống kê',
+                    url: '/barcode/thong-ke',
+                    type: 'item',
+                    breadcrumbs: false,
+                }
+            ]
         },
         {
             id: 'documentation',

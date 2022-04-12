@@ -7,7 +7,8 @@ import Loadable from 'ui-component/Loadable';
 // dashboard routing
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
-const Barcode = Loadable(lazy(() => import('components/admin/barcode')));
+const Barcode = Loadable(lazy(() => import('components/admin/barcodeSearch')));
+const BarcodeStatistic = Loadable(lazy(() => import('components/admin/barcodeStatistic')));
 
 // ===========================|| ADMIN ROUTING ||=========================== //
 
@@ -27,6 +28,10 @@ const AdminRoutes = {
             path: '/barcode',
             element: <Barcode />
         },
+        {
+            path: '/barcode/thong-ke',
+            element: <BarcodeStatistic />
+        }
     ]
 };
 
