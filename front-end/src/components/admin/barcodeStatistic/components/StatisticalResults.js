@@ -54,7 +54,7 @@ const StatisticalResults = (props) => {
                                 <MonetizationOnIcon className={styles.CardIcon} />
                             </Avatar>
                         </Grid>
-                        <Grid item>
+                        <Grid item className={styles.Total}>
                             <NumberFormat 
                                 value={total ? total.total : 'N/A'}
                                 className={styles.cardHeading}
@@ -78,7 +78,7 @@ const StatisticalResults = (props) => {
                                 <AccountCircleIcon className={styles.CardIcon} />
                             </Avatar>
                         </Grid>
-                        <Grid item>
+                        <Grid item className={styles.Total}>
                             <NumberFormat 
                                 value={unionFee ? unionFee.total : 'N/A'}
                                 className={styles.cardHeading}
@@ -102,7 +102,7 @@ const StatisticalResults = (props) => {
                                 <LibraryBooksIcon className={styles.CardIcon} />
                             </Avatar>
                         </Grid>
-                        <Grid item>
+                        <Grid item className={styles.Total}>
                             <NumberFormat 
                                 value={book ? book.total : 'N/A'}
                                 className={styles.cardHeading}

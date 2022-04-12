@@ -37,8 +37,8 @@ export const checkOutBill = (billId) => {
 
 export const getBillStatistic = ({ faculty, date }) => {
     const params = {
-        startDate: moment(date[0]).toDate(),
-        endDate: moment(date[1]).toDate()
+        startDate: moment(date[0]).startOf('day').toDate(),
+        endDate: moment(date[1]).endOf('day').toDate()
     }
 
     if (faculty && faculty !== 'all') {
