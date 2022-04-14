@@ -42,7 +42,7 @@ export const getBillStatistic = ({ faculty, date }) => {
     }
 
     if (faculty && faculty !== 'all') {
-        params.faculty = faculty;
+        params.donVi = faculty;
     }
 
     const option = {
