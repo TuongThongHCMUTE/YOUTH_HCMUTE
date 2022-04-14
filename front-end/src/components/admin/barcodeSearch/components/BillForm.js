@@ -2,13 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import 'moment/locale/vi';
-
 // Styles ================================================================== //
 import styles from './BillForm.module.css';
-
 // APIs ==================================================================== //
 import { createOneBill, updateOneBill } from 'apis/bill';
-
 // Material UI ============================================================= //
 import { 
     Grid, 
@@ -27,11 +24,12 @@ const BillForm = (props) => {
 
     const [bill, setBill] = useState(props.bill);
 
+    // Update state whenever bill prop changes
     useEffect(() => {
         setBill(props.bill);
     }, [props.bill])
 
-    // Các khoản phí
+    // Các khoản phí: đoàn phí, truy thu, sổ đoàn, công trình thanh niên, thẻ hội viên
     const fees = bill?.cacKhoanPhi;
 
     // Đoàn phí
@@ -58,30 +56,43 @@ const BillForm = (props) => {
         return total;
     }
 
+
+    // This function is triggered when user makes an update on bill
+    // Some actions: change start/end date, fill number, check/uncheck option
     const handleChange = (field, value, index) => {
         if (index === -1) {
             return;
         }
 
+        // Get fee by the index
         const fee = fees[index];
 
+        // if field is start date or end date: update field and re-calculate numbers of days
         if (field === 'ngayBatDau' || field === 'ngayKetThuc') {
-
             fee[field] = value;
-        
             const count = moment(fee.ngayKetThuc).diff(moment(fee.ngayBatDau), 'months');
             fee.soLuong = count;
-        } else if (field === 'additionalFee') {
+        }
+        // if field is additional fee (Truy thu đoàn phí): update field with the value of input 
+        else if (field === 'additionalFee') {
             fee.soLuong = value;
-        } else if (field === 'so-doan' || field === 'the-hoi-vien') {
+        }
+        // if user chooses the option 'Sổ đoàn' or 'Thẻ hội viên' => the value is 1
+        // otherwise, the value is 0
+        else if (field === 'so-doan' || field === 'the-hoi-vien') {
             fee.soLuong = value ? 1 : 0;
-        } else if (field === 'cong-trinh-thanh-nien') {
+        }
+        // if user chooses the option 'Công trình thanh niên' => the value is 12
+        // otherwise, the value is 0 
+        else if (field === 'cong-trinh-thanh-nien') {
             fee.soLuong = value ? 12 : 0;
         }
 
+        // Calculate cost of the updated item
         fee.thanhTien = fee.soLuong * fee.donGia;
         fees[index] = fee;
 
+        // Update bill state
         setBill(prev => ({
             ...prev,
             cacKhoanPhi: fees,
@@ -89,10 +100,15 @@ const BillForm = (props) => {
         }));
     }
 
+    // This function is triggered when user click on 'Xuất hóa đơn' button
     const handleCheckOut = async () => {
         try {
+            // If the bill has not created yet => create new bill
+            // Otherwise => update base on existing bill
             const res = newBill ? await createOneBill(bill) : await updateOneBill(bill);
 
+            // If create/update success => trigger onCheckout funtion
+            // This function update parent component's bill state and open receipt modal 
             if(res.data.status === 'success') {
                 onCheckOut(res.data.data.bill);
             }
@@ -101,6 +117,7 @@ const BillForm = (props) => {
         }
     }
 
+    // Update status of bill
     const generateStatus = () => {
         if (bill.trangThai === false && newBill === false) return (<p>Chưa thanh toán</p>);
         if (bill.trangThai === true && newBill === false) return (<p>Đã thanh toán vào lúc {moment(bill.ngayThanhToan).format('HH:mm [ngày] DD/MM/YYYY')}</p>);

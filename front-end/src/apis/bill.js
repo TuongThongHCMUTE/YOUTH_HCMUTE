@@ -1,5 +1,6 @@
 // Node Modules ============================================================ //
 import axios from "axios";
+import moment from "moment";
 
 // Constants =============================================================== //
 import { url } from 'store/constant';
@@ -32,4 +33,23 @@ export const checkOutBill = (billId) => {
     }
   
     return axios(option);
+}
+
+export const getBillStatistic = ({ faculty, date }) => {
+    const params = {
+        startDate: moment(date[0]).startOf('day').toDate(),
+        endDate: moment(date[1]).endOf('day').toDate()
+    }
+
+    if (faculty && faculty !== 'all') {
+        params.donVi = faculty;
+    }
+
+    const option = {
+        method: 'get',
+        url: `${url}/bills/thong-ke-theo-ngay`,
+        params: params
+    }
+
+    return axios(option)
 }

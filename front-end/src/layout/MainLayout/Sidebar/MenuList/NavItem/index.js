@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
     listIcon: {
         minWidth: '18px',
         marginTop: 'auto',
-        marginBottom: 'auto'
+        marginBottom: 'auto',
+        color: 'var(--color-grey-600) !important'
     },
     listCustomIconSub: {
         width: '6px',
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     listItemNoBack: {
         marginBottom: '5px',
         backgroundColor: 'transparent !important',
+        color: 'var(--color-grey-600) !important',
         paddingTop: '8px',
         paddingBottom: '8px',
         alignItems: 'flex-start'

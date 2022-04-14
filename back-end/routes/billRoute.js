@@ -1,12 +1,14 @@
 const express = require('express')
 
-const { getAllBills, createOneBill, getOneBill,
-        updateOneBill, deleteOneBill, checkOutBill}
+const { getAllBills, createOneBill, getOneBill, updateOneBill, deleteOneBill, checkOutBill,
+        getKPIValuesByCheckoutDate}
     = require('../controllers/billController')
 
 const Router = express.Router()
 
 Router.route('/').get(getAllBills).post(createOneBill)
+
+Router.route('/thong-ke-theo-ngay').get(getKPIValuesByCheckoutDate)
 
 Router.route('/thanh-toan/:id').put(checkOutBill)
 
