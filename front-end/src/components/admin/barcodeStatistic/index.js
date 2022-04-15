@@ -1,17 +1,25 @@
 // Node Modules ============================================================ //
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
+// Styles ================================================================== //
+import styles from './index.module.scss';
 // APIs ==================================================================== //
 import { getAllFaculties } from 'apis/faculty';
-import { getBillStatistic } from 'apis/bill';
+import { getAllBills, getBillStatistic } from 'apis/bill';
+// Material UI ============================================================= //
+import { Box, Button } from '@mui/material';
 // Components ============================================================== //
 import SearchBar from './components/SearchBar'
 import StatisticalResults from './components/StatisticalResults';
+import BillsTable from './components/BillsTable';
+
+import excelImage from 'assets/images/icons/excel.png'
 
 // =========================|| BARCODE STATISTIC ||========================= //
 const BarcodeStatistic = () => {
   const defaultSearchValues = {
     faculty: 'all',
+    status: 'true',
     date: [moment().startOf('month'), moment().endOf('month')]
   }
 
@@ -19,7 +27,9 @@ const BarcodeStatistic = () => {
   const [searchValues, setSearchValues] = useState(defaultSearchValues);
   const [statisticalResults, setStatisticalResults] = useState([]);
   const [bills, setBills] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [loadingBills, setLoadingBills] = useState(false);
 
   useEffect(async () => {
     try {
@@ -35,6 +45,7 @@ const BarcodeStatistic = () => {
 
   useEffect(() => {
     handleSearch(defaultSearchValues);
+    getBills({ ...defaultSearchValues, limit: 10 });
   }, []);
 
   const handleChange = (field, value) => {
@@ -44,6 +55,24 @@ const BarcodeStatistic = () => {
     }))
   }
 
+  const getBills = async (args) => {
+    setLoadingBills(true);
+    try {
+      const res = await getAllBills(args);
+
+      if (res.data.status === 'success') {
+        setBills(res.data.data.bills);
+        setTotalRecords(res.data.all);
+        setLoadingBills(false);
+      } else {
+        // Show error message
+      }
+    } catch(err) {
+      alert(err);
+      setLoadingBills(false);
+    }
+  }
+
   const handleSearch = async (searchValues) => {
     setLoading(true);
     try {
@@ -51,7 +80,6 @@ const BarcodeStatistic = () => {
       
       if (res.data.status === 'success') {
         const results = res.data.data.kpiValues;
-        console.log("results: ", results);
         setStatisticalResults(results);
         setLoading(false)
       } else {
@@ -70,9 +98,31 @@ const BarcodeStatistic = () => {
           faculties={faculties} 
           searchValues={searchValues} 
           onChange={(field, value) => handleChange(field, value)}
-          onSearch={(values) => handleSearch(values)}
+          onSearch={(values) => {
+            handleSearch(values);
+            getBills({ ...values, limit: 10 });
+          }}
         />
         <StatisticalResults data={statisticalResults} loading={loading} />
+        <Box className={styles.TableSection}>
+          <Box className={styles.TableTitle}>
+            <h3 className={styles.Title}>Danh sách hóa đơn</h3>
+            <Button 
+              className={styles.ExportButton}
+              variant='contained'
+              
+            >
+              <img src={excelImage} />
+              Xuất dữ liệu
+            </Button>
+          </Box>
+          <BillsTable 
+            data={bills}
+            totalRecords={totalRecords}
+            loading={loadingBills}
+            onRefetch={(args) => getBills({ ...searchValues, ...args})} 
+          />
+        </Box>
     </>
   )
 }
