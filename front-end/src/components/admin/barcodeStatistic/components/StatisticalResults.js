@@ -55,14 +55,17 @@ const StatisticalResults = (props) => {
                             </Avatar>
                         </Grid>
                         <Grid item className={styles.Total}>
-                            <NumberFormat 
-                                value={total ? total.total : 'N/A'}
+                            { total && total.total
+                                ? <NumberFormat 
+                                value={total.total}
                                 className={styles.cardHeading}
                                 displayType={'text'}
                                 thousandSeparator={true}
                                 suffix=' VNĐ'
                                 renderText={(value, props) => <Typography {...props}>{value}</Typography>}
-                            /> 
+                                />
+                                : <Typography className={styles.cardHeading}>0 VNĐ</Typography>
+                            }
                         </Grid>
                         <Grid item sx={{ mb: 1.25 }}>
                             <Typography className={styles.subHeading}>Tổng tiền đã thu</Typography>
@@ -79,14 +82,17 @@ const StatisticalResults = (props) => {
                             </Avatar>
                         </Grid>
                         <Grid item className={styles.Total}>
-                            <NumberFormat 
-                                value={unionFee ? unionFee.total : 'N/A'}
+                            { unionFee && unionFee.total
+                                ? <NumberFormat 
+                                value={unionFee.total}
                                 className={styles.cardHeading}
                                 displayType={'text'}
                                 thousandSeparator={true}
                                 suffix=' VNĐ'
                                 renderText={(value, props) => <Typography {...props}>{value}</Typography>}
-                            /> 
+                                />
+                                : <Typography className={styles.cardHeading}>0 VNĐ</Typography>
+                            }
                         </Grid>
                         <Grid item sx={{ mb: 1.25 }}>
                             <Typography className={styles.subHeading}>Đoàn phí</Typography>
@@ -103,14 +109,17 @@ const StatisticalResults = (props) => {
                             </Avatar>
                         </Grid>
                         <Grid item className={styles.Total}>
-                            <NumberFormat 
-                                value={book ? book.total : 'N/A'}
+                            { book && book.total
+                                ? <NumberFormat 
+                                value={book.total}
                                 className={styles.cardHeading}
                                 displayType={'text'}
                                 thousandSeparator={true}
                                 suffix=' sổ'
                                 renderText={(value, props) => <Typography {...props}>{value}</Typography>}
-                            />
+                                />
+                                : <Typography className={styles.cardHeading}>0 sổ</Typography>
+                            }
                         </Grid>
                         <Grid item sx={{ mb: 1.25 }}>
                             <Typography className={styles.subHeading}>Sổ đoàn</Typography>
@@ -130,15 +139,18 @@ const StatisticalResults = (props) => {
                                 </ListItemAvatar>
                                 <ListItemText
                                     className={styles.Padding}
-                                    primary={
-                                        <NumberFormat 
-                                            value={additionalFee ? additionalFee.total : 'N/A'}
+                                    primary=
+                                    {
+                                        additionalFee && additionalFee.total
+                                            ? <NumberFormat 
+                                            value={additionalFee.total}
                                             variant="h4"
                                             displayType={'text'}
                                             thousandSeparator={true}
                                             suffix=' VNĐ'
                                             renderText={(value, props) => <Typography {...props}>{value}</Typography>}
-                                        />
+                                            />
+                                            : <Typography variant="h4">0 VNĐ</Typography>
                                     }
                                     secondary={
                                         <Typography variant="subtitle2" className={styles.Secondary}>
@@ -160,14 +172,16 @@ const StatisticalResults = (props) => {
                                 <ListItemText
                                     className={styles.Padding}
                                     primary={
-                                        <NumberFormat 
-                                            value={constructionFee ? constructionFee.total : 'N/A'}
-                                            variant="h4"
-                                            displayType={'text'}
-                                            thousandSeparator={true}
-                                            suffix=' VNĐ'
-                                            renderText={(value, props) => <Typography {...props}>{value}</Typography>}
+                                    constructionFee && constructionFee.total
+                                        ? <NumberFormat 
+                                        value={constructionFee.total}
+                                        variant="h4"
+                                        displayType={'text'}
+                                        thousandSeparator={true}
+                                        suffix=' VNĐ'
+                                        renderText={(value, props) => <Typography {...props}>{value}</Typography>}
                                         />
+                                        : <Typography variant="h4">0 VNĐ</Typography>
                                     }
                                     secondary={
                                         <Typography variant="subtitle2" className={styles.Secondary}>
@@ -189,14 +203,16 @@ const StatisticalResults = (props) => {
                                 <ListItemText
                                     className={styles.Padding}
                                     primary={
-                                        <NumberFormat 
-                                            value={cardFee ? cardFee.total : 'N/A'}
-                                            variant="h4"
-                                            displayType={'text'}
-                                            thousandSeparator={true}
-                                            suffix=' VNĐ'
-                                            renderText={(value, props) => <Typography {...props}>{value}</Typography>}
+                                        cardFee && cardFee.total
+                                        ? <NumberFormat 
+                                        value={cardFee.total}
+                                        variant="h4"
+                                        displayType={'text'}
+                                        thousandSeparator={true}
+                                        suffix=' VNĐ'
+                                        renderText={(value, props) => <Typography {...props}>{value}</Typography>}
                                         />
+                                        : <Typography variant="h4">0 VNĐ</Typography>
                                     }
                                     secondary={
                                         <Typography variant="subtitle2" className={styles.Secondary}>
