@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 // Init schema
 const managerSchema = new mongoose.Schema({
-    hoVaTen: {type: String, trim: true},
+    tenHienThi: {type: String, trim: true},
     diaChi: {type: String, trim: true},
     soDienThoai: {type: String, trim: true},
     donVi: {
