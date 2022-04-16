@@ -12,9 +12,10 @@ const managerSchema = new mongoose.Schema({
     chucVu: {type: String, trim: true}, // Bí thư đoàn trường
     email: {type: String, unique: [true, 'Email đã tồn tại'], trim: true, required: [true, 'Nhập email sinh viên']},
     image: {type: String},
-    googleId: {type: String, trim: true},
+    password: {type: String, trim: true},
     role: {type: String, trim: true}, // DOAN_KHOA, CTV_DOAN_TRUONG, DOAN_TRUONG
     trangThai: {type: Boolean, default: true}, // true, false (Đang dùng, tạm khóa)
+    kichHoatTaiKhoan: {type: Boolean, default: false}, // true, false (Chưa xác thực , Đã xác thực)
     createBy: {type: String},
     updateBy: {type: String}
 }, {timestamps: true})
