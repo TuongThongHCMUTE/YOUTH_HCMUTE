@@ -22,8 +22,6 @@ const priceListRoute = require('./routes/priceListRoute')
 const schoolYearRoute = require('./routes/schoolYearRoute')
 const studentRoute = require('./routes/studentRoute')
 
-const processData = require('./routes/processDataRoute')
-
 
 // Import error handler, must after Routers
 const {errorHandler} = require('./middleware/errorHandler')
@@ -42,8 +40,6 @@ app.use('/api/v1/managers/', managerRoute)
 app.use('/api/v1/price-lists', priceListRoute)
 app.use('/api/v1/school-years/', schoolYearRoute)
 app.use('/api/v1/students/', studentRoute)
-
-app.use('/api/v1/process-data', processData)
 
 app.get('/', (req, res, next) => {
     res.status(200).json({
