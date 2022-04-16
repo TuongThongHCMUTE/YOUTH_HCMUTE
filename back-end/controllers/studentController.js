@@ -33,9 +33,6 @@ exports.createOneStudent = async (req, res, next) => {
         console.log(req.body)
         
         const student = await Student.create({...req.body})
-                                        .populate('donVi', 'tenDonVi')
-                                        .populate('lopSV', 'tenLop nganhHoc')
-                                        .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
 
         res.status(200).json({
             status: 'success',
@@ -66,7 +63,7 @@ exports.getOneStudent = async (req, res, next) => {
 }
 
 // Get student info by maSoSV
-exports.getStudentInfo = async (req, res, next) => {
+exports.getStudentBarcode = async (req, res, next) => {
     try {
         const { maSoSV } = req.params
         const { maNamHoc } = req.query
@@ -126,6 +123,27 @@ exports.getStudentInfo = async (req, res, next) => {
     }
 }
 
+// Get student info for class
+exports.getStudentInfo = async (req, res, next) => {
+    try {
+        const { maSoSV } = req.params
+
+        const student = await Student.findOne({ maSoSV })
+                                        .populate('donVi', 'tenDonVi')
+                                        .populate('lopSV', 'tenLop')
+                                        .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                student
+            }
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
 // Update one student
 exports.updateOneStudent = async (req, res, next) => {
     try {

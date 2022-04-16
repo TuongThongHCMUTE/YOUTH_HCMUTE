@@ -6,7 +6,8 @@ exports.getAllClasses = async (req, res, next) => {
     try {
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
 
-        const classes = await Class.find(query).sort(sort).skip(skip).limit(limit);
+        const classes = await Class.find(query).sort(sort).skip(skip).limit(limit)
+                                        .populate('donVi', 'tenDonVi')
         const countAll = await Class.countDocuments(query)
         
         res.status(200).json({
@@ -44,6 +45,7 @@ exports.getOneClass = async (req, res, next) => {
         const { id } = req.params
 
         const a_class = await Class.findById(id)
+                                        .populate('donVi', 'tenDonVi')
 
         res.status(200).json({
             status: 'success',
@@ -61,6 +63,7 @@ exports.updateOneClass = async (req, res, next) => {
         const { id } = req.params
 
         const a_class = await Class.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
+                                        .populate('donVi', 'tenDonVi')
 
         res.status(200).json({
             status: 'success',
@@ -78,6 +81,7 @@ exports.deleteOneClass = async (req, res, next) => {
         const { id } = req.params
 
         const a_class = await Class.findByIdAndDelete(id)
+                                        .populate('donVi', 'tenDonVi')
 
         res.status(200).json({
             status: 'success',

@@ -7,7 +7,7 @@ import { url } from 'store/constant';
 export const getOneStudentByStudentId = (studentId) => {
     const option = {
         method: 'get',
-        url: `${url}/students/thong-tin-sinh-vien/${studentId}`,
+        url: `${url}/students/thong-tin-barcode/${studentId}`,
         params: { maNamHoc: '2021-2022'}
     }
 

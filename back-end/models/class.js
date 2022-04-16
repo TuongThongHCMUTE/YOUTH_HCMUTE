@@ -7,11 +7,15 @@ const classSchema = new mongoose.Schema({
     moTa: {type: String},
     donVi: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'DonVi'
+        ref: 'Faculty'
     },
     quanLy: [{
         chucVu: {type: String},
-        sinhVienId: {type: String}, // Id sinh viên
+        sinhVien: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Student'
+        }, // Id sinh viên
+        maSoSV: {type: String, trim: true},
         hoTen: {type: String}
     }],
     hienThi: {type: Boolean, default: true},
