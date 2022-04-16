@@ -15,6 +15,13 @@ exports.getQueryParameter = (req) => {
 
     const query = req.query ? req.query : '{}'
 
+    if (req.query.maSoSV) {
+        req.query.maSoSV = {
+            $regex: req.query.maSoSV,
+            $options: 'i'
+        }
+    }
+
     return {
         sort,
         limit,
