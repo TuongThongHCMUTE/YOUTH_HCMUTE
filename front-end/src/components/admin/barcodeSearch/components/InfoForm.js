@@ -197,7 +197,7 @@ const InfoForm = (props) => {
                                     >
                                         {[
                                             { _id: undefined, tenLop: 'Chọn lớp'}, 
-                                            ...classes?.filter(i => i.donVi === values?.donVi?._id)
+                                            ...classes?.filter(i => i.donVi._id === values?.donVi?._id)
                                         ].map((c) => (
                                             <MenuItem key={c._id} value={c._id}>{c.tenLop}</MenuItem>
                                         ))}
