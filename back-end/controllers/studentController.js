@@ -33,9 +33,6 @@ exports.createOneStudent = async (req, res, next) => {
         console.log(req.body)
         
         const student = await Student.create({...req.body})
-                                        .populate('donVi', 'tenDonVi')
-                                        .populate('lopSV', 'tenLop nganhHoc')
-                                        .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
 
         res.status(200).json({
             status: 'success',
