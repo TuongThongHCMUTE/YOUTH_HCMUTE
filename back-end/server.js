@@ -17,9 +17,12 @@ const authRoute = require('./routes/authRoute')
 const billRoute = require('./routes/billRoute')
 const classRoute = require('./routes/classRoute')
 const facultyRoute = require('./routes/facultyRoute')
+const managerRoute = require('./routes/managerRoute')
 const priceListRoute = require('./routes/priceListRoute')
 const schoolYearRoute = require('./routes/schoolYearRoute')
 const studentRoute = require('./routes/studentRoute')
+
+const processData = require('./routes/processDataRoute')
 
 
 // Import error handler, must after Routers
@@ -35,9 +38,12 @@ app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/bills/', billRoute)
 app.use('/api/v1/classes/', classRoute)
 app.use('/api/v1/faculties/', facultyRoute)
+app.use('/api/v1/managers/', managerRoute)
 app.use('/api/v1/price-lists', priceListRoute)
 app.use('/api/v1/school-years/', schoolYearRoute)
 app.use('/api/v1/students/', studentRoute)
+
+app.use('/api/v1/process-data', processData)
 
 app.get('/', (req, res, next) => {
     res.status(200).json({
