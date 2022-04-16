@@ -5,6 +5,8 @@ export const appDrawerWidth = 320;
 
 // server
 export const url = 'https://dev-youthhcmute-be.herokuapp.com/api/v1';
+// export const url = 'http://localhost:5000/api/v1';
+
 
 // student
 export const bookStatuses = [
@@ -17,4 +19,5 @@ export const studentStatuses = [
     { value: 'DOAN_VIEN', displayName: 'Đoàn viên' },
     { value: 'SINH_VIEN', displayName: 'Sinh viên' }
 ]
+
 

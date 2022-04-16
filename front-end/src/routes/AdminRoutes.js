@@ -22,7 +22,8 @@ const AdminRoutes = {
         },
         {
             path: '/dashboard/default',
-            element: <DashboardDefault />
+            // element: <DashboardDefault />
+            element: <div></div>
         },
         {
             path: '/barcode',
@@ -31,7 +32,27 @@ const AdminRoutes = {
         {
             path: '/barcode/thong-ke',
             element: <BarcodeStatistic />
-        }
+        },
+        {
+            path: '/ho-so',
+            // element: <DashboardDefault />
+            element: <div></div>
+        },
+        {
+            path: '/chi-doan',
+            // element: <DashboardDefault />
+            element: <div></div>
+        },
+        {
+            path: '/users',
+            // element: <DashboardDefault />
+            element: <div></div>
+        },
+        {
+            path: '/system-config',
+            // element: <DashboardDefault />
+            element: <div></div>
+        },
     ]
 };
 
