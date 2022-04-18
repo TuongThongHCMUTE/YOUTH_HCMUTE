@@ -196,6 +196,44 @@ exports.checkOutBill = async (req, res, next) => {
     }
 }
 
+// Cancel Bill Payment
+exports.cancelPayment = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const huySoDoan = req.query.huySoDoan == 'true' ? true : false
+
+        const bill = await Bill.findByIdAndUpdate(id,
+            {
+                trangThai: false,
+                ngayThanhToan: null
+            }
+            , {new: true, runValidators: true})
+                                    .populate('sinhVien','ho ten')
+                                    .populate('donVi', 'tenDonVi')
+
+        if (huySoDoan) {
+            await GroupBook.findOneAndDelete({maSoSV: bill.maSoSV})
+            await Student.findOneAndUpdate({maSoSV: bill.maSoSV},
+                {
+                    'thongTinDoanVien.trangThaiSoDoan': null,
+                    'thongTinDoanVien.soDoan': null
+                },
+                {new: true, runValidators: true}
+            )
+        }
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                bill
+            }
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
 // Delete one Bill
 exports.deleteOneBill = async (req, res, next) => {
     try {
