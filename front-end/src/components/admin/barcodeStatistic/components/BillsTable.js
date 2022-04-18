@@ -219,7 +219,7 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                     </TableContainer>
                     <Box sx={{ p: 3, display: 'flex', justifyContent: 'center' }}>
                         <Pagination 
-                            count={(totalRecords / 10).toFixed()} 
+                            count={Math.ceil(totalRecords / 10)} 
                             page={page + 1} 
                             onChange={handleChangePage} 
                         />
