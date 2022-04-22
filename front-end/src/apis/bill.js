@@ -6,11 +6,15 @@ import moment from "moment";
 import { url } from 'store/constant';
 
 export const getAllBills = (args) => {
-    const { limit, offset, sortBy, isDescending, faculty, status, date } = args;
+    const { limit, offset, sortBy, isDescending, studentId, faculty, status, date } = args;
 
     const params = {
         startDate: moment(date[0]).startOf('day').toDate(),
         endDate: moment(date[1]).endOf('day').toDate()
+    }
+
+    if (studentId !== '') {
+        params.maSoSV = studentId;
     }
 
     if (faculty && faculty !== 'all') {
@@ -65,10 +69,14 @@ export const checkOutBill = (billId) => {
     return axios(option);
 }
 
-export const getBillStatistic = ({ faculty, status, date }) => {
+export const getBillStatistic = ({ studentId, faculty, status, date }) => {
     const params = {
         startDate: moment(date[0]).startOf('day').toDate(),
         endDate: moment(date[1]).endOf('day').toDate()
+    }
+
+    if (studentId !== '') {
+        params.maSoSV = studentId;
     }
 
     if (faculty && faculty !== 'all') {

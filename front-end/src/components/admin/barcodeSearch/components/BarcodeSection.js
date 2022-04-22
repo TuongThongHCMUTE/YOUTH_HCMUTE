@@ -2,10 +2,8 @@
 import React, { useRef } from 'react'
 import Barcode from 'react-barcode'
 import { useReactToPrint } from 'react-to-print'
-
 // Styles ================================================================== //
 import styles from './BarcodeSection.module.css';
-
 // Material UI ============================================================= //
 import {  Button } from '@mui/material';
 import PrintIcon from '@mui/icons-material/Print';
