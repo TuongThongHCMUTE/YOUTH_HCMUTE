@@ -17,12 +17,15 @@ import {
 } from '@mui/material';
 import DateAdapter from '@mui/lab/AdapterMoment';
 import { LocalizationProvider, DatePicker} from '@mui/lab';
+// My components =========================================================== //
+import { ConfirmationModal } from 'components/common/modal';
 
 // =============================|| BILL FORM ||============================= //
 const BillForm = (props) => {
     const { onCheckOut, newBill } = props;
 
     const [bill, setBill] = useState(props.bill);
+    const [showConfirmation, setShowConfirmation] = useState(false);
 
     // Update state whenever bill prop changes
     useEffect(() => {
@@ -55,7 +58,6 @@ const BillForm = (props) => {
         const total = fees.reduce((sum, i) => sum + i.thanhTien, 0);
         return total;
     }
-
 
     // This function is triggered when user makes an update on bill
     // Some actions: change start/end date, fill number, check/uncheck option
@@ -100,7 +102,7 @@ const BillForm = (props) => {
         }));
     }
 
-    // This function is triggered when user click on 'Xuất hóa đơn' button
+    // This function is triggered when user confirm to checkout
     const handleCheckOut = async () => {
         try {
             // If the bill has not created yet => create new bill
@@ -141,11 +143,17 @@ const BillForm = (props) => {
                     <p>{bill?.tongTien}đ</p>
                 </div>
             </div>
+            <ConfirmationModal
+                visible={showConfirmation}
+                message="Bạn chắc chắn thanh toán hóa đơn này? Thao tác sẽ cập nhật lại thông tin hóa đơn của sinh viên trên hệ thống"
+                onConfirm={() => handleCheckOut().then(setShowConfirmation(false))}
+                onCancel={() => setShowConfirmation(false)}
+            />
             <div className={styles.CheckOut}>
                 <Button 
                     variant='contained'
                     className='button'
-                    onClick={handleCheckOut}
+                    onClick={() => setShowConfirmation(true)}
                 >
                     XUẤT HÓA ĐƠN
                 </Button>
