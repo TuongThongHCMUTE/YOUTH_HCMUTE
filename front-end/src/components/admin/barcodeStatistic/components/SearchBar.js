@@ -15,12 +15,6 @@ import {
 } from '@mui/material';
 import DateAdapter from '@mui/lab/AdapterMoment';
 import { LocalizationProvider, DateRangePicker} from '@mui/lab';
-// Constants =============================================================== //
-const billStatuses = [
-  { display: 'Tất cả', value: 'all'},
-  { display: 'Đã thanh toán', value: true },
-  { display: 'Chưa thanh toán', value: false},
-]
 
 // ============================|| SEARCH BAR ||============================= //
 const SearchBar = (props) => {
@@ -31,6 +25,16 @@ const SearchBar = (props) => {
         <Grid item xs={2}><h1 className={styles.Title}>Bộ lọc</h1></Grid>
         <Grid item xs={10} className={styles.SearchArea}>
           <Grid container>
+            <Grid item xs={1.5}>
+              <TextField
+                variant='outlined'
+                size='small'
+                label='MSSV'
+                value={searchValues.studentId}
+                onChange={e => onChange("studentId", e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={0.5} className={styles.Divider}></Grid>
             <Grid item xs={3}>
               <FormControl fullWidth variant='outlined' size='small' className='text-field'>
                   <InputLabel id="faculty-group">Khoa</InputLabel>
@@ -71,25 +75,6 @@ const SearchBar = (props) => {
                   )}
                 />
               </LocalizationProvider>
-            </Grid>
-            <Grid item xs={0.5} className={styles.Divider}></Grid>
-            <Grid item xs={1.5}>
-              <FormControl fullWidth variant='outlined' size='small' className='text-field'>
-                  <InputLabel id="status-group">Trạng thái</InputLabel>
-                  <Select
-                      name='billStatuses.value'
-                      labelId="status-group"
-                      id="input-status"
-                      value={searchValues.status}
-                      defaultValue={true}
-                      label="Khoa"
-                      onChange={e => onChange("status", e.target.value)}
-                  >
-                      {billStatuses.map((i) => (
-                          <MenuItem key={i.value} value={i.value}>{i.display}</MenuItem>
-                      ))}
-                  </Select>
-              </FormControl>
             </Grid>
             <Grid item xs={0.5} className={styles.Divider}></Grid>
             <Grid item xs={1} className={styles.ButtonContainer}>

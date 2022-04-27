@@ -22,6 +22,13 @@ exports.getQueryParameter = (req) => {
         }
     }
 
+    if (req.query.tenLop) {
+        req.query.tenLop = {
+            $regex: req.query.tenLop,
+            $options: 'i'
+        }
+    }
+
     return {
         sort,
         limit,

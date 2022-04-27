@@ -4,8 +4,6 @@ import React, { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
-// dashboard routing
-// dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 const Barcode = Loadable(lazy(() => import('components/admin/barcodeSearch')));
 const BarcodeStatistic = Loadable(lazy(() => import('components/admin/barcodeStatistic')));
@@ -17,13 +15,13 @@ const AdminRoutes = {
     element: <MainLayout />,
     children: [
         {
-            path: '/',
-            element: <Barcode />
-        },
-        {
             path: '/dashboard/default',
             // element: <DashboardDefault />
             element: <div></div>
+        },
+        {
+            path: '/',
+            element: <Barcode />
         },
         {
             path: '/barcode',

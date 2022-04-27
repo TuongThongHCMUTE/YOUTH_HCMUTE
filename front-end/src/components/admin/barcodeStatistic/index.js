@@ -20,6 +20,7 @@ const BarcodeStatistic = () => {
   const defaultSearchValues = {
     faculty: 'all',
     status: 'true',
+    studentId: '',
     date: [moment().startOf('month'), moment().endOf('month')]
   }
 
