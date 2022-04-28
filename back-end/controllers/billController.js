@@ -39,13 +39,15 @@ exports.getAllBills = async (req, res, next) => {
 
 exports.getKPIValuesByCheckoutDate = async (req, res, next) => {
     try {
-        const startDate = new Date(req.query.startDate)
-        delete req.query.startDate
-        const endDate = new Date(req.query.endDate)
-        delete req.query.endDate
+        const { query } = Common.getQueryParameter(req)
+
+        const startDate = new Date(query.startDate)
+        delete query.startDate
+        const endDate = new Date(query.endDate)
+        delete query.endDate
 
         const bills = await Bill.find({
-            ...req.query,
+            ...query,
             ngayThanhToan: {
                 $gte: startDate, 
                 $lte: endDate 
