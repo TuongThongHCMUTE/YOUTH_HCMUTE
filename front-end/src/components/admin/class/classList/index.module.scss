@@ -1,0 +1,28 @@
+.TableSection {
+    padding: 32px;
+
+    .TableTitle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .Left {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            .Title {
+                font-size: 24px;
+                margin: 24px 0;
+            }
+
+            .TotalRecord {
+                font-size: 16px;
+                position: relative;
+                top: 4px;
+                margin-left: 48px;
+            }
+        }
+
+    }
+}
