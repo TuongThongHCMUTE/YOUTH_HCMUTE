@@ -13,3 +13,12 @@ export const getAllFaculties = () => {
 
     return axios(option)
 }
+
+export const getFacultyById = (id) => {
+    const option = {
+        method: 'get',
+        url: `${url}/faculties/${id}`,
+    }
+
+    return axios(option)
+}

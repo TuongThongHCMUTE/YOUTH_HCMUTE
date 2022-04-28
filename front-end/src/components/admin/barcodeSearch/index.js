@@ -43,7 +43,7 @@ const BarcodePage = () => {
 
     useEffect(async () => {
         try {
-            const res = await getAllClasses();
+            const res = await getAllClasses({});
 
             if (res.data.status === 'success') {
                 setClasses(res.data.data.classes);
