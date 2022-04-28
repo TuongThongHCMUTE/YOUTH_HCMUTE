@@ -4,6 +4,16 @@ import axios from "axios";
 // Constants =============================================================== //
 import { url } from 'store/constant';
 
+export const getListStudentsByStudentId = (id) => {
+    const option = {
+        method: 'get',
+        url: `${url}/students`,
+        params: { maSoSV: id }
+    }
+
+    return axios(option);
+}
+
 export const getOneStudentByStudentId = (studentId) => {
     const option = {
         method: 'get',
@@ -11,7 +21,7 @@ export const getOneStudentByStudentId = (studentId) => {
         params: { maNamHoc: '2021-2022'}
     }
 
-    return axios(option)
+    return axios(option);
 }
 
 export const updateOneStudent = ({ googleId, ...student }) => {

@@ -7,6 +7,8 @@ import Loadable from 'ui-component/Loadable';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 const Barcode = Loadable(lazy(() => import('components/admin/barcodeSearch')));
 const BarcodeStatistic = Loadable(lazy(() => import('components/admin/barcodeStatistic')));
+const ClassList = Loadable(lazy(() => import('components/admin/class/classList')));
+const ClassDetail = Loadable(lazy(() => import('components/admin/class/classDetail')));
 
 // ===========================|| ADMIN ROUTING ||=========================== //
 
@@ -38,8 +40,11 @@ const AdminRoutes = {
         },
         {
             path: '/chi-doan',
-            // element: <DashboardDefault />
-            element: <div></div>
+            element: <ClassList />
+        },
+        {
+            path: '/chi-doan/:id',
+            element: <ClassDetail />
         },
         {
             path: '/users',
