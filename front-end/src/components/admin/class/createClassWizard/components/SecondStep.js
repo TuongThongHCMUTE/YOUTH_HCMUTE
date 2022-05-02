@@ -11,6 +11,7 @@ import {
     Button,
     IconButton,
     Input,
+    LinearProgress,
     Typography,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -208,6 +209,9 @@ const SecondStep = (props) => {
                         <h4>Kết quả tìm kiếm</h4>
                         <div className={styles.Divider} />
                     </div>
+                    {searching && <Box sx={{ width: '100%' }}>
+                        <LinearProgress color='success' />
+                    </Box>}
                     <div className={styles.ResultBody}>
                         { students.map(i => searchedItem(i)) }
                     </div>
