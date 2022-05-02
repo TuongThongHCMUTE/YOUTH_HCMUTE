@@ -1,6 +1,9 @@
 // Node Modules ============================================================ //
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
+// APIs ==================================================================== //
+import { updateClass } from 'apis/class';
 // Constants =============================================================== //
 import { DEFAULT_LIMIT } from 'helpers/constants/class';
 // Material UI ============================================================= //
@@ -20,6 +23,7 @@ import {
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 // Components ============================================================== //
 import BorderTopCard from 'ui-component/cards/BorderTopCard';
 
@@ -28,11 +32,12 @@ function createData(studentClass) {
     const name = studentClass.tenLop;
     const faculty = studentClass.donVi?.tenDonVi;
     const major = studentClass.nganhHoc;
-    const status = studentClass.hienThi ? "Hiển thị" : "Bị khóa";
+    const status = studentClass.hienThi;
     const secretary = studentClass.quanLy.filter(i => i.chucVu === 'BI_THU')[0];
     const deputySecretary = studentClass.quanLy.filter(i => i.chucVu === 'PHO_BI_THU')[0];
+    const createdAt = studentClass.createdAt;
 
-    return { id, name, faculty, status, major, secretary, deputySecretary};
+    return { id, name, faculty, status, major, secretary, deputySecretary, createdAt};
 }
 
 const headCells = [
@@ -49,6 +54,12 @@ const headCells = [
         label: 'Đơn vị',
     },
     {
+        id: 'major',
+        numeric: false,
+        disablePadding: false,
+        label: 'Ngành học',
+    },
+    {
         id: 'secretary',
         numeric: false,
         disablePadding: false,
@@ -61,16 +72,16 @@ const headCells = [
         label: 'Phó Bí thư',
     },
     {
-        id: 'status',
+        id: 'createdAt',
         numeric: false,
         disablePadding: false,
-        label: 'Trạng thái',
+        label: 'Ngày tạo',
     },
     {
-        id: 'actions',
+        id: 'status',
         numeric: true,
         disablePadding: false,
-        label: 'Actions',
+        label: 'Trạng thái',
     },
 ];
 
@@ -159,6 +170,17 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
 
     };
 
+    const handleChangeStatus = async (id, status) => {
+        try {
+            const res = await updateClass({ _id: id, hienThi: status });
+            if (res.data.status === 'success') {
+                onRefetch();
+            }
+        } catch (err) {
+            alert(err);
+        }
+    }
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage - 1);
     };
@@ -177,7 +199,7 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                     <Table
                         sx={{ minWidth: 750 }}
                         aria-labelledby="tableTitle"
-                        size={'medium'}
+                        size={'small'}
                     >
                         <EnhancedTableHead
                             order={order}
@@ -198,14 +220,15 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                                 >
                                     <TableCell padding="8px">{row.name}</TableCell>
                                     <TableCell align="left">{row.faculty}</TableCell>
+                                    <TableCell align="left">{row.major}</TableCell>
                                     <TableCell align="left">{row.secretary?.hoTen}</TableCell>
                                     <TableCell align="left">{row.deputySecretary?.hoTen}</TableCell>
-                                    <TableCell align="left">{row.status}</TableCell>
+                                    <TableCell align="left">{moment(row.createdAt).format('DD/MM/YYYY hh:mm A')}</TableCell>
                                     <TableCell align="right">
                                         <IconButton 
-                                            onClick={() => {}}
+                                            onClick={() => handleChangeStatus(row.id, !row.status)}
                                         >
-                                            <LockIcon />
+                                            {row.status ? <LockOpenIcon color='success' /> : <LockIcon />}
                                         </IconButton>
                                     </TableCell>
                                 </TableRow>

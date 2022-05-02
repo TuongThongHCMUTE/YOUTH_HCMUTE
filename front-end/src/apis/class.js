@@ -50,3 +50,13 @@ export const createClass = (classObject) => {
   
     return axios(option);
 }
+
+export const updateClass = (classObject) => {
+    const option = {
+        method: "put",
+        url: `${url}/classes/${classObject._id}`,
+        data: classObject
+    }
+  
+    return axios(option);
+}
