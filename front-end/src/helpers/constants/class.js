@@ -1,4 +1,4 @@
-export const DEFAULT_LIMIT = 20;
+export const DEFAULT_LIMIT = 10;
 
 export const UNION_POSITIONS = [
     {
