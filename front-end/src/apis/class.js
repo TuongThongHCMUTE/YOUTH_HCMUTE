@@ -35,6 +35,15 @@ export const getAllClasses = (args) => {
     return axios(option)
 }
 
+export const getAClassById = (id) => {
+    const option = {
+        method: "get",
+        url: `${url}/classes/${id}`,
+    }
+  
+    return axios(option);
+}
+
 export const createClass = (classObject) => {
     const sendData = {};
     sendData.tenLop = classObject.name;
