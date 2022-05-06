@@ -7,9 +7,10 @@ exports.verifyToken = (req, res, next) => {
         
         if (!Authorization) {
             // Error Unauthorized
-            const err = new Error('Please authenticate')
-            err.statusCode = 401
-            return next(err)
+            res.status(401).json({
+                status: 'fail',
+                error: 'Vui lòng đăng nhập'
+            })
         }
     
         // Get token
@@ -21,6 +22,9 @@ exports.verifyToken = (req, res, next) => {
         req.user = {userId, userEmail, userRole}
         next() 
     } catch (e) {
-        res.status(401).json({error: 'Please authenticate'})
+        res.status(401).json({
+            status: 'fail',
+            message: 'Phiên đăng nhập đã hết'
+        })
     }
 }
