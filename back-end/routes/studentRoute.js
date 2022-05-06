@@ -1,17 +1,18 @@
 const express = require('express')
 
+const { verifyToken } = require('../middleware/verifyToken')
 const { getAllStudents, createOneStudent, getOneStudent, getStudentBarcode, getStudentInfo,
         updateOneStudent, deleteOneStudent}
     = require('../controllers/studentController')
 
 const Router = express.Router()
 
-Router.route('/').get(getAllStudents).post(createOneStudent)
+Router.route('/').get(verifyToken, getAllStudents).post(verifyToken, createOneStudent)
 
-Router.route('/thong-tin-barcode/:maSoSV').get(getStudentBarcode)
+Router.route('/thong-tin-barcode/:maSoSV').get(verifyToken, getStudentBarcode)
 
-Router.route('/thong-tin/:maSoSV').get(getStudentInfo)
+Router.route('/thong-tin/:maSoSV').get(verifyToken, getStudentInfo)
 
-Router.route('/:id').get(getOneStudent).put(updateOneStudent).delete(deleteOneStudent)
+Router.route('/:id').get(verifyToken, getOneStudent).put(verifyToken, updateOneStudent).delete(verifyToken, deleteOneStudent)
 
 module.exports = Router
