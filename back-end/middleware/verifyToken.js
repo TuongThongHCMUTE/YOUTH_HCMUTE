@@ -24,7 +24,7 @@ exports.verifyToken = (req, res, next) => {
     } catch (e) {
         res.status(401).json({
             status: 'fail',
-            message: 'Phiên đăng nhập đã hết'
+            message: 'Hết phiên đăng nhập'
         })
     }
 }
