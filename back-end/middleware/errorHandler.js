@@ -1,11 +1,13 @@
-exports.errorHandler = (err, req, res, test) => {
+const mappingFields = require('../common/mappingFields')
+
+exports.errorHandler = (err, req, res) => {
     err.statusCode = err.statusCode || 500
 
     // Duplication
     if (err.code === 11000) {
         err.statusCode = 400
         for (let p in err.keyValue) {
-            err.message = `${p} have to be unique`
+            err.message = `${mappingFields[p] ? mappingFields[p] : p} đã tồn tại`
         }
     }
 
