@@ -227,11 +227,11 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                                     tabIndex={-1}
                                     key={row.id}
                                 >
-                                    <TableCell padding="8px">{row.name}</TableCell>
+                                    <TableCell padding="8px" sx={{ color: "#000"}}><b>{row.name}</b></TableCell>
                                     <TableCell align="left">{row.faculty}</TableCell>
                                     <TableCell align="left">{row.major}</TableCell>
-                                    <TableCell align="left">{row.secretary?.hoTen}</TableCell>
-                                    <TableCell align="left">{row.deputySecretary?.hoTen}</TableCell>
+                                    <TableCell align="left"><b>{row.secretary?.hoTen}</b></TableCell>
+                                    <TableCell align="left"><b>{row.deputySecretary?.hoTen}</b></TableCell>
                                     <TableCell align="left">{moment(row.createdAt).format('DD/MM/YYYY hh:mm A')}</TableCell>
                                     <TableCell align="right">
                                         <IconButton 

@@ -5,6 +5,8 @@ import clsx from 'clsx';
 import styles from '../index.module.scss';
 // APIs ==================================================================== //
 import { getListStudentsByStudentId } from 'apis/student';
+// Helpers ================================================================= //
+import { addManager, removeManager } from 'helpers/class';
 // Material UI ============================================================= //
 import { 
     Box, 
@@ -51,32 +53,6 @@ const SecondStep = (props) => {
         }
     }
 
-    const addManager = (student, position) => {
-        let newManagers = managers;
-        const index = managers.findIndex(i => i.chucVu === position);
-
-        if (index !== -1) {
-            newManagers[index] = {
-                chucVu: position,
-                maSoSV: student.maSoSV,
-                hoTen: student.ho + ' ' + student.ten,
-                sinhVien: student
-            }
-        } else {
-            newManagers = [
-                ...newManagers,
-                {
-                    chucVu: position,
-                    maSoSV: student.maSoSV,
-                    hoTen: student.ho + ' ' + student.ten,
-                    sinhVien: student
-                }
-            ]
-        }
-
-        setManagers([...newManagers]);
-    };
-
     const handleBack = () => {
         setStudentClass(prev => ({
             ...prev,
@@ -106,12 +82,12 @@ const SecondStep = (props) => {
                     <div className={styles.Positions}>
                         <div 
                             className={styles.Secretary}
-                            onClick={() => addManager(student, 'BI_THU')}
+                            onClick={() => setManagers(prev => addManager(prev, student, 'BI_THU'))}
                         >
                             Bí thư</div>
                         <div 
                             className={styles.DeputySecretary}
-                            onClick={() => addManager(student, 'PHO_BI_THU')}
+                            onClick={() => setManagers(prev => addManager(prev, student, 'PHO_BI_THU'))}
                         >
                             P. Bí thư
                         </div>
@@ -133,19 +109,25 @@ const SecondStep = (props) => {
                             <div className={styles.DeputySecretary}>P. Bí thư</div>
                         }
                     </div>
-                    <h6 className={styles.StudentId}>21100000</h6>
+                    <h6 className={styles.StudentId}>{manager.maSoSV}</h6>
                 </div>
                 <div className={styles.Contact}>
                     <div className={styles.Phone}>
                         <h5>Phone</h5>
-                        <h6>0123456789</h6>
+                        <h6>{manager.sinhVien.soDienThoai}</h6>
                     </div>
                     <div className={styles.Email}>
                         <h5>Email</h5>
-                        <h6>2110000@student.hcmute.edu.vn</h6>
+                        <h6>{manager.sinhVien.email}</h6>
                     </div>
                 </div>
-                <IconButton className={styles.RemoveButton} color='error'><DeleteIcon /></IconButton>
+                <IconButton 
+                    className={styles.RemoveButton} 
+                    color='error'
+                    onClick={() => setManagers(prev => removeManager(prev, manager.maSoSV))}
+                >
+                    <DeleteIcon />
+                </IconButton>
             </div>
         )
     }

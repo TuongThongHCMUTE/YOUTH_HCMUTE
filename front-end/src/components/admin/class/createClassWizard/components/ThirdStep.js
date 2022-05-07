@@ -40,19 +40,20 @@ const ThirdStep = (props) => {
         try {
             const res = await createClass(studentClass);
             if (res.data.status === 'success') {
-                setCreating(false);
+                // setCreating(false);
                 setSuccess(true);
                 onRefetch();
             } else {
                 // log error
-                setCreating(false);
+                // setCreating(false);
                 setSuccess(false);
             }
         } catch (err) {
-            alert(err);
-            console.log(err)
-            setCreating(false);
+            console.log(err.response.data.message)
+            // setCreating(false);
             setSuccess(false);
+        } finally {
+            setCreating(false);
         }
     }
 

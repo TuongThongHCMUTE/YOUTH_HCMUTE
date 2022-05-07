@@ -73,12 +73,12 @@ const ClassList = () => {
     return (
         <>
             <SearchBar 
-            faculties={faculties} 
-            searchValues={searchValues} 
-            onChange={(field, value) => handleChange(field, value)}
-            onSearch={(values) => {
-                getClasses({ ...values, limit: DEFAULT_LIMIT });
-            }}
+                faculties={faculties} 
+                searchValues={searchValues} 
+                onChange={(field, value) => handleChange(field, value)}
+                onSearch={(values) => {
+                    getClasses({ ...values, limit: DEFAULT_LIMIT });
+                }}
             />
             <Box className={styles.TableSection}>
                 <Box className={styles.TableTitle}>

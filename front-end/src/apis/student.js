@@ -4,6 +4,15 @@ import axios from "axios";
 // Constants =============================================================== //
 import { url } from 'store/constant';
 
+export const getOneStudentById = (id) => {
+    const option = {
+        method: 'get',
+        url: `${url}/students/${id}`,
+    }
+
+    return axios(option);
+}
+
 export const getListStudentsByStudentId = (id) => {
     const option = {
         method: 'get',
