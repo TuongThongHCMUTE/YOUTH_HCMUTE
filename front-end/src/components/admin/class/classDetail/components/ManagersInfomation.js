@@ -23,6 +23,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 // My Components =========================================================== //
 import CircularLoading from 'components/common/loading/CircularLoading';
+import SnackBar from 'components/common/alert/Snackbar';
 
 const ManagersInfomation = (props) => {
     const { data } = props;
@@ -34,6 +35,7 @@ const ManagersInfomation = (props) => {
     const [loadingManagers, setLoadingManagers] = useState(false)
     const [searching, setSearching] = useState(false);
     const [updating, setUpdating] = useState(false);
+    const [alert, setAlert] = useState(null);
 
     useEffect(async() => {
         const managers = data?.quanLy;
@@ -90,10 +92,17 @@ const ManagersInfomation = (props) => {
             const res = await updateClass({ _id: data?._id, quanLy: managers });
 
             if (res.data.status === 'success') {
-
+                setAlert({
+                    severity: 'success',
+                    message: 'Cập nhật thông tin thành công!'
+                });
             }
         } catch (error) {
             console.error("error: ", error.response.data.message);
+            setAlert({
+                severity: 'error',
+                message: error.response.data.message
+            });
         } finally {
             setUpdating(false);
         }
@@ -163,72 +172,81 @@ const ManagersInfomation = (props) => {
     }
 
     return (
-        <Grid container>
-            <Grid item xs={5.5} className={styles.Left}>
-            {   loading || loadingManagers ?
-                <CircularLoading /> : 
-                <>
-                    <div className={styles.Info}>
-                        {   managers.length ? 
-                            managers.map(i => managerItem(i)) : 
-                            <Typography variant='h3' component='div' className={styles.NoInfo}> 
-                                Chưa có dữ liệu
-                            </Typography> }
-                    </div>
-                    <div className={styles.Actions}>
-                        <LoadingButton
-                            type='submit'
-                            variant='contained'
-                            className={clsx('button', styles.Button)}
-                            loading={updating}
-                            onClick={() => handleSubmit()}
+        <>
+            <Grid container>
+                <Grid item xs={5.5} className={styles.Left}>
+                {   loading || loadingManagers ?
+                    <CircularLoading /> : 
+                    <>
+                        <div className={styles.Info}>
+                            {   managers.length ? 
+                                managers.map(i => managerItem(i)) : 
+                                <Typography variant='h3' component='div' className={styles.NoInfo}> 
+                                    Chưa có dữ liệu
+                                </Typography> }
+                        </div>
+                        <div className={styles.Actions}>
+                            <LoadingButton
+                                type='submit'
+                                variant='contained'
+                                className={clsx('button', styles.Button)}
+                                loading={updating}
+                                onClick={() => handleSubmit()}
+                            >
+                                Lưu lại
+                            </LoadingButton>
+                        </div>
+                    </>
+                }
+                </Grid>
+                <Grid item xs={6.5} className={styles.Right}>
+                    <div className={styles.Search}>
+                        <Input 
+                            className={styles.SearchTextField} 
+                            placeholder='Nhập MSSV'
+                            value={searchValue}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            onKeyPress={(e) => { 
+                                if(e.key === "Enter") {
+                                    searchStudents();
+                                }
+                            }}
+                        />
+                        <Button 
+                            variant="contained"
+                            className={styles.SearchButton}
+                            onClick={searchStudents}
                         >
-                            Lưu lại
-                        </LoadingButton>
+                            <SearchIcon />
+                        </Button>
                     </div>
-                </>
-            }
-            </Grid>
-            <Grid item xs={6.5} className={styles.Right}>
-                <div className={styles.Search}>
-                    <Input 
-                        className={styles.SearchTextField} 
-                        placeholder='Nhập MSSV'
-                        value={searchValue}
-                        onChange={(e) => setSearchValue(e.target.value)}
-                        onKeyPress={(e) => { 
-                            if(e.key === "Enter") {
-                                searchStudents();
+                    <div className={styles.SearchResults}>
+                        <div className={styles.ResultHeader}>
+                            <div className={styles.TopBorder} />
+                            <h4>Kết quả tìm kiếm</h4>
+                            <div className={styles.Divider} />
+                        </div>
+                        {searching && <Box sx={{ width: '100%' }}>
+                            <LinearProgress color='success' />
+                        </Box>}
+                        <div className={styles.ResultBody}>
+                            {   
+                                students && students.length > 0
+                                ? students.map(i => searchedItem(i)) 
+                                : <h3 className={styles.NoResults}>Không có kết quả để hiển thị</h3>
                             }
-                        }}
-                    />
-                    <Button 
-                        variant="contained"
-                        className={styles.SearchButton}
-                        onClick={searchStudents}
-                    >
-                        <SearchIcon />
-                    </Button>
-                </div>
-                <div className={styles.SearchResults}>
-                    <div className={styles.ResultHeader}>
-                        <div className={styles.TopBorder} />
-                        <h4>Kết quả tìm kiếm</h4>
-                        <div className={styles.Divider} />
+                        </div>
                     </div>
-                    {searching && <Box sx={{ width: '100%' }}>
-                        <LinearProgress color='success' />
-                    </Box>}
-                    <div className={styles.ResultBody}>
-                        {   
-                            students && students.length > 0
-                            ? students.map(i => searchedItem(i)) 
-                            : <h3 className={styles.NoResults}>Không có kết quả để hiển thị</h3>
-                        }
-                    </div>
-                </div>
+                </Grid>
             </Grid>
-        </Grid>
+            {alert && 
+                <SnackBar 
+                    message={alert.message}
+                    severity={alert.severity}
+                    onClose={() => setAlert(null)}
+                />
+            }
+        </>
     )
 }
 
