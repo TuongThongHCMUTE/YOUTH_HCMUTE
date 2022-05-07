@@ -354,6 +354,12 @@
                 }
             }
 
+            .ErrorHeader {
+                .Icon {
+                    color: #EC1F25 !important;
+                }
+            }
+
             .Body {
                 display: flex;
                 flex-direction: column;
@@ -373,6 +379,10 @@
                     align-items: center;
                     justify-content: space-between;
                     margin: 4px 0;
+                }
+
+                .ErrorMessage {
+                    text-align: center;
                 }
             }
 
