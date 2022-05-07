@@ -1,0 +1,13 @@
+.Form {
+    padding: 16px 0;
+
+    .TextField {
+        margin-bottom: 32px;
+    }
+
+    .Actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+}

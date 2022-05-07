@@ -1,5 +1,6 @@
 // Node Modules ============================================================ //
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 // APIs ==================================================================== //
@@ -90,7 +91,7 @@ const mapOrderBy = field => {
         case 'name':
             return 'tenLop';
         case 'status':
-            return 'trangThai';
+            return 'hienThi';
         case 'major':
             return 'nganhHoc';
         default:
@@ -147,9 +148,11 @@ EnhancedTableHead.propTypes = {
 
 // ============================|| BILLS TABLE ||============================ //
 export default function EnhancedTable({ data, totalRecords, loading, onRefetch }) {
-    const [order, setOrder] = useState('desc');
-    const [orderBy, setOrderBy] = useState('date');
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('name');
     const [page, setPage] = useState(0);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         onRefetch({
@@ -167,14 +170,20 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
     };
 
     const handleClick = (event, id) => {
-
+        navigate(`/chi-doan/${id}`);
     };
 
-    const handleChangeStatus = async (id, status) => {
+    const handleChangeStatus = async (event, id, status) => {
+        event.stopPropagation();
         try {
             const res = await updateClass({ _id: id, hienThi: status });
             if (res.data.status === 'success') {
-                onRefetch();
+                onRefetch({
+                    limit: DEFAULT_LIMIT,
+                    offset: page,
+                    sortBy: mapOrderBy(orderBy),
+                    isDescending: order === 'desc'
+                });
             }
         } catch (err) {
             alert(err);
@@ -218,15 +227,15 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                                     tabIndex={-1}
                                     key={row.id}
                                 >
-                                    <TableCell padding="8px">{row.name}</TableCell>
+                                    <TableCell padding="8px" sx={{ color: "#000"}}><b>{row.name}</b></TableCell>
                                     <TableCell align="left">{row.faculty}</TableCell>
                                     <TableCell align="left">{row.major}</TableCell>
-                                    <TableCell align="left">{row.secretary?.hoTen}</TableCell>
-                                    <TableCell align="left">{row.deputySecretary?.hoTen}</TableCell>
+                                    <TableCell align="left"><b>{row.secretary?.hoTen}</b></TableCell>
+                                    <TableCell align="left"><b>{row.deputySecretary?.hoTen}</b></TableCell>
                                     <TableCell align="left">{moment(row.createdAt).format('DD/MM/YYYY hh:mm A')}</TableCell>
                                     <TableCell align="right">
                                         <IconButton 
-                                            onClick={() => handleChangeStatus(row.id, !row.status)}
+                                            onClick={(event) => handleChangeStatus(event, row.id, !row.status)}
                                         >
                                             {row.status ? <LockOpenIcon color='success' /> : <LockIcon />}
                                         </IconButton>

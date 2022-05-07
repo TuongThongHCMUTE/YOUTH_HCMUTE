@@ -14,3 +14,14 @@ export const UNION_POSITIONS = [
         value: 'UV_BCH'
     }
 ]
+
+export const CLASS_STATUS = [
+    {
+        display: 'Hiển thị',
+        value: true
+    },
+    {
+        display: 'Ẩn',
+        value: false
+    },
+]
