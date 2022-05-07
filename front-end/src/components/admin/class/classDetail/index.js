@@ -8,10 +8,11 @@ import styles from './index.module.scss';
 import { getAClassById } from 'apis/class';
 import { getAllFaculties } from 'apis/faculty';
 // Material UI ============================================================= //
-import { Box, CircularProgress, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import WestIcon from '@mui/icons-material/West';
 // My components =========================================================== //
 import { TitleCard } from 'components/common/card';
+import SnackBar from 'components/common/alert/Snackbar';
 import GeneralInformation from './components/GeneralInformation';
 import ManagersInfomation from './components/ManagersInfomation';
 
@@ -21,6 +22,7 @@ const ClassDetail = (props) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [faculties, setFaculties] = useState([]);
+  const [errorMessage, setErrorMessange] = useState('');
 
   useEffect(() => {
     getClassData();
@@ -39,6 +41,7 @@ const ClassDetail = (props) => {
       }
     } catch (err) {
       console.error(err);
+      setErrorMessange(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -52,7 +55,7 @@ const ClassDetail = (props) => {
             setFaculties(res.data.data.faculties);
         }
     } catch (err) {
-        alert(err);
+      setErrorMessange(err.response.data.message);
     }
   }
 
@@ -93,7 +96,8 @@ const ClassDetail = (props) => {
             />
           </TitleCard>
         </Grid>
-      </Grid>         
+      </Grid> 
+      {errorMessage && <SnackBar severity="error" message={errorMessage} />}
     </div>
   )
 }
