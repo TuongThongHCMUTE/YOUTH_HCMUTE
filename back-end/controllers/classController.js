@@ -8,6 +8,7 @@ exports.getAllClasses = async (req, res, next) => {
 
         const classes = await Class.find(query).sort(sort).skip(skip).limit(limit)
                                         .populate('donVi', 'tenDonVi')
+                                        .populate('quanLy.sinhVien', 'soDienThoai email')
         const countAll = await Class.countDocuments(query)
         
         res.status(200).json({
@@ -46,6 +47,7 @@ exports.getOneClass = async (req, res, next) => {
 
         const a_class = await Class.findById(id)
                                         .populate('donVi', 'tenDonVi')
+                                        .populate('quanLy.sinhVien', 'soDienThoai email')
 
         res.status(200).json({
             status: 'success',
@@ -64,6 +66,7 @@ exports.updateOneClass = async (req, res, next) => {
 
         const a_class = await Class.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
                                         .populate('donVi', 'tenDonVi')
+                                        .populate('quanLy.sinhVien', 'soDienThoai email')
 
         res.status(200).json({
             status: 'success',
@@ -82,6 +85,7 @@ exports.deleteOneClass = async (req, res, next) => {
 
         const a_class = await Class.findByIdAndDelete(id)
                                         .populate('donVi', 'tenDonVi')
+                                        .populate('quanLy.sinhVien', 'soDienThoai email')
 
         res.status(200).json({
             status: 'success',
