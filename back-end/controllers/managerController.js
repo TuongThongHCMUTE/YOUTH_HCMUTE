@@ -1,9 +1,6 @@
 const Common = require('../common/methods')
 const Manager = require('../models/manager')
 
-// Middleware
-const bcrypt = require('bcryptjs')
-
 // Get all manager
 exports.getAllManagers = async (req, res, next) => {
     try {
@@ -31,7 +28,8 @@ exports.createOneManager = async (req, res, next) => {
     try {
         console.log(req.body)
         
-        req.body.password = await bcrypt.hash(req.body.password, 10)
+        const password = req.body.password ? req.body.password : Common.generatePassword()
+        req.body.password = Common.hashPassword(password)
         const manager = await Manager.create({...req.body})
 
         res.status(200).json({
