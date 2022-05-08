@@ -1,6 +1,6 @@
 const mappingFields = require('../common/mappingFields')
 
-exports.errorHandler = (err, req, res) => {
+exports.errorHandler = (err, req, res, test) => {
     err.statusCode = err.statusCode || 500
 
     // Duplication

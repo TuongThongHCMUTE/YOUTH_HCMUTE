@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken')
+const Common = require('../common/methods')
 
 exports.verifyToken = (req, res, next) => {
     try {
@@ -7,24 +7,20 @@ exports.verifyToken = (req, res, next) => {
         
         if (!Authorization) {
             // Error Unauthorized
-            res.status(401).json({
-                status: 'fail',
-                error: 'Vui lòng đăng nhập'
-            })
+            const err = new Error('Vui lòng đăng nhập')
+            err.statusCode = 401
+            return next(err)
         }
     
         // Get token
         const token = Authorization.replace('Bearer ', '')
     
         //Verify token
-        const {userId, userEmail, userRole} = jwt.verify(token, process.env.APP_SECRET)
-        
-        req.user = {userId, userEmail, userRole}
+        req.user = Common.verifyToken(token)
         next() 
     } catch (e) {
-        res.status(401).json({
-            status: 'fail',
-            message: 'Hết phiên đăng nhập'
-        })
+        const err = new Error('Hết phiên đăng nhập')
+        err.statusCode = 401
+        next(err)
     }
 }
