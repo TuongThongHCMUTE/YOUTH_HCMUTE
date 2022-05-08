@@ -1,10 +1,8 @@
 const Student = require('../models/student')
 const Manager = require('../models/manager')
 
-// Import jsonwebtoken
-const jwt = require('jsonwebtoken')
-// Import bcrypt
-const bcrypt = require('bcryptjs')
+// Import jsonwebtoken\
+const Common = require('../common/methods')
 
 // Login for manager with Username and Password
 exports.loginWithPassword = async (req, res, next) => {
@@ -18,7 +16,7 @@ exports.loginWithPassword = async (req, res, next) => {
             return next(err)
         }
 
-        if (bcrypt.compareSync(password, user.password)) {
+        if (Common.compareHashPassword(password, user.password)) {
             if (!user.kichHoatTaiKhoan) {
                 //Error: Don't validate email
                 const err = new Error('Vui lòng kích hoạt tài khoản của bạn')
@@ -34,13 +32,8 @@ exports.loginWithPassword = async (req, res, next) => {
             return res.status(200).json({
                 status: 'success',
                 data: {
-                    token: jwt.sign(
-                        {userId: user._id, userEmail: user.email, userRole: user.role},
-                        process.env.APP_SECRET, {expiresIn: '4 hours'}
-                    ),
-                    fullName: user.tenHienThi,
-                    email: user.email,
-                    role: user.role
+                    user,
+                    token: Common.generateToken({_id: user._id, email: user.email, role: user.role, faculty: user.donVi})
                 }
             })
         } else {
