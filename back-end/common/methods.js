@@ -1,15 +1,15 @@
 // Methods for Query
 const generateQuery = ({query, user }) => {
     if (query.maSoSV) {
-        req.query.maSoSV = {
-            $regex: req.query.maSoSV,
+        query.maSoSV = {
+            $regex: query.maSoSV,
             $options: 'i'
         }
     }
 
     if (query.tenLop) {
-        req.query.tenLop = {
-            $regex: req.query.tenLop,
+        query.tenLop = {
+            $regex: query.tenLop,
             $options: 'i'
         }
     }
