@@ -1,4 +1,6 @@
 const Common = require('../common/methods')
+const { sendEmail } = require('./emailController')
+
 const Manager = require('../models/manager')
 
 // Get all manager
@@ -30,7 +32,14 @@ exports.createOneManager = async (req, res, next) => {
         
         const password = req.body.password ? req.body.password : Common.generatePassword()
         req.body.password = Common.hashPassword(password)
+
         const manager = await Manager.create({...req.body})
+
+        const emailInfo = {
+            name: manager.tenHienThi,
+            password: password
+        }
+        sendEmail(manager.email, 'WELCOME_MANAGER_EMAIL', emailInfo)
 
         res.status(200).json({
             status: 'success',
