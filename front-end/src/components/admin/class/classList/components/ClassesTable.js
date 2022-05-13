@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 // APIs ==================================================================== //
-import { updateClass } from 'apis/class';
+import { updateClass, deleteClass } from 'apis/class';
 // Constants =============================================================== //
 import { DEFAULT_LIMIT } from 'helpers/constants/class';
 // Material UI ============================================================= //
@@ -23,10 +23,13 @@ import {
     Paper
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 // Components ============================================================== //
 import BorderTopCard from 'ui-component/cards/BorderTopCard';
+import { ConfirmationModal } from 'components/common/modal';
+import SnackBar from 'components/common/alert/Snackbar';
 
 function createData(studentClass) {
     const id = studentClass._id;
@@ -82,7 +85,7 @@ const headCells = [
         id: 'status',
         numeric: true,
         disablePadding: false,
-        label: 'Trạng thái',
+        label: '',
     },
 ];
 
@@ -151,6 +154,9 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
     const [page, setPage] = useState(0);
+    const [selectedClass, setSelectedClass] = useState(null);
+    const [alert, setAlert] = useState(null);
+    const [showConfirmation, setShowConfirmation] = useState(false);
 
     const navigate = useNavigate();
 
@@ -178,6 +184,10 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
         try {
             const res = await updateClass({ _id: id, hienThi: status });
             if (res.data.status === 'success') {
+                setAlert({
+                    severity: 'success',
+                    message: 'Cập nhật thành công!'
+                });
                 onRefetch({
                     limit: DEFAULT_LIMIT,
                     offset: page,
@@ -185,10 +195,36 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                     isDescending: order === 'desc'
                 });
             }
-        } catch (err) {
-            alert(err);
+        } catch (error) {
+            setAlert({
+                severity: 'error',
+                message: error.response.data.message
+            });
         }
     }
+
+    const handleDelete = async (id) => {
+        try {
+            const res = await deleteClass(id);
+            if (res.data.status === 'success') {
+                setAlert({
+                    severity: 'success',
+                    message: 'Xóa thành công!'
+                });
+                onRefetch({
+                    limit: DEFAULT_LIMIT,
+                    offset: page,
+                    sortBy: mapOrderBy(orderBy),
+                    isDescending: order === 'desc'
+                });
+            }
+        } catch (error) {
+            setAlert({
+                severity: 'error',
+                message: error.response.data.message
+            });
+        }
+    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage - 1);
@@ -239,6 +275,16 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                                         >
                                             {row.status ? <LockOpenIcon color='success' /> : <LockIcon />}
                                         </IconButton>
+                                        <IconButton 
+                                            onClick={(event) => {
+                                                event.stopPropagation();
+
+                                                setSelectedClass(row);
+                                                setShowConfirmation(true);
+                                            }}
+                                        >
+                                            <DeleteOutlineIcon color="error" />
+                                        </IconButton>
                                     </TableCell>
                                 </TableRow>
                             );
@@ -258,6 +304,19 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                     <CircularProgress sx={{ color: 'var(--color-primary-400)'}}/>
                 </Box>}
             </Box>
+            {alert && 
+                <SnackBar 
+                    message={alert.message}
+                    severity={alert.severity}
+                    onClose={() => setAlert(null)}
+                />
+            }
+            <ConfirmationModal
+                visible={showConfirmation}
+                message={`Bạn có chắc chắn xóa lớp ${selectedClass?.name}?`}
+                onConfirm={() => handleDelete(selectedClass?.id).then(setShowConfirmation(false))}
+                onCancel={() => setShowConfirmation(false)}
+            />
         </BorderTopCard>
     );
 }

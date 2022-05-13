@@ -6,10 +6,12 @@ import styles from './ConfirmationModal.module.scss';
 import {
     Box, 
     Button,
+    IconButton,
     Modal,
     Typography
 } from '@mui/material';
 import GppMaybeOutlinedIcon from '@mui/icons-material/GppMaybeOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 
 // ========================|| CONFIRMATION MODAL ||========================= //
 const ConfirmationModal = (props) => {
@@ -22,13 +24,18 @@ const ConfirmationModal = (props) => {
             hideBackdrop={true}
         >
             <Box className={styles.Modal}>
-                {title && <Typography variant="h5" component="h2">
-                    {title}
-                </Typography>}
+                <div className={styles.Header}>
+                    <IconButton className={styles.Close} onClick={onCancel}>
+                        <CloseIcon />
+                    </IconButton>
+                    <h3>{title || "Confirmation"}</h3>
+                    <div className={styles.Divider} />
+                </div>
                 <GppMaybeOutlinedIcon className={styles.Icon} />
                 <Typography className={styles.Message}>
                     {message}
                 </Typography>
+                <div className={styles.Divider} />
                 <Box className={styles.Actions}>
                     <Button 
                         variant='oulined' 
