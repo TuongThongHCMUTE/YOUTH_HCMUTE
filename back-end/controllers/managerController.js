@@ -71,12 +71,8 @@ exports.getOneManager = async (req, res, next) => {
 // Update one manager
 exports.updateOneManager = async (req, res, next) => {
     try {
+        delete req.body.password
         const { id } = req.params
-
-        if (req.body.password) {
-            delete req.body.password
-            console.log(req.body.password)
-        }
 
         const manager = await Manager.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
                                         .populate('donVi', 'tenDonVi')
