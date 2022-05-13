@@ -4,7 +4,7 @@ import clsx from 'clsx';
 // Styles ================================================================== //
 import styles from './ManagersInformation.module.scss';
 // APIs ==================================================================== //
-import { getOneStudentById, getListStudentsByStudentId } from 'apis/student';
+import { getListStudentsByStudentId } from 'apis/student';
 import { updateClass } from 'apis/class';
 // Helpers ================================================================= //
 import { addManager, removeManager } from 'helpers/class';
@@ -32,33 +32,12 @@ const ManagersInfomation = (props) => {
     const [students, setStudents] = useState([]);
     const [managers, setManagers] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [loadingManagers, setLoadingManagers] = useState(false)
     const [searching, setSearching] = useState(false);
     const [updating, setUpdating] = useState(false);
     const [alert, setAlert] = useState(null);
 
     useEffect(async() => {
-        const managers = data?.quanLy;
-        const managersWithStudentInfo = [];
-
-        setLoadingManagers(true);
-
-        if (managers && managers.length > 0) {
-            for (const manager of managers) {
-                try {
-                    await getOneStudentById(manager.sinhVien).then(res => { 
-                        const newManager = { ...manager, sinhVien: res.data.data.student }; 
-                        managersWithStudentInfo.push(newManager);
-                    });
-                } catch (err) {
-                    console.error("error: ", err.response.data.message);
-                }
-            };
-        }
-
-        setManagers(managersWithStudentInfo);
-        setLoadingManagers(false);
-
+        setManagers(data?.quanLy);
     }, [data]);
 
     useEffect(() => {
@@ -175,11 +154,11 @@ const ManagersInfomation = (props) => {
         <>
             <Grid container>
                 <Grid item xs={5.5} className={styles.Left}>
-                {   loading || loadingManagers ?
+                {   loading ?
                     <CircularLoading /> : 
                     <>
                         <div className={styles.Info}>
-                            {   managers.length ? 
+                            {   managers?.length ? 
                                 managers.map(i => managerItem(i)) : 
                                 <Typography variant='h3' component='div' className={styles.NoInfo}> 
                                     Chưa có dữ liệu

@@ -69,7 +69,6 @@ const ClassList = () => {
         }
     }
 
-
     return (
         <>
             <SearchBar 

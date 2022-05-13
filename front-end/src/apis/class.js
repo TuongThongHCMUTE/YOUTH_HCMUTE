@@ -69,3 +69,12 @@ export const updateClass = (classObject) => {
   
     return axios(option);
 }
+
+export const deleteClass = (classId) => {
+    const option = {
+        method: "delete",
+        url: `${url}/classes/${classId}`,
+    }
+  
+    return axios(option);
+}
