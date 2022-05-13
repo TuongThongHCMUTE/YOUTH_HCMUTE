@@ -74,8 +74,105 @@ exports.resetPassword = async (req, res, next) => {
             message: resMsg,
         })
     } catch (e) {
-        logger.error(e)
+        console.log(e)
         next(e)
     }
 }
 
+// Get current user
+exports.getCurrentUser = async (req, res, next) => {
+    try {
+        const data = {user: null}
+
+        if(req.user) {
+            const { email } = req.user
+            if (email.includes('@student.hcmute.edu.vn')) {
+                data.user = await Student.findOne({email})
+                                            .populate('donVi', 'tenDonVi')
+                                            .populate('lopSV', 'tenLop nganhHoc')
+                                            .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
+            } else {
+                data.user = await Manager.findOne({email})
+                                            .populate('donVi', 'tenDonVi')
+            }
+        }
+
+        res.status(200).json({
+            status: 'success',
+            data: data
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
+// Update current user info
+exports.updateCurrentUser = async (req, res, next) => {
+    try {
+        delete req.body.password
+        const data = {user: null}
+
+        if (req.user) {
+            const { email } = req.user
+            if (email.includes('@student.hcmute.edu.vn')) {
+                data.user = await Student.findOneAndUpdate({email}, {...req.body}, {new: true, runValidator: true})
+                                            .populate('donVi', 'tenDonVi')
+                                            .populate('lopSV', 'tenLop nganhHoc')
+                                            .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
+            } else {
+                data.user = await Manager.findOneAndUpdate({email}, {...req.body}, {new: true, runValidator: true})
+                                            .populate('donVi', 'tenDonVi')
+            }
+        }
+
+        res.status(200).json({
+            status: 'success',
+            data: data
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
+// Change password
+exports.changePassword = async (req, res, next) => {
+    try {
+        if (req.user) {
+            const { oldPassword, newPassword, reNewPassword} = req.body
+            const { _id } = req.user
+
+            var user = await Manager.findById(_id)
+            if(Common.compareHashPassword(oldPassword, user.password)){
+                if(newPassword === reNewPassword){
+                    if (newPassword === oldPassword) {
+                        const err = new Error('Mật khẩu mới trùng với mật khẩu hiện tại')
+                        err.statusCode = 400
+                        return next(err)
+                    }
+
+                    const hashedPass = Common.hashPassword(newPassword)
+                    user = await Manager.findByIdAndUpdate(_id, {password: hashedPass}, {new: true, runValidator: true})      
+
+                    res.status(200).json({
+                        status: 'success',
+                        message: 'Cập nhật mật khẩu thành công'
+                    })
+                } else{
+                    const err = new Error('Xác nhận mật khẩu không đúng')
+                    err.statusCode = 400
+                    return next(err)
+                }
+            } else {
+                //Error: Password is not correct
+                const err = new Error('Mật khẩu hiện tại không đúng')
+                err.statusCode = 400
+                return next(err)
+            }
+        }
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
