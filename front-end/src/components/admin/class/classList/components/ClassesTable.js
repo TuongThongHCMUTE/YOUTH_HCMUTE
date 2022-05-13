@@ -1,6 +1,10 @@
 // Node Modules ============================================================ //
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 import PropTypes from 'prop-types';
+// APIs ==================================================================== //
+import { updateClass, deleteClass } from 'apis/class';
 // Constants =============================================================== //
 import { DEFAULT_LIMIT } from 'helpers/constants/class';
 // Material UI ============================================================= //
@@ -19,20 +23,25 @@ import {
     Paper
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 // Components ============================================================== //
 import BorderTopCard from 'ui-component/cards/BorderTopCard';
+import { ConfirmationModal } from 'components/common/modal';
+import SnackBar from 'components/common/alert/Snackbar';
 
 function createData(studentClass) {
     const id = studentClass._id;
     const name = studentClass.tenLop;
     const faculty = studentClass.donVi?.tenDonVi;
     const major = studentClass.nganhHoc;
-    const status = studentClass.hienThi ? "Hiển thị" : "Bị khóa";
+    const status = studentClass.hienThi;
     const secretary = studentClass.quanLy.filter(i => i.chucVu === 'BI_THU')[0];
     const deputySecretary = studentClass.quanLy.filter(i => i.chucVu === 'PHO_BI_THU')[0];
+    const createdAt = studentClass.createdAt;
 
-    return { id, name, faculty, status, major, secretary, deputySecretary};
+    return { id, name, faculty, status, major, secretary, deputySecretary, createdAt};
 }
 
 const headCells = [
@@ -49,6 +58,12 @@ const headCells = [
         label: 'Đơn vị',
     },
     {
+        id: 'major',
+        numeric: false,
+        disablePadding: false,
+        label: 'Ngành học',
+    },
+    {
         id: 'secretary',
         numeric: false,
         disablePadding: false,
@@ -61,16 +76,16 @@ const headCells = [
         label: 'Phó Bí thư',
     },
     {
-        id: 'status',
+        id: 'createdAt',
         numeric: false,
         disablePadding: false,
-        label: 'Trạng thái',
+        label: 'Ngày tạo',
     },
     {
-        id: 'actions',
+        id: 'status',
         numeric: true,
         disablePadding: false,
-        label: 'Actions',
+        label: '',
     },
 ];
 
@@ -79,7 +94,7 @@ const mapOrderBy = field => {
         case 'name':
             return 'tenLop';
         case 'status':
-            return 'trangThai';
+            return 'hienThi';
         case 'major':
             return 'nganhHoc';
         default:
@@ -136,9 +151,14 @@ EnhancedTableHead.propTypes = {
 
 // ============================|| BILLS TABLE ||============================ //
 export default function EnhancedTable({ data, totalRecords, loading, onRefetch }) {
-    const [order, setOrder] = useState('desc');
-    const [orderBy, setOrderBy] = useState('date');
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('name');
     const [page, setPage] = useState(0);
+    const [selectedClass, setSelectedClass] = useState(null);
+    const [alert, setAlert] = useState(null);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         onRefetch({
@@ -156,7 +176,54 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
     };
 
     const handleClick = (event, id) => {
+        navigate(`/chi-doan/${id}`);
+    };
 
+    const handleChangeStatus = async (event, id, status) => {
+        event.stopPropagation();
+        try {
+            const res = await updateClass({ _id: id, hienThi: status });
+            if (res.data.status === 'success') {
+                setAlert({
+                    severity: 'success',
+                    message: 'Cập nhật thành công!'
+                });
+                onRefetch({
+                    limit: DEFAULT_LIMIT,
+                    offset: page,
+                    sortBy: mapOrderBy(orderBy),
+                    isDescending: order === 'desc'
+                });
+            }
+        } catch (error) {
+            setAlert({
+                severity: 'error',
+                message: error.response.data.message
+            });
+        }
+    }
+
+    const handleDelete = async (id) => {
+        try {
+            const res = await deleteClass(id);
+            if (res.data.status === 'success') {
+                setAlert({
+                    severity: 'success',
+                    message: 'Xóa thành công!'
+                });
+                onRefetch({
+                    limit: DEFAULT_LIMIT,
+                    offset: page,
+                    sortBy: mapOrderBy(orderBy),
+                    isDescending: order === 'desc'
+                });
+            }
+        } catch (error) {
+            setAlert({
+                severity: 'error',
+                message: error.response.data.message
+            });
+        }
     };
 
     const handleChangePage = (event, newPage) => {
@@ -177,7 +244,7 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                     <Table
                         sx={{ minWidth: 750 }}
                         aria-labelledby="tableTitle"
-                        size={'medium'}
+                        size={'small'}
                     >
                         <EnhancedTableHead
                             order={order}
@@ -198,14 +265,25 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                                 >
                                     <TableCell padding="8px">{row.name}</TableCell>
                                     <TableCell align="left">{row.faculty}</TableCell>
+                                    <TableCell align="left">{row.major}</TableCell>
                                     <TableCell align="left">{row.secretary?.hoTen}</TableCell>
                                     <TableCell align="left">{row.deputySecretary?.hoTen}</TableCell>
-                                    <TableCell align="left">{row.status}</TableCell>
+                                    <TableCell align="left">{moment(row.createdAt).format('DD/MM/YYYY hh:mm A')}</TableCell>
                                     <TableCell align="right">
                                         <IconButton 
-                                            onClick={() => {}}
+                                            onClick={(event) => handleChangeStatus(event, row.id, !row.status)}
                                         >
-                                            <LockIcon />
+                                            {row.status ? <LockOpenIcon color='success' /> : <LockIcon />}
+                                        </IconButton>
+                                        <IconButton 
+                                            onClick={(event) => {
+                                                event.stopPropagation();
+
+                                                setSelectedClass(row);
+                                                setShowConfirmation(true);
+                                            }}
+                                        >
+                                            <DeleteOutlineIcon color="error" />
                                         </IconButton>
                                     </TableCell>
                                 </TableRow>
@@ -226,6 +304,19 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                     <CircularProgress sx={{ color: 'var(--color-primary-400)'}}/>
                 </Box>}
             </Box>
+            {alert && 
+                <SnackBar 
+                    message={alert.message}
+                    severity={alert.severity}
+                    onClose={() => setAlert(null)}
+                />
+            }
+            <ConfirmationModal
+                visible={showConfirmation}
+                message={`Bạn có chắc chắn xóa lớp ${selectedClass?.name}?`}
+                onConfirm={() => handleDelete(selectedClass?.id).then(setShowConfirmation(false))}
+                onCancel={() => setShowConfirmation(false)}
+            />
         </BorderTopCard>
     );
 }

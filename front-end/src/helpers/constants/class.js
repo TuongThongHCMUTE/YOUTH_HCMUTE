@@ -1,4 +1,4 @@
-export const DEFAULT_LIMIT = 20;
+export const DEFAULT_LIMIT = 10;
 
 export const UNION_POSITIONS = [
     {
@@ -13,4 +13,15 @@ export const UNION_POSITIONS = [
         display: 'UV BCH',
         value: 'UV_BCH'
     }
+]
+
+export const CLASS_STATUS = [
+    {
+        display: 'Hiển thị',
+        value: true
+    },
+    {
+        display: 'Ẩn',
+        value: false
+    },
 ]

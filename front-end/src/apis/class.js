@@ -35,6 +35,15 @@ export const getAllClasses = (args) => {
     return axios(option)
 }
 
+export const getAClassById = (id) => {
+    const option = {
+        method: "get",
+        url: `${url}/classes/${id}`,
+    }
+  
+    return axios(option);
+}
+
 export const createClass = (classObject) => {
     const sendData = {};
     sendData.tenLop = classObject.name;
@@ -46,6 +55,25 @@ export const createClass = (classObject) => {
         method: "post",
         url: `${url}/classes`,
         data: sendData
+    }
+  
+    return axios(option);
+}
+
+export const updateClass = (classObject) => {
+    const option = {
+        method: "put",
+        url: `${url}/classes/${classObject._id}`,
+        data: classObject
+    }
+  
+    return axios(option);
+}
+
+export const deleteClass = (classId) => {
+    const option = {
+        method: "delete",
+        url: `${url}/classes/${classId}`,
     }
   
     return axios(option);

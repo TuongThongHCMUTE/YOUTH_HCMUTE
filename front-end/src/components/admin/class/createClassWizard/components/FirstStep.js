@@ -9,6 +9,7 @@ import {
     Box, 
     Button,
     FormControl,
+    FormHelperText,
     InputLabel,
     MenuItem,
     Select,
@@ -25,6 +26,17 @@ const FirstStep = (props) => {
 
     const validateData = (values) => {
         const errors = {};
+
+        if (!values.name) {
+            errors.name = 'Tên chi đoàn không được để trống';
+        }
+        if (!values.faculty || !values.faculty._id) {
+            errors.faculty = 'Khoa không được để trống';
+        }
+        if (!values.major) {
+            errors.major = 'Ngành học không được để trống';
+        }
+
         return errors;
     }
 
@@ -36,6 +48,8 @@ const FirstStep = (props) => {
                     initialValues={initialValues}
                     enableReinitialize
                     validate={values => validateData(values)}
+                    validateOnChange={false}
+                    validateOnBlur={false}
                     onSubmit={(values) => { 
                         setStudentClass({...studentClass, ...values});
                         setStep(1); 
@@ -60,8 +74,15 @@ const FirstStep = (props) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.name || ''}
+                                error={errors.name}
+                                helperText={errors.name}
                             />
-                            <FormControl fullWidth variant='filled' className={clsx('text-field', styles.TextField)}>
+                            <FormControl 
+                                fullWidth 
+                                variant='filled'
+                                className={clsx('text-field', styles.TextField)}                                     
+                                error={errors.faculty}
+                            >
                                 <InputLabel id="faculty-group">Khoa</InputLabel>
                                 <Select
                                     name='faculty._id'
@@ -79,6 +100,7 @@ const FirstStep = (props) => {
                                         <MenuItem key={f._id} value={f._id}>{f.tenDonVi}</MenuItem>
                                     ))}
                                 </Select>
+                                {errors.faculty && <FormHelperText>{errors.faculty}</FormHelperText>}
                             </FormControl>
                             <TextField 
                                 name='major'
@@ -88,6 +110,8 @@ const FirstStep = (props) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.major || ''}
+                                error={errors.major}
+                                helperText={errors.major}
                             />
                             <Button
                                 type='submit'

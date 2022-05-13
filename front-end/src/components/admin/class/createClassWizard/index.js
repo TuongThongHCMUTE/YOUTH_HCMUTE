@@ -36,6 +36,10 @@ const CreateClassWizard = (props) => {
         onClose();
     }
 
+    const handleRetry = () => {
+        setStep(0);
+    }
+
     const firstStep = (
         <FirstStep 
             initialValues={studentClass}
@@ -58,6 +62,7 @@ const CreateClassWizard = (props) => {
         <ThirdStep
             studentClass={studentClass}
             onClose={handleClose}
+            onRetry={handleRetry}
             onRefetch={onRefetch}
         />
     )

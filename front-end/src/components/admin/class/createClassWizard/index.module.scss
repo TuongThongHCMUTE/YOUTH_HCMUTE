@@ -183,7 +183,7 @@
 
                     .RemoveButton {
                         position: absolute;
-                        top: 16px;
+                        top: 8px;
                         right: 8px;
                     }
                 }
@@ -203,7 +203,7 @@
                 }
                 
                 .SearchTextField {
-                    background: var(--color-grey-100);
+                    background: var(--color-white);
                     height: 100%;
                     width: 150px;
                     margin-left: 120px;
@@ -264,7 +264,6 @@
 
                                 &:hover {
                                     background-color: var(--color-grey-100);
-
                                     .Positions {
                                         visibility: visible;
                                     }
@@ -355,6 +354,12 @@
                 }
             }
 
+            .ErrorHeader {
+                .Icon {
+                    color: #EC1F25 !important;
+                }
+            }
+
             .Body {
                 display: flex;
                 flex-direction: column;
@@ -374,6 +379,10 @@
                     align-items: center;
                     justify-content: space-between;
                     margin: 4px 0;
+                }
+
+                .ErrorMessage {
+                    text-align: center;
                 }
             }
 
