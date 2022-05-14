@@ -6,7 +6,8 @@ exports.getAllEvents = async (req, res, next) => {
     try {
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
 
-        const events = await Event.find(query).sort(sort).skip(skip).limit(limit);
+        const events = await Event.find(query).sort(sort).skip(skip).limit(limit)
+                                    .populate('sinhVienThamGia.sinhVien', 'maSoSV ho ten')
         const countAll = await Event.countDocuments(query)
         
         res.status(200).json({
@@ -42,6 +43,7 @@ exports.getOneEvent = async (req, res, next) => {
         const { id } = req.params
 
         const event = await Event.findById(id)
+                                    .populate('sinhVienThamGia.sinhVien', 'maSoSV ho ten')
 
         res.status(200).json({
             status: 'success',
@@ -59,6 +61,7 @@ exports.updateOneEvent = async (req, res, next) => {
         const { id } = req.params
 
         const event = await Event.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
+                                    .populate('sinhVienThamGia.sinhVien', 'maSoSV ho ten')
 
         res.status(200).json({
             status: 'success',
@@ -76,6 +79,7 @@ exports.deleteOneEvent = async (req, res, next) => {
         const { id } = req.params
 
         const event = await Event.findByIdAndDelete(id)
+                                    .populate('sinhVienThamGia.sinhVien', 'maSoSV ho ten')
 
         res.status(200).json({
             status: 'success',
