@@ -22,7 +22,7 @@ const AdminRoutes = {
             element: <div></div>
         },
         {
-            path: '/',
+            path: '/admin',
             element: <Barcode />
         },
         {
