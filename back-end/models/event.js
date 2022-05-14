@@ -18,7 +18,7 @@ const eventSchema = new mongoose.Schema({
     quenLoiThamGia: {type: String}, // DIEM_REN_LUYEN, DIEM_CTXH
     diemCong: {type: Number}, // 2, 3, 5
     anhBia: {type: String}, // Link of picture
-    namHoc: {type: String},
+    maNamHoc: {type: String},
     hocKy: {type: String},
     tieuChi: [{
         maTieuChi: {type: String},
