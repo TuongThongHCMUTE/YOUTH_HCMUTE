@@ -22,6 +22,7 @@ const groupBookRoute = require('./routes/groupBookRoute')
 const managerRoute = require('./routes/managerRoute')
 const priceListRoute = require('./routes/priceListRoute')
 const schoolYearRoute = require('./routes/schoolYearRoute')
+const statisticRoute = require('./routes/statisticRoute')
 const studentRoute = require('./routes/studentRoute')
 
 
@@ -43,6 +44,7 @@ app.use('/api/v1/group-books', groupBookRoute)
 app.use('/api/v1/managers', managerRoute)
 app.use('/api/v1/price-lists', priceListRoute)
 app.use('/api/v1/school-years', schoolYearRoute)
+app.use('/api/v1/statistic', statisticRoute)
 app.use('/api/v1/students', studentRoute)
 
 app.get('/', (req, res, next) => {
