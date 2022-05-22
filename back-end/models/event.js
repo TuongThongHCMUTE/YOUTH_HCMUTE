@@ -35,7 +35,7 @@ const eventSchema = new mongoose.Schema({
             trim: true,
             ref: 'Student'
         },
-        maSoSV: {type: String, unique: true, required: true, trim: true},
+        maSoSV: {type: String, required: true, trim: true},
         thoiGianDangKy: {type: Date},
         diemDanh: {type: Boolean},
         thoiGianDiemDanh: {type: Date},
@@ -47,6 +47,11 @@ const eventSchema = new mongoose.Schema({
     createBy: {type: String},
     updateBy: {type: String}
 }, {timestamps: true})
+
+eventSchema.index({
+    tenChuongTrinh: 'text',
+    moTa: 'text'
+})
 
 const Event = mongoose.model('Event', eventSchema)
 
