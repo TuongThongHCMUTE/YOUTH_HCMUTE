@@ -38,7 +38,7 @@ const studentSchema = new mongoose.Schema({
     email: {type: String, unique: [true, 'Email đã tồn tại'], trim: true, required: [true, 'Nhập email sinh viên']},
     image: {type: String},
     googleId: {type: String},
-    role: {type: String, trim: true}, // SINH_VIEN, DOAN_VIEN
+    role: {type: String, trim: true}, // DOAN_VIEN
     trangThai: {type: Boolean, default: true}, // true, false (Đang dùng, tạm khóa),
     createBy: {type: String},
     updateBy: {type: String}

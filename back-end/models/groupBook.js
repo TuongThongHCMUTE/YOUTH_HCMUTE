@@ -12,17 +12,23 @@ const groupBookSchema = new mongoose.Schema({
     viTri: {type: String, trim: true},
     moTa: {type: String},
     pheSo: [{
+        maNamHoc: {type: String, uniqued: true, trim: true},
         ngayPheSo: {type: Date, default: Date.Now},
-        nguoiPheSo: {type: String, trim: true},
-        chucVuNguoiPhe: {type: String, trim: true},
-        maNamHoc: {type: String, trim: true},
-        noiDung: {type: String},
-        hienThi: {type: Boolean, default: false},
-        trangThaiDuyet: {type: Boolean, default: false}, // Chưa duyệt, Đã duyệt
-        nguoiDuyet: {type: String, trim: true},
-        chucVuNguoiDuyet: {type: String, trim: true},
+        nguoiPhe: {
+            hoTen: {type: String, trim: true},
+            email: {type: String, trim: true},
+            chucVu: {type: String, trim: true},
+        },
+        noiDungPhe: {type: String},
+        nguoiDuyet: {
+            hoTen: {type: String, trim: true},
+            email: {type: String, trim: true},
+            chucVu: {type: String, trim: true},
+        },
         noiDungDuyet: {type: String},
-        createBy: {type: Number},
+        trangThai: {type: Boolean, default: false}, // Chưa duyệt, Đã duyệt
+        createBy: {type: String},
+        updateBy: {type: String},
     }],
     trangThaiSoDoan: {type: String, trim: true}, // Chưa nộp, Đã nộp, Đã rút sổ đoàn (Giống trạng thái bên sinh viên)
     ngayNopSo: {type: Date, default: Date.Now},

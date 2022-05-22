@@ -1,4 +1,12 @@
-const jwt = require('jsonwebtoken')
+const Common = require('../common/methods')
+
+const addAuthor = (req, email) => {
+    if (req.method === 'POST') {
+        req.body.createBy = email
+    } else if (req.method === 'PUT') {
+        req.body.updateBy = email
+    }
+}
 
 exports.verifyToken = (req, res, next) => {
     try {
@@ -7,7 +15,7 @@ exports.verifyToken = (req, res, next) => {
         
         if (!Authorization) {
             // Error Unauthorized
-            const err = new Error('Please authenticate')
+            const err = new Error('Vui lòng đăng nhập')
             err.statusCode = 401
             return next(err)
         }
@@ -16,11 +24,12 @@ exports.verifyToken = (req, res, next) => {
         const token = Authorization.replace('Bearer ', '')
     
         //Verify token
-        const {userId, userEmail, userRole} = jwt.verify(token, process.env.APP_SECRET)
-        
-        req.user = {userId, userEmail, userRole}
+        req.user = Common.verifyToken(token)
+        addAuthor(req, req.user.email)
         next() 
     } catch (e) {
-        res.status(401).json({error: 'Please authenticate'})
+        const err = new Error('Hết phiên đăng nhập')
+        err.statusCode = 401
+        next(err)
     }
 }
