@@ -71,11 +71,12 @@ const LoginModal = (props) => {
                 const user = res.data.data.user
 
                 sessionStorage.setItem('token', token);
+                sessionStorage.setItem('role', user.role);
                 dispatch({type: "CURRENT_USER", payload: user});
 
                 switch(user.role) {
                     case USER_ROLES.DOAN_TRUONG:
-                        navigate('/barcode');
+                        navigate('/admin');
                         break;
                     default:
                         break;

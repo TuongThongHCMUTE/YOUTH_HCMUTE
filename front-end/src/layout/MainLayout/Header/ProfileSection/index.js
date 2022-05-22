@@ -132,6 +132,7 @@ const ProfileSection = () => {
 
     const handleLogout = async () => {
         sessionStorage.removeItem('token');
+        sessionStorage.removeItem('role');
         dispatch({type: "CURRENT_USER", payload: null })
         navigate('/');
     };
