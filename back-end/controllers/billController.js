@@ -1,23 +1,31 @@
+const moment = require('moment')
 const Common = require('../common/methods')
 const Bill = require('../models/bill')
 const GroupBook = require('../models/groupBook')
 const Student = require('../models/student')
 
+const getPaymentDateQuery = (query) => {
+    if (query.startDate && query.endDate) {
+        const startDate = new Date(query.startDate)
+        const endDate = new Date(query.endDate)
+        
+        query.ngayThanhToan = { $gte: startDate, $lte: endDate }
+    }
+
+    delete query.startDate
+    delete query.endDate
+
+    if(!query.ngayThanhToan) {
+        delete query.ngayThanhToan
+    }
+
+    return query
+}
 // Get all Bills
 exports.getAllBills = async (req, res, next) => {
     try {
-        if (req.query.startDate && req.query.endDate) {
-            const startDate = new Date(req.query.startDate)
-            delete req.query.startDate
-            const endDate = new Date(req.query.endDate)
-            delete req.query.endDate
-
-            req.query.ngayThanhToan = {
-                $gte: startDate, 
-                $lte: endDate
-            }
-        }
         const { sort, limit, skip, query } = Common.getQueryParameter(req)
+        getPaymentDateQuery(query)
 
         const bills = await Bill.find(query).sort(sort).skip(skip).limit(limit)
                                     .populate('sinhVien','ho ten')
@@ -37,22 +45,49 @@ exports.getAllBills = async (req, res, next) => {
     }
 }
 
+// Export excel all Bills
+exports.exportExcelAllBills = async (req, res, next) => {
+    try {
+        const { sort, limit, skip, query } = Common.getQueryParameter(req)
+        getPaymentDateQuery(query)
+
+        const bills = await Bill.find(query).sort(sort).skip(skip).limit(limit)
+                                    .populate('sinhVien','ho ten')
+                                    .populate('donVi', 'tenDonVi')
+
+        const columns = [
+            { header: 'Mã số sinh viên', key: 'maSoSV', width: 15, style: {alignment: { vertical: 'middle', horizontal: 'center' }} },
+            { header: 'Họ và tên', key: 'hoVaTen', width: 30, style: {alignment: { vertical: 'middle'}} },
+            { header: 'Đơn vị', key: 'tenDonVi', width: 30, style: {alignment: { vertical: 'middle'}} },
+            { header: 'Trạng thái', key: 'trangThai', width: 20, style: {alignment: { vertical: 'middle', horizontal: 'center' }} },
+            { header: 'Tổng tiền', key: 'tongTien', width: 15, style: {alignment: { vertical: 'middle'}} },
+            { header: 'Ngày thanh toán', key: 'ngayThanhToan', width: 25, style: {alignment: { vertical: 'middle'}}},
+        ]
+
+        const data = bills.map(bill => {
+            return {
+                maSoSV: bill.maSoSV,
+                hoVaTen: bill.sinhVien.ho + ' ' + bill.sinhVien.ten,
+                tenDonVi: bill.donVi?.tenDonVi,
+                trangThai: bill.trangThai ? 'Đã thanh toán' : 'Chưa thanh toán',
+                tongTien: bill.tongTien,
+                ngayThanhToan: moment(bill.ngayThanhToan).format('DD/MM/YYYY hh:mm')
+            }
+        })
+
+        Common.exportExcel('Bills', columns, data, res)
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
 exports.getKPIValuesByCheckoutDate = async (req, res, next) => {
     try {
         const { query } = Common.getQueryParameter(req)
+        getPaymentDateQuery(query)
 
-        const startDate = new Date(query.startDate)
-        delete query.startDate
-        const endDate = new Date(query.endDate)
-        delete query.endDate
-
-        const bills = await Bill.find({
-            ...query,
-            ngayThanhToan: {
-                $gte: startDate, 
-                $lte: endDate 
-            }
-        })
+        const bills = await Bill.find(query)
 
         let kpiValues = []
         let tongDoanPhi = 0

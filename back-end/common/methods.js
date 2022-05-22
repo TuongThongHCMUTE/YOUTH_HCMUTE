@@ -55,7 +55,7 @@ exports.generatePassword = () => {
         length: 15,
         numbers: true,
         symbols: true
-    });
+    })
 
     return password
 }
@@ -80,4 +80,33 @@ exports.generateToken = (tokenInfo) => {
 
 exports.verifyToken = (token) => {
     return jwt.verify(token, process.env.APP_SECRET)
+}
+
+const excel = require('exceljs')
+// Export excel file
+exports.exportExcel = (fileName, columns, data, res) => {
+    let workbook = new excel.Workbook()
+    let worksheet = workbook.addWorksheet(fileName)
+    worksheet.columns = columns
+
+    // Add Array Rows
+    worksheet.addRows(data)
+    
+    // Format excel
+    // Making first line in excel bold
+    worksheet.getRow(1).font = { bold: true }
+
+    // res is a Stream object
+    res.setHeader(
+        'Content-Type',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    res.setHeader(
+        'Content-Disposition',
+        'attachment;filename=' + `${fileName}.xlsx`
+    )
+    
+    return workbook.xlsx.write(res).then(function () {
+        res.status(200).end()
+    })
 }

@@ -23,6 +23,44 @@ exports.getAllClasses = async (req, res, next) => {
     }
 }
 
+// Export excel all Classes
+exports.exportExcelAllClasses = async (req, res, next) => {
+    try {
+        const { sort, limit, skip, query } = Common.getQueryParameter(req)
+
+        const classes = await Class.find(query).sort(sort).skip(skip).limit(limit)
+                                        .populate('donVi', 'tenDonVi')
+                                        .populate('quanLy.sinhVien', 'soDienThoai email')
+
+        const columns = [
+            { header: 'Tên lớp', key: 'tenLop', width: 15, style: {alignment: { vertical: 'middle'}} },
+            { header: 'Đơn vị', key: 'tenDonVi', width: 30, style: {alignment: { vertical: 'middle'}} },
+            { header: 'Ngành học', key: 'nganhHoc', width: 40, style: {alignment: { vertical: 'middle'}} },
+            { header: 'Bí thư', key: 'biThu', width: 30, style: {alignment: { vertical: 'middle'}} },
+            { header: 'Phó bí thư', key: 'phoBiThu', width: 30, style: {alignment: { vertical: 'middle'}} },
+            { header: 'Trạng thái', key: 'trangThai', width: 15, style: {alignment: { vertical: 'middle', horizontal: 'center' }} },
+        ]
+
+        const data = classes.map(a_class => {
+            const biThu = a_class.quanLy?.find(quanLy => quanLy.chucVu === 'BI_THU')?.hoTen
+            const phoBiThu = a_class.quanLy?.find(quanLy => quanLy.chucVu === 'PHO_BI_THU')?.hoTen
+            return {
+                tenLop: a_class.tenLop,
+                tenDonVi: a_class.donVi?.tenDonVi,
+                nganhHoc: a_class.nganhHoc,
+                biThu,
+                phoBiThu,
+                trangThai: a_class.hienThi ? 'Hiển thị' : 'Ẩn'
+            }
+        })
+
+        Common.exportExcel('Class', columns, data, res)
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
 // Create new Class
 exports.createOneClass = async (req, res, next) => {
     try {
