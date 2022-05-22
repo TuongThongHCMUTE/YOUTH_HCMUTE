@@ -1,4 +1,4 @@
-const Common = require('../common/methods')
+const Common = require('../common/index')
 const { sendEmail } = require('./emailController')
 
 const Manager = require('../models/manager')

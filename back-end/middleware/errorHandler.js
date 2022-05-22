@@ -1,4 +1,4 @@
-const mappingFields = require('../common/mappingFields')
+const { mappingFields } = require('../common/index')
 
 exports.errorHandler = (err, req, res, test) => {
     err.statusCode = err.statusCode || 500

@@ -1,4 +1,4 @@
-const Common = require('../common/methods')
+const Common = require('../common/index')
 const GroupBook = require('../models/groupBook')
 
 // Get all GroupBooks

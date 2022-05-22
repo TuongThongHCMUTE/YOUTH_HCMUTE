@@ -1,5 +1,5 @@
 const moment = require('moment')
-const Common = require('../common/methods')
+const Common = require('../common/index')
 const Bill = require('../models/bill')
 const GroupBook = require('../models/groupBook')
 const Student = require('../models/student')
@@ -59,9 +59,11 @@ exports.exportExcelAllBills = async (req, res, next) => {
             { header: 'Mã số sinh viên', key: 'maSoSV', width: 15, style: {alignment: { vertical: 'middle', horizontal: 'center' }} },
             { header: 'Họ và tên', key: 'hoVaTen', width: 30, style: {alignment: { vertical: 'middle'}} },
             { header: 'Đơn vị', key: 'tenDonVi', width: 30, style: {alignment: { vertical: 'middle'}} },
+            { header: 'Nộp sổ đoàn', key: 'nopSoDoan', width: 12, style: {alignment: { vertical: 'middle', horizontal: 'center' }}},
+            { header: 'Năm học', key: 'namHoc', width: 12, style: {alignment: { vertical: 'middle', horizontal: 'center' }}},
             { header: 'Trạng thái', key: 'trangThai', width: 20, style: {alignment: { vertical: 'middle', horizontal: 'center' }} },
             { header: 'Tổng tiền', key: 'tongTien', width: 15, style: {alignment: { vertical: 'middle'}} },
-            { header: 'Ngày thanh toán', key: 'ngayThanhToan', width: 25, style: {alignment: { vertical: 'middle'}}},
+            { header: 'Ngày thanh toán', key: 'ngayThanhToan', width: 25, style: {alignment: { vertical: 'middle', horizontal: 'center' }}}
         ]
 
         const data = bills.map(bill => {
@@ -69,6 +71,8 @@ exports.exportExcelAllBills = async (req, res, next) => {
                 maSoSV: bill.maSoSV,
                 hoVaTen: bill.sinhVien.ho + ' ' + bill.sinhVien.ten,
                 tenDonVi: bill.donVi?.tenDonVi,
+                nopSoDoan: bill.cacKhoanPhi?.find(priceList => priceList.tenChiPhi === 'Sổ đoàn viên') ? 'X' : '',
+                namHoc: bill.namHoc,
                 trangThai: bill.trangThai ? 'Đã thanh toán' : 'Chưa thanh toán',
                 tongTien: bill.tongTien,
                 ngayThanhToan: moment(bill.ngayThanhToan).format('DD/MM/YYYY hh:mm')

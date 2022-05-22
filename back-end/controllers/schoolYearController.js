@@ -1,4 +1,4 @@
-const Common = require('../common/methods')
+const Common = require('../common/index')
 const SchoolYear = require('../models/schoolYear')
 
 // Get all SchoolYears

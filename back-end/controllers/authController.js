@@ -2,7 +2,7 @@ const Student = require('../models/student')
 const Manager = require('../models/manager')
 
 // Import jsonwebtoken\
-const Common = require('../common/methods')
+const Common = require('../common/index')
 const { sendEmail } = require('./emailController')
 
 // Login for manager with Username and Password

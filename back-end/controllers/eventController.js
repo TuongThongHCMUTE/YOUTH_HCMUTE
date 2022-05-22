@@ -1,4 +1,4 @@
-const Common = require('../common/methods')
+const Common = require('../common/index')
 const Event = require('../models/event')
 
 // Get all Events
@@ -14,6 +14,27 @@ exports.getAllEvents = async (req, res, next) => {
             status: 'success',
             all: countAll,
             results: events.length,
+            data: {events}
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
+// Search event Events
+exports.searchAllEvents = async (req, res, next) => {
+    try {
+        const { searchString } = req.query
+
+        const events = await Event.find(
+                                { $text: { $search : searchString } },  
+                                { score : { $meta: "textScore" } })
+                                .sort({ score: { $meta : 'textScore' }})
+        
+        res.status(200).json({
+            status: 'success',
+            all: events.length,
             data: {events}
         })
     } catch (e) {
