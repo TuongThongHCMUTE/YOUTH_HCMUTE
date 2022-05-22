@@ -36,20 +36,24 @@ exports.exportExcelAllClasses = async (req, res, next) => {
             { header: 'Tên lớp', key: 'tenLop', width: 15, style: {alignment: { vertical: 'middle'}} },
             { header: 'Đơn vị', key: 'tenDonVi', width: 30, style: {alignment: { vertical: 'middle'}} },
             { header: 'Ngành học', key: 'nganhHoc', width: 40, style: {alignment: { vertical: 'middle'}} },
-            { header: 'Bí thư', key: 'biThu', width: 30, style: {alignment: { vertical: 'middle'}} },
-            { header: 'Phó bí thư', key: 'phoBiThu', width: 30, style: {alignment: { vertical: 'middle'}} },
+            { header: 'MSSV Bí thư', key: 'maSoSVBiThu', width: 16, style: {alignment: { vertical: 'middle', horizontal: 'center' }} },
+            { header: 'Họ tên Bí thư', key: 'hoTenBiThu', width: 30, style: {alignment: { vertical: 'middle'}} },
+            { header: 'MSSV Phó bí thư', key: 'maSoSVPhoBiThu', width: 16, style: {alignment: { vertical: 'middle', horizontal: 'center' }} },
+            { header: 'Họ tên Phó bí thư', key: 'hoTenPhoBiThu', width: 30, style: {alignment: { vertical: 'middle'}} },
             { header: 'Trạng thái', key: 'trangThai', width: 15, style: {alignment: { vertical: 'middle', horizontal: 'center' }} },
         ]
 
         const data = classes.map(a_class => {
-            const biThu = a_class.quanLy?.find(quanLy => quanLy.chucVu === 'BI_THU')?.hoTen
-            const phoBiThu = a_class.quanLy?.find(quanLy => quanLy.chucVu === 'PHO_BI_THU')?.hoTen
+            const biThu = a_class.quanLy?.find(quanLy => quanLy.chucVu === 'BI_THU')
+            const phoBiThu = a_class.quanLy?.find(quanLy => quanLy.chucVu === 'PHO_BI_THU')
             return {
                 tenLop: a_class.tenLop,
                 tenDonVi: a_class.donVi?.tenDonVi,
                 nganhHoc: a_class.nganhHoc,
-                biThu,
-                phoBiThu,
+                maSoSVBiThu: biThu?.maSoSV,
+                hoTenBiThu: biThu?.hoTen,
+                maSoSVPhoBiThu: phoBiThu?.maSoSV,
+                hoTenPhoBiThu: phoBiThu?.hoTen,
                 trangThai: a_class.hienThi ? 'Hiển thị' : 'Ẩn'
             }
         })

@@ -14,10 +14,6 @@ const generateQuery = ({query, user }) => {
         }
     }
 
-    if (user.role !== 'DOAN_TRUONG') {
-        query.donVi = user.faculty
-    }
-
     return query ? query : {}
 }
 
