@@ -1,10 +1,10 @@
-const Common = require('../common/index')
+const { getQueryParameter, exportExcel, stylesExcel } = require('../common/index')
 const Class = require('../models/class')
 
 // Get all Classes
 exports.getAllClasses = async (req, res, next) => {
     try {
-        const { sort, limit, skip, query } = Common.getQueryParameter(req)
+        const { sort, limit, skip, query } = getQueryParameter(req)
 
         const classes = await Class.find(query).sort(sort).skip(skip).limit(limit)
                                         .populate('donVi', 'tenDonVi')
@@ -26,21 +26,21 @@ exports.getAllClasses = async (req, res, next) => {
 // Export excel all Classes
 exports.exportExcelAllClasses = async (req, res, next) => {
     try {
-        const { sort, limit, skip, query } = Common.getQueryParameter(req)
+        const { sort, limit, skip, query } = getQueryParameter(req)
 
         const classes = await Class.find(query).sort(sort).skip(skip).limit(limit)
                                         .populate('donVi', 'tenDonVi')
                                         .populate('quanLy.sinhVien', 'soDienThoai email')
 
         const columns = [
-            { header: 'Tên lớp', key: 'tenLop', width: 15, style: {alignment: { vertical: 'middle'}} },
-            { header: 'Đơn vị', key: 'tenDonVi', width: 30, style: {alignment: { vertical: 'middle'}} },
-            { header: 'Ngành học', key: 'nganhHoc', width: 40, style: {alignment: { vertical: 'middle'}} },
-            { header: 'MSSV Bí thư', key: 'maSoSVBiThu', width: 16, style: {alignment: { vertical: 'middle', horizontal: 'center' }} },
-            { header: 'Họ tên Bí thư', key: 'hoTenBiThu', width: 30, style: {alignment: { vertical: 'middle'}} },
-            { header: 'MSSV Phó bí thư', key: 'maSoSVPhoBiThu', width: 16, style: {alignment: { vertical: 'middle', horizontal: 'center' }} },
-            { header: 'Họ tên Phó bí thư', key: 'hoTenPhoBiThu', width: 30, style: {alignment: { vertical: 'middle'}} },
-            { header: 'Trạng thái', key: 'trangThai', width: 15, style: {alignment: { vertical: 'middle', horizontal: 'center' }} },
+            { header: 'Tên lớp', key: 'tenLop', width: 15, style: stylesExcel.ALIGNMENT_MID },
+            { header: 'Đơn vị', key: 'tenDonVi', width: 30, style: stylesExcel.ALIGNMENT_MID },
+            { header: 'Ngành học', key: 'nganhHoc', width: 40, style: stylesExcel.ALIGNMENT_MID },
+            { header: 'MSSV Bí thư', key: 'maSoSVBiThu', width: 16, style: stylesExcel.ALIGNMENT_MID_CENTER },
+            { header: 'Họ tên Bí thư', key: 'hoTenBiThu', width: 30, style: stylesExcel.ALIGNMENT_MID },
+            { header: 'MSSV Phó bí thư', key: 'maSoSVPhoBiThu', width: 16, style: stylesExcel.ALIGNMENT_MID_CENTER },
+            { header: 'Họ tên Phó bí thư', key: 'hoTenPhoBiThu', width: 30, style: stylesExcel.ALIGNMENT_MID },
+            { header: 'Trạng thái', key: 'trangThai', width: 15, style: stylesExcel.ALIGNMENT_MID_CENTER },
         ]
 
         const data = classes.map(a_class => {
@@ -58,7 +58,7 @@ exports.exportExcelAllClasses = async (req, res, next) => {
             }
         })
 
-        Common.exportExcel('Classes', columns, data, res)
+        exportExcel('Classes', columns, data, res)
     } catch (e) {
         console.log(e)
         next(e)

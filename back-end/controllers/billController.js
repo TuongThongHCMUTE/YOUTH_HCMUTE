@@ -1,5 +1,5 @@
 const moment = require('moment')
-const Common = require('../common/index')
+const { getQueryParameter, exportExcel, stylesExcel } = require('../common/index')
 const Bill = require('../models/bill')
 const GroupBook = require('../models/groupBook')
 const Student = require('../models/student')
@@ -24,7 +24,7 @@ const getPaymentDateQuery = (query) => {
 // Get all Bills
 exports.getAllBills = async (req, res, next) => {
     try {
-        const { sort, limit, skip, query } = Common.getQueryParameter(req)
+        const { sort, limit, skip, query } = getQueryParameter(req)
         getPaymentDateQuery(query)
 
         const bills = await Bill.find(query).sort(sort).skip(skip).limit(limit)
@@ -48,7 +48,7 @@ exports.getAllBills = async (req, res, next) => {
 // Export excel all Bills
 exports.exportExcelAllBills = async (req, res, next) => {
     try {
-        const { sort, limit, skip, query } = Common.getQueryParameter(req)
+        const { sort, limit, skip, query } = getQueryParameter(req)
         getPaymentDateQuery(query)
 
         const bills = await Bill.find(query).sort(sort).skip(skip).limit(limit)
@@ -56,14 +56,14 @@ exports.exportExcelAllBills = async (req, res, next) => {
                                     .populate('donVi', 'tenDonVi')
 
         const columns = [
-            { header: 'Mã số sinh viên', key: 'maSoSV', width: 15, style: {alignment: { vertical: 'middle', horizontal: 'center' }} },
-            { header: 'Họ và tên', key: 'hoVaTen', width: 30, style: {alignment: { vertical: 'middle'}} },
-            { header: 'Đơn vị', key: 'tenDonVi', width: 30, style: {alignment: { vertical: 'middle'}} },
-            { header: 'Nộp sổ đoàn', key: 'nopSoDoan', width: 12, style: {alignment: { vertical: 'middle', horizontal: 'center' }}},
-            { header: 'Năm học', key: 'namHoc', width: 12, style: {alignment: { vertical: 'middle', horizontal: 'center' }}},
-            { header: 'Trạng thái', key: 'trangThai', width: 20, style: {alignment: { vertical: 'middle', horizontal: 'center' }} },
-            { header: 'Tổng tiền', key: 'tongTien', width: 15, style: {alignment: { vertical: 'middle'}} },
-            { header: 'Ngày thanh toán', key: 'ngayThanhToan', width: 25, style: {alignment: { vertical: 'middle', horizontal: 'center' }}}
+            { header: 'Mã số sinh viên', key: 'maSoSV', width: 15, style: stylesExcel.ALIGNMENT_MID_CENTER },
+            { header: 'Họ và tên', key: 'hoVaTen', width: 30, style: stylesExcel.ALIGNMENT_MID },
+            { header: 'Đơn vị', key: 'tenDonVi', width: 30, style: stylesExcel.ALIGNMENT_MID },
+            { header: 'Nộp sổ đoàn', key: 'nopSoDoan', width: 12, style: stylesExcel.ALIGNMENT_MID_CENTER},
+            { header: 'Năm học', key: 'namHoc', width: 12, style: stylesExcel.ALIGNMENT_MID_CENTER},
+            { header: 'Trạng thái', key: 'trangThai', width: 20, style: stylesExcel.ALIGNMENT_MID_CENTER },
+            { header: 'Tổng tiền', key: 'tongTien', width: 15, style: stylesExcel.ALIGNMENT_MID },
+            { header: 'Ngày thanh toán', key: 'ngayThanhToan', width: 25, style: stylesExcel.ALIGNMENT_MID_CENTER }
         ]
 
         const data = bills.map(bill => {
@@ -79,7 +79,7 @@ exports.exportExcelAllBills = async (req, res, next) => {
             }
         })
 
-        Common.exportExcel('Bills', columns, data, res)
+        exportExcel('Bills', columns, data, res)
     } catch (e) {
         console.log(e)
         next(e)
@@ -88,7 +88,7 @@ exports.exportExcelAllBills = async (req, res, next) => {
 
 exports.getKPIValuesByCheckoutDate = async (req, res, next) => {
     try {
-        const { query } = Common.getQueryParameter(req)
+        const { query } = getQueryParameter(req)
         getPaymentDateQuery(query)
 
         const bills = await Bill.find(query)
