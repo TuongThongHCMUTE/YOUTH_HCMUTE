@@ -58,7 +58,7 @@ exports.exportExcelAllClasses = async (req, res, next) => {
             }
         })
 
-        Common.exportExcel('Class', columns, data, res)
+        Common.exportExcel('Classes', columns, data, res)
     } catch (e) {
         console.log(e)
         next(e)
