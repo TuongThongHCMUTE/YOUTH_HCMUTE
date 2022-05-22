@@ -24,5 +24,22 @@
             }
         }
 
+        .ExportButton {
+            border-radius: 0px;
+            border: 2px solid #1F7244;
+            color: #1F7244;
+            background-color: transparent;
+            padding: 4px 16px;
+            margin-right: 16px;
+            
+            &:hover {
+                font-weight: bold;
+            }
+    
+            > img {
+                height: 28px;
+                margin-right: 8px;
+            }
+        }
     }
 }

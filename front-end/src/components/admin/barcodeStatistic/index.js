@@ -5,7 +5,7 @@ import moment from 'moment';
 import styles from './index.module.scss';
 // APIs ==================================================================== //
 import { getAllFaculties } from 'apis/faculty';
-import { getAllBills, getBillStatistic } from 'apis/bill';
+import { getAllBills, getBillStatistic, exportExcelAllBills} from 'apis/bill';
 // Material UI ============================================================= //
 import { Box, Button } from '@mui/material';
 // Components ============================================================== //
@@ -13,7 +13,7 @@ import SearchBar from './components/SearchBar'
 import StatisticalResults from './components/StatisticalResults';
 import BillsTable from './components/BillsTable';
 
-import excelImage from 'assets/images/icons/excel.png'
+import excelImage from 'assets/images/icons/excel.png';
 
 // =========================|| BARCODE STATISTIC ||========================= //
 const BarcodeStatistic = () => {
@@ -74,6 +74,25 @@ const BarcodeStatistic = () => {
     }
   }
 
+  const exportExcel = async (args) => {
+    try {
+      const res = await exportExcelAllBills(args);
+        
+      const outputFilename = `Danh sách hóa đơn.xlsx`;
+
+      // Download file automatically using link attribute.
+      const url = URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', outputFilename);
+      document.body.appendChild(link);
+      link.click();
+    } catch(err) {
+      alert(err);
+      setLoadingBills(false);
+    }
+  }
+
   const handleSearch = async (searchValues) => {
     setLoading(true);
     try {
@@ -111,6 +130,7 @@ const BarcodeStatistic = () => {
             <Button 
               className={styles.ExportButton}
               variant='contained'
+              onClick={(args) => exportExcel({ ...searchValues, ...args})}
               
             >
               <img src={excelImage} />

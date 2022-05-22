@@ -39,6 +39,43 @@ export const getAllBills = (args) => {
     return axios(option)
 }
 
+export const exportExcelAllBills = (args) => {
+    const { limit, offset, sortBy, isDescending, studentId, faculty, status, date } = args;
+
+    const params = {
+        startDate: moment(date[0]).startOf('day').toDate(),
+        endDate: moment(date[1]).endOf('day').toDate()
+    }
+
+    if (studentId !== '') {
+        params.maSoSV = studentId;
+    }
+
+    if (faculty && faculty !== 'all') {
+        params.donVi = faculty;
+    }
+
+    if (status !== 'all') {
+        params.trangThai = status;
+    }
+
+    params.offset = offset ? offset : 0;
+    params.sortBy = sortBy ? sortBy : "ngayThanhToan:desc";
+    params.sortBy = isDescending ? params.sortBy + ":desc" : params.sortBy; 
+    params.limit = limit;
+
+    const headers = {'Content-Type': 'blob'};
+    const option = {
+        headers,
+        method: 'get',
+        responseType: 'arraybuffer',
+        url: `${url}/bills/xls`,
+        params: params
+    }
+
+    return axios(option)
+}
+
 export const createOneBill = (bill) => {
     const option = {
         method: "post",

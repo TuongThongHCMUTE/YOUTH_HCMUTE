@@ -190,7 +190,7 @@ const InfoForm = (props) => {
                                         name='lopSV._id'
                                         labelId="class-group"
                                         id="input-class"
-                                        value={values.lopSV._id || undefined}
+                                        value={values?.lopSV?._id || undefined}
                                         label="Lớp"
                                         onChange={handleChange}
                                         onBlur={handleBlur}

@@ -35,6 +35,40 @@ export const getAllClasses = (args) => {
     return axios(option)
 }
 
+export const exportExcelAllClasses = (args) => {
+    const { limit, offset, sortBy, isDescending, className, faculty } = args;
+
+    const params = {
+        offset: offset ? offset : 0,
+        sortBy: sortBy ? sortBy : 'tenLop',
+    }
+
+    if (limit) {
+        params.limit = limit;
+    }
+
+    if (className !== '') {
+        params.tenLop = className;
+    }
+
+    if (faculty && faculty !== 'all') {
+        params.donVi = faculty;
+    }
+
+    params.sortBy = isDescending ? params.sortBy + ":desc" : params.sortBy; 
+
+    const headers = {'Content-Type': 'blob'};
+    const option = {
+        headers,
+        method: 'get',
+        responseType: 'arraybuffer',
+        url: `${url}/classes/xls`,
+        params: params
+    }
+
+    return axios(option)
+}
+
 export const getAClassById = (id) => {
     const option = {
         method: "get",
