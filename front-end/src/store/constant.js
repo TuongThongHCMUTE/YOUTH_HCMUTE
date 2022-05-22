@@ -20,4 +20,15 @@ export const studentStatuses = [
     { value: 'SINH_VIEN', displayName: 'Sinh viên' }
 ]
 
+// auth
+export const LOGIN_STEPS = {
+    CHOOSE_OPTIONS: 0,
+    STUDENT_LOGIN: 1,
+    ADMIN_LOGIN: 2,
+    FORGOT_PASSWORD: 3
+}
+
+export const USER_ROLES = {
+    DOAN_TRUONG: 'DOAN_TRUONG'
+}
 

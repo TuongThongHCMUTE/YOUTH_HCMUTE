@@ -3,6 +3,12 @@
 
     .TextField {
         margin-bottom: 32px;
+
+        p {
+            position: absolute;
+            left: 0;
+            top: 100%;
+        }
     }
 
     .Actions {

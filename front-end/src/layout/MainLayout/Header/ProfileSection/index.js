@@ -1,41 +1,36 @@
-import React from 'react';
+// Node Modules ============================================================ //
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
-
-// material-ui
+import { useNavigate } from "react-router-dom";
+// Context ================================================================= //
+import AppContext from 'store/AppContext';
+// Material UI ============================================================= //
 import { makeStyles, useTheme } from '@material-ui/styles';
 import {
     Avatar,
-    Card,
     CardContent,
     Chip,
     ClickAwayListener,
     Divider,
     Grid,
-    InputAdornment,
     List,
     ListItemIcon,
     ListItemText,
-    OutlinedInput,
     Paper,
     Popper,
-    Switch,
     Typography
 } from '@material-ui/core';
 import ListItemButton from '@material-ui/core/ListItemButton';
-
-// third-party
-import PerfectScrollbar from 'react-perfect-scrollbar';
-
-// project imports
+// Project Imports ========================================================= //
 import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
 import UpgradePlanCard from './UpgradePlanCard';
-
-// assets
-import { IconLogout, IconSearch, IconSettings } from '@tabler/icons';
-import User1 from 'assets/images/users/user-round.svg';
-
-// style const
+// Assets ================================================================== //
+import { IconLogout, IconSettings } from '@tabler/icons';
+import hcmuteLogo from 'assets/images/logo-hcmute-small-cut.png';
+// Constants =============================================================== //
+import { USER_ROLES } from 'store/constant';
+// Styles ================================================================== //
 const useStyles = makeStyles((theme) => ({
     navContainer: {
         width: '100%',
@@ -73,7 +68,9 @@ const useStyles = makeStyles((theme) => ({
         padding: '12px'
     },
     listItem: {
-        marginTop: '5px'
+        marginTop: '5px',
+        display: 'flex',
+        alignItems: 'center',
     },
     cardContent: {
         padding: '16px !important'
@@ -109,30 +106,41 @@ const useStyles = makeStyles((theme) => ({
     badgeWarning: {
         backgroundColor: theme.palette.warning.dark,
         color: '#fff'
+    },
+    logOut: {
+        '&:hover': {
+            color: '#fff !important'
+        }
     }
 }));
 
 // ===========================|| PROFILE MENU ||=========================== //
 
 const ProfileSection = () => {
+    const { state, dispatch } = useContext(AppContext);
+
     const classes = useStyles();
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
 
-    const [sdm, setSdm] = React.useState(true);
-    const [value, setValue] = React.useState('');
-    const [notification, setNotification] = React.useState(false);
     const [selectedIndex] = React.useState(1);
 
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
+
+    const navigate = useNavigate();
+
     const handleLogout = async () => {
-        console.error('Logout');
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('role');
+        dispatch({type: "CURRENT_USER", payload: null })
+        navigate('/');
     };
 
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };
+
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
             return;
@@ -149,6 +157,7 @@ const ProfileSection = () => {
 
         prevOpen.current = open;
     }, [open]);
+
     return (
         <>
             <Chip
@@ -156,7 +165,7 @@ const ProfileSection = () => {
                 className={classes.profileChip}
                 icon={
                     <Avatar
-                        src={User1}
+                        src={state?.user?.role === USER_ROLES.DOAN_TRUONG && hcmuteLogo}
                         className={classes.headerAvatar}
                         ref={anchorRef}
                         aria-controls={open ? 'menu-list-grow' : undefined}
@@ -198,87 +207,28 @@ const ProfileSection = () => {
                                     <CardContent className={classes.cardContent}>
                                         <Grid container direction="column" spacing={0}>
                                             <Grid item className={classes.flex}>
-                                                <Typography variant="h4">Good Morning,</Typography>
-                                                <Typography component="span" variant="h4" className={classes.name}>
-                                                    John
-                                                </Typography>
+                                                <Typography variant="h4">{state.user?.tenHienThi}</Typography>
                                             </Grid>
                                             <Grid item>
-                                                <Typography variant="subtitle2">Project Admin</Typography>
+                                                <Typography variant="subtitle2">{state.user?.chucVu}</Typography>
                                             </Grid>
                                         </Grid>
-                                        <OutlinedInput
-                                            className={classes.searchControl}
-                                            id="input-search-profile"
-                                            value={value}
-                                            onChange={(e) => setValue(e.target.value)}
-                                            placeholder="Search profile options"
-                                            startAdornment={
-                                                <InputAdornment position="start">
-                                                    <IconSearch stroke={1.5} size="1.3rem" className={classes.startAdornment} />
-                                                </InputAdornment>
-                                            }
-                                            aria-describedby="search-helper-text"
-                                            inputProps={{
-                                                'aria-label': 'weight'
-                                            }}
-                                        />
                                         <Divider />
-                                        <PerfectScrollbar className={classes.ScrollHeight}>
-                                            <UpgradePlanCard />
-                                            <Divider />
-                                            <Card className={classes.card}>
-                                                <CardContent>
-                                                    <Grid container spacing={3} direction="column">
-                                                        <Grid item>
-                                                            <Grid item container alignItems="center" justifyContent="space-between">
-                                                                <Grid item>
-                                                                    <Typography variant="subtitle1">Start DND Mode</Typography>
-                                                                </Grid>
-                                                                <Grid item>
-                                                                    <Switch
-                                                                        color="primary"
-                                                                        checked={sdm}
-                                                                        onChange={(e) => setSdm(e.target.checked)}
-                                                                        name="sdm"
-                                                                        size="small"
-                                                                    />
-                                                                </Grid>
-                                                            </Grid>
-                                                        </Grid>
-                                                        <Grid item>
-                                                            <Grid item container alignItems="center" justifyContent="space-between">
-                                                                <Grid item>
-                                                                    <Typography variant="subtitle1">Allow Notifications</Typography>
-                                                                </Grid>
-                                                                <Grid item>
-                                                                    <Switch
-                                                                        checked={notification}
-                                                                        onChange={(e) => setNotification(e.target.checked)}
-                                                                        name="sdm"
-                                                                        size="small"
-                                                                    />
-                                                                </Grid>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Grid>
-                                                </CardContent>
-                                            </Card>
-                                            <Divider />
-                                            <List component="nav" className={classes.navContainer}>
-                                                <ListItemButton
-                                                    className={classes.listItem}
-                                                    sx={{ borderRadius: `${customization.borderRadius}px` }}
-                                                    selected={selectedIndex === 4}
-                                                    onClick={handleLogout}
-                                                >
-                                                    <ListItemIcon>
-                                                        <IconLogout stroke={1.5} size="1.3rem" />
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
-                                                </ListItemButton>
-                                            </List>
-                                        </PerfectScrollbar>
+                                        <UpgradePlanCard />
+                                        <Divider />
+                                        <List component="nav" className={classes.navContainer}>
+                                            <ListItemButton
+                                                className={classes.listItem}
+                                                sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                selected={selectedIndex === 4}
+                                                onClick={handleLogout}
+                                            >
+                                                <ListItemIcon>
+                                                    <IconLogout stroke={1.5} size="1.3rem" />
+                                                </ListItemIcon>
+                                                <ListItemText primary={<Typography>Logout</Typography>} />
+                                            </ListItemButton>
+                                        </List>
                                     </CardContent>
                                 </MainCard>
                             </ClickAwayListener>

@@ -1,0 +1,15 @@
+.Footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    background-color: var(--color-primary-400);
+
+    .Content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+        font-size: 16px;
+    }
+}

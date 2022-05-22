@@ -26,15 +26,15 @@ const other = {
                 {
                     id: 'search',
                     title: 'Tra cứu',
-                    url: '/barcode',
                     type: 'item',
+                    url: '/barcode',
                     breadcrumbs: false,
                 },
                 {
                     id: 'thong-ke',
                     title: 'Thống kê',
-                    url: '/barcode/thong-ke',
                     type: 'item',
+                    url: '/barcode/thong-ke',
                     breadcrumbs: false,
                 }
             ]
