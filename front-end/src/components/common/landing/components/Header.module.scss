@@ -1,0 +1,48 @@
+.Header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;
+    height: 70px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+
+    .Content {
+        height: 66px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .Sections {
+            display: flex;
+            width: fit-content;
+
+            li {
+                list-style-type: none;
+                display: inline-block;
+                margin: 0 20px;
+
+                a {
+                    text-decoration: none;
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: var(--color-primary-400);
+                }
+
+                .ActivedLink {
+                    font-weight: bold;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .HeaderDivider {
+        width: 100%;
+        height: 4px;
+        background-image: var(--color-gradient);
+    }
+}
