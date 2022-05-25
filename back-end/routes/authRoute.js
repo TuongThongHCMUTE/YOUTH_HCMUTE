@@ -1,13 +1,15 @@
 const express = require('express')
 
 const { verifyToken } = require('../middleware/verifyToken')
-const { loginWithPassword, resetPassword, getCurrentUser,
+const { loginWithPassword, loginWithGoogle, resetPassword, getCurrentUser,
         changePassword, updateCurrentUser}
     = require('../controllers/authController')
 
 const Router = express.Router()
 
 Router.route('/dang-nhap').post(loginWithPassword)
+
+Router.route('/dang-nhap-google').post(loginWithGoogle)
 
 Router.route('/cap-lai-mat-khau').put(resetPassword)
 
