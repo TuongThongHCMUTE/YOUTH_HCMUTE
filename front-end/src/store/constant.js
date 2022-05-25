@@ -30,6 +30,8 @@ export const LOGIN_STEPS = {
 
 export const USER_ROLES = {
     DOAN_TRUONG: 'DOAN_TRUONG',
-    SINH_VIEN: 'SINH_VIEN'
+    SINH_VIEN: 'DOAN_VIEN'
 }
+
+export const GOOGLE_CLIENT_ID = "495304423620-qaaopkrvume0id1n6o409sc4teeqr643.apps.googleusercontent.com";
 

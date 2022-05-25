@@ -30,7 +30,7 @@ const Admin = (props) => {
     } catch (error) {
       console.log(error);
     }
-  })
+  }, [])
 
   return (
     <div id="admin">

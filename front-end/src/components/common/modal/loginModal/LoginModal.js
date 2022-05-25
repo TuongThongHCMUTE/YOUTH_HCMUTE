@@ -2,17 +2,18 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
+import { GoogleLogin } from 'react-google-login';
 import clsx from 'clsx';
 // Context ================================================================= //
 import AppContext from 'store/AppContext';
 // APIs ==================================================================== //
-import { login } from 'apis/auth';
+import { login, googleLogin } from 'apis/auth';
 // Styles ================================================================== //
 import styles from './LoginModal.module.scss';
 // Assets ================================================================== //
 import logo from 'assets/images/logo-hcmute-small.png';
 // Constants =============================================================== //
-import { LOGIN_STEPS, USER_ROLES } from 'store/constant';
+import { LOGIN_STEPS, USER_ROLES, GOOGLE_CLIENT_ID } from 'store/constant';
 // Material UI ============================================================= //
 import {
     Box, 
@@ -25,7 +26,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
 // My components =========================================================== //
 import SnackBar from 'components/common/alert/Snackbar';
-import { Cookie, Token } from '@mui/icons-material';
 
 // ===========================|| LOGIN MODAL ||============================= //
 const LoginModal = (props) => {
@@ -92,6 +92,37 @@ const LoginModal = (props) => {
             setLoading(false);
         }
     }
+
+    const onGoogleLoginSuccess = async ({ tokenId }) => {
+        setLoading(true);
+
+        try {
+            const res = await googleLogin({ token: tokenId });
+
+            const token = res.data.data.token;
+            const user = res.data.data.user
+
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('role', user.role);
+            dispatch({type: "CURRENT_USER", payload: user});
+            
+            navigate('/student');
+        } catch (error) {
+            setAlert({
+                severity: 'error',
+                message: error.response.data.message
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const onGoogleLoginFailure = (res) => {
+        setAlert({
+            severity: 'error',
+            message: res.error
+        });
+    };
     
     return (
         <Modal
@@ -138,9 +169,22 @@ const LoginModal = (props) => {
                             <h3>Sinh viên đăng nhập</h3>
                             <p>Sử dụng email sinh viên để đăng nhập vào hệ thống</p>
                             <div className={styles.ButtonWrapper}>
-                                <Button className={clsx("button", styles.GoogleLogin)}>
-                                    Đăng nhập với Google
-                                </Button>
+                                <GoogleLogin 
+                                    clientId={GOOGLE_CLIENT_ID}
+                                    render={renderProps => (
+                                        <LoadingButton 
+                                            className={clsx("button", styles.GoogleLogin)}
+                                            onClick={renderProps.onClick}
+                                            loading={loading}
+                                        >
+                                            Đăng nhập với Google
+                                        </LoadingButton>
+                                    )}
+                                    onSuccess={onGoogleLoginSuccess}
+                                    onFailure={onGoogleLoginFailure}
+                                    cookiePolicy={'single_host_origin'}
+                                    isSignedIn={false}
+                                />
                             </div>
                             <div className={styles.ButtonDivider} />
                             <a 

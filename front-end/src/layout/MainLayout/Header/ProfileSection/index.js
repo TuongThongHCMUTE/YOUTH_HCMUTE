@@ -207,7 +207,7 @@ const ProfileSection = () => {
                                     <CardContent className={classes.cardContent}>
                                         <Grid container direction="column" spacing={0}>
                                             <Grid item className={classes.flex}>
-                                                <Typography variant="h4">{state.user?.tenHienThi}</Typography>
+                                                <Typography variant="h4">{state?.user?.tenHienThi}</Typography>
                                             </Grid>
                                             <Grid item>
                                                 <Typography variant="subtitle2">{state.user?.chucVu}</Typography>
