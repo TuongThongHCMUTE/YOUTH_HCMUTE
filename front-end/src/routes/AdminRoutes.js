@@ -28,7 +28,7 @@ const AdminRoutes = {
             element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><Barcode /></Protected>
         },
         {
-            path: '/barcode',
+            path: '/barcode/tra-cuu',
             element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><Barcode /></Protected>
         },
         {

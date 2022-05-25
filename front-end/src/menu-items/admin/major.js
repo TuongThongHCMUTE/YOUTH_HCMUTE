@@ -24,10 +24,10 @@ const other = {
             icon: icons.FitScreenIcon,
             children: [
                 {
-                    id: 'search',
+                    id: 'tra-cuu',
                     title: 'Tra cứu',
                     type: 'item',
-                    url: '/barcode',
+                    url: '/barcode/tra-cuu',
                     breadcrumbs: false,
                 },
                 {
@@ -40,7 +40,7 @@ const other = {
             ]
         },
         {
-            id: 'documentation',
+            id: 'ho-so',
             title: 'Hồ sơ đoàn vụ',
             type: 'item',
             url: '/ho-so',
@@ -48,7 +48,7 @@ const other = {
             breadcrumbs: false
         },
         {
-            id: 'list',
+            id: 'chi-doan',
             title: 'Danh sách chi đoàn',
             type: 'item',
             url: '/chi-doan',

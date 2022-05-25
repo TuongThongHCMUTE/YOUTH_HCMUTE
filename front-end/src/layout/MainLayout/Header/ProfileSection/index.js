@@ -1,5 +1,5 @@
 // Node Modules ============================================================ //
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 // Context ================================================================= //
@@ -118,6 +118,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileSection = () => {
     const { state, dispatch } = useContext(AppContext);
+    const [avatar, setAvatar] = useState(null);
 
     const classes = useStyles();
     const theme = useTheme();
@@ -158,6 +159,33 @@ const ProfileSection = () => {
         prevOpen.current = open;
     }, [open]);
 
+    const getUserAvatar = () => {
+        if (state?.user?.image) {
+            return state?.user?.image
+        } else {
+            switch (state?.user?.role) {
+                case USER_ROLES.DOAN_TRUONG:
+                    return hcmuteLogo;
+                default:
+                    return null;
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (state?.user?.image) {
+            setAvatar(state?.user?.image);
+        } else {
+            switch (state?.user?.role) {
+                case USER_ROLES.DOAN_TRUONG:
+                    setAvatar(hcmuteLogo);
+                default:
+                    setAvatar(null);
+            }
+        }
+
+    }, [state?.user])
+
     return (
         <>
             <Chip
@@ -165,7 +193,7 @@ const ProfileSection = () => {
                 className={classes.profileChip}
                 icon={
                     <Avatar
-                        src={state?.user?.role === USER_ROLES.DOAN_TRUONG && hcmuteLogo}
+                        src={avatar}
                         className={classes.headerAvatar}
                         ref={anchorRef}
                         aria-controls={open ? 'menu-list-grow' : undefined}
@@ -207,7 +235,9 @@ const ProfileSection = () => {
                                     <CardContent className={classes.cardContent}>
                                         <Grid container direction="column" spacing={0}>
                                             <Grid item className={classes.flex}>
-                                                <Typography variant="h4">{state?.user?.tenHienThi}</Typography>
+                                                <Typography variant="h4">{
+                                                    state?.user?.tenHienThi || state?.user?.ho + " " + state?.user?.ten
+                                                }</Typography>
                                             </Grid>
                                             <Grid item>
                                                 <Typography variant="subtitle2">{state.user?.chucVu}</Typography>
