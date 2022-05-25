@@ -3,7 +3,7 @@ import React from 'react';
 // Styles ================================================================== //
 import styles from './Banner.module.scss';
 // Assets ================================================================== //
-import banner from 'assets/images/banner/banner.png'
+import banner from 'assets/images/banner/banner.jpg'
 
 // ==============================|| HEADER ||=============================== //
 const Banner = () => {

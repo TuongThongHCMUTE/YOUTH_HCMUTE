@@ -1,12 +1,22 @@
-import dashboard from './dashboard';
-import pages from './pages';
-import utilities from './utilities';
-import other from './other';
+import { USER_ROLES } from 'store/constant';
 
-// ===========================|| MENU ITEMS ||=========================== //
+import adminMenuItems from './admin';
+import studentMenuItems from './student';
 
-const menuItems = {
-    items: [dashboard, pages, utilities, other]
+
+const getMenuItems = () => {
+    const role = sessionStorage.getItem('role');
+
+    switch (role) {
+        case USER_ROLES.DOAN_TRUONG:
+            return adminMenuItems;
+        case USER_ROLES.SINH_VIEN:
+            return studentMenuItems;
+        default:
+            return studentMenuItems;
+    }
 };
 
-export default menuItems;
+const userMenuItems = getMenuItems();
+
+export default userMenuItems;

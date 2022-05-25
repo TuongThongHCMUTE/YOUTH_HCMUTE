@@ -49,12 +49,10 @@ const AdminRoutes = {
         },
         {
             path: '/users',
-            // element: <DashboardDefault />
             element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><div></div></Protected>
         },
         {
             path: '/system-config',
-            // element: <DashboardDefault />
             element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><div></div></Protected>
         },
     ]

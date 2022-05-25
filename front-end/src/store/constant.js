@@ -29,6 +29,7 @@ export const LOGIN_STEPS = {
 }
 
 export const USER_ROLES = {
-    DOAN_TRUONG: 'DOAN_TRUONG'
+    DOAN_TRUONG: 'DOAN_TRUONG',
+    SINH_VIEN: 'SINH_VIEN'
 }
 
