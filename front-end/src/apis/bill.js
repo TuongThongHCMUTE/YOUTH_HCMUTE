@@ -5,6 +5,8 @@ import moment from "moment";
 // Constants =============================================================== //
 import { url } from 'store/constant';
 
+const token = sessionStorage.getItem("token");
+
 export const getAllBills = (args) => {
     const { limit, offset, sortBy, isDescending, studentId, faculty, status, date } = args;
 
@@ -33,6 +35,9 @@ export const getAllBills = (args) => {
     const option = {
         method: 'get',
         url: `${url}/bills`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         params: params
     }
 
@@ -70,6 +75,9 @@ export const exportExcelAllBills = (args) => {
         method: 'get',
         responseType: 'arraybuffer',
         url: `${url}/bills/xls`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         params: params
     }
 
@@ -80,6 +88,9 @@ export const createOneBill = (bill) => {
     const option = {
         method: "post",
         url: `${url}/bills`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         data: bill
     }
   
@@ -90,6 +101,9 @@ export const updateOneBill = (bill) => {
     const option = {
         method: "put",
         url: `${url}/bills/${bill._id}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         data: bill
     }
   
@@ -100,6 +114,9 @@ export const checkOutBill = (billId) => {
     const option = {
         method: "put",
         url: `${url}/bills/thanh-toan/${billId}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         data: {}
     }
   
@@ -127,6 +144,9 @@ export const getBillStatistic = ({ studentId, faculty, status, date }) => {
     const option = {
         method: 'get',
         url: `${url}/bills/thong-ke-theo-ngay`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         params: params
     }
 

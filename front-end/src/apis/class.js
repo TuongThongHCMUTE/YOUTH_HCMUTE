@@ -4,6 +4,8 @@ import axios from "axios";
 // Constants =============================================================== //
 import { url } from 'store/constant';
 
+const token = sessionStorage.getItem("token");
+
 export const getAllClasses = (args) => {
     const { limit, offset, sortBy, isDescending, className, faculty } = args;
 
@@ -29,6 +31,9 @@ export const getAllClasses = (args) => {
     const option = {
         method: 'get',
         url: `${url}/classes`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         params: params
     }
 
@@ -63,6 +68,9 @@ export const exportExcelAllClasses = (args) => {
         method: 'get',
         responseType: 'arraybuffer',
         url: `${url}/classes/xls`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         params: params
     }
 
@@ -73,6 +81,9 @@ export const getAClassById = (id) => {
     const option = {
         method: "get",
         url: `${url}/classes/${id}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
     }
   
     return axios(option);
@@ -88,6 +99,9 @@ export const createClass = (classObject) => {
     const option = {
         method: "post",
         url: `${url}/classes`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         data: sendData
     }
   
@@ -98,6 +112,9 @@ export const updateClass = (classObject) => {
     const option = {
         method: "put",
         url: `${url}/classes/${classObject._id}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         data: classObject
     }
   
@@ -108,6 +125,9 @@ export const deleteClass = (classId) => {
     const option = {
         method: "delete",
         url: `${url}/classes/${classId}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
     }
   
     return axios(option);
