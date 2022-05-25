@@ -1,3 +1,8 @@
+// Google authentication
+const { OAuth2Client } = require('google-auth-library')
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
+
+// Models
 const Student = require('../models/student')
 const Manager = require('../models/manager')
 
@@ -43,6 +48,49 @@ exports.loginWithPassword = async (req, res, next) => {
             err.statusCode = 400
             return next(err)
         }
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
+// Login for student with Google Token
+exports.loginWithGoogle = async (req, res, next) => {
+    try {
+        const { token } = req.body
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID
+        })
+        const payload = ticket.getPayload()
+        console.log(`User ${ payload.name } verified`)
+
+        const { email, picture } = payload
+        var user = await Student.findOne({email})
+        
+        if (!user) {
+            const err = new Error('Email không tồn tại')
+            err.statusCode = 400
+            return next(err)
+        } else if (user.image !== picture) {
+            user.image = picture
+            user.save()
+        }
+
+        if (!user.trangThai) {
+            //Error: Manager is Locked
+            const err = new Error('Tài khoản của bạn đang tạm khóa')
+            err.statusCode = 403 // Forbidden
+            return next(err)
+        }
+
+        return res.status(200).json({
+            status: 'success',
+            data: {
+                user,
+                token: Common.generateToken({_id: user._id, email: user.email, role: user.role, faculty: user.donVi})
+            }
+        })
     } catch (e) {
         console.log(e)
         next(e)
