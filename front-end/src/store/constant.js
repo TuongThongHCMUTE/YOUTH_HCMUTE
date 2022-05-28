@@ -16,8 +16,8 @@ export const bookStatuses = [
 ]
 
 export const studentStatuses = [
-    { value: 'DOAN_VIEN', displayName: 'Đoàn viên' },
-    { value: 'SINH_VIEN', displayName: 'Sinh viên' }
+    { value: true, displayName: 'Đoàn viên' },
+    { value: false, displayName: 'Sinh viên' }
 ]
 
 // auth

@@ -96,10 +96,10 @@ const NavCollapse = ({ menu, level }) => {
             .findIndex((id) => id === menu.id);
         if (currentIndex === -1) {
             setSelected(null);
+            setOpen(false);
         } else {
             setSelected(menu.id);
             setOpen(true);
-            dispatch({ type: MENU_OPEN, id: menu.id });
         }
     }, [document.location.pathname])
 
