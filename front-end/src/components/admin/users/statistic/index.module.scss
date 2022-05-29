@@ -1,0 +1,25 @@
+.Charts {
+    padding: 16px;
+    margin-bottom: 40px;
+
+    .Chart {
+        padding: 16px;
+
+        .ChartLegend {
+            margin: 0 0 16px;
+            font-size: 24px;
+            color: var(--color-grey-600);
+        }
+
+        .ChartContent {
+            padding: 24px 16px 0;
+            border: 1px solid var(--color-grey-400);
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
+
+.NoBorder {
+    border: none !important;
+}

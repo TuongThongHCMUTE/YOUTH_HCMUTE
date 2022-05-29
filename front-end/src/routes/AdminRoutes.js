@@ -12,6 +12,7 @@ const Barcode = Loadable(lazy(() => import('components/admin/barcodeSearch')));
 const BarcodeStatistic = Loadable(lazy(() => import('components/admin/barcodeStatistic')));
 const ClassList = Loadable(lazy(() => import('components/admin/class/classList')));
 const ClassDetail = Loadable(lazy(() => import('components/admin/class/classDetail')));
+const UsersManagement = Loadable(lazy(() => import('components/admin/users')));
 
 // ===========================|| ADMIN ROUTING ||=========================== //
 
@@ -49,7 +50,7 @@ const AdminRoutes = {
         },
         {
             path: '/users',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><div></div></Protected>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><UsersManagement /></Protected>
         },
         {
             path: '/system-config',
