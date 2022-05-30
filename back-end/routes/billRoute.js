@@ -1,19 +1,22 @@
 const express = require('express')
 
+const { verifyToken } = require('../middleware/verifyToken')
 const { getAllBills, createOneBill, getOneBill, updateOneBill, deleteOneBill, checkOutBill,
-        getKPIValuesByCheckoutDate, cancelPayment}
+        getKPIValuesByCheckoutDate, cancelPayment, exportExcelAllBills}
     = require('../controllers/billController')
 
 const Router = express.Router()
 
-Router.route('/').get(getAllBills).post(createOneBill)
+Router.route('/').get(verifyToken, getAllBills).post(verifyToken, createOneBill)
 
-Router.route('/thong-ke-theo-ngay').get(getKPIValuesByCheckoutDate)
+Router.route('/xls').get(verifyToken, exportExcelAllBills)
 
-Router.route('/thanh-toan/:id').put(checkOutBill)
+Router.route('/thong-ke-theo-ngay').get(verifyToken, getKPIValuesByCheckoutDate)
 
-Router.route('/huy-thanh-toan/:id').put(cancelPayment)
+Router.route('/thanh-toan/:id').put(verifyToken, checkOutBill)
 
-Router.route('/:id').get(getOneBill).put(updateOneBill).delete(deleteOneBill)
+Router.route('/huy-thanh-toan/:id').put(verifyToken, cancelPayment)
+
+Router.route('/:id').get(verifyToken, getOneBill).put(verifyToken, updateOneBill).delete(verifyToken, deleteOneBill)
 
 module.exports = Router

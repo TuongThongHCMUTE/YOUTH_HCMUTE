@@ -17,10 +17,10 @@ const dashboard = {
     type: 'group',
     children: [
         {
-            id: 'default',
+            id: 'dashboard',
             title: 'Dashboard',
             type: 'item',
-            url: '/dashboard/default',
+            url: '/admin/dashboard/default',
             icon: icons.QueryStatsIcon,
             breadcrumbs: false
         }

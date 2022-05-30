@@ -34,6 +34,8 @@
         "react-css-modules": "^4.7.11",
         "react-device-detect": "^1.17.0",
         "react-dom": "^17.0.2",
+        "react-google-login": "^5.2.2",
+        "react-icons": "^4.3.1",
         "react-number-format": "^4.9.1",
         "react-perfect-scrollbar": "^1.5.8",
         "react-redux": "^7.2.3",
@@ -44,6 +46,7 @@
         "redux": "^4.0.5",
         "run": "^1.4.0",
         "to": "^0.2.9",
+        "typescript": "^4.6.4",
         "yup": "^0.32.9"
     },
     "scripts": {

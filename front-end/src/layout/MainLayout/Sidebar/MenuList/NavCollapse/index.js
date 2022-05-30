@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
@@ -9,6 +10,7 @@ import ListItemButton from '@material-ui/core/ListItemButton';
 
 // project imports
 import NavItem from '../NavItem';
+import { MENU_OPEN } from 'store/actions';
 
 // assets
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
@@ -77,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
 const NavCollapse = ({ menu, level }) => {
     const classes = useStyles();
     const customization = useSelector((state) => state.customization);
+    const dispatch = useDispatch();
 
     const [open, setOpen] = React.useState(false);
     const [selected, setSelected] = React.useState(null);
@@ -85,6 +88,20 @@ const NavCollapse = ({ menu, level }) => {
         setOpen(!open);
         setSelected(!selected ? menu.id : null);
     };
+
+    useEffect(() => {
+        const currentIndex = document.location.pathname
+            .toString()
+            .split('/')
+            .findIndex((id) => id === menu.id);
+        if (currentIndex === -1) {
+            setSelected(null);
+            setOpen(false);
+        } else {
+            setSelected(menu.id);
+            setOpen(true);
+        }
+    }, [document.location.pathname])
 
     // menu collapse & item
     const menus = menu.children.map((item) => {

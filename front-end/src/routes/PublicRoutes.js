@@ -10,7 +10,7 @@ const Landing = Loadable(lazy(() => import('components/common/landing')))
 
 const PublicRoutes = [
     {
-        path: '/landing',
+        path: '/',
         element: <Landing />
     }
 ]

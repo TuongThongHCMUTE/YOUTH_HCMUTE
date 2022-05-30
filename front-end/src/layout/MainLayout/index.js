@@ -14,9 +14,13 @@ import Breadcrumbs from 'ui-component/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Customization from '../Customization';
-import navigation from 'menu-items';
+import adminNavigation from 'menu-items/admin';
+import studentNavigation from 'menu-items/student';
 import { drawerWidth } from 'store/constant';
 import { SET_MENU } from 'store/actions';
+
+// constant
+import { USER_ROLES } from 'store/constant';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
@@ -91,6 +95,22 @@ const MainLayout = () => {
     React.useEffect(() => {
         dispatch({ type: SET_MENU, opened: !matchDownMd });
     }, [matchDownMd]);
+
+    // Match Navigation
+    const matchNavigation = () => {
+        const role = sessionStorage.getItem('role');
+
+        switch (role) {
+            case USER_ROLES.DOAN_TRUONG:
+                return adminNavigation;
+            case USER_ROLES.SINH_VIEN:
+                return studentNavigation;
+            default:
+                return studentNavigation;
+        }
+    }
+
+    const navigation = matchNavigation();
 
     return (
         <div className={classes.root}>

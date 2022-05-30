@@ -1,4 +1,4 @@
-const Common = require('../common/methods')
+const Common = require('../common/index')
 const Student = require('../models/student')
 const Bill = require('../models/bill')
 const PriceList = require('../models/priceList')
@@ -50,7 +50,8 @@ exports.getOneStudent = async (req, res, next) => {
 
         const student = await Student.findById(id)
                                         .populate('donVi', 'tenDonVi')
-                                        .populate('lopSV', 'tenLop')
+                                        .populate('lopSV', 'tenLop nganhHoc')
+                                        .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
 
         res.status(200).json({
             status: 'success',
@@ -70,7 +71,7 @@ exports.getStudentBarcode = async (req, res, next) => {
 
         const student = await Student.findOne({ maSoSV })
                                         .populate('donVi', 'tenDonVi')
-                                        .populate('lopSV', 'tenLop')
+                                        .populate('lopSV', 'tenLop nganhHoc')
                                         .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
         let bill = await Bill.findOne({ maSoSV, maNamHoc })
 
@@ -130,7 +131,7 @@ exports.getStudentInfo = async (req, res, next) => {
 
         const student = await Student.findOne({ maSoSV })
                                         .populate('donVi', 'tenDonVi')
-                                        .populate('lopSV', 'tenLop')
+                                        .populate('lopSV', 'tenLop nganhHoc')
                                         .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
 
         res.status(200).json({

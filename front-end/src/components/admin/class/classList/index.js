@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './index.module.scss';
 // APIs ==================================================================== //
 import { getAllFaculties } from 'apis/faculty';
-import { getAllClasses } from 'apis/class';
+import { getAllClasses, exportExcelAllClasses } from 'apis/class';
 // Constants =============================================================== //
 import { DEFAULT_LIMIT } from 'helpers/constants/class';
 // Material UI ============================================================= //
@@ -13,6 +13,8 @@ import { Box, Button } from '@mui/material';
 import SearchBar from './components/SearchBar';
 import ClassesTable from './components/ClassesTable';
 import CreateClassWizard from '../createClassWizard';
+
+import excelImage from 'assets/images/icons/excel.png';
 
 // ===========================|| CLASSES LIST ||============================ //
 const ClassList = () => {
@@ -69,6 +71,25 @@ const ClassList = () => {
         }
     }
 
+    const exportExcel = async (args) => {
+        try {
+          const res = await exportExcelAllClasses(args);
+            
+          const outputFilename = `Danh sách chi đoàn.xlsx`;
+    
+          // Download file automatically using link attribute.
+          const url = URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', outputFilename);
+          document.body.appendChild(link);
+          link.click();
+        } catch(err) {
+          alert(err);
+          setLoadingBills(false);
+        }
+      }
+
     return (
         <>
             <SearchBar 
@@ -85,13 +106,24 @@ const ClassList = () => {
                         <h3 className={styles.Title}>Danh sách chi đoàn</h3>
                         <p className={styles.TotalRecord}>Tổng số: { totalRecords }</p>
                     </div>
-                    <Button 
-                        className='button'
-                        variant='contained'
-                        onClick={() => setShowCreateModal(true)}
-                    >
-                        Thêm mới
-                    </Button>
+                    <div className={styles.ButtonWrapper}>
+                        <Button 
+                            className={styles.ExportButton}
+                            variant='contained'
+                            onClick={(args) => exportExcel({ ...searchValues, ...args})}
+                            
+                            >
+                            <img src={excelImage} />
+                            Xuất dữ liệu
+                        </Button>
+                        <Button 
+                            className='button'
+                            variant='contained'
+                            onClick={() => setShowCreateModal(true)}
+                        >
+                            Thêm mới
+                        </Button>
+                    </div>
                 </Box>
                 <ClassesTable 
                     data={classes}

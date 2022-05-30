@@ -1,3 +1,19 @@
+exports.mappingFields = {
+    tenLop: 'Tên lớp',
+    email: 'Email',
+    sinhVien: 'Sinh viên',
+    maSoSV: 'Mã số sinh viên',
+    maNamHoc: 'Mã năm học',
+    namHoc: 'Năm học',
+    tenNamHoc: 'Tên năm học'
+}
+
+
+exports.stylesExcel = {
+    ALIGNMENT_MID: {alignment: { vertical: 'middle'}},
+    ALIGNMENT_MID_CENTER: {alignment: { vertical: 'middle', horizontal: 'center' }}
+}
+
 exports.defaultBill = {
     "tongTien": 50000,
     // Sổ đoàn viên

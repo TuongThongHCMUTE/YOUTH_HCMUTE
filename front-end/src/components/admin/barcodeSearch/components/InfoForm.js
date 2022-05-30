@@ -190,7 +190,7 @@ const InfoForm = (props) => {
                                         name='lopSV._id'
                                         labelId="class-group"
                                         id="input-class"
-                                        value={values.lopSV._id || undefined}
+                                        value={values?.lopSV?._id || undefined}
                                         label="Lớp"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -208,8 +208,8 @@ const InfoForm = (props) => {
                                 <FormControl fullWidth variant='filled' className='text-field'>
                                     <InputLabel>Đoàn viên</InputLabel>
                                     <Select
-                                        name='role'
-                                        value={values.role || 'SINH_VIEN'}
+                                        name='doanVien'
+                                        value={values.doanVien}
                                         label="Tình trạng"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -272,7 +272,7 @@ const InfoForm = (props) => {
 
                             {/* ĐOÀN VIÊN */}
                             {
-                                values.role === 'DOAN_VIEN' && (
+                                values.doanVien && (
                                     <>
                                         <Grid item xs={12}>
                                             <h3 className={styles.SectionTitle}>Đoàn viên</h3>

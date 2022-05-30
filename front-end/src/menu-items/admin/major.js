@@ -24,23 +24,23 @@ const other = {
             icon: icons.FitScreenIcon,
             children: [
                 {
-                    id: 'search',
+                    id: 'tra-cuu',
                     title: 'Tra cứu',
-                    url: '/barcode',
                     type: 'item',
+                    url: '/barcode/tra-cuu',
                     breadcrumbs: false,
                 },
                 {
                     id: 'thong-ke',
                     title: 'Thống kê',
-                    url: '/barcode/thong-ke',
                     type: 'item',
+                    url: '/barcode/thong-ke',
                     breadcrumbs: false,
                 }
             ]
         },
         {
-            id: 'documentation',
+            id: 'ho-so',
             title: 'Hồ sơ đoàn vụ',
             type: 'item',
             url: '/ho-so',
@@ -48,7 +48,7 @@ const other = {
             breadcrumbs: false
         },
         {
-            id: 'list',
+            id: 'chi-doan',
             title: 'Danh sách chi đoàn',
             type: 'item',
             url: '/chi-doan',

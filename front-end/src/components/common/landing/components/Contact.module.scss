@@ -1,0 +1,107 @@
+.Divider {
+    width: 100%;
+    height: 4px;
+    background-image: var(--color-gradient);
+}
+
+.Contact {
+    display: flex;
+    justify-content: center;
+
+    .Content {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 40px 0 80px;
+
+        .Name {
+            h1 {
+                font-size: 52px;
+                line-height: 52px;
+                font-weight: bolder;
+                letter-spacing: 1px;
+                color: var(--color-primary-400);
+                margin: 20px 0 0px;
+            }
+
+            h5 {
+                font-size: 13px;
+                line-height: 13px;
+                font-weight: 300;
+                color: var(--color-primary-400);
+                margin: 0;
+            }
+        }
+
+        .Logo {
+            img {
+                margin-top: 16px;
+                width: 250px;
+            }
+        }
+
+        .Title {
+            margin: 20px 0 28px;
+            font-size: 18px;
+            line-height: 18px;
+            font-weight: bold;
+            color: var(--color-primary-400);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .Contacts {
+            li {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                margin-bottom: 12px;
+
+                .IconBackGround {
+                    display: inline-block;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-right: 8px;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    background-color: var(--color-primary-400);
+
+                    .Icon {
+                        width: 18px;
+                        height: 18px;
+                        color: white;
+                    }
+                }
+
+                .Info {
+                    color: black;
+                }
+            }
+        }
+
+        .Networks {
+            display: flex;
+            justify-content: flex-start;
+
+            li {
+                margin-right: 20px;
+
+                .Icon {
+                    height: 40px;
+                    width: 40px;
+                    color: var(--color-primary-400);
+
+                    &:hover {
+                        color: var(--color-primary-800);
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}

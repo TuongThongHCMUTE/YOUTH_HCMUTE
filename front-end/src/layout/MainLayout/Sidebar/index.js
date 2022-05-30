@@ -15,6 +15,13 @@ import LogoSection from '../LogoSection';
 import MenuCard from './MenuCard';
 import { drawerWidth } from 'store/constant';
 
+// import menuItem from 'menu-items';
+import adminMenuItems from 'menu-items/admin';
+import studentMenuItems from 'menu-items/student';
+
+// constant
+import { USER_ROLES } from 'store/constant';
+
 // style constant
 const useStyles = makeStyles((theme) => ({
     drawer: {
@@ -64,6 +71,22 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
     const theme = useTheme();
     const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
+    // Match MenuItems
+    const matchMenuItems = () => {
+        const role = sessionStorage.getItem('role');
+
+        switch (role) {
+            case USER_ROLES.DOAN_TRUONG:
+                return adminMenuItems;
+            case USER_ROLES.SINH_VIEN:
+                return studentMenuItems;
+            default:
+                return studentMenuItems;
+        }
+    }
+
+    const menuItems = matchMenuItems();
+
     const drawer = (
         <>
             <Box sx={{ display: { xs: 'block', md: 'none' } }}>
@@ -73,13 +96,13 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
             </Box>
             <BrowserView>
                 <PerfectScrollbar component="div" className={classes.ScrollHeight}>
-                    <MenuList />
+                    <MenuList menuItems={menuItems} />
                     <MenuCard />
                 </PerfectScrollbar>
             </BrowserView>
             <MobileView>
                 <Box sx={{ px: 2 }}>
-                    <MenuList />
+                    <MenuList menuItems={menuItems} />
                     <MenuCard />
                 </Box>
             </MobileView>

@@ -5,6 +5,7 @@ back-end/.env
 
 back-end/controllers/processDataController.js
 back-end/routes/processDataRoute.js
+back-end/common/playRound.js
 
 # For front-end
 front-end/node_modules

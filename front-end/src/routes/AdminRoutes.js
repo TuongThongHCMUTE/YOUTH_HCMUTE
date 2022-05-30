@@ -1,9 +1,12 @@
+// Node Modules ============================================================ //
 import React, { lazy } from 'react';
-
-// project imports
+// Constants =============================================================== //
+import { USER_ROLES } from 'store/constant';
+// My components =========================================================== //
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
-
+import Protected from 'components/common/Protected';
+// Pages =================================================================== //
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 const Barcode = Loadable(lazy(() => import('components/admin/barcodeSearch')));
 const BarcodeStatistic = Loadable(lazy(() => import('components/admin/barcodeStatistic')));
@@ -17,44 +20,40 @@ const AdminRoutes = {
     element: <MainLayout />,
     children: [
         {
-            path: '/dashboard/default',
-            // element: <DashboardDefault />
-            element: <div></div>
+            path: 'admin/dashboard/default',
+            element: <DashboardDefault />
         },
         {
-            path: '/',
-            element: <Barcode />
+            path: '/admin',
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><Barcode /></Protected>
         },
         {
-            path: '/barcode',
-            element: <Barcode />
+            path: '/barcode/tra-cuu',
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><Barcode /></Protected>
         },
         {
             path: '/barcode/thong-ke',
-            element: <BarcodeStatistic />
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><BarcodeStatistic /></Protected>
         },
         {
             path: '/ho-so',
-            // element: <DashboardDefault />
-            element: <div></div>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><div></div></Protected>
         },
         {
             path: '/chi-doan',
-            element: <ClassList />
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><ClassList /></Protected>
         },
         {
             path: '/chi-doan/:id',
-            element: <ClassDetail />
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><ClassDetail /></Protected>
         },
         {
             path: '/users',
-            // element: <DashboardDefault />
-            element: <div></div>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><div></div></Protected>
         },
         {
             path: '/system-config',
-            // element: <DashboardDefault />
-            element: <div></div>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><div></div></Protected>
         },
     ]
 };
