@@ -1,10 +1,10 @@
-const Common = require('../common/index')
+const { getQueryParameter } = require('../common/index')
 const PriceList = require('../models/priceList')
 
 // Get all PriceLists
 exports.getAllPriceLists = async (req, res, next) => {
     try {
-        const { sort, limit, skip, query } = Common.getQueryParameter(req)
+        const { sort, limit, skip, query } = getQueryParameter(req)
 
         const priceLists = await PriceList.find(query).sort(sort).skip(skip).limit(limit);
         const countAll = await PriceList.countDocuments(query)

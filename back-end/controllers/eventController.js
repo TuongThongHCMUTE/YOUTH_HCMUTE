@@ -1,10 +1,10 @@
-const Common = require('../common/index')
+const { getQueryParameter } = require('../common/index')
 const Event = require('../models/event')
 
 // Get all Events
 exports.getAllEvents = async (req, res, next) => {
     try {
-        const { sort, limit, skip, query } = Common.getQueryParameter(req)
+        const { sort, limit, skip, query } = getQueryParameter(req)
 
         const events = await Event.find(query).sort(sort).skip(skip).limit(limit)
                                     .populate('sinhVienThamGia.sinhVien', 'maSoSV ho ten')
