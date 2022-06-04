@@ -77,6 +77,11 @@ exports.loginWithGoogle = async (req, res, next) => {
             user.save()
         }
 
+        if (!user.kichHoatTaiKhoan) {
+            user.kichHoatTaiKhoan = true
+            await user.save()
+        }
+
         if (!user.trangThai) {
             //Error: Manager is Locked
             const err = new Error('Tài khoản của bạn đang tạm khóa')
