@@ -48,9 +48,9 @@ const bcrypt = require('bcryptjs')
 
 exports.generatePassword = () => {
     const password = generator.generate({
-        length: 15,
+        length: 20,
         numbers: true,
-        symbols: true
+        // symbols: true
     })
 
     return password
@@ -105,4 +105,10 @@ exports.exportExcel = (fileName, columns, data, res) => {
     return workbook.xlsx.write(res).then(function () {
         res.status(200).end()
     })
+}
+
+exports.addHours = (numOfHours, date) => {
+    date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
+    
+    return date;
 }

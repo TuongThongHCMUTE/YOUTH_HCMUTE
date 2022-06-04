@@ -11,7 +11,9 @@ exports.mappingFields = {
 
 exports.stylesExcel = {
     ALIGNMENT_MID: {alignment: { vertical: 'middle'}},
-    ALIGNMENT_MID_CENTER: {alignment: { vertical: 'middle', horizontal: 'center' }}
+    ALIGNMENT_MID_CENTER: {alignment: { vertical: 'middle', horizontal: 'center' }},
+    SHORT_DATE_FORMAT: {alignment: { vertical: 'middle', horizontal: 'center' }, numFmt: 'dd/mm/yyyy'},
+    LONG_DATE_FORMAT: {alignment: { vertical: 'middle', horizontal: 'center'}, numFmt: 'dd/mm/yyyy hh:mm'},
 }
 
 exports.defaultBill = {
