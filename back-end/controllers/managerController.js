@@ -55,8 +55,8 @@ exports.exportExcelAllManagers = async (req, res, next) => {
                 tenDonVi: manager.donVi?.tenDonVi,
                 chucVu: manager.chucVu,
                 role: manager.role,
-                trangThai: manager.trangThai ? 'Đang dùng' : 'Tạm khóa',
                 kichHoatTaiKhoan: manager.kichHoatTaiKhoan ? 'Đã kích hoạt' : 'Chưa kích hoạt',
+                trangThai: manager.trangThai ? 'Đang dùng' : 'Tạm khóa',
             }
         })
 

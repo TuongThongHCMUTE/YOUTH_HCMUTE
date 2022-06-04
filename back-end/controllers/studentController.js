@@ -58,6 +58,8 @@ exports.exportExcelAllStudents = async (req, res, next) => {
             { header: 'Nơi vào đoàn', key: 'noiVaoDoan', width: 20, style: stylesExcel.ALIGNMENT_MID },
             { header: 'Số thẻ đoàn', key: 'soTheDoan', width: 20, style: stylesExcel.ALIGNMENT_MID },
             { header: 'Sổ đoàn', key: 'trangThaiSoDoan', width: 10, style: stylesExcel.ALIGNMENT_MID_CENTER },
+            { header: 'Kích hoạt tài khoản', key: 'kichHoatTaiKhoan', width: 20, style: stylesExcel.ALIGNMENT_MID_CENTER },
+            { header: 'Trạng thái', key: 'trangThai', width: 15, style: stylesExcel.ALIGNMENT_MID_CENTER },
         ]
 
         const data = students.map(student => {
@@ -82,6 +84,8 @@ exports.exportExcelAllStudents = async (req, res, next) => {
                 noiVaoDoan: student.thongTinDoanVien?.noiVaoDoan,
                 soTheDoan: student.thongTinDoanVien?.soTheDoan,
                 trangThaiSoDoan: student.thongTinDoanVien?.trangThaiSoDoan === 'DA_NOP' ? '1': '0',
+                kichHoatTaiKhoan: student.kichHoatTaiKhoan ? 'Đã kích hoạt' : 'Chưa kích hoạt',
+                trangThai: student.trangThai ? 'Đang dùng' : 'Tạm khóa',
             }
         })
 
