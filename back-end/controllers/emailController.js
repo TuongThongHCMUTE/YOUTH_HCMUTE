@@ -7,11 +7,21 @@ exports.sendEmail = (email, type, emailInfo) => {
     const emailMessage = {
         WELCOME_MANAGER_EMAIL: {
             subject: 'THÔNG TIN ĐĂNG NHẬP TRANG YOUTH HCMUTE',
-            content: `Xin chào <b>${emailInfo.name}</b>, Bạn vừa được tạo tài khoản tại trang YOUTH HCMUTE với email đăng nhập ${email} và mật khẩu "<b>${emailInfo.password}</b>". Nhấn <a href=${url}/dang-nhap>tại đây</a> để đăng nhập vào trang web và tiến hành đổi mật khẩu.`
+            content:    `<p?>Xin chào <b>${emailInfo.name}</b>, Bạn vừa được tạo tài khoản tại trang <b>YOUTH HCMUTE</b> với thông tin đăng nhập:
+                        <ul>
+                            <li>Email: ${email}</li>
+                            <li>Mật khẩu: <b>${emailInfo.password}</b></li>
+                        </ul>
+                        Nhấn <a href=${url}/dang-nhap>tại đây</a> để đăng nhập vào trang web và tiến hành đổi mật khẩu.</p?`
         },
         RESET_PAWSSWORD_EMAIL: {
             subject: 'CẤP LẠI MẬT KHẨU TRANG YOUTH HCMUTE',
-            content: `Xin chào <b>${emailInfo.name}</b>, Bạn vừa đượ cấp lại mật khẩu trang YOUTH HCMUTE. Mật khẩu mới của bạn là "<b>${emailInfo.password}</b>". Nhấn <a href=${url}/dang-nhap>tại đây</a> để đăng nhập vào trang web và tiến hành đổi mật khẩu.`
+            content:    `<p>Xin chào <b>${emailInfo.name}</b>, Bạn vừa được cấp lại mật khẩu trang <b>YOUTH HCMUTE</b> với thông tin đăng nhập:
+                        <ul>
+                            <li>Email: ${email}</li>
+                            <li>Mật khẩu: <b>${emailInfo.password}</b></li>
+                        </ul>
+                        Nhấn <a href=${url}/dang-nhap>tại đây</a> để đăng nhập vào trang web và tiến hành đổi mật khẩu.</p>`
         }
     }
 
