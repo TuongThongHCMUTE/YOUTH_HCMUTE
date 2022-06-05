@@ -72,14 +72,10 @@ exports.loginWithGoogle = async (req, res, next) => {
             const err = new Error('Email không tồn tại')
             err.statusCode = 400
             return next(err)
-        } else if (user.image !== picture) {
+        } else if (user.image !== picture || !user.kichHoatTaiKhoan) {
             user.image = picture
-            user.save()
-        }
-
-        if (!user.kichHoatTaiKhoan) {
             user.kichHoatTaiKhoan = true
-            await user.save()
+            user.save()
         }
 
         if (!user.trangThai) {
