@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import NumberFormat from 'react-number-format';
 // Styles ================================================================== //
 import styles from './StatisticalResults.module.scss';
+// Constants =============================================================== //
+import { USER_ROLES } from 'helpers/constants/user';
 // Material UI ============================================================= //
 import { Grid, Avatar, Typography } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -15,16 +17,10 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 const StatisticalResults = (props) => {
     const { loading, data } = props;
 
-    // const total = data.filter(i => i.name === 'Tổng tiền đã thu')[0];
-    // const unionFee = data.filter(i => i.name === 'Đoàn phí')[0];
-    // const additionalFee = data.filter(i => i.name === 'Truy thu Đoàn phí')[0];
-    // const book = data.filter(i => i.name === 'Sổ đoàn viên')[0];
-    // const constructionFee = data.filter(i => i.name === 'Kinh phí đóng góp công trình thanh niên')[0];
-    // const cardFee = data.filter(i => i.name === 'Kinh phí làm thẻ Hội viên hội sinh viên Việt Nam')[0];
-
-    const total = 0;
-    const unionFee = 0;
-    const book = 0;
+    const totalDoanTruong = data.filter(i => i._id === USER_ROLES.DOAN_TRUONG)[0];
+    const totalDoanKhoa = data.filter(i => i._id === USER_ROLES.DOAN_KHOA)[0];
+    const totalDoanVien = data.filter(i => i._id === USER_ROLES.DOAN_VIEN)[0];
+    const totalCTV = data.filter(i => i._id === USER_ROLES.CONG_TAC_VIEN)[0]; 
 
     if (loading) {
         return (
@@ -56,16 +52,15 @@ const StatisticalResults = (props) => {
                             </Avatar>
                         </Grid>
                         <Grid item className={styles.Total}>
-                            { total && total.total
+                            { totalDoanVien && totalDoanVien.count
                                 ? <NumberFormat 
-                                value={total.total}
+                                value={totalDoanVien.count}
                                 className={styles.cardHeading}
                                 displayType={'text'}
                                 thousandSeparator={true}
-                                suffix=' VNĐ'
                                 renderText={(value, props) => <Typography {...props}>{value}</Typography>}
                                 />
-                                : <Typography className={styles.cardHeading}>20.000</Typography>
+                                : <Typography className={styles.cardHeading}>0</Typography>
                             }
                         </Grid>
                         <Grid item sx={{ mb: 1.25 }}>
@@ -83,16 +78,15 @@ const StatisticalResults = (props) => {
                             </Avatar>
                         </Grid>
                         <Grid item className={styles.Total}>
-                            { unionFee && unionFee.total
+                            { totalDoanKhoa && totalDoanKhoa.count
                                 ? <NumberFormat 
-                                value={unionFee.total}
+                                value={totalDoanKhoa.count}
                                 className={styles.cardHeading}
                                 displayType={'text'}
                                 thousandSeparator={true}
-                                suffix=' VNĐ'
                                 renderText={(value, props) => <Typography {...props}>{value}</Typography>}
                                 />
-                                : <Typography className={styles.cardHeading}>13</Typography>
+                                : <Typography className={styles.cardHeading}>0</Typography>
                             }
                         </Grid>
                         <Grid item sx={{ mb: 1.25 }}>
@@ -110,16 +104,15 @@ const StatisticalResults = (props) => {
                             </Avatar>
                         </Grid>
                         <Grid item className={styles.Total}>
-                            { book && book.total
+                            { totalCTV && totalCTV.count
                                 ? <NumberFormat 
-                                value={book.total}
+                                value={totalCTV.count}
                                 className={styles.cardHeading}
                                 displayType={'text'}
                                 thousandSeparator={true}
-                                suffix=' sổ'
                                 renderText={(value, props) => <Typography {...props}>{value}</Typography>}
                                 />
-                                : <Typography className={styles.cardHeading}>10</Typography>
+                                : <Typography className={styles.cardHeading}>0</Typography>
                             }
                         </Grid>
                         <Grid item sx={{ mb: 1.25 }}>
@@ -137,16 +130,15 @@ const StatisticalResults = (props) => {
                             </Avatar>
                         </Grid>
                         <Grid item className={styles.Total}>
-                            { book && book.total
+                            { totalDoanTruong && totalDoanTruong.count
                                 ? <NumberFormat 
-                                value={book.total}
+                                value={totalDoanTruong.count}
                                 className={styles.cardHeading}
                                 displayType={'text'}
                                 thousandSeparator={true}
-                                suffix=' sổ'
                                 renderText={(value, props) => <Typography {...props}>{value}</Typography>}
                                 />
-                                : <Typography className={styles.cardHeading}>3</Typography>
+                                : <Typography className={styles.cardHeading}>0</Typography>
                             }
                         </Grid>
                         <Grid item sx={{ mb: 1.25 }}>

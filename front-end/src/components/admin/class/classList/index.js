@@ -56,18 +56,18 @@ const ClassList = () => {
     const getClasses = async (args) => {
         setLoading(true);
         try {
-        const res = await getAllClasses(args);
+            const res = await getAllClasses(args);
 
-        if (res.data.status === 'success') {
-            setClasses(res.data.data.classes);
-            setTotalRecords(res.data.all);
-            setLoading(false);
-        } else {
-            // Show error message
-        }
+            if (res.data.status === 'success') {
+                setClasses(res.data.data.classes);
+                setTotalRecords(res.data.all);
+                setLoading(false);
+            } else {
+                // Show error message
+            }
         } catch(err) {
-        alert(err);
-        setLoading(false);
+            alert(err);
+            setLoading(false);
         }
     }
 
@@ -110,9 +110,8 @@ const ClassList = () => {
                         <Button 
                             className={styles.ExportButton}
                             variant='contained'
-                            onClick={(args) => exportExcel({ ...searchValues, ...args})}
-                            
-                            >
+                            onClick={(args) => exportExcel({ ...searchValues, ...args})}                     
+                        >
                             <img src={excelImage} />
                             Xuất dữ liệu
                         </Button>

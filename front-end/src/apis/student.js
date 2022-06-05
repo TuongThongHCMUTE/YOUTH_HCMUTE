@@ -6,6 +6,44 @@ import { url } from 'store/constant';
 
 const token = sessionStorage.getItem("token");
 
+export const getAllStudents= (args) => {
+    const { limit, offset, sortBy, isDescending, studentId, studentClass, faculty } = args;
+
+    const params = {
+        offset: offset ? offset : 0,
+        sortBy: sortBy ? sortBy : 'maSoSV',
+    }
+
+    if (limit) {
+        params.limit = limit;
+    }
+
+    if (studentId) {
+        params.maSoSV = studentId;
+    }
+
+    if (studentClass !== '') {
+        params.tenLop = studentClass;
+    }
+
+    if (faculty && faculty !== 'all') {
+        params.donVi = faculty;
+    }
+
+    params.sortBy = isDescending ? params.sortBy + ":desc" : params.sortBy; 
+
+    const option = {
+        method: 'get',
+        url: `${url}/students`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        params: params
+    }
+
+    return axios(option)
+}
+
 export const getOneStudentById = (id) => {
     const option = {
         method: 'get',

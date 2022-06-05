@@ -1,0 +1,6 @@
+export const USER_ROLES = {
+    DOAN_TRUONG: 'DOAN_TRUONG',
+    DOAN_KHOA: 'DOAN_KHOA',
+    CONG_TAC_VIEN: 'CONG_TAC_VIEN',
+    DOAN_VIEN: 'DOAN_VIEN',
+};

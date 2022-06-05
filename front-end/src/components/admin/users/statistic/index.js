@@ -1,8 +1,9 @@
-
 // Node Modules ============================================================ //
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 // Styles ================================================================== //
 import styles from './index.module.scss';
+// APIs ==================================================================== //
+import { countUsersByRole } from 'apis/statistic';
 // Material UI ============================================================= //
 import { Box, Grid } from '@mui/material';
 // Components ============================================================== //
@@ -11,10 +12,28 @@ import UsersDistributedColumnChart from 'components/common/charts/StudentsDistri
 
 // ==========================|| USERS STATISTIC ||========================== //
 const UserStatistic = () => {
+    const [usersByRole, setUserByRole] = useState([]);
+    const [loading, setLoading] = useState(false);
+    
+    useEffect(async () => {
+        try {
+            setLoading(true);
+
+            const res = await countUsersByRole();
+            if (res.data.status === 'success') {
+                setUserByRole(res.data.data);
+            } 
+        } catch (error) {
+            alert(error);
+        } finally {
+            setLoading(false);
+        }
+    }, [])
+    
     return (
         <Grid container>
             <Grid item xs={12}>
-                <StatisticalResults />
+                <StatisticalResults loading={loading} data={usersByRole} />
             </Grid>
             <Grid container className={styles.Charts}>
                 <Grid item xs={12} className={styles.Chart}>

@@ -1,10 +1,36 @@
-import React from 'react';
+// Node Modules ============================================================ //
+import React, { useState, useEffect} from 'react';
 import ApexChart from 'react-apexcharts';
+// APIs ==================================================================== //
+import { countStudentsByFaculty } from 'apis/statistic';
+// Constants =============================================================== //
+import { FACULTY_NAMES } from 'helpers/constants/chart';
+// My Components =========================================================== //
+import CircularLoading from 'components/common/loading/CircularLoading';
 
+// ======================|| DISTRIBUTED COLUMN CHART ||===================== //
 const DistributedColumnChart = () => {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(async () => {
+        try {
+            setLoading(true);
+
+            const res = await countStudentsByFaculty();
+            if (res.data.status === 'success') {
+                setData(res.data.data);
+            }
+        } catch (error) {
+
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
     const series = [{
-        name: 'sales',
-        data: [21, 22, 10, 28, 16, 21, 13, 30, 28, 16, 21, 13, 30]
+        name: 'Tổng',
+        data: data.map(i => i.count)
     }]
 
     const options = {
@@ -30,21 +56,7 @@ const DistributedColumnChart = () => {
             show: false
         },
         xaxis: {
-            categories: [
-                ['Đào tạo', 'chất lượng cao'],
-                ['Joe', 'Smith'],
-                ['Jake', 'Williams'],
-                'Amber',
-                ['Peter', 'Brown'],
-                ['Mary', 'Evans'],
-                ['David', 'Wilson'],
-                ['Lily', 'Roberts'], 
-                'Amber',
-                ['Peter', 'Brown'],
-                ['Mary', 'Evans'],
-                ['David', 'Wilson'],
-                ['Lily', 'Roberts'], 
-            ],
+            categories: data.map(i => FACULTY_NAMES[i.tenDonVi]),
             labels: {
                 style: {
                     fontSize: '12px'
@@ -53,6 +65,9 @@ const DistributedColumnChart = () => {
         }
     }
 
+    if (loading) {
+        return <CircularLoading />
+    };
 
     return (
         <div id='chart'>
