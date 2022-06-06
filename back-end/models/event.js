@@ -53,10 +53,15 @@ const eventSchema = new mongoose.Schema({
     updateBy: {type: String}
 }, {timestamps: true})
 
-eventSchema.index({
-    tenChuongTrinh: 'text',
-    moTa: 'text'
-})
+// eventSchema.index({
+//     tenChuongTrinh: 'text',
+//     moTa: 'text'
+// })
+
+// const events = await Event.find(
+//                         { $text: { $search : searchString } },  
+//                         { score : { $meta: "textScore" } })
+//                         .sort({ score: { $meta : 'textScore' }})
 
 const Event = mongoose.model('Event', eventSchema)
 

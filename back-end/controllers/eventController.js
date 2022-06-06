@@ -1,5 +1,6 @@
 const { getQueryParameter } = require('../common/index')
 const Event = require('../models/event')
+const elasticClient = require('../configs/elasticSearch')
 
 // Get all Events
 exports.getAllEvents = async (req, res, next) => {
@@ -25,16 +26,24 @@ exports.getAllEvents = async (req, res, next) => {
 // Search event Events
 exports.searchAllEvents = async (req, res, next) => {
     try {
+        const { limit, skip } = getQueryParameter(req)
         const { searchString } = req.query
 
-        const events = await Event.find(
-                                { $text: { $search : searchString } },  
-                                { score : { $meta: "textScore" } })
-                                .sort({ score: { $meta : 'textScore' }})
+        const results = await elasticClient.searchDoc('events', searchString, skip, limit, ['tenChuongTrinh', 'moTa'])
+
+        const events = results.hits.map(event => {
+            return {
+                _id: event._id,
+                score: event._score,
+                tenChuongTrinh: event.highlight?.tenChuongTrinh ? event.highlight?.tenChuongTrinh[0] : event._source.tenChuongTrinh,
+                moTa: event.highlight?.moTa ? event.highlight?.moTa[0] : event._source.moTa
+            }
+        })
         
         res.status(200).json({
             status: 'success',
-            all: events.length,
+            all: results.total.value,
+            results: events.length,
             data: {events}
         })
     } catch (e) {
@@ -47,6 +56,12 @@ exports.searchAllEvents = async (req, res, next) => {
 exports.createOneEvent = async (req, res, next) => {
     try {
         const event = await Event.create({ ...req.body })
+
+        await elasticClient.insertOneDoc('events', {
+            id: event._id,
+            tenChuongTrinh: event.tenChuongTrinh,
+            moTa: event.moTa
+        })
 
         res.status(200).json({
             status: 'success',
@@ -84,6 +99,12 @@ exports.updateOneEvent = async (req, res, next) => {
         const event = await Event.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
                                     .populate('sinhVienThamGia.sinhVien', 'maSoSV ho ten')
 
+        await elasticClient.updateOneDoc('events', {
+            id: event._id,
+            tenChuongTrinh: event.tenChuongTrinh,
+            moTa: event.moTa
+        })
+
         res.status(200).json({
             status: 'success',
             data: { event }
@@ -101,6 +122,8 @@ exports.deleteOneEvent = async (req, res, next) => {
 
         const event = await Event.findByIdAndDelete(id)
                                     .populate('sinhVienThamGia.sinhVien', 'maSoSV ho ten')
+
+        await elasticClient.deleteOneDoc('events', event._id)
 
         res.status(200).json({
             status: 'success',
