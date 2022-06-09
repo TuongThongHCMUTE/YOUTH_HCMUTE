@@ -1,3 +1,49 @@
 .SearchBarWrapper {
     padding: 32px;
 }
+
+.TableSection {
+    padding: 0 32px 32px;
+
+    .TableTitle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .Left {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            .Title {
+                font-size: 24px;
+                margin: 24px 0;
+            }
+
+            .TotalRecord {
+                font-size: 16px;
+                position: relative;
+                top: 4px;
+                margin-left: 48px;
+            }
+        }
+
+        .ExportButton {
+            border-radius: 0px;
+            border: 2px solid #1F7244;
+            color: #1F7244;
+            background-color: transparent;
+            padding: 4px 16px;
+            margin-right: 16px;
+            
+            &:hover {
+                font-weight: bold;
+            }
+    
+            > img {
+                height: 28px;
+                margin-right: 8px;
+            }
+        }
+    }
+}

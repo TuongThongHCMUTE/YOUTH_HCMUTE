@@ -7,14 +7,14 @@ import { getAllFaculties } from 'apis/faculty';
 import { getAllClasses, exportExcelAllClasses } from 'apis/class';
 // Constants =============================================================== //
 import { DEFAULT_LIMIT } from 'helpers/constants/class';
+// Assets ================================================================== //
+import excelImage from 'assets/images/icons/excel.png';
 // Material UI ============================================================= //
 import { Box, Button } from '@mui/material';
 // Components ============================================================== //
 import SearchBar from './components/SearchBar';
 import ClassesTable from './components/ClassesTable';
 import CreateClassWizard from '../createClassWizard';
-
-import excelImage from 'assets/images/icons/excel.png';
 
 // ===========================|| CLASSES LIST ||============================ //
 const ClassList = () => {

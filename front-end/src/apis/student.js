@@ -22,8 +22,8 @@ export const getAllStudents= (args) => {
         params.maSoSV = studentId;
     }
 
-    if (studentClass !== '') {
-        params.tenLop = studentClass;
+    if (studentClass && studentClass !== 'all') {
+        params.lopSV = studentClass;
     }
 
     if (faculty && faculty !== 'all') {
@@ -90,6 +90,18 @@ export const updateOneStudent = ({ googleId, ...student }) => {
             Authorization: `Bearer ${token}`,
         },
         data: student
+    }
+  
+    return axios(option);
+}
+
+export const deleteStudent = (studentId) => {
+    const option = {
+        method: "delete",
+        url: `${url}/students/${studentId}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
     }
   
     return axios(option);
