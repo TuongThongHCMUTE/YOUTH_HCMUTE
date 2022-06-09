@@ -10,10 +10,10 @@ import { DEFAULT_LIMIT } from 'helpers/constants/student';
 import { getAllFaculties } from 'apis/faculty';
 import { getAllClasses } from 'apis/class';
 import { getAllStudents } from 'apis/student';
-import SearchBar from './components/SearchBar';
 // Material UI ============================================================= //
 import { Box, Button } from '@mui/material';
 // Components ============================================================== //
+import SearchBar from './components/SearchBar';
 import StudentsTable from './components/StudentsTable';
 
 // ========================|| STUDENTS MANAGEMENT ||======================== //
@@ -84,9 +84,6 @@ const StudentsManagement = () => {
         getStudents({ ...defaultSearchValues, limit: DEFAULT_LIMIT });
     }, []);
 
-    useEffect(() => {
-        console.log("faculty: ", searchValues.faculty)
-    }, [searchValues.faculty]);
 
     useEffect(() => {
         handleSearch();
@@ -125,7 +122,7 @@ const StudentsManagement = () => {
                         <Button 
                             className={styles.ExportButton}
                             variant='contained'
-                            onClick={(args) => exportExcel({ ...searchValues, ...args})}                     
+                            // onClick={(args) => exportExcel({ ...searchValues, ...args})}                     
                         >
                             <img src={excelImage} />
                             Xuất dữ liệu
@@ -133,7 +130,7 @@ const StudentsManagement = () => {
                         <Button 
                             className='button'
                             variant='contained'
-                            onClick={() => setShowCreateModal(true)}
+                            // onClick={() => setShowCreateModal(true)}
                         >
                             Thêm mới
                         </Button>
