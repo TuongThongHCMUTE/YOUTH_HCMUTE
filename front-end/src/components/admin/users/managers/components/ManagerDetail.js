@@ -28,6 +28,7 @@ import CircularLoading from 'components/common/loading/CircularLoading';
 import BorderTopCard from 'ui-component/cards/BorderTopCard';
 import SnackBar from 'components/common/alert/Snackbar';
 
+// ===========================|| MANAGER DETAIL||=========================== //
 const FormComponent = ({ data, faculties, onSubmit, updating }) => {
     const validateData = (values) => {
         const errors = {};

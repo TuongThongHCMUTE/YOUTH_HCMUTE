@@ -1,5 +1,6 @@
 // Node Modules ============================================================ //
 import React, { useState, useEffect } from 'react';
+import clsx from 'clsx';
 // Styles ================================================================== //
 import styles from './index.module.scss';
 // Assets ================================================================== //
@@ -67,7 +68,7 @@ const ManagersManagement = () => {
 
     useEffect(() => {
         handleSearch();
-    }, [searchValues.faculty]);
+    }, [searchValues.faculty, searchValues.role, searchValues.status]);
 
     const handleChange = (field, value) => {
         setSearchValues(prev => ({
@@ -94,8 +95,34 @@ const ManagersManagement = () => {
           <Box className={styles.TableSection}>
                 <Box className={styles.TableTitle}>
                     <div className={styles.Left}>
-                        <h3 className={styles.Title}>Danh sách quản trị viên</h3>
-                        <p className={styles.TotalRecord}>Tổng số: { totalRecords }</p>
+                        <h3 
+                            className={clsx({
+                                [styles.Title]: true,
+                                [styles.ActivedTitle]: searchValues.role === USER_ROLES.DOAN_TRUONG
+                            })}
+                            onClick={() => setSearchValues(prev => ({...prev, role: USER_ROLES.DOAN_TRUONG}))}
+                        >
+                            Đoàn trường
+                        </h3>
+                        <h3 
+                            className={clsx({
+                                [styles.Title]: true,
+                                [styles.ActivedTitle]: searchValues.role === USER_ROLES.DOAN_KHOA
+                            })}
+                            onClick={() => setSearchValues(prev => ({...prev, role: USER_ROLES.DOAN_KHOA}))}
+                        >
+                            Đoàn khoa
+                        </h3>
+                        <h3 
+                            className={clsx({
+                                [styles.Title]: true,
+                                [styles.ActivedTitle]: searchValues.role === USER_ROLES.CONG_TAC_VIEN
+                            })}
+                            onClick={() => setSearchValues(prev => ({...prev, role: USER_ROLES.CONG_TAC_VIEN}))}
+                        >
+                            Cộng tác viên
+                        </h3>
+                        <p className={styles.TotalRecord}>Tổng số: { loading ? 0 : totalRecords }</p>
                     </div>
                     <div className={styles.ButtonWrapper}>
                         <Button 

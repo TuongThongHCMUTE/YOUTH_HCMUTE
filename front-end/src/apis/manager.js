@@ -12,7 +12,6 @@ export const getAllManagers= (args) => {
     const params = {
         offset: offset ? offset : 0,
         sortBy: sortBy ? sortBy : 'email',
-        // email: email,
         role: role,
     }
 
@@ -24,8 +23,12 @@ export const getAllManagers= (args) => {
         params.donVi = faculty;
     }
 
-    if (status && status !== 'all') {
+    if (status !== undefined && status !== 'all') {
         params.trangThai = status;
+    }
+
+    if (email) {
+        params.email = email;
     }
 
     params.sortBy = isDescending ? params.sortBy + ":desc" : params.sortBy; 

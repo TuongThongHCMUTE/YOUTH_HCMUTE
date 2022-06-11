@@ -17,7 +17,14 @@
 
             .Title {
                 font-size: 24px;
-                margin: 24px 0;
+                font-weight: 400;
+                margin: 24px 24px 24px 0;
+                cursor: pointer;
+            }
+
+            .ActivedTitle {
+                font-weight: 600;
+                color: var(--color-primary-400);
             }
 
             .TotalRecord {

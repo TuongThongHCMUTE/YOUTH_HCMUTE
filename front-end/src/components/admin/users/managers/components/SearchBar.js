@@ -3,8 +3,10 @@ import React from 'react';
 import clsx from 'clsx';
 // Styles ================================================================== //
 import styles from './SearchBar.module.scss';
+// Constants =============================================================== //
+import { USER_STATUSES } from 'helpers/constants/user';
+// Material UI ============================================================= //
 import { 
-    Box,
     Button, 
     Grid, 
     InputLabel,
@@ -71,13 +73,13 @@ const SearchBar = (props) => {
                             name='status'
                             labelId="status-group"
                             id="input-status"
-                            value={searchValues.status || "all"}
-                            label="Lớp"
+                            value={searchValues.status !== undefined ? searchValues.status : 'all'}
+                            label="Trạng thái"
                             onChange={e => onChange("status", e.target.value)}
                         >
                             {[
                                 { value: 'all', display: 'Tất cả'}, 
-                                // ...classes
+                                ...USER_STATUSES
                             ].map((i) => (
                                 <MenuItem key={i.value} value={i.value}>{i.display}</MenuItem>
                             ))}
