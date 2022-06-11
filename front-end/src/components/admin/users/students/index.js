@@ -15,6 +15,7 @@ import { Box, Button } from '@mui/material';
 // Components ============================================================== //
 import SearchBar from './components/SearchBar';
 import StudentsTable from './components/StudentsTable';
+import CreateStudentModal from './components/CreateStudentModal';
 
 // ========================|| STUDENTS MANAGEMENT ||======================== //
 const StudentsManagement = () => {
@@ -31,6 +32,7 @@ const StudentsManagement = () => {
     const [students, setStudents] = useState([]);
     const [totalRecords, setTotalRecords] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [openCreateModal, setOpenCreateModal] = useState(false);
 
     useEffect(async () => {
         try {
@@ -130,7 +132,7 @@ const StudentsManagement = () => {
                         <Button 
                             className='button'
                             variant='contained'
-                            // onClick={() => setShowCreateModal(true)}
+                            onClick={() => setOpenCreateModal(true)}
                         >
                             Thêm mới
                         </Button>
@@ -143,6 +145,13 @@ const StudentsManagement = () => {
                     onRefetch={(args) => getStudents({ ...searchValues, ...args })} 
                 />
             </Box>
+            <CreateStudentModal
+                open={openCreateModal}
+                faculties={faculties}
+                classes={classes}
+                onClose={() => setOpenCreateModal(false)}
+                onRefetch={() => getStudents(searchValues)}
+            />
         </div>
     )
 }

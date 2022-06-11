@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { Formik } from 'formik';
 // Styles ================================================================== //
-import styles from './CreateManagerModal.module.scss';
+import styles from './CreateStudentModal.module.scss';
 // APIs ==================================================================== //
-import { createOneManager } from 'apis/manager';
+import { createOneStudent } from 'apis/student';
 // Constants =============================================================== //
-import { MANAGER_TYPES } from 'helpers/constants/manager';
 import { USER_ROLES } from 'helpers/constants/user';
+import { studentStatuses } from 'store/constant';
 // Material UI ============================================================= //
 import { 
   Grid,
@@ -24,37 +24,49 @@ import { LoadingButton } from '@mui/lab';
 import BaseModal from 'components/common/modal/base/BaseModal';
 import SnackBar from 'components/common/alert/Snackbar';
 
-// =======================|| CREATE MANAGER MODAL ||======================== //
-const CreateManagerModal = (props) => {
-    const { open, faculties, onClose, onRefetch } = props;
+// =======================|| CREATE STUDENT MODAL ||======================== //
+const CreateStudentModal = (props) => {
+    const { open, faculties, classes, onClose, onRefetch } = props;
     const [creating, setCreating] = useState(false);
     const [alert, setAlert] = useState(null);
 
     const initialValues = {
-      tenHienThi: '',
+      ho: '',
+      ten: '',
       email: '',
-      soDienThoai: '',
+      maSoSV: '',
       diaChi: '',
       donVi: { _id: 'none' },
-      chucVu: '',
-      role: USER_ROLES.CONG_TAC_VIEN,
-      trangThai: true
+      lopSV: { _id: 'none' },
+      doanVien: false
     }
 
     const validateData = (values) => {
         const errors = {};
 
-        if (!values.tenHienThi) {
-          errors.tenHienThi = 'Tên hiển thị không được để trống.'
+        if (!values.ho) {
+          errors.ho = 'Họ không được để trống.'
+        }
+
+        if (!values.ten) {
+            errors.ten = 'Tên không được để trống.'
         }
 
         if (!values.email) {
           errors.email = 'Email không được để trống.'
         } 
 
-        if (!values.donVi?._id || values.donVi?._id === 'none') {
-            errors.donVi = 'Đơn vị không được để trống.'
-          }
+        if (!values.maSoSV) {
+            errors.email = 'Mã số sinh viên không được để trống.'
+          } 
+
+        if (!values.donVi || values.donVi._id === 'none') {
+            errors.donVi = 'Khoa không được để trống.'
+        }
+
+        if (!values.lopSV || values.lopSV._id === 'none') {
+            errors.lopSV = 'Lớp không được để trống.'
+        }
 
         return errors;
     };
@@ -63,14 +75,14 @@ const CreateManagerModal = (props) => {
         try {
             setCreating(true);
           
-            const res = await createOneManager(values);
+            const res = await createOneStudent(values);
             if (res.data.status === 'success') {
                 setAlert({
                     severity: 'success',
                     message: 'Thêm tài khoản thành công!'
                 });
                 resetForm();
-                onRefetch(values.role);
+                onRefetch();
             }
         } catch (e) {
             setAlert({
@@ -85,7 +97,7 @@ const CreateManagerModal = (props) => {
     return (
         <BaseModal
             visible={open}
-            title="Thêm tài khoản"
+            title="Thêm sinh viên"
             onClose={onClose}
         >
             <Formik
@@ -119,15 +131,55 @@ const CreateManagerModal = (props) => {
                             </Grid>
                             <Grid item xs={6} sx={{ p: 2 }}>
                                 <TextField 
-                                    name='tenHienThi'
+                                    name='ho'
                                     className={styles.TextField}
                                     variant="outlined"
-                                    label="Tên hiển thị"
+                                    label="Họ *"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    value={values?.tenHienThi || ''}
-                                    error={errors.tenHienThi}
-                                    helperText={errors.tenHienThi}
+                                    value={values?.ho || ''}
+                                    error={errors.ho}
+                                    helperText={errors.ho}
+                                />
+                            </Grid>
+                            <Grid item xs={6} sx={{ p: 2 }}>
+                                <TextField 
+                                    name='ten'
+                                    className={styles.TextField}
+                                    variant="outlined"
+                                    label="Tên *"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values?.ten || ''}
+                                    error={errors.ten}
+                                    helperText={errors.ten}
+                                />
+                            </Grid>
+                            <Grid item xs={6} sx={{ p: 2 }}>
+                                <TextField 
+                                    name='email'
+                                    type='email'
+                                    className={styles.TextField}
+                                    variant="outlined"
+                                    label="Email *"
+                                    value={values?.email || ''}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    error={errors.email}
+                                    helperText={errors.email}
+                                />
+                            </Grid>
+                            <Grid item xs={6} sx={{ p: 2 }}>
+                                <TextField 
+                                    name='maSoSV'
+                                    className={styles.TextField}
+                                    variant="outlined"
+                                    label="Mã số sinh viên *"
+                                    value={values?.maSoSV || ''}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    error={errors.maSoSV}
+                                    helperText={errors.maSoSV}
                                 />
                             </Grid>
                             <Grid item xs={6} sx={{ p: 2 }}>
@@ -137,17 +189,15 @@ const CreateManagerModal = (props) => {
                                     className='text-field'
                                     error={errors.donVi}
                                 >
-                                    <InputLabel id="faculty-group">Đơn vị</InputLabel>
+                                    <InputLabel id="faculty-group">Khoa *</InputLabel>
                                     <Select
                                         name='donVi._id'
                                         labelId="faculty-group"
                                         id="input-faculty"
                                         value={values?.donVi?._id || 'none'}
-                                        label="Đơn vị"
+                                        label="Khoa *"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        error={errors.donVi}
-                                        helperText={errors.donVi}
                                     >
                                         {[
                                             { _id: 'none', tenDonVi: 'Chọn khoa'}, 
@@ -160,76 +210,51 @@ const CreateManagerModal = (props) => {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6} sx={{ p: 2 }}>
-                                <TextField 
-                                    name='email'
-                                    className={styles.TextField}
-                                    variant="outlined"
-                                    label="Email"
-                                    value={values?.email || ''}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={errors.email}
-                                    helperText={errors.email}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sx={{ p: 2 }}>
-                                <TextField 
-                                    name='soDienThoai'
-                                    className={styles.TextField}
-                                    variant="outlined"
-                                    label="Số điện thoại"
-                                    value={values?.soDienThoai || ''}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={errors.soDienThoai}
-                                    helperText={errors.soDienThoai}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sx={{ p: 2 }}>
-                                <TextField 
-                                    name='diaChi'
-                                    className={styles.TextField}
-                                    variant="outlined"
-                                    label="Địa chỉ"
-                                    value={values?.diaChi || ''}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={errors.diaChi}
-                                    helperText={errors.diaChi}
-                                />
-                            </Grid>
-                            {/* THÔNG TIN TÀI KHOẢN */}
-                            <Grid item xs={12} mt={2}>
-                                <h3 className={styles.SectionTitle}>Thông tin tài khoản</h3>
-                            </Grid>
-                            <Grid item xs={6} sx={{ p: 2 }}>
-                                <FormControl fullWidth variant='outlined' className='text-field'>
-                                    <InputLabel id="role-group">Phân quyền</InputLabel>
+                                <FormControl 
+                                    fullWidth 
+                                    variant='outlined' 
+                                    className='text-field'
+                                    error={errors.lopSV}
+                                >
+                                    <InputLabel id="class-group">Lớp *</InputLabel>
                                     <Select
-                                        name='role'
-                                        labelId="role-group"
-                                        id="input-role"
-                                        value={values?.role || USER_ROLES.CONG_TAC_VIEN}
-                                        label="Phân quyền"
+                                        name='lopSV._id'
+                                        labelId="class-group"
+                                        id="input-class"
+                                        value={values?.lopSV?._id || 'none'}
+                                        label="Lớp *"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     >
-                                        {MANAGER_TYPES.map((i) => (
-                                            <MenuItem key={i.value} value={i.value}>{i.display}</MenuItem>
+                                        {[
+                                            { _id: 'none', tenLop: 'Chọn lớp'}, 
+                                            ...classes
+                                        ].map((f) => (
+                                            <MenuItem key={f._id} value={f._id}>{f.tenLop}</MenuItem>
+                                        ))}
+                                    </Select>
+                                    {errors.lopSV && <FormHelperText>{errors.lopSV}</FormHelperText>}
+                                </FormControl>
+                            </Grid>
+                            {/* THÔNG TIN TÀI KHOẢN */}
+                            <Grid item xs={12} mt={2}>
+                                <h3 className={styles.SectionTitle}>Thông tin đoàn viên</h3>
+                            </Grid>
+                            <Grid item xs={6} sx={{ p: 2 }}>
+                                <FormControl fullWidth variant='outlined' className='text-field'>
+                                    <InputLabel>Đoàn viên</InputLabel>
+                                    <Select
+                                        name='doanVien'
+                                        value={values?.doanVien || false}
+                                        label="Tình trạng"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    >
+                                        {studentStatuses.map((status) => (
+                                            <MenuItem key={status.value} value={status.value}>{status.displayName}</MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>
-                            </Grid>
-                            <Grid item xs={6} sx={{ p: 2 }}>
-                                <TextField 
-                                    name='chucVu'
-                                    className={styles.TextField}
-                                    variant="outlined"
-                                    label="Chức vụ"
-                                    value={values?.chucVu || ''}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
                             </Grid>
                             <Grid item xs={12} sx={{ mt: 2, p: 2, display: 'flex', justifyContent: 'flex-end' }}>
                                 <LoadingButton
@@ -246,6 +271,7 @@ const CreateManagerModal = (props) => {
                             <SnackBar 
                                 message={alert.message}
                                 severity={alert.severity}
+                                duration={3000}
                                 onClose={() => setAlert(null)}
                             />
                         }
@@ -256,4 +282,4 @@ const CreateManagerModal = (props) => {
     )
 }
 
-export default CreateManagerModal
+export default CreateStudentModal

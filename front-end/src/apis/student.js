@@ -82,6 +82,19 @@ export const getOneStudentByStudentId = (studentId) => {
     return axios(option);
 }
 
+export const createOneStudent= (student) => {
+    const option = {
+        method: "post",
+        url: `${url}/students`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        data: student
+    }
+  
+    return axios(option);
+}
+
 export const updateOneStudent = ({ googleId, ...student }) => {
     const option = {
         method: "put",
