@@ -1,10 +1,10 @@
-const Common = require('../common/index')
+const { getQueryParameter } = require('../common/index')
 const Faculty = require('../models/faculty')
 
 // Get all Faculties
 exports.getAllFaculties = async (req, res, next) => {
     try {
-        const { sort, limit, skip, query } = Common.getQueryParameter(req)
+        const { sort, limit, skip, query } = getQueryParameter(req)
 
         const faculties = await Faculty.find(query).sort(sort).skip(skip).limit(limit);
         const countAll = await Faculty.countDocuments(query)

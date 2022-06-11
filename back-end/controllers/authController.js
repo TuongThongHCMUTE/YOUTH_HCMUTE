@@ -7,7 +7,7 @@ const Student = require('../models/student')
 const Manager = require('../models/manager')
 
 // Import jsonwebtoken\
-const Common = require('../common/index')
+const { compareHashPassword, generateToken, generatePassword, hashPassword } = require('../common/index')
 const { sendEmail } = require('./emailController')
 
 // Login for manager with Username and Password
@@ -22,13 +22,13 @@ exports.loginWithPassword = async (req, res, next) => {
             return next(err)
         }
 
-        if (Common.compareHashPassword(password, user.password)) {
+        if (compareHashPassword(password, user.password)) {
             if (!user.kichHoatTaiKhoan) {
-                //Error: Don't validate email
-                const err = new Error('Vui lòng kích hoạt tài khoản của bạn')
-                err.statusCode = 403 // Forbidden
-                return next(err)
-            } else if (!user.trangThai) {
+                user.kichHoatTaiKhoan = true
+                await user.save()
+            }
+            
+            if (!user.trangThai) {
                 //Error: Manager is Locked
                 const err = new Error('Tài khoản của bạn đang tạm khóa')
                 err.statusCode = 403 // Forbidden
@@ -39,7 +39,7 @@ exports.loginWithPassword = async (req, res, next) => {
                 status: 'success',
                 data: {
                     user,
-                    token: Common.generateToken({_id: user._id, email: user.email, role: user.role, faculty: user.donVi})
+                    token: generateToken({_id: user._id, email: user.email, role: user.role, faculty: user.donVi})
                 }
             })
         } else {
@@ -72,8 +72,9 @@ exports.loginWithGoogle = async (req, res, next) => {
             const err = new Error('Email không tồn tại')
             err.statusCode = 400
             return next(err)
-        } else if (user.image !== picture) {
+        } else if (user.image !== picture || !user.kichHoatTaiKhoan) {
             user.image = picture
+            user.kichHoatTaiKhoan = true
             user.save()
         }
 
@@ -88,7 +89,7 @@ exports.loginWithGoogle = async (req, res, next) => {
             status: 'success',
             data: {
                 user,
-                token: Common.generateToken({_id: user._id, email: user.email, role: user.role, faculty: user.donVi})
+                token: generateToken({_id: user._id, email: user.email, role: user.role, faculty: user.donVi})
             }
         })
     } catch (e) {
@@ -101,10 +102,10 @@ exports.loginWithGoogle = async (req, res, next) => {
 exports.resetPassword = async (req, res, next) => {
     try {
         const { email } = req.body
-        const password = Common.generatePassword()
-        const hashPassword = Common.hashPassword(password)
+        const password = generatePassword()
+        const hashPass = hashPassword(password)
 
-        const manager = await Manager.findOneAndUpdate({email}, {password: hashPassword}, {new: true, runValidators: true})
+        const manager = await Manager.findOneAndUpdate({email}, {password: hashPass}, {new: true, runValidators: true})
                                     .populate('donVi', 'tenDonVi')
         
         let resMsg = 'Tài khoản không tồn tại'
@@ -192,7 +193,7 @@ exports.changePassword = async (req, res, next) => {
             const { _id } = req.user
 
             var user = await Manager.findById(_id)
-            if(Common.compareHashPassword(oldPassword, user.password)){
+            if(compareHashPassword(oldPassword, user.password)){
                 if(newPassword === reNewPassword){
                     if (newPassword === oldPassword) {
                         const err = new Error('Mật khẩu mới trùng với mật khẩu hiện tại')
@@ -200,7 +201,7 @@ exports.changePassword = async (req, res, next) => {
                         return next(err)
                     }
 
-                    const hashedPass = Common.hashPassword(newPassword)
+                    const hashedPass = hashPassword(newPassword)
                     user = await Manager.findByIdAndUpdate(_id, {password: hashedPass}, {new: true, runValidator: true})      
 
                     res.status(200).json({

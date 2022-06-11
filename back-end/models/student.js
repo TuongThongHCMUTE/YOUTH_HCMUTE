@@ -39,6 +39,7 @@ const studentSchema = new mongoose.Schema({
     image: {type: String},
     googleId: {type: String},
     role: {type: String, trim: true}, // DOAN_VIEN
+    kichHoatTaiKhoan: {type: Boolean, default: false}, // true, false (Chưa kích hoạt , Đã kích hoạt)
     trangThai: {type: Boolean, default: true}, // true, false (Đang dùng, tạm khóa),
     createBy: {type: String},
     updateBy: {type: String}

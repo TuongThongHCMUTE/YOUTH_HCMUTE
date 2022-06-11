@@ -1,5 +1,4 @@
-const moment = require('moment')
-const { getQueryParameter, exportExcel, stylesExcel } = require('../common/index')
+const { getQueryParameter, exportExcel, stylesExcel, addHours } = require('../common/index')
 const Bill = require('../models/bill')
 const GroupBook = require('../models/groupBook')
 const Student = require('../models/student')
@@ -63,7 +62,7 @@ exports.exportExcelAllBills = async (req, res, next) => {
             { header: 'Năm học', key: 'namHoc', width: 12, style: stylesExcel.ALIGNMENT_MID_CENTER},
             { header: 'Trạng thái', key: 'trangThai', width: 20, style: stylesExcel.ALIGNMENT_MID_CENTER },
             { header: 'Tổng tiền', key: 'tongTien', width: 15, style: stylesExcel.ALIGNMENT_MID },
-            { header: 'Ngày thanh toán', key: 'ngayThanhToan', width: 25, style: stylesExcel.ALIGNMENT_MID_CENTER }
+            { header: 'Ngày thanh toán', key: 'ngayThanhToan', width: 25, style: stylesExcel.LONG_DATE_FORMAT }
         ]
 
         const data = bills.map(bill => {
@@ -75,7 +74,7 @@ exports.exportExcelAllBills = async (req, res, next) => {
                 namHoc: bill.namHoc,
                 trangThai: bill.trangThai ? 'Đã thanh toán' : 'Chưa thanh toán',
                 tongTien: bill.tongTien,
-                ngayThanhToan: moment(bill.ngayThanhToan).format('DD/MM/YYYY hh:mm')
+                ngayThanhToan: bill.ngayThanhToan ? addHours(7, bill.ngayThanhToan) : ''
             }
         })
 

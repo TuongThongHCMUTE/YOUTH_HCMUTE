@@ -1,10 +1,10 @@
-const Common = require('../common/index')
+const { getQueryParameter } = require('../common/index')
 const SchoolYear = require('../models/schoolYear')
 
 // Get all SchoolYears
 exports.getAllSchoolYears = async (req, res, next) => {
     try {
-        const { sort, limit, skip, query } = Common.getQueryParameter(req)
+        const { sort, limit, skip, query } = getQueryParameter(req)
 
         const schoolYears = await SchoolYear.find(query).sort(sort).skip(skip).limit(limit);
         const countAll = await SchoolYear.countDocuments(query)

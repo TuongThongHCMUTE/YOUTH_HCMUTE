@@ -1,10 +1,10 @@
-const Common = require('../common/index')
+const { getQueryParameter } = require('../common/index')
 const GroupBook = require('../models/groupBook')
 
 // Get all GroupBooks
 exports.getAllGroupBooks = async (req, res, next) => {
     try {
-        const { sort, limit, skip, query } = Common.getQueryParameter(req)
+        const { sort, limit, skip, query } = getQueryParameter(req)
 
         const groupBooks = await GroupBook.find(query).sort(sort).skip(skip).limit(limit)
                                     .populate('sinhVien', 'maSoSV ho ten')
