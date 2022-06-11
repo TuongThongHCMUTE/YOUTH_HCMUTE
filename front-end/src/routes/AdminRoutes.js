@@ -16,6 +16,7 @@ const UsersStatistic = Loadable(lazy(() => import('components/admin/users/statis
 const ManagersManagement = Loadable(lazy(() => import('components/admin/users/managers')));
 const StudentsManagement = Loadable(lazy(() => import('components/admin/users/students')));
 const ManagerDetail = Loadable(lazy(() => import('components/admin/users/managers/components/ManagerDetail')));
+const StudentDetail = Loadable(lazy(() => import('components/admin/users/students/components/StudentDetail')));
 
 // ===========================|| ADMIN ROUTING ||=========================== //
 
@@ -66,6 +67,10 @@ const AdminRoutes = {
         {
             path: '/users/sinh-vien',
             element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><StudentsManagement /></Protected>
+        },
+        {
+            path: '/users/sinh-vien/:id',
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><StudentDetail /></Protected>
         },
         {
             path: '/system-config',

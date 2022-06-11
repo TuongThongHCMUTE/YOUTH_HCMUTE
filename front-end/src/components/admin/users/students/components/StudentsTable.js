@@ -168,7 +168,7 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
     };
 
     const handleClick = (event, id) => {
-        navigate(`/chi-doan/${id}`);
+        navigate(`/users/sinh-vien/${id}`);
     };
 
     const handleChangeStatus = async (event, id, status) => {

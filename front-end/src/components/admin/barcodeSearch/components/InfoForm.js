@@ -7,7 +7,6 @@ import 'moment/locale/vi';
 import styles from './InfoForm.module.css';
 // Material UI ============================================================= //
 import { 
-    Button, 
     Grid, 
     InputLabel,
     FormControl,
@@ -17,6 +16,7 @@ import {
 } from '@mui/material';
 import DateAdapter from '@mui/lab/AdapterMoment';
 import { LocalizationProvider, DatePicker} from '@mui/lab';
+import LoadingButton from '@mui/lab/LoadingButton';
 // Constants =============================================================== //
 import { bookStatuses, studentStatuses } from 'store/constant';
 
@@ -38,7 +38,6 @@ const InfoForm = (props) => {
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(true);
                 onSubmit(values).then(() => {
-                    alert('Cập nhật thông tin thành công!')
                     setSubmitting(false);
                 });
             }}
@@ -68,10 +67,10 @@ const InfoForm = (props) => {
                                     name='ho'
                                     className={styles.TextField}
                                     variant="filled"
-                                    label="Họ và tên đệm"
+                                    label="Họ và tên đệm *"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    value={values.ho || ''}
+                                    value={values?.ho || ''}
                                 />
                             </Grid>
                             <Grid item xs={6} sx={{ p: 2 }}>
@@ -79,8 +78,8 @@ const InfoForm = (props) => {
                                     name='ten'
                                     className={styles.TextField}
                                     variant="filled"
-                                    label="Tên"
-                                    value={values.ten || ''}
+                                    label="Tên *"
+                                    value={values?.ten || ''}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -91,7 +90,7 @@ const InfoForm = (props) => {
                                     views={['year', 'month', 'day']}
                                     inputFormat="DD/MM/yyyy"
                                     label="Ngày sinh"
-                                    value={values.ngaySinh ? moment(values.ngaySinh).format('YYYY-MM-DD') : moment('1990-01-01').format('YYY-MM-DD')}
+                                    value={values?.ngaySinh ? moment(values.ngaySinh).format('YYYY-MM-DD') : moment('1990-01-01').format('YYY-MM-DD')}
                                     onChange={value => setFieldValue('ngaySinh', value)}
                                     renderInput={(params) => 
                                         <TextField 
@@ -110,7 +109,7 @@ const InfoForm = (props) => {
                                     className={styles.TextField}
                                     variant="filled"
                                     label="Giới tính"
-                                    value={values.gioiTinh || ''}
+                                    value={values?.gioiTinh || ''}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -121,7 +120,7 @@ const InfoForm = (props) => {
                                     className={styles.TextField}
                                     variant="filled"
                                     label="Dân tộc"
-                                    value={values.danToc || ''}
+                                    value={values?.danToc || ''}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -132,7 +131,7 @@ const InfoForm = (props) => {
                                     className={styles.TextField}
                                     variant="filled"
                                     label="Tôn giáo"
-                                    value={values.tonGiao || ''}
+                                    value={values?.tonGiao || ''}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -143,7 +142,7 @@ const InfoForm = (props) => {
                                     className={styles.TextField}
                                     variant="filled"
                                     label="Khóa"
-                                    value={values.khoaHoc || ''}
+                                    value={values?.khoaHoc || ''}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -154,20 +153,20 @@ const InfoForm = (props) => {
                                     className={styles.TextField}
                                     variant="filled"
                                     label="Ngành học"
-                                    value={values.nganhHoc || ''}
+                                    value={values?.nganhHoc || ''}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
                             </Grid>
                             <Grid item xs={6} sx={{ p: 2 }}>
                                 <FormControl fullWidth variant='filled' className='text-field'>
-                                    <InputLabel id="faculty-group">Khoa</InputLabel>
+                                    <InputLabel id="faculty-group">Khoa *</InputLabel>
                                     <Select
                                         name='donVi._id'
                                         labelId="faculty-group"
                                         id="input-faculty"
                                         value={values?.donVi?._id || undefined}
-                                        label="Khoa"
+                                        label="Khoa *"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     >
@@ -182,13 +181,13 @@ const InfoForm = (props) => {
                             </Grid>
                             <Grid item xs={6} sx={{ p: 2 }}>
                                 <FormControl fullWidth variant='filled' className='text-field'>
-                                    <InputLabel id="class-group">Lớp</InputLabel>
+                                    <InputLabel id="class-group">Lớp *</InputLabel>
                                     <Select
                                         name='lopSV._id'
                                         labelId="class-group"
                                         id="input-class"
                                         value={values?.lopSV?._id || undefined}
-                                        label="Lớp"
+                                        label="Lớp *"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     >
@@ -206,7 +205,7 @@ const InfoForm = (props) => {
                                     <InputLabel>Đoàn viên</InputLabel>
                                     <Select
                                         name='doanVien'
-                                        value={values.doanVien}
+                                        value={values?.doanVien}
                                         label="Tình trạng"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -223,7 +222,7 @@ const InfoForm = (props) => {
                                     className={styles.TextField}
                                     variant="filled"
                                     label="Chức vụ"
-                                    value={values.chucVu || ''}
+                                    value={values?.chucVu || ''}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -238,8 +237,11 @@ const InfoForm = (props) => {
                                     name='email'
                                     className={styles.TextField}
                                     variant="filled"
-                                    label="Email"
-                                    value={values.email || ''}
+                                    label="Email (read-only)"
+                                    value={values?.email || ''}
+                                    inputProps={{
+                                        readOnly: true
+                                    }}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -250,7 +252,7 @@ const InfoForm = (props) => {
                                     className={styles.TextField}
                                     variant="filled"
                                     label="Số điện thoại"
-                                    value={values.soDienThoai || ''}
+                                    value={values?.soDienThoai || ''}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -261,7 +263,7 @@ const InfoForm = (props) => {
                                     className={styles.TextField || ''}
                                     variant="filled"
                                     label="Địa chỉ"
-                                    value={values.diaChi}
+                                    value={values?.diaChi}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -269,7 +271,7 @@ const InfoForm = (props) => {
 
                             {/* ĐOÀN VIÊN */}
                             {
-                                values.doanVien && (
+                                values?.doanVien && (
                                     <>
                                         <Grid item xs={12}>
                                             <h3 className={styles.SectionTitle}>Đoàn viên</h3>
@@ -280,7 +282,7 @@ const InfoForm = (props) => {
                                                 views={['year', 'month', 'day']}
                                                 inputFormat="DD/MM/yyyy"
                                                 label="Ngày vào Đoàn"
-                                                value={values.thongTinDoanVien?.ngayVaoDoan ? moment(values.thongTinDoanVien?.ngayVaoDoan).format('YYYY-MM-DD') : moment('1990-01-01').format('YYYY-MM-DD')}
+                                                value={values?.thongTinDoanVien?.ngayVaoDoan ? moment(values.thongTinDoanVien?.ngayVaoDoan).format('YYYY-MM-DD') : moment('1990-01-01').format('YYYY-MM-DD')}
                                                 onChange={value => setFieldValue('thongTinDoanVien.ngayVaoDoan', value)}
                                                 renderInput={(params) => 
                                                     <TextField 
@@ -299,7 +301,7 @@ const InfoForm = (props) => {
                                                 className={styles.TextField}
                                                 variant="filled"
                                                 label="Nơi vào Đoàn"
-                                                value={values.thongTinDoanVien?.noiVaoDoan || ''}
+                                                value={values?.thongTinDoanVien?.noiVaoDoan || ''}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                             />
@@ -310,7 +312,7 @@ const InfoForm = (props) => {
                                                 className={styles.TextField}
                                                 variant="filled"
                                                 label="Số thẻ đoàn"
-                                                value={values.thongTinDoanVien?.soTheDoan || ''}
+                                                value={values?.thongTinDoanVien?.soTheDoan || ''}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                             />
@@ -320,7 +322,7 @@ const InfoForm = (props) => {
                                                 <InputLabel>Tình trạng sổ đoàn</InputLabel>
                                                 <Select
                                                     name='thongTinDoanVien.soDoan.trangThaiSoDoan'
-                                                    value={values.thongTinDoanVien?.soDoan?.trangThaiSoDoan || 'CHUA_NOP'}
+                                                    value={values?.thongTinDoanVien?.soDoan?.trangThaiSoDoan || 'CHUA_NOP'}
                                                     label="Tình trạng sổ đoàn"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
@@ -335,14 +337,15 @@ const InfoForm = (props) => {
                                 )
                             }
                             <Grid item xs={12} sx={{ p: 2 }}>
-                                <Button
+                                <LoadingButton
                                     type='submit'
                                     variant='contained'
                                     className={styles.Button}
                                     disabled={isSubmitting}
+                                    loading={isSubmitting}
                                 >
                                     LƯU THAY ĐỔI
-                                </Button>
+                                </LoadingButton>
                             </Grid>
                         </Grid>
                     </LocalizationProvider>

@@ -73,7 +73,6 @@ const BarcodePage = () => {
             const res = await updateOneStudent(student);
 
             if (res.data.status === 'success') {
-                console.log('res: ', res.data.data.student);
                 setStudent(res.data.data.student);
             }
         } catch (err) {
