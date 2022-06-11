@@ -15,6 +15,7 @@ const ClassDetail = Loadable(lazy(() => import('components/admin/class/classDeta
 const UsersStatistic = Loadable(lazy(() => import('components/admin/users/statistic')));
 const ManagersManagement = Loadable(lazy(() => import('components/admin/users/managers')));
 const StudentsManagement = Loadable(lazy(() => import('components/admin/users/students')));
+const ManagerDetail = Loadable(lazy(() => import('components/admin/users/managers/components/ManagerDetail')));
 
 // ===========================|| ADMIN ROUTING ||=========================== //
 
@@ -57,6 +58,10 @@ const AdminRoutes = {
         {
             path: '/users/quan-tri-vien',
             element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><ManagersManagement /></Protected>
+        },
+        {
+            path: '/users/quan-tri-vien/:id',
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><ManagerDetail /></Protected>
         },
         {
             path: '/users/sinh-vien',

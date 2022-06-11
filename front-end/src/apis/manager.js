@@ -42,6 +42,18 @@ export const getAllManagers= (args) => {
     return axios(option)
 }
 
+export const getOneManagerById = (id) => {
+    const option = {
+        method: 'get',
+        url: `${url}/managers/${id}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    return axios(option);
+}
+
 export const updateOneManager = ({ password, ...manager }) => {
     const option = {
         method: "put",
