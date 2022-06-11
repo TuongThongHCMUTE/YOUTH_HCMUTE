@@ -63,13 +63,18 @@
         .TextField > div {
             border-radius: 0px;
         }
-        
+
         .Button {
             float: right;
             padding: 4px 24px;
             margin-bottom: 16px;
             height: 40px;
             line-height: 40px;
+        }
+
+        .ResetPasswordBtn {
+            margin-right: 24px;
+            background: #ec1f25 !important;
         }
     }
 }

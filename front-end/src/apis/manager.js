@@ -70,6 +70,19 @@ export const updateOneManager = ({ password, ...manager }) => {
     return axios(option);
 }
 
+export const resetManagerPassword = (managerId, password) => {
+    const option = {
+        method: "put",
+        url: `${url}/managers/${managerId}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        data: { password }
+    }
+  
+    return axios(option);
+}
+
 export const deleteManager = (id) => {
     const option = {
         method: "delete",

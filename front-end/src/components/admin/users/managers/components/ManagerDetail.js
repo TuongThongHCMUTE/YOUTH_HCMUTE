@@ -7,13 +7,14 @@ import { Formik } from 'formik';
 // Styles ================================================================== //
 import styles from './ManagerDetail.module.scss';
 // APIs ==================================================================== //
-import { getOneManagerById, updateOneManager } from 'apis/manager';
+import { getOneManagerById, updateOneManager, resetManagerPassword } from 'apis/manager';
 import { getAllFaculties } from 'apis/faculty';
 // Constants =============================================================== //
 import { MANAGER_TYPES } from 'helpers/constants/manager';
 import { USER_STATUSES } from 'helpers/constants/user';
 // Material UI ============================================================= //
 import { 
+    Button,
     Grid,
     InputLabel,
     FormControl,
@@ -23,19 +24,47 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import WestIcon from '@mui/icons-material/West';
+import CachedIcon from '@mui/icons-material/Cached';
 // My components =========================================================== //
 import CircularLoading from 'components/common/loading/CircularLoading';
 import BorderTopCard from 'ui-component/cards/BorderTopCard';
 import SnackBar from 'components/common/alert/Snackbar';
+import ResetPasswordModal from './ResetPasswordModal';
 
 // ===========================|| MANAGER DETAIL||=========================== //
-const FormComponent = ({ data, faculties, onSubmit, updating }) => {
+const FormComponent = ({ data, faculties, onSubmit, updating, setAlert }) => {
+    const [openResetPwdModal, setOpenResetPwdModal] = useState(false);
+    const [updatingPwd, setUpdatingPwd] = useState(false);
+
     const validateData = (values) => {
         const errors = {};
         return errors;
     };
 
+    const handleResetPassword = async (password) => {
+        setUpdatingPwd(true);
+        try {
+            const res = await resetManagerPassword(data._id, password);
+
+            if (res.data.status === 'success') {
+                setAlert({
+                    severity: 'success',
+                    message: 'Đặt mật khẩu thành công!'
+                });
+            }
+        } catch (e) {
+            setAlert({
+                severity: 'error',
+                message: e.response.data.message
+            });
+        } finally {
+            setOpenResetPwdModal(false);
+            setUpdatingPwd(false);
+        }
+    }
+
     return (
+        <>
         <Formik
             className={styles.InfoForm}
             initialValues={data}
@@ -183,20 +212,34 @@ const FormComponent = ({ data, faculties, onSubmit, updating }) => {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sx={{ p: 2 }}>
+                        <Grid item xs={12} sx={{ mt: 2, p: 2, display: 'flex', justifyContent: 'flex-end' }}>
+                            <Button
+                                className={clsx('button', styles.Button, styles.ResetPasswordBtn)}
+                                startIcon={<CachedIcon />}
+                                onClick={() => setOpenResetPwdModal(true)}
+                            >
+                                Cấp lại mật khẩu
+                            </Button>
                             <LoadingButton
                                 type='submit'
                                 variant='contained'
                                 className={clsx('button', styles.Button)}
                                 loading={updating}
                             >
-                                LƯU THAY ĐỔI
+                                Lưu thay đổi
                             </LoadingButton>
                         </Grid>
                     </Grid>
                 </form>
             )}
         </Formik>
+        <ResetPasswordModal 
+            visible={openResetPwdModal}
+            loading={updatingPwd}
+            onSubmit={(password) => handleResetPassword(password)}
+            onClose={() => setOpenResetPwdModal(false)} 
+        />
+        </>
     )
 };
 
@@ -241,7 +284,7 @@ const ManagerDetail = () => {
     useEffect(() => {
         getManagerData();
         getFaculties();
-      }, [])
+    }, [])
 
     const handleSubmit = async (values) => {
         setUpdating(true);
@@ -290,7 +333,8 @@ const ManagerDetail = () => {
                                 data={data} 
                                 faculties={faculties} 
                                 updating={updating}
-                                onSubmit={handleSubmit} 
+                                onSubmit={handleSubmit}
+                                setAlert={setAlert}
                             /> : 
                             <CircularLoading />
                         }
