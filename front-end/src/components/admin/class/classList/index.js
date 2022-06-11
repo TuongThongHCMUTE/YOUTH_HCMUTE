@@ -86,7 +86,6 @@ const ClassList = () => {
           link.click();
         } catch(err) {
           alert(err);
-          setLoadingBills(false);
         }
       }
 

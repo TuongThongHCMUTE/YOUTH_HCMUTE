@@ -44,7 +44,7 @@ const FormComponent = ({ data, faculties, onSubmit, updating, setAlert }) => {
     const handleResetPassword = async (password) => {
         setUpdatingPwd(true);
         try {
-            const res = await resetManagerPassword(data._id, password);
+            const res = await resetManagerPassword(data.email, password);
 
             if (res.data.status === 'success') {
                 setAlert({
@@ -130,7 +130,7 @@ const FormComponent = ({ data, faculties, onSubmit, updating, setAlert }) => {
                                 name='email'
                                 className={styles.TextField}
                                 variant="filled"
-                                label="Email"
+                                label="Email (read-only)"
                                 value={values?.email || ''}
                                 onChange={handleChange}
                                 onBlur={handleBlur}

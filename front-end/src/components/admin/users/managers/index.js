@@ -16,6 +16,7 @@ import { Box, Button } from '@mui/material';
 // Components ============================================================== //
 import SearchBar from './components/SearchBar';
 import ManagersTable from './components/ManagersTable';
+import CreateManagerModal from './components/CreateManagerModal';
 
 // ==========================|| USER MANAGEMENT ||========================== //
 const ManagersManagement = () => {
@@ -31,6 +32,7 @@ const ManagersManagement = () => {
     const [managers, setManagers] = useState([]);
     const [totalRecords, setTotalRecords] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [openCreateModal, setOpenCreateModal] = useState(false);
 
     const getManagers = async (args) => {
         setLoading(true);
@@ -136,7 +138,7 @@ const ManagersManagement = () => {
                         <Button 
                             className='button'
                             variant='contained'
-                            // onClick={() => setShowCreateModal(true)}
+                            onClick={() => setOpenCreateModal(true)}
                         >
                             Thêm mới
                         </Button>
@@ -149,6 +151,16 @@ const ManagersManagement = () => {
                     onRefetch={(args) => getManagers({ ...searchValues, ...args })} 
                 />
             </Box>
+            <CreateManagerModal
+                open={openCreateModal}
+                faculties={faculties}
+                onClose={() => setOpenCreateModal(false)}
+                onRefetch={(role) => {
+                    if(role === searchValues.role) {
+                        getManagers(searchValues)
+                    }
+                }}
+            />
       </div>
     )
 }

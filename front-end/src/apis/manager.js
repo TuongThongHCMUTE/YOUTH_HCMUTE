@@ -57,6 +57,19 @@ export const getOneManagerById = (id) => {
     return axios(option);
 }
 
+export const createOneManager = (manager) => {
+    const option = {
+        method: "post",
+        url: `${url}/managers`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        data: manager
+    }
+  
+    return axios(option);
+}
+
 export const updateOneManager = ({ password, ...manager }) => {
     const option = {
         method: "put",
@@ -70,14 +83,14 @@ export const updateOneManager = ({ password, ...manager }) => {
     return axios(option);
 }
 
-export const resetManagerPassword = (managerId, password) => {
+export const resetManagerPassword = (email, password) => {
     const option = {
         method: "put",
-        url: `${url}/managers/${managerId}`,
+        url: `${url}/auth/cap-mat-khau`,
         headers: {
             Authorization: `Bearer ${token}`,
         },
-        data: { password }
+        data: { email, password }
     }
   
     return axios(option);

@@ -34,7 +34,7 @@ function createData(manager) {
     const id = manager._id;
     const name = manager.tenHienThi;
     const email = manager.email;
-    const phone = manager.phone;
+    const phone = manager.soDienThoai;
     const faculty = manager.donVi?.tenDonVi;
     const position = manager.chucVu;
     const status = manager.trangThai;
