@@ -2,7 +2,7 @@ const express = require('express')
 
 const { verifyToken } = require('../middleware/verifyToken')
 const { loginWithPassword, loginWithGoogle, resetPassword, getCurrentUser,
-        changePassword, updateCurrentUser}
+        changePassword, updateCurrentUser, updatePassword}
     = require('../controllers/authController')
 
 const Router = express.Router()
@@ -16,5 +16,7 @@ Router.route('/cap-lai-mat-khau').put(resetPassword)
 Router.route('/ca-nhan').get(verifyToken, getCurrentUser).put(verifyToken, updateCurrentUser)
 
 Router.route('/doi-mat-khau').put(verifyToken, changePassword)
+
+Router.route('/cap-mat-khau').put(verifyToken, updatePassword)
 
 module.exports = Router

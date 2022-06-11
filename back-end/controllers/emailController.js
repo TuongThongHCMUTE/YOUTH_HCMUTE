@@ -12,7 +12,7 @@ exports.sendEmail = (email, type, emailInfo) => {
                             <li>Email: ${email}</li>
                             <li>Mật khẩu: <b>${emailInfo.password}</b></li>
                         </ul>
-                        Nhấn <a href=${url}/dang-nhap>tại đây</a> để đăng nhập vào trang web và tiến hành đổi mật khẩu.</p?`
+                        Nhấn <a href=${url}/>tại đây</a> để đăng nhập vào trang web và tiến hành đổi mật khẩu.</p?`
         },
         RESET_PAWSSWORD_EMAIL: {
             subject: 'CẤP LẠI MẬT KHẨU TRANG YOUTH HCMUTE',
@@ -21,7 +21,7 @@ exports.sendEmail = (email, type, emailInfo) => {
                             <li>Email: ${email}</li>
                             <li>Mật khẩu: <b>${emailInfo.password}</b></li>
                         </ul>
-                        Nhấn <a href=${url}/dang-nhap>tại đây</a> để đăng nhập vào trang web và tiến hành đổi mật khẩu.</p>`
+                        Nhấn <a href=${url}/>tại đây</a> để đăng nhập vào trang web và tiến hành đổi mật khẩu.</p>`
         }
     }
 

@@ -225,3 +225,32 @@ exports.changePassword = async (req, res, next) => {
         next(e)
     }
 }
+
+// Update password
+exports.updatePassword = async (req, res, next) => {
+    try {
+        const { email, password } = req.body
+        const hashPass = hashPassword(password)
+
+        const manager = await Manager.findOneAndUpdate({email}, {password: hashPass}, {new: true, runValidators: true})
+                                        .populate('donVi', 'tenDonVi')
+        
+        let resMsg = 'Tài khoản không tồn tại'
+        if (manager) {
+            const emailInfo = {
+                name: manager.tenHienThi,
+                password: password
+            }
+            sendEmail(manager.email, 'RESET_PAWSSWORD_EMAIL', emailInfo)
+            resMsg = 'Cấp lại mật khẩu thành công. Vui lòng kiểm tra email để xem mật khẩu'
+        }
+
+        res.status(200).json({
+            status: 'success',
+            message: resMsg,
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
