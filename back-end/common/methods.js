@@ -112,3 +112,10 @@ exports.addHours = (numOfHours, date) => {
     
     return date;
 }
+
+// Check objectId
+const { ObjectId } = require('mongoose').Types
+
+exports.isObjectId = (_id) => {
+    return ObjectId.isValid(_id)
+}

@@ -1,4 +1,4 @@
-const { getQueryParameter } = require('../common/index')
+const { getQueryParameter, isObjectId } = require('../common/index')
 const Event = require('../models/event')
 const elasticClient = require('../configs/elasticSearch')
 
@@ -31,49 +31,45 @@ exports.searchAllEvents = async (req, res, next) => {
 
         const results = await elasticClient.searchDoc('events', searchString, skip, limit, ['tenChuongTrinh', 'moTa'])
 
+        let events = []
+        let totalDocument = 0
         if (results) {
-            const events = results.hits.map(event => {
+            const idEvents = results.hits
+                                .filter(event => isObjectId(event._id))
+                                .map(event => event._id)
+            const matchEvents = await Event.find({_id: { $in: idEvents }})
+
+            events = results.hits.map(event => {
+                const dbEvent = matchEvents.find(x => x._id.toString() === event._id)
+
+                dbEvent.tenChuongTrinh = event.highlight?.tenChuongTrinh ? event.highlight?.tenChuongTrinh[0] : dbEvent.tenChuongTrinh
+                dbEvent.moTa = event.highlight?.moTa ? event.highlight?.moTa[0] : dbEvent.moTa
                 return {
-                    _id: event._id,
-                    score: event._score,
-                    tenChuongTrinh: event.highlight?.tenChuongTrinh ? event.highlight?.tenChuongTrinh[0] : event._source.tenChuongTrinh,
-                    moTa: event.highlight?.moTa ? event.highlight?.moTa[0] : event._source.moTa
+                    ...dbEvent.toJSON(),
+                    score: event._score
                 }
             })
-            
-            res.status(200).json({
-                status: 'success',
-                all: results.total.value,
-                results: events.length,
-                data: {events}
-            })
+
+            totalDocument = results.total.value
         } else {
-            const results = await Event.find(
+            events = await Event.find(
                 { $text: { $search : searchString } },  
                 { score : { $meta: "textScore" } })
                 .sort({ score: { $meta : 'textScore' }})
                 .skip(skip)
                 .limit(limit)
 
-                const allMatch = await Event.countDocuments(            
-                    { $text: { $search : searchString } },  
-                    { score : { $meta: "textScore" } })
-                    
-                const events = results.map(event => {
-                    return {
-                        _id: event._id,
-                        score: 1,
-                        tenChuongTrinh: event.tenChuongTrinh,
-                        moTa: event.moTa
-                    }
-                })
-                    res.status(200).json({
-                        status: 'success',
-                        all: allMatch,
-                results: events.length,
-                data: {events}
-            })
+            totalDocument = await Event.countDocuments(            
+                { $text: { $search : searchString } },  
+                { score : { $meta: "textScore" } })
         }
+
+        res.status(200).json({
+            status: 'success',
+            all: totalDocument,
+            results: events.length,
+            data: { events }
+        })
     } catch (e) {
         console.log(e)
         next(e)
