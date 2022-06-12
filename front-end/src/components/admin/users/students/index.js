@@ -9,9 +9,10 @@ import { DEFAULT_LIMIT } from 'helpers/constants/student';
 // APIs ==================================================================== //
 import { getAllFaculties } from 'apis/faculty';
 import { getAllClasses } from 'apis/class';
-import { getAllStudents } from 'apis/student';
+import { getAllStudents, exportExcelAllStudents } from 'apis/student';
 // Material UI ============================================================= //
 import { Box, Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 // Components ============================================================== //
 import SearchBar from './components/SearchBar';
 import StudentsTable from './components/StudentsTable';
@@ -32,6 +33,7 @@ const StudentsManagement = () => {
     const [students, setStudents] = useState([]);
     const [totalRecords, setTotalRecords] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [exporting, setExporting] = useState(false);
     const [openCreateModal, setOpenCreateModal] = useState(false);
 
     useEffect(async () => {
@@ -80,7 +82,7 @@ const StudentsManagement = () => {
             alert(err);
             setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
         getStudents({ ...defaultSearchValues, limit: DEFAULT_LIMIT });
@@ -96,10 +98,30 @@ const StudentsManagement = () => {
             ...prev,
             [field]: value
         }))
-    }
+    };
 
     const handleSearch = () => {
         getStudents({ ...searchValues, limit: DEFAULT_LIMIT });
+    };
+
+    const exportExcel = async () => {
+        try {
+            setExporting(true);
+            const res = await exportExcelAllStudents();   
+            const outputFilename = `Danh sách sinh viên.xlsx`;
+        
+            // Download file automatically using link attribute.
+            const url = URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', outputFilename);
+            document.body.appendChild(link);
+            link.click();
+        } catch(err) {
+            alert(err);
+        } finally {
+            setExporting(false);
+        }
     }
 
     return (
@@ -121,14 +143,19 @@ const StudentsManagement = () => {
                         <p className={styles.TotalRecord}>Tổng số: { totalRecords }</p>
                     </div>
                     <div className={styles.ButtonWrapper}>
-                        <Button 
+                        <LoadingButton 
                             className={styles.ExportButton}
                             variant='contained'
-                            // onClick={(args) => exportExcel({ ...searchValues, ...args})}                     
+                            loading={exporting}
+                            onClick={() => exportExcel()}                     
                         >
-                            <img src={excelImage} />
-                            Xuất dữ liệu
-                        </Button>
+                            {!exporting && 
+                                <>
+                                    <img src={excelImage} />
+                                    Xuất dữ liệu
+                                </>
+                            }
+                        </LoadingButton>
                         <Button 
                             className='button'
                             variant='contained'

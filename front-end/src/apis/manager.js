@@ -107,3 +107,18 @@ export const deleteManager = (id) => {
   
     return axios(option);
 }
+
+export const exportExcelAllManagers = () => {
+    const headers = {'Content-Type': 'blob'};
+    const option = {
+        headers,
+        method: 'get',
+        responseType: 'arraybuffer',
+        url: `${url}/managers/xls`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    return axios(option)
+}

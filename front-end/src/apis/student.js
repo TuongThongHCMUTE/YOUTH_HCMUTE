@@ -119,3 +119,18 @@ export const deleteStudent = (studentId) => {
   
     return axios(option);
 }
+
+export const exportExcelAllStudents = () => {
+    const headers = {'Content-Type': 'blob'};
+    const option = {
+        headers,
+        method: 'get',
+        responseType: 'arraybuffer',
+        url: `${url}/students/xls`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    return axios(option)
+}

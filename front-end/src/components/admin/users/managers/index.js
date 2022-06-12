@@ -10,9 +10,10 @@ import { DEFAULT_LIMIT } from 'helpers/constants/manager';
 import { USER_ROLES } from 'helpers/constants/user';
 // APIs ==================================================================== //
 import { getAllFaculties } from 'apis/faculty';
-import { getAllManagers } from 'apis/manager';
+import { getAllManagers, exportExcelAllManagers } from 'apis/manager';
 // Material UI ============================================================= //
 import { Box, Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 // Components ============================================================== //
 import SearchBar from './components/SearchBar';
 import ManagersTable from './components/ManagersTable';
@@ -32,6 +33,7 @@ const ManagersManagement = () => {
     const [managers, setManagers] = useState([]);
     const [totalRecords, setTotalRecords] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [exporting, setExporting] = useState(false);
     const [openCreateModal, setOpenCreateModal] = useState(false);
 
     const getManagers = async (args) => {
@@ -77,11 +79,31 @@ const ManagersManagement = () => {
             ...prev,
             [field]: value
         }))
-    }
+    };
 
     const handleSearch = () => {
         getManagers({ ...searchValues, limit: DEFAULT_LIMIT });
-    }
+    };
+
+    const exportExcel = async () => {
+        try {
+            setExporting(true);
+            const res = await exportExcelAllManagers();   
+            const outputFilename = `Danh sách sinh viên.xlsx`;
+        
+            // Download file automatically using link attribute.
+            const url = URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', outputFilename);
+            document.body.appendChild(link);
+            link.click();
+        } catch(err) {
+            alert(err);
+        } finally {
+            setExporting(false);
+        }
+    };
 
     return (
       <div className={styles.Managers}>
@@ -127,14 +149,19 @@ const ManagersManagement = () => {
                         <p className={styles.TotalRecord}>Tổng số: { loading ? 0 : totalRecords }</p>
                     </div>
                     <div className={styles.ButtonWrapper}>
-                        <Button 
+                        <LoadingButton 
                             className={styles.ExportButton}
                             variant='contained'
-                            // onClick={(args) => exportExcel({ ...searchValues, ...args})}                     
+                            loading={exporting}
+                            onClick={() => exportExcel()}                     
                         >
-                            <img src={excelImage} />
-                            Xuất dữ liệu
-                        </Button>
+                            {!exporting && 
+                                <>
+                                    <img src={excelImage} />
+                                    Xuất dữ liệu
+                                </>
+                            }
+                        </LoadingButton>
                         <Button 
                             className='button'
                             variant='contained'
