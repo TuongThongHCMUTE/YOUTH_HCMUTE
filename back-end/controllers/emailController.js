@@ -28,6 +28,10 @@ exports.sendEmail = (email, type, emailInfo) => {
     const msg = {
         to: email,
         from: process.env.SEND_EMAIL,
+        from: {
+            email: process.env.SEND_EMAIL,
+            name: 'Đoàn trường ĐH Sư phạm Kỹ thuật TP. Hồ Chí Minh'
+        },
         subject: emailMessage[type].subject,
         html: emailMessage[type].content
       }
