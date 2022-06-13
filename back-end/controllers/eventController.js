@@ -8,7 +8,7 @@ exports.getAllEvents = async (req, res, next) => {
         const { sort, limit, skip, query } = getQueryParameter(req)
 
         const events = await Event.find(query).sort(sort).skip(skip).limit(limit)
-                                    .populate('sinhVienThamGia.sinhVien', 'maSoSV ho ten')
+                                    .select('-sinhViens')
         const countAll = await Event.countDocuments(query)
         
         res.status(200).json({
@@ -103,7 +103,7 @@ exports.getOneEvent = async (req, res, next) => {
         const { id } = req.params
 
         const event = await Event.findById(id)
-                                    .populate('sinhVienThamGia.sinhVien', 'maSoSV ho ten')
+                                    .select('-sinhViens')
 
         res.status(200).json({
             status: 'success',
@@ -121,7 +121,7 @@ exports.updateOneEvent = async (req, res, next) => {
         const { id } = req.params
 
         const event = await Event.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
-                                    .populate('sinhVienThamGia.sinhVien', 'maSoSV ho ten')
+                                    .select('-sinhViens')
 
         await elasticClient.updateOneDoc('events', {
             id: event._id,
@@ -145,7 +145,7 @@ exports.deleteOneEvent = async (req, res, next) => {
         const { id } = req.params
 
         const event = await Event.findByIdAndDelete(id)
-                                    .populate('sinhVienThamGia.sinhVien', 'maSoSV ho ten')
+                                    .select('-sinhViens')
 
         await elasticClient.deleteOneDoc('events', event._id)
 

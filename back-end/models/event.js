@@ -31,7 +31,7 @@ const eventSchema = new mongoose.Schema({
     linkTruyenThong: {type: String},
     soLuongSinhVienDangKy: {type: Number, default: 0},
     soLuongSinhVienThamGia: {type: Number, default: 0},
-    sinhVienThamGia: [{
+    sinhViens: [{
         sinhVien: {
             type: mongoose.Schema.Types.ObjectId,
             trim: true,
