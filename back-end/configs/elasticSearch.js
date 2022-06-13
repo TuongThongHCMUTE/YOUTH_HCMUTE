@@ -134,13 +134,13 @@ module.exports = {
 //         index: 'events',
 //         // query: {
 //         //     match: { 
-//         //         tenChuongTrinh: 'phong cách'
+//         //         tenHoatDong: 'phong cách'
 //         //     }
 //         // },
 //         query: {
 //             query_string: {
 //                 query: 'phong cách',
-//                 fields: ['tenChuongTrinh', 'moTa']
+//                 fields: ['tenHoatDong', 'moTa']
 //             }
 //         },
 //         highlight: {
@@ -149,7 +149,7 @@ module.exports = {
 //             pre_tags : ['<b>'], // Replace all <em>
 //             post_tags : ['</b>'], // Replace all </em>
 //             fields: {
-//                 tenChuongTrinh: { type: 'plain' },
+//                 tenHoatDong: { type: 'plain' },
 //                 moTa: { type: 'plain' }
 //             }
 //         }
@@ -158,8 +158,8 @@ module.exports = {
 //     // console.log(body.hits.hits)
 
 //     for (let hit of body.hits.hits) {
-//         console.log(hit._source.tenChuongTrinh)
-//         console.log(hit.highlight.tenChuongTrinh)
+//         console.log(hit._source.tenHoatDong)
+//         console.log(hit.highlight.tenHoatDong)
 //         console.log(hit.highlight.moTa)
 //     }
 
@@ -170,13 +170,13 @@ module.exports = {
 //         index: 'events',
 //         query: {
 //             match: { 
-//                     tenChuongTrinh: 'phong cách'
+//                     tenHoatDong: 'phong cách'
 //             }
 //         },
 //         suggest: {
 //             gotsuggest: {
 //                 text: 'phong cách',
-//                 term: { field: 'tenChuongTrinh' }
+//                 term: { field: 'tenHoatDong' }
 //             }
 //         }
 //     })

@@ -2,7 +2,7 @@ const  mongoose = require('mongoose')
 
 // Init schema
 const eventSchema = new mongoose.Schema({
-    tenChuongTrinh: {type: String, required: [true, 'Nhập tên chương trình']},
+    tenHoatDong: {type: String, required: [true, 'Nhập tên hoạt động']},
     moTa: {type: String},
     thoiGianDangKy: {
         thoiGianBatDau: {type: Date},
@@ -54,7 +54,7 @@ const eventSchema = new mongoose.Schema({
 }, {timestamps: true})
 
 eventSchema.index({
-    tenChuongTrinh: 'text',
+    tenHoatDong: 'text',
     moTa: 'text'
 })
 

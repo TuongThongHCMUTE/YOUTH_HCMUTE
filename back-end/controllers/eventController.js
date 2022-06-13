@@ -29,7 +29,7 @@ exports.searchAllEvents = async (req, res, next) => {
         const { limit, skip } = getQueryParameter(req)
         const { searchString } = req.query
 
-        const results = await elasticClient.searchDoc('events', searchString, skip, limit, ['tenChuongTrinh', 'moTa'])
+        const results = await elasticClient.searchDoc('events', searchString, skip, limit, ['tenHoatDong', 'moTa'])
 
         let events = []
         let totalDocument = 0
@@ -42,7 +42,7 @@ exports.searchAllEvents = async (req, res, next) => {
             events = results.hits.map(event => {
                 const dbEvent = matchEvents.find(x => x._id.toString() === event._id)
 
-                dbEvent.tenChuongTrinh = event.highlight?.tenChuongTrinh ? event.highlight?.tenChuongTrinh[0] : dbEvent.tenChuongTrinh
+                dbEvent.tenHoatDong = event.highlight?.tenHoatDong ? event.highlight?.tenHoatDong[0] : dbEvent.tenHoatDong
                 dbEvent.moTa = event.highlight?.moTa ? event.highlight?.moTa[0] : dbEvent.moTa
                 return {
                     ...dbEvent.toJSON(),
@@ -83,7 +83,7 @@ exports.createOneEvent = async (req, res, next) => {
 
         await elasticClient.insertOneDoc('events', {
             id: event._id,
-            tenChuongTrinh: event.tenChuongTrinh,
+            tenHoatDong: event.tenHoatDong,
             moTa: event.moTa
         })
 
@@ -125,7 +125,7 @@ exports.updateOneEvent = async (req, res, next) => {
 
         await elasticClient.updateOneDoc('events', {
             id: event._id,
-            tenChuongTrinh: event.tenChuongTrinh,
+            tenHoatDong: event.tenHoatDong,
             moTa: event.moTa
         })
 
