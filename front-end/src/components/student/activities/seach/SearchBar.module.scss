@@ -1,0 +1,53 @@
+.SearchBar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 24px;
+    border: 1px solid var(--color-grey-400);
+
+    .Title {
+        display: inline-block;
+        font-size: 24px;
+        font-weight: 500;
+        color: var(--color-grey-700);
+    }
+
+    .SearchArea {
+        .Search {
+            display: flex;
+
+            .SearchField {
+                width: 100%;
+            }
+
+            .SearchButton {
+                width: 70px !important;
+                height: 51px;
+            }
+        }
+    }
+
+    .RadioGroup {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 50px;
+
+        .Label {
+            margin-right: 24px;
+            color: var(--color-grey-700);
+            font-weight: 600;
+        }
+    }
+
+    .DatePicker {
+        display: flex;
+        align-items: center;
+
+        p {
+            margin-right: 24px;
+            color: var(--color-grey-700);
+            font-weight: 600;
+        }
+    }
+}

@@ -24,13 +24,13 @@ const SearchBar = (props) => {
             <Grid item xs={10} className={styles.SearchArea}>
             <Grid container>
                 <Grid item xs={3} className={styles.StudentSearch}>
-                <TextField
-                    variant='outlined'
-                    size='small'
-                    label='Mã số sinh viên'
-                    value={searchValues.studentId}
-                    onChange={e => onChange("studentId", e.target.value)}
-                />
+                    <TextField
+                        variant='outlined'
+                        size='small'
+                        label='Mã số sinh viên'
+                        value={searchValues.studentId}
+                        onChange={e => onChange("studentId", e.target.value)}
+                    />
                     <Button 
                         variant="contained"
                         className={clsx("button", styles.SearchButton)}
