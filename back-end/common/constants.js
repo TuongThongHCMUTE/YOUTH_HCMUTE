@@ -5,7 +5,8 @@ exports.mappingFields = {
     maSoSV: 'Mã số sinh viên',
     maNamHoc: 'Mã năm học',
     namHoc: 'Năm học',
-    tenNamHoc: 'Tên năm học'
+    tenNamHoc: 'Tên năm học',
+    noiDung: 'Nội dung'
 }
 
 
@@ -14,6 +15,17 @@ exports.stylesExcel = {
     ALIGNMENT_MID_CENTER: {alignment: { vertical: 'middle', horizontal: 'center' }},
     SHORT_DATE_FORMAT: {alignment: { vertical: 'middle', horizontal: 'center' }, numFmt: 'dd/mm/yyyy'},
     LONG_DATE_FORMAT: {alignment: { vertical: 'middle', horizontal: 'center'}, numFmt: 'dd/mm/yyyy hh:mm'},
+}
+
+exports.populateFields = {
+    attendance: {
+        path: 'sinhViens.sinhVien',
+        select: 'maSoSV ho ten',
+        populate: {
+            path:  'donVi',
+            select: 'tenDonVi'
+        }
+    }
 }
 
 exports.defaultBill = {
