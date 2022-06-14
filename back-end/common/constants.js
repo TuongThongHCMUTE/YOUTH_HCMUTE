@@ -5,7 +5,8 @@ exports.mappingFields = {
     maSoSV: 'Mã số sinh viên',
     maNamHoc: 'Mã năm học',
     namHoc: 'Năm học',
-    tenNamHoc: 'Tên năm học'
+    tenNamHoc: 'Tên năm học',
+    noiDung: 'Nội dung'
 }
 
 
