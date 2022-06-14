@@ -21,7 +21,7 @@ const activity = {
             id: 'search',
             title: 'Tìm kiếm',
             type: 'item',
-            url: '/new-feed',
+            url: 'tim-kiem',
             icon: icons.TravelExploreIcon,
             breadcrumbs: false
         },

@@ -108,13 +108,13 @@ const ManagersManagement = () => {
     return (
       <div className={styles.Managers}>
           <div className={styles.SearchBarWrapper}>
-              <SearchBar 
-                  className={styles.SearchBar}
-                  faculties={faculties}
-                  searchValues={searchValues}
-                  onChange={(field, value) => handleChange(field, value)}
-                  onSearch={() => handleSearch()}
-              />
+                <SearchBar 
+                    className={styles.SearchBar}
+                    faculties={faculties}
+                    searchValues={searchValues}
+                    onChange={(field, value) => handleChange(field, value)}
+                    onSearch={() => handleSearch()}
+                />
           </div>
           <Box className={styles.TableSection}>
                 <Box className={styles.TableTitle}>
