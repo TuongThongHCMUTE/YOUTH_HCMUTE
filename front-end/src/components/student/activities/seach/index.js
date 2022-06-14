@@ -18,7 +18,9 @@ const SearchActivities = () => {
     offset: 0
   }
 
+  const [mode, setMode] = useState('GET');
   const [events, setEvents] = useState([]);
+  const [totalRecords, setTotalsRecords] = useState(0);
   const [searchValues, setSearchValues] = useState(defaultSearchValues);
 
   const getEvents = async (params) => {
@@ -27,6 +29,8 @@ const SearchActivities = () => {
 
       if (res.data.status === 'success') {
         setEvents(res.data.data.events);
+        setTotalsRecords(res.data.all);
+        setMode('GET');
       }
     } catch (e) {
       console.log(e);
@@ -39,6 +43,8 @@ const SearchActivities = () => {
 
       if (res.data.status === 'success') {
         setEvents(res.data.data.events);
+        setTotalsRecords(res.data.all);
+        setMode('SEARCH');
       }
     } catch (e) {
       console.log(e);
@@ -48,6 +54,14 @@ const SearchActivities = () => {
   useEffect(() => {
     getEvents(searchValues);
   }, []);
+
+  useEffect(() => {
+    if (mode === 'SEARCH') {
+      search(searchValues);
+    } else {
+      getEvents(searchValues);
+    }
+  }, [searchValues.limit])
   
   const handleChange = (field, value) => {
       setSearchValues(prev => ({
@@ -57,7 +71,11 @@ const SearchActivities = () => {
   };
 
   const handleSearch = () => {
-      search({ ...searchValues, limit: DEFAULT_LIMIT });
+      search(searchValues);
+  };
+
+  const handleLoadMore = () => {
+    setSearchValues(prev => ({ ...prev, limit: prev.limit + DEFAULT_LIMIT }))
   };
 
   return (
@@ -72,7 +90,7 @@ const SearchActivities = () => {
           onSearch={() => handleSearch()} 
         />
       </div>
-      <EventsList events={events} />
+      <EventsList events={events} onNext={handleLoadMore} totalRecords={totalRecords} />
     </div>
   )
 }
