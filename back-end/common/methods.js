@@ -115,7 +115,26 @@ exports.addHours = (numOfHours, date) => {
 
 // Check objectId
 const { ObjectId } = require('mongoose').Types
-
 exports.isObjectId = (_id) => {
     return ObjectId.isValid(_id)
+}
+
+// Get update value
+exports.updateValues = (type) => {
+    const updateValues = {
+        'dang-ky': {
+            dangKyThamGia: true,
+            thoiGianDangKy: new Date()
+        },
+        'diem-danh-vao': {
+            diemDanhVao: true,
+            thoiGianDiemDanhVao: new Date()
+        },
+        'diem-danh-ra': {
+            diemDanhRa: true,
+            thoiGianDiemDanhRa: new Date()
+        }
+    }
+
+    return updateValues[type]
 }

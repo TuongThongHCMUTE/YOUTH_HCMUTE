@@ -1,4 +1,5 @@
-const  mongoose = require('mongoose')
+const mongoose = require('mongoose')
+const { attendanceSchema } = require('./attendance')
 
 // Init schema
 const eventSchema = new mongoose.Schema({
@@ -31,21 +32,7 @@ const eventSchema = new mongoose.Schema({
     linkTruyenThong: {type: String},
     soLuongSinhVienDangKy: {type: Number, default: 0},
     soLuongSinhVienThamGia: {type: Number, default: 0},
-    sinhViens: [{
-        sinhVien: {
-            type: mongoose.Schema.Types.ObjectId,
-            trim: true,
-            ref: 'Student'
-        },
-        maSoSV: {type: String, required: true, trim: true},
-        dangKyThamGia: {type: Boolean, default: false},
-        thoiGianDangKy: {type: Date},
-        diemDanhVao: {type: Boolean, default: false},
-        thoiGianDiemDanhVao: {type: Date},
-        diemDanhRa: {type: Boolean, default: false},
-        thoiGianDiemDanhRa: {type: Date},
-        ghiChu: {type: String},
-    }],
+    sinhViens: [{ type: attendanceSchema }],
     daDuyet: {type: Boolean, default: false},
     hienThi: {type: Boolean, default: false},
     ghiChu: {type: String},

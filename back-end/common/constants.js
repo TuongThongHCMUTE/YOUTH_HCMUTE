@@ -17,6 +17,17 @@ exports.stylesExcel = {
     LONG_DATE_FORMAT: {alignment: { vertical: 'middle', horizontal: 'center'}, numFmt: 'dd/mm/yyyy hh:mm'},
 }
 
+exports.populateFields = {
+    attendance: {
+        path: 'sinhViens.sinhVien',
+        select: 'maSoSV ho ten',
+        populate: {
+            path:  'donVi',
+            select: 'tenDonVi'
+        }
+    }
+}
+
 exports.defaultBill = {
     "tongTien": 50000,
     // Sổ đoàn viên

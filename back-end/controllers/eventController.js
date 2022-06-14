@@ -1,4 +1,4 @@
-const { getQueryParameter, isObjectId } = require('../common/index')
+const { getQueryParameter, isObjectId, updateValues, populateFields } = require('../common/index')
 const Event = require('../models/event')
 const elasticClient = require('../configs/elasticSearch')
 
@@ -38,6 +38,7 @@ exports.searchAllEvents = async (req, res, next) => {
                                 .filter(event => isObjectId(event._id))
                                 .map(event => event._id)
             const matchEvents = await Event.find({_id: { $in: idEvents }})
+                                                .select('-sinhViens')
 
             events = results.hits.map(event => {
                 const dbEvent = matchEvents.find(x => x._id.toString() === event._id)
