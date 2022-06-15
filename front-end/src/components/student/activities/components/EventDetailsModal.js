@@ -14,10 +14,14 @@ import { getOneEventById } from 'apis/event';
 // Material UI ============================================================= //
 import { Box, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 // Components ============================================================== //
 import BaseModal from 'components/common/modal/base/BaseModal';
 import CircularLoading from 'components/common/loading/CircularLoading';
+import Comments from 'components/common/comments';
 import LinearProgressBarWithLabel from 'components/common/progress/LinearProgressBarWithLabel';
+import SnackBar from 'components/common/alert/Snackbar';
 import Tag from 'components/common/tag';
 
 // =============================|| EVENT LIST ||============================ //
@@ -29,6 +33,7 @@ const EventDetailsModal = (props) => {
     const [alert, setAlert] = useState(null);
     const [src, setSrc] = useState(fallbackSrc);
     const [imgError, setImgError] = useState(false);
+    const [showComments, setShowComments] = useState(false);
 
     const getEvent = async () => {
         try {
@@ -45,8 +50,8 @@ const EventDetailsModal = (props) => {
         } finally {
             setLoading(false);
         }
-    }
-
+    };
+  
     useEffect(() => {
         if (open) {
             getEvent();
@@ -66,11 +71,16 @@ const EventDetailsModal = (props) => {
         }
     };
 
+    const handleCloseModal = () => {
+        setShowComments(false);
+        onClose();
+    }
+
     return (
         <BaseModal
             visible={open}
             title="Chi tiết sự kiện"
-            onClose={onClose}
+            onClose={handleCloseModal}
         >
             { loading || !event ?
                 <div className={styles.LoadingWrapper}>
@@ -128,21 +138,21 @@ const EventDetailsModal = (props) => {
                             <Box className={styles.Record}>
                                 <div>
                                     <b>Mở đăng ký: </b> 
-                                    {`${moment(event.thoiGianDangKy.thoiGianBatDau).format(dateTimeFormat)}`}
+                                    {`${moment(event.thoiGianDangKy?.thoiGianBatDau).format(dateTimeFormat)}`}
                                 </div>
                                 <div>
                                     <b>Đóng đăng ký: </b>{}
-                                    {`${moment(event.thoiGianDangKy.thoiGianKetThuc).format(dateTimeFormat)}`}
+                                    {`${moment(event.thoiGianDangKy?.thoiGianKetThuc).format(dateTimeFormat)}`}
                                 </div>
                             </Box>
                             <Box className={styles.Record}>
                                 <div>
                                     <b>Thời gian bắt đầu: </b> 
-                                    {`${moment(event.thoiGianToChuc.thoiGianBatDau).format(dateTimeFormat)}`}
+                                    {`${moment(event.thoiGianToChuc?.thoiGianBatDau).format(dateTimeFormat)}`}
                                 </div>
                                 <div>
                                     <b>Thời gian kết thúc: </b>{}
-                                    {`${moment(event.thoiGianToChuc.thoiGianKetThuc).format(dateTimeFormat)}`}
+                                    {`${moment(event.thoiGianToChuc?.thoiGianKetThuc).format(dateTimeFormat)}`}
                                 </div>
                             </Box>
                             <Box className={styles.Record}>
@@ -173,14 +183,30 @@ const EventDetailsModal = (props) => {
                         <Box className={styles.Merits}>
                             <Typography variant='h5' component='h5'>TIÊU CHÍ SINH VIÊN 5 TỐT</Typography>
                             <Box className={styles.Tags}>
-                                {event.tieuChi.length > 0 && event.tieuChi.map(i => (
+                                {event.tieuChi?.length > 0 && event.tieuChi.map(i => (
                                     <Tag className={styles.Tag} tag={{ id: i.maTieuChi, description: i.tenTieuChi }} />
                                 ))}
                             </Box>
                         </Box>
                     </Box>
                     <Box className={styles.Comments}>
-                        
+                        <div className={styles.ShowComment}>
+                            <div className={styles.Wrapper} onClick={() => setShowComments(!showComments)}>
+                                {
+                                    showComments ? (
+                                        <>
+                                            <KeyboardArrowUpIcon />
+                                            <p>Ẩn bình luận</p>
+                                        </>) : (
+                                        <>
+                                            <p>Xem bình luận</p>
+                                            <KeyboardArrowDownIcon />
+                                        </>
+                                    )
+                                }
+                            </div>
+                        </div>
+                        { showComments && <Comments eventId={id} />}
                     </Box>
                     { alert && 
                         <SnackBar 

@@ -87,4 +87,32 @@
             }
         }
     }
+
+    .Comments {
+        .ShowComment {
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .Wrapper {
+                display: flex;
+                flex-direction: column;
+                width: 150px;
+                height: 56px;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                
+                p {
+                    margin: 4px 0 0;
+                    font-weight: bold;
+                }
+
+                &:hover {
+                    color: var(--color-primary-400);
+                } 
+            }
+        }
+    }
 }
