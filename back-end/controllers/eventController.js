@@ -2,10 +2,29 @@ const { getQueryParameter, isObjectId, updateValues, populateFields } = require(
 const Event = require('../models/event')
 const elasticClient = require('../configs/elasticSearch')
 
+const getDateQuery = (query) => {
+    const { type } = query
+
+    if (type == 'sap-dien-ra') {
+        query['thoiGianToChuc.thoiGianBatDau'] = {
+            $gt: new Date()
+        }
+    } else if (type == 'da-dien-ra') {
+        query['thoiGianToChuc.thoiGianBatDau'] = {
+            $lte: new Date()
+        }
+    }
+
+    delete query?.searchString
+    delete query?.type
+
+    return query
+}
 // Get all Events
 exports.getAllEvents = async (req, res, next) => {
     try {
         const { sort, limit, skip, query } = getQueryParameter(req)
+        getDateQuery(query)
 
         const events = await Event.find(query).sort(sort).skip(skip).limit(limit)
                                     .select('-sinhViens')
@@ -26,10 +45,11 @@ exports.getAllEvents = async (req, res, next) => {
 // Search event Events
 exports.searchAllEvents = async (req, res, next) => {
     try {
-        const { limit, skip } = getQueryParameter(req)
-        const { searchString } = req.query
+        const { limit, skip, sort, query } = getQueryParameter(req)
+        const { searchString, type } = query
+        getDateQuery(query)
 
-        const results = await elasticClient.searchDoc('events', searchString, skip, limit, ['tenHoatDong', 'moTa'])
+        const results = await elasticClient.searchDoc('events', searchString, skip, null, ['tenHoatDong', 'moTa'])
 
         let events = []
         let totalDocument = 0
@@ -51,17 +71,28 @@ exports.searchAllEvents = async (req, res, next) => {
                 }
             })
 
-            totalDocument = results.total.value
+            const currentDate = new Date()
+            if (type == 'sap-dien-ra') {
+                events = events.filter(event => event.thoiGianToChuc.thoiGianBatDau > currentDate)
+            } else if (type == 'da-dien-ra') {
+                events = events.filter(event => event.thoiGianToChuc.thoiGianBatDau <= currentDate)
+            }
+
+            totalDocument = events.length
+
+            if (limit) {
+                events = events.slice(skip, skip + limit)
+            }
         } else {
             events = await Event.find(
-                { $text: { $search : searchString } },  
+                { $text: { $search : searchString }, ...query },  
                 { score : { $meta: "textScore" } })
                 .sort({ score: { $meta : 'textScore' }})
                 .skip(skip)
                 .limit(limit)
 
             totalDocument = await Event.countDocuments(            
-                { $text: { $search : searchString } },  
+                { $text: { $search : searchString }, ...query },  
                 { score : { $meta: "textScore" } })
         }
 

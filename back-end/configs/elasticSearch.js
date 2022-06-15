@@ -75,11 +75,11 @@ const searchDoc = async (index, searchString, skip, limit, searchFields, highlig
         let highlighConfigs = {}
         if (!highlightFields) {
             searchFields.forEach(field => {
-                highlighConfigs[field] = { type: 'plain' }
+                highlighConfigs[field] = { type: 'plain', number_of_fragments: 0}
             })
         } else {
             highlightFields.forEach(field => {
-                highlighConfigs[field] = { type: 'plain' }
+                highlighConfigs[field] = { type: 'plain', number_of_fragments: 0 }
             })
         }
     
@@ -103,7 +103,7 @@ const searchDoc = async (index, searchString, skip, limit, searchFields, highlig
             highlight: {
                 order: 'score',
                 require_field_match: false, // Tag all field
-                pre_tags : ['<b>'], // Replace all <em>
+                pre_tags : ['<b style="color:red;">'], // Replace all <em>
                 post_tags : ['</b>'], // Replace all </em>
                 fields: {
                     ...highlighConfigs
