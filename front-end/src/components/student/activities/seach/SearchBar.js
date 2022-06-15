@@ -1,6 +1,6 @@
 // Node Modules ============================================================ //
 import React from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 import clsx from 'clsx';
 // Styles ================================================================== //
 import styles from './SearchBar.module.scss';
@@ -13,10 +13,10 @@ import {
     Radio,
     RadioGroup,
     TextField, 
-    Typography
+    // Typography
 } from '@mui/material';
-import DateAdapter from '@mui/lab/AdapterMoment';
-import { LocalizationProvider, DatePicker} from '@mui/lab';
+// import DateAdapter from '@mui/lab/AdapterMoment';
+// import { LocalizationProvider, DatePicker} from '@mui/lab';
 import SearchIcon from '@mui/icons-material/Search';
 
 // ============================|| SEARCH BAR ||============================= //
@@ -36,17 +36,22 @@ const SearchBar = (props) => {
                         placeholder='Nhập từ khóa cần tìm kiếm...'
                         value={searchValues?.searchString}
                         onChange={e => onChange("searchString", e.target.value)}
+                        onKeyPress={(e) => { 
+                            if(e.key === "Enter") {
+                                onSearch();
+                            }
+                        }}
                     />
                     <Button 
                         variant="contained"
                         className={clsx("button", styles.SearchButton)}
                         sx={{ width: '100% !important' }}
-                        onClick={() => onSearch(searchValues)}
+                        onClick={() => onSearch()}
                     >
                         <SearchIcon />
                     </Button>
                 </Grid>
-                <Grid item xs={0.5} className={styles.Divider}></Grid>
+                <Grid item xs={2} className={styles.Divider}></Grid>
                 <Grid item xs={5}>
                     <FormControl className={styles.RadioGroup}>
                         <FormLabel id="label" className={styles.Label}>Hiển thị: </FormLabel>
@@ -55,14 +60,16 @@ const SearchBar = (props) => {
                             aria-labelledby="label"
                             name="row-radio-buttons-group"
                             className={styles.Options}
+                            value={searchValues?.type || 'tat-ca'}
+                            onChange={e => onChange("type", e.target.value)}
                         >
-                            <FormControlLabel value="female" control={<Radio className='radio' />} label="Sắp diễn ra" />
-                            <FormControlLabel value="male" control={<Radio className='radio' />} label="Đã diễn ra" />
-                            <FormControlLabel value="other" control={<Radio className='radio' />} label="Tất cả" />
+                            <FormControlLabel value="sap-dien-ra" control={<Radio className='radio' />} label="Sắp diễn ra" />
+                            <FormControlLabel value="da-dien-ra" control={<Radio className='radio' />} label="Đã diễn ra" />
+                            <FormControlLabel value="tat-ca" control={<Radio className='radio' />} label="Tất cả" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={0.5} className={styles.Divider}></Grid>
+                {/* <Grid item xs={0.5} className={styles.Divider}></Grid>
                 <Grid item xs={3}>
                     <LocalizationProvider locale='vi' dateAdapter={DateAdapter}>
                         <div className={styles.DatePicker}>
@@ -83,7 +90,7 @@ const SearchBar = (props) => {
                             />
                         </div>
                     </LocalizationProvider>
-                </Grid>
+                </Grid> */}
             </Grid>
             </Grid>
         </Grid>
