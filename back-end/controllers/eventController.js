@@ -135,21 +135,20 @@ exports.getOneEvent = async (req, res, next) => {
         const { id } = req.params
         const { email } = req.user
 
-        let event
+        const event = await Event.findById(id).select('-sinhViens')
+
+        let attendance
         if (email.includes('@student.hcmute.edu.vn')) {
             const maSoSV = email.slice(0, 8)
-            event = await Event.findById(id).select({ sinhViens: {$elemMatch: {maSoSV}}})
-        } else {
-            event = await Event.findById(id).select('-sinhViens')
+            const eventAttendance = await Event.findById(id).select({ sinhViens: {$elemMatch: {maSoSV}}})
+            attendance = eventAttendance?.sinhViens[0] ? eventAttendance.sinhViens[0] : null
         }
-
-        let attendance = event.sinhViens ? event.sinhViens[0] : null
 
         res.status(200).json({
             status: 'success',
             data: {
                 event,
-                attendance
+                attendance: attendance
             }
         })
     } catch (e) {
