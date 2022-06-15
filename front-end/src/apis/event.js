@@ -7,7 +7,7 @@ import { url } from 'store/constant';
 const token = sessionStorage.getItem("token");
 
 export const getAllEvents = (args) => {
-    const { limit, offset, sortBy, isDescending } = args;
+    const { limit, offset, sortBy, isDescending, type } = args;
 
     const params = {
         offset: offset ? offset : 0,
@@ -16,6 +16,10 @@ export const getAllEvents = (args) => {
 
     if (limit) {
         params.limit = limit;
+    }
+
+    if (type && type !== 'type') {
+        params.type = type;
     }
 
     params.sortBy = isDescending ? params.sortBy + ":desc" : params.sortBy; 
@@ -33,7 +37,7 @@ export const getAllEvents = (args) => {
 }
 
 export const searchEvents = (args) => {
-    const { limit, offset, sortBy, isDescending, searchString } = args;
+    const { limit, offset, sortBy, isDescending, searchString, type } = args;
 
     const params = {
         offset: offset ? offset : 0,
@@ -42,6 +46,10 @@ export const searchEvents = (args) => {
 
     if (limit) {
         params.limit = limit;
+    }
+
+    if (type && type !== 'type') {
+        params.type = type;
     }
 
     if (searchString) {

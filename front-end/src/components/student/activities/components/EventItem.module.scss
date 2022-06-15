@@ -26,11 +26,25 @@
 
         .Title {
             max-width: 95%;
+            line-height: 24px;
+            max-height: 48px;
+            overflow: hidden;
+            display: block;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
         }
 
         .Description {
             margin-top: 4px;
             max-width: 95%;
+            line-height: 18px;
+            max-height: 36px;
+            overflow: hidden;
+            display: block;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
         }
 
         .Tags {

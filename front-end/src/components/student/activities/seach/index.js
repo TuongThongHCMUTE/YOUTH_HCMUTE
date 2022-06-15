@@ -14,6 +14,7 @@ import EventsList from '../components/EventsList';
 const SearchActivities = () => {
   const defaultSearchValues = {
     searchString: '',
+    type: 'tat-ca',
     limit: DEFAULT_LIMIT,
   }
 
@@ -60,7 +61,7 @@ const SearchActivities = () => {
     } else {
       getEvents(searchValues);
     }
-  }, [searchValues.limit])
+  }, [searchValues.limit, searchValues.type])
   
   const handleChange = (field, value) => {
       setSearchValues(prev => ({
@@ -70,7 +71,11 @@ const SearchActivities = () => {
   };
 
   const handleSearch = () => {
+    if(searchValues.searchString) {
       search(searchValues);
+    } else {
+      getEvents(searchValues);
+    }
   };
 
   const handleLoadMore = () => {
@@ -84,7 +89,7 @@ const SearchActivities = () => {
           className={styles.SearchBar}
           faculties={[]}
           classes={[]}
-          searchValues={null}
+          searchValues={searchValues}
           onChange={(field, value) => handleChange(field, value)}
           onSearch={() => handleSearch()} 
         />
