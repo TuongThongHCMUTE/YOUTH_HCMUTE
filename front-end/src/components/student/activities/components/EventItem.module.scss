@@ -1,7 +1,7 @@
 .Item {
     display: flex;
     position: relative;
-    width: 100%;
+    width: calc(100% - 2px);
     height: 300px;
     margin-top: 60px;
     background-color: var(--color-primary-200);

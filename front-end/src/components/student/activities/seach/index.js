@@ -15,7 +15,6 @@ const SearchActivities = () => {
   const defaultSearchValues = {
     searchString: '',
     limit: DEFAULT_LIMIT,
-    offset: 0
   }
 
   const [mode, setMode] = useState('GET');

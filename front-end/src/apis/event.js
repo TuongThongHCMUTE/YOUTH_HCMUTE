@@ -11,7 +11,7 @@ export const getAllEvents = (args) => {
 
     const params = {
         offset: offset ? offset : 0,
-        sortBy: sortBy ? sortBy : 'email',
+        sortBy: sortBy ? sortBy : 'createdAt',
     }
 
     if (limit) {
@@ -37,7 +37,7 @@ export const searchEvents = (args) => {
 
     const params = {
         offset: offset ? offset : 0,
-        sortBy: sortBy ? sortBy : 'email',
+        sortBy: sortBy ? sortBy : 'createdAt',
     }
 
     if (limit) {
@@ -60,4 +60,16 @@ export const searchEvents = (args) => {
     }
 
     return axios(option)
+}
+
+export const getOneEventById = (id) => {
+    const option = {
+        method: 'get',
+        url: `${url}/events/${id}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    return axios(option);
 }

@@ -1,6 +1,6 @@
 // Node Modules ============================================================ //
 import React, { useState } from 'react';
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 import moment from 'moment';
 // Styles ================================================================== //
 import styles from './EventItem.module.scss';
@@ -15,7 +15,7 @@ import LinearProgressBarWithLabel from 'components/common/progress/LinearProgres
 
 // =============================|| EVENT ITEM ||============================ //
 const EventItem = (props) => {
-  const { event } = props;
+  const { event, onClick } = props;
 
   const [src, setSrc] = useState(event.anhBia);
   const [imgError, setImgError] = useState(false);
@@ -25,10 +25,10 @@ const EventItem = (props) => {
         setImgError(true);
         setSrc(fallbackSrc);
     }
-  }
+  };
 
   return (
-    <Box className={styles.Item}>
+    <Box className={styles.Item} onClick={onClick}>
         <Box className={styles.ImageWrapper}>
             <img
                 className={styles.Image}
