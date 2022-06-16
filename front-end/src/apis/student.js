@@ -6,6 +6,44 @@ import { url } from 'store/constant';
 
 const token = sessionStorage.getItem("token");
 
+export const getAllStudents= (args) => {
+    const { limit, offset, sortBy, isDescending, studentId, studentClass, faculty } = args;
+
+    const params = {
+        offset: offset ? offset : 0,
+        sortBy: sortBy ? sortBy : 'maSoSV',
+    }
+
+    if (limit) {
+        params.limit = limit;
+    }
+
+    if (studentId) {
+        params.maSoSV = studentId;
+    }
+
+    if (studentClass && studentClass !== 'all') {
+        params.lopSV = studentClass;
+    }
+
+    if (faculty && faculty !== 'all') {
+        params.donVi = faculty;
+    }
+
+    params.sortBy = isDescending ? params.sortBy + ":desc" : params.sortBy; 
+
+    const option = {
+        method: 'get',
+        url: `${url}/students`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        params: params
+    }
+
+    return axios(option)
+}
+
 export const getOneStudentById = (id) => {
     const option = {
         method: 'get',
@@ -44,6 +82,19 @@ export const getOneStudentByStudentId = (studentId) => {
     return axios(option);
 }
 
+export const createOneStudent= (student) => {
+    const option = {
+        method: "post",
+        url: `${url}/students`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        data: student
+    }
+  
+    return axios(option);
+}
+
 export const updateOneStudent = ({ googleId, ...student }) => {
     const option = {
         method: "put",
@@ -55,4 +106,31 @@ export const updateOneStudent = ({ googleId, ...student }) => {
     }
   
     return axios(option);
+}
+
+export const deleteStudent = (studentId) => {
+    const option = {
+        method: "delete",
+        url: `${url}/students/${studentId}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+  
+    return axios(option);
+}
+
+export const exportExcelAllStudents = () => {
+    const headers = {'Content-Type': 'blob'};
+    const option = {
+        headers,
+        method: 'get',
+        responseType: 'arraybuffer',
+        url: `${url}/students/xls`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    return axios(option)
 }

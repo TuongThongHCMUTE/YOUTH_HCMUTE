@@ -1,4 +1,5 @@
-const Common = require('../common/index')
+const { getQueryParameter, generatePassword, hashPassword,
+        stylesExcel, exportExcel } = require('../common/index')
 const { sendEmail } = require('./emailController')
 
 const Manager = require('../models/manager')
@@ -6,7 +7,7 @@ const Manager = require('../models/manager')
 // Get all manager
 exports.getAllManagers = async (req, res, next) => {
     try {
-        const { sort, limit, skip, query } = Common.getQueryParameter(req)
+        const { sort, limit, skip, query } = getQueryParameter(req)
 
         const managers = await Manager.find(query).sort(sort).skip(skip).limit(limit)
                                         .populate('donVi', 'tenDonVi')
@@ -25,13 +26,55 @@ exports.getAllManagers = async (req, res, next) => {
     }
 }
 
+// Export excel all Managers
+exports.exportExcelAllManagers = async (req, res, next) => {
+    try {
+        const { sort, limit, skip, query } = getQueryParameter(req)
+
+        const managers = await Manager.find(query).sort(sort).skip(skip).limit(limit)
+                                        .populate('donVi', 'tenDonVi')
+
+        const columns = [
+            { header: 'Tên hiển thị', key: 'tenHienThi', width: 40, style: stylesExcel.ALIGNMENT_MID },
+            { header: 'Email', key: 'email', width: 30, style: stylesExcel.ALIGNMENT_MID },
+            { header: 'Địa chỉ', key: 'diaChi', width: 30, style: stylesExcel.ALIGNMENT_MID },
+            { header: 'Số điện thoại', key: 'soDienThoai', width: 15, style: stylesExcel.ALIGNMENT_MID_CENTER },
+            { header: 'Đơn vị', key: 'tenDonVi', width: 30, style: stylesExcel.ALIGNMENT_MID },
+            { header: 'Chức vụ', key: 'chucVu', width: 25, style: stylesExcel.ALIGNMENT_MID },
+            { header: 'Vai trò', key: 'role', width: 20, style: stylesExcel.ALIGNMENT_MID_CENTER },
+            { header: 'Kích hoạt tài khoản', key: 'kichHoatTaiKhoan', width: 20, style: stylesExcel.ALIGNMENT_MID_CENTER },
+            { header: 'Trạng thái', key: 'trangThai', width: 15, style: stylesExcel.ALIGNMENT_MID_CENTER },
+        ]
+
+        const data = managers.map(manager => {
+            return {
+                tenHienThi: manager.tenHienThi,
+                email: manager.email,
+                diaChi: manager.diaChi,
+                soDienThoai: manager.soDienThoai,
+                tenDonVi: manager.donVi?.tenDonVi,
+                chucVu: manager.chucVu,
+                role: manager.role,
+                kichHoatTaiKhoan: manager.kichHoatTaiKhoan ? 'Đã kích hoạt' : 'Chưa kích hoạt',
+                trangThai: manager.trangThai ? 'Đang dùng' : 'Tạm khóa',
+            }
+        })
+
+        exportExcel('Managers', columns, data, res)
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
+
 // Create new manager
 exports.createOneManager = async (req, res, next) => {
     try {
         console.log(req.body)
         
-        const password = req.body.password ? req.body.password : Common.generatePassword()
-        req.body.password = Common.hashPassword(password)
+        const password = req.body.password ? req.body.password : generatePassword()
+        req.body.password = hashPassword(password)
 
         const manager = await Manager.create({...req.body})
 

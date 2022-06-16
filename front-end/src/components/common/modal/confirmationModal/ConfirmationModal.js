@@ -29,7 +29,7 @@ const ConfirmationModal = (props) => {
                         <CloseIcon />
                     </IconButton>
                     <h3>{title || "Confirmation"}</h3>
-                    <div className={styles.Divider} />
+                    {/* <div className={styles.Divider} /> */}
                 </div>
                 <GppMaybeOutlinedIcon className={styles.Icon} />
                 <Typography className={styles.Message}>

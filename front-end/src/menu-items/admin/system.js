@@ -18,10 +18,31 @@ const other = {
         {
             id: 'users',
             title: 'Quản lý người dùng',
-            type: 'item',
-            url: '/users',
+            type: 'collapse',
             icon: icons.PermIdentityIcon,
-            breadcrumbs: false
+            children: [
+                {
+                    id: 'thong-ke-nguoi-dung',
+                    title: 'Thống kê',
+                    type: 'item',
+                    url: '/users/thong-ke-nguoi-dung',
+                    breadcrumbs: false,
+                },
+                {
+                    id: 'quan-tri-vien',
+                    title: 'Quản trị viên',
+                    type: 'item',
+                    url: '/users/quan-tri-vien',
+                    breadcrumbs: false,
+                },
+                {
+                    id: 'sinh-vien',
+                    title: 'Sinh viên',
+                    type: 'item',
+                    url: '/users/sinh-vien',
+                    breadcrumbs: false,
+                }
+            ]
         },
         {
             id: 'system-config',

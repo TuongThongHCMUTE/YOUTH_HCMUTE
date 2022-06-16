@@ -1,18 +1,14 @@
 // Node Modules ============================================================ //
 import React, { useState, useEffect } from 'react';
-
 // Styles ================================================================== //
 import styles from './index.module.css';
-
 // APIs ==================================================================== //
 import { getOneStudentByStudentId, updateOneStudent } from 'apis/student';
 import { getAllFaculties } from 'apis/faculty';
 import { getAllClasses } from 'apis/class';
-
 // Material UI ============================================================= //
 import { Button, Grid, Input } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-
 // Components ============================================================== //
 import InfoForm from './components/InfoForm';
 import BillForm from './components/BillForm';
@@ -77,7 +73,6 @@ const BarcodePage = () => {
             const res = await updateOneStudent(student);
 
             if (res.data.status === 'success') {
-                console.log('res: ', res.data.data.student);
                 setStudent(res.data.data.student);
             }
         } catch (err) {

@@ -8,6 +8,7 @@ import Loadable from 'ui-component/Loadable';
 import Protected from 'components/common/Protected';
 // Pages =================================================================== //
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+const SearchActivities = Loadable(lazy(() => import('components/student/activities/seach')));
 
 // ===========================|| ADMIN ROUTING ||=========================== //
 
@@ -19,10 +20,10 @@ const StudentRoutes = {
             path: 'admin/dashboard/default',
             element: <DashboardDefault />
         },
-        // {
-        //     path: '/student',
-        //     element: <Protected roles={[USER_ROLES.SINH_VIEN]}><div>Sinh viên</div></Protected>
-        // },
+        {
+            path: '/tim-kiem',
+            element: <Protected roles={[USER_ROLES.SINH_VIEN]}><SearchActivities /></Protected>
+        },
         {
             path: '/student',
             element: <div>Sinh viên</div>

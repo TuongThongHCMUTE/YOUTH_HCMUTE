@@ -1,8 +1,9 @@
-const  mongoose = require('mongoose')
+const mongoose = require('mongoose')
+const { attendanceSchema } = require('./attendance')
 
 // Init schema
 const eventSchema = new mongoose.Schema({
-    tenChuongTrinh: {type: String, required: [true, 'Nhập tên chương trình']},
+    tenHoatDong: {type: String, required: [true, 'Nhập tên hoạt động']},
     moTa: {type: String},
     thoiGianDangKy: {
         thoiGianBatDau: {type: Date},
@@ -31,21 +32,7 @@ const eventSchema = new mongoose.Schema({
     linkTruyenThong: {type: String},
     soLuongSinhVienDangKy: {type: Number, default: 0},
     soLuongSinhVienThamGia: {type: Number, default: 0},
-    sinhVienThamGia: [{
-        sinhVien: {
-            type: mongoose.Schema.Types.ObjectId,
-            trim: true,
-            ref: 'Student'
-        },
-        maSoSV: {type: String, required: true, trim: true},
-        dangKyThamGia: {type: Boolean, default: false},
-        thoiGianDangKy: {type: Date},
-        diemDanhVao: {type: Boolean, default: false},
-        thoiGianDiemDanhVao: {type: Date},
-        diemDanhRa: {type: Boolean, default: false},
-        thoiGianDiemDanhRa: {type: Date},
-        ghiChu: {type: String},
-    }],
+    sinhViens: [{ type: attendanceSchema }],
     daDuyet: {type: Boolean, default: false},
     hienThi: {type: Boolean, default: false},
     ghiChu: {type: String},
@@ -54,7 +41,7 @@ const eventSchema = new mongoose.Schema({
 }, {timestamps: true})
 
 eventSchema.index({
-    tenChuongTrinh: 'text',
+    tenHoatDong: 'text',
     moTa: 'text'
 })
 

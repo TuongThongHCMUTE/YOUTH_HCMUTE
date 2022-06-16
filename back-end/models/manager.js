@@ -15,7 +15,7 @@ const managerSchema = new mongoose.Schema({
     password: {type: String, trim: true},
     role: {type: String, trim: true}, // DOAN_KHOA, CTV_DOAN_TRUONG, DOAN_TRUONG
     trangThai: {type: Boolean, default: true}, // true, false (Đang dùng, tạm khóa)
-    kichHoatTaiKhoan: {type: Boolean, default: true}, // true, false (Chưa xác thực , Đã xác thực)
+    kichHoatTaiKhoan: {type: Boolean, default: false}, // true, false (Chưa kích hoạt , Đã kích hoạt)
     createBy: {type: String},
     updateBy: {type: String}
 }, {timestamps: true})

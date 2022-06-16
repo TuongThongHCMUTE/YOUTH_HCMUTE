@@ -7,14 +7,14 @@ import { getAllFaculties } from 'apis/faculty';
 import { getAllClasses, exportExcelAllClasses } from 'apis/class';
 // Constants =============================================================== //
 import { DEFAULT_LIMIT } from 'helpers/constants/class';
+// Assets ================================================================== //
+import excelImage from 'assets/images/icons/excel.png';
 // Material UI ============================================================= //
 import { Box, Button } from '@mui/material';
 // Components ============================================================== //
 import SearchBar from './components/SearchBar';
 import ClassesTable from './components/ClassesTable';
 import CreateClassWizard from '../createClassWizard';
-
-import excelImage from 'assets/images/icons/excel.png';
 
 // ===========================|| CLASSES LIST ||============================ //
 const ClassList = () => {
@@ -56,18 +56,18 @@ const ClassList = () => {
     const getClasses = async (args) => {
         setLoading(true);
         try {
-        const res = await getAllClasses(args);
+            const res = await getAllClasses(args);
 
-        if (res.data.status === 'success') {
-            setClasses(res.data.data.classes);
-            setTotalRecords(res.data.all);
-            setLoading(false);
-        } else {
-            // Show error message
-        }
+            if (res.data.status === 'success') {
+                setClasses(res.data.data.classes);
+                setTotalRecords(res.data.all);
+                setLoading(false);
+            } else {
+                // Show error message
+            }
         } catch(err) {
-        alert(err);
-        setLoading(false);
+            alert(err);
+            setLoading(false);
         }
     }
 
@@ -86,7 +86,6 @@ const ClassList = () => {
           link.click();
         } catch(err) {
           alert(err);
-          setLoadingBills(false);
         }
       }
 
@@ -110,9 +109,8 @@ const ClassList = () => {
                         <Button 
                             className={styles.ExportButton}
                             variant='contained'
-                            onClick={(args) => exportExcel({ ...searchValues, ...args})}
-                            
-                            >
+                            onClick={(args) => exportExcel({ ...searchValues, ...args})}                     
+                        >
                             <img src={excelImage} />
                             Xuất dữ liệu
                         </Button>

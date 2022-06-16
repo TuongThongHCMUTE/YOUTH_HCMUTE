@@ -1,0 +1,48 @@
+.write-comment {
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.avatar {
+    padding: 0;
+}
+
+.comment {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    margin-left: 8px;
+    padding: 4px 16px;
+    border-radius: 10px;
+    border: 1px solid #93c5fd;
+    background-color: white;
+}
+
+.content {
+    flex: 1;
+    border: none;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: lighter;
+    padding: 8px;
+    resize: none;
+    max-height: 160px !important;
+}
+
+.content:focus {
+    outline: none;
+}
+
+.send img {
+    width: 100%;
+}
+
+.error-message {
+    margin-left: 84px;
+    color: rgba(208, 29, 29, 1);
+}

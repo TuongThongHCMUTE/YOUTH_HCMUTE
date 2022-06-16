@@ -33,7 +33,7 @@ exports.countStudentsByFaculty = async (req, res, next) => {
         const faculties = await Faculty.find({}).sort({tenDonVi: 1})
 
         const countByFaculty = faculties.map(faculty => {
-            const dataCount = studentsByFaculty.find(x => x._id.toString() == faculty._id)
+            const dataCount = studentsByFaculty.find(x => x._id?.toString() == faculty._id)
             return {
                 _id: faculty._id,
                 tenDonVi: faculty.tenDonVi,

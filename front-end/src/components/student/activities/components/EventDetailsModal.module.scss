@@ -1,0 +1,118 @@
+.LoadingWrapper {
+    width: 1200px;
+    padding: 24px 0;
+}
+
+.Content {
+    width: 1200px;
+    height: 80vh;
+    overflow-y: scroll;
+    padding: 24px;
+
+    .Header {
+        width: 100%;
+        height: 200px;
+        display: flex;
+
+        .ImageWrapper {
+            img {
+                display: block;
+                height: 200px;
+            }
+        }
+
+        .MainInfo {
+            margin-left: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .Title {
+                text-transform: uppercase;
+            }
+
+            .PlaceAndTime {
+                .Record {
+                    margin-bottom: 4px;
+                    color: black;
+                }
+            }
+
+            .SignUp {
+                .SignUpBtn {
+                    background-color: #1D9D22;
+
+                    &:hover {
+                        background-color: #1F7244;
+                    }
+                }
+            }
+        }
+    }
+
+    .Body {
+        h5 {
+            color: black;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .Record {
+            display: flex;
+            margin-top: 6px;
+            color: black;
+
+            div {
+                display: inline-block;
+                min-width: 300px;
+            }
+        }
+
+        .Description, .Progress, .Merits {
+            margin-top: 32px;
+        }
+
+        .Details {
+            margin-top: 24px;
+        }
+
+        .Tags {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            margin-top: 12px;
+
+            div {
+                margin-right: 16px;
+            }
+        }
+    }
+
+    .Comments {
+        .ShowComment {
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .Wrapper {
+                display: flex;
+                flex-direction: column;
+                width: 150px;
+                height: 56px;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                
+                p {
+                    margin: 4px 0 0;
+                    font-weight: bold;
+                }
+
+                &:hover {
+                    color: var(--color-primary-400);
+                } 
+            }
+        }
+    }
+}

@@ -1,0 +1,58 @@
+.Comment {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.CommentTop {
+    display: flex;
+
+    .Avatar {
+        margin-right: 16px;
+    }
+
+    .Message {
+        padding: 10px 20px;
+        border: 1px solid var(--color-grey-400);
+        border-radius: 20px;
+        background-color: white;
+        max-width: 500px;
+
+        h6 {
+            font-size: 14px;
+        }
+    }
+}
+
+.CommentBottom {
+    font-size: 12px;
+    margin-top: 4px;
+    margin-left: 68px;
+}
+
+.CommentOwn {
+    align-items: flex-end;
+
+    .CommentTop {
+        flex-direction: row-reverse;
+
+        .Avatar {
+            margin-left: 16px;
+            margin-right: 0;
+        }
+    }
+
+    .CommentBottom {
+        margin-right: 68px;
+        margin-left: 0;
+    }
+
+    .Message {
+        background-color: var(--color-primary-400);
+        color: white;
+
+        h6 {
+            display: none;
+        }
+    }
+}

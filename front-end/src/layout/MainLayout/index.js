@@ -28,7 +28,7 @@ import { IconChevronRight } from '@tabler/icons';
 // style constant
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex'
+        display: 'flex',
     },
     appBar: {
         backgroundColor: theme.palette.background.default

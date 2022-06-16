@@ -1,0 +1,80 @@
+.DetailPage {
+    .Header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        background-color: var(--color-primary-200);
+        height: 80px;
+        padding: 0 0 0 112px;
+
+        .Title {
+            display: inline-block;
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--color-grey-700);
+            text-transform: uppercase;
+        }
+    }
+
+    .Link {
+        display: flex;
+        align-items: center;
+        padding: 0 0 0 112px;
+        height: 48px;
+
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-grey-700);
+
+            .BackIcon {
+                width: 20px;
+                height: 20px;
+                margin-right: 8px;
+            }
+        }
+    }
+
+    .Body { 
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-top: 16px;
+        padding: 0 112px;
+
+        .InfoForm {
+            padding: 16px;
+        }
+
+        .SectionTitle {
+            margin-left: 16px;
+            font-size: 20px;
+            color: var(--color-grey-500);
+        }
+
+        .TextField {
+            width: 100%;
+        }
+        
+        .TextField > div {
+            border-radius: 0px;
+        }
+
+        .Button {
+            float: right;
+            padding: 4px 24px;
+            margin-bottom: 16px;
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .ResetPasswordBtn {
+            margin-right: 24px;
+            background: #ec1f25 !important;
+        }
+    }
+}

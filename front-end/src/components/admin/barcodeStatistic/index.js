@@ -131,7 +131,6 @@ const BarcodeStatistic = () => {
               className={styles.ExportButton}
               variant='contained'
               onClick={(args) => exportExcel({ ...searchValues, ...args})}
-              
             >
               <img src={excelImage} />
               Xuất dữ liệu

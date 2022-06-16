@@ -48,9 +48,9 @@ const bcrypt = require('bcryptjs')
 
 exports.generatePassword = () => {
     const password = generator.generate({
-        length: 15,
+        length: 20,
         numbers: true,
-        symbols: true
+        // symbols: true
     })
 
     return password
@@ -105,4 +105,36 @@ exports.exportExcel = (fileName, columns, data, res) => {
     return workbook.xlsx.write(res).then(function () {
         res.status(200).end()
     })
+}
+
+exports.addHours = (numOfHours, date) => {
+    date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
+    
+    return date;
+}
+
+// Check objectId
+const { ObjectId } = require('mongoose').Types
+exports.isObjectId = (_id) => {
+    return ObjectId.isValid(_id)
+}
+
+// Get update value
+exports.updateValues = (type) => {
+    const updateValues = {
+        'dang-ky': {
+            dangKyThamGia: true,
+            thoiGianDangKy: new Date()
+        },
+        'diem-danh-vao': {
+            diemDanhVao: true,
+            thoiGianDiemDanhVao: new Date()
+        },
+        'diem-danh-ra': {
+            diemDanhRa: true,
+            thoiGianDiemDanhRa: new Date()
+        }
+    }
+
+    return updateValues[type]
 }

@@ -18,18 +18,18 @@ const activity = {
     type: 'group',
     children: [
         {
-            id: 'search',
+            id: 'tim-kiem',
             title: 'Tìm kiếm',
             type: 'item',
-            url: '/new-feed',
+            url: 'tim-kiem',
             icon: icons.TravelExploreIcon,
             breadcrumbs: false
         },
         {
-            id: 'my-activity',
+            id: 'hoat-dong-cua-toi',
             title: 'Hoạt động của tôi',
             type: 'item',
-            url: '/ca-nhan/hoat-dong',
+            url: 'hoat-dong-cua-toi',
             icon: icons.EventNoteIcon,
             breadcrumbs: false
         },
