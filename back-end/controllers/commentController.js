@@ -7,8 +7,8 @@ exports.getAllComments = async (req, res, next) => {
         const { sort, limit, skip, query } = getQueryParameter(req)
 
         const comments = await Comment.find(query).sort(sort).skip(skip).limit(limit)
-                                        .populate('sinhVien', 'maSoSV ho ten email')
-                                        .populate('quanLy', 'tenHienThi chucVu email')
+                                        .populate('sinhVien', 'maSoSV ho ten email image')
+                                        .populate('quanLy', 'tenHienThi chucVu email image')
         const countAll = await Comment.countDocuments(query)
         
         res.status(200).json({
@@ -26,7 +26,13 @@ exports.getAllComments = async (req, res, next) => {
 // Create new Comment
 exports.createOneComment = async (req, res, next) => {
     try {
-        const comment = await Comment.create({ ...req.body })
+        let comment = await Comment.create({ ...req.body })
+
+        if (comment.sinhVien) {
+            comment = await comment.populate('sinhVien', 'maSoSV ho ten email image')
+        } else if (comment.quanLy) {
+            comment = await comment.populate('quanLy', 'tenHienThi chucVu email image')
+        }
 
         res.status(200).json({
             status: 'success',
@@ -44,8 +50,8 @@ exports.getOneComment = async (req, res, next) => {
         const { id } = req.params
 
         const comment = await Comment.findById(id)
-                                        .populate('sinhVien', 'maSoSV ho ten email')
-                                        .populate('quanLy', 'tenHienThi chucVu email')
+                                        .populate('sinhVien', 'maSoSV ho ten email image')
+                                        .populate('quanLy', 'tenHienThi chucVu email image')
 
         res.status(200).json({
             status: 'success',
@@ -63,8 +69,8 @@ exports.updateOneComment = async (req, res, next) => {
         const { id } = req.params
 
         const comment = await Comment.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
-                                        .populate('sinhVien', 'maSoSV ho ten email')
-                                        .populate('quanLy', 'tenHienThi chucVu email')
+                                        .populate('sinhVien', 'maSoSV ho ten email image')
+                                        .populate('quanLy', 'tenHienThi chucVu email image')
 
         res.status(200).json({
             status: 'success',
@@ -82,8 +88,8 @@ exports.deleteOneComment = async (req, res, next) => {
         const { id } = req.params
 
         const comment = await Comment.findByIdAndDelete(id)
-                                        .populate('sinhVien', 'maSoSV ho ten email')
-                                        .populate('quanLy', 'tenHienThi chucVu email')
+                                        .populate('sinhVien', 'maSoSV ho ten email image')
+                                        .populate('quanLy', 'tenHienThi chucVu email image')
 
         res.status(200).json({
             status: 'success',
