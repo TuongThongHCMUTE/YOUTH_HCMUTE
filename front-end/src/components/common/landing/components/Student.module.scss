@@ -45,6 +45,7 @@
 
             h3 {
                 font-size: 32px;
+                line-height: 34px;
                 font-weight: bold;
                 color: var(--color-primary-400);
                 margin: 0;
@@ -67,6 +68,19 @@
                 &:hover {
                     background-color: #1F7244;
                 }
+            }
+        }
+    }
+}
+
+/* Tablet & mobile */
+@media (max-width: 1024px) {
+    .Student {
+        .Content {
+            flex-direction: column;
+
+            .Login {
+                margin-top: 32px;
             }
         }
     }

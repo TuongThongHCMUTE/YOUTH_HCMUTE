@@ -27,7 +27,7 @@
 
             h5 {
                 font-size: 13px;
-                line-height: 13px;
+                line-height: 15px;
                 font-weight: 300;
                 color: var(--color-primary-400);
                 margin: 0;
@@ -69,6 +69,8 @@
                     margin-right: 8px;
                     width: 32px;
                     height: 32px;
+                    min-width: 32px;
+                    min-height: 32px;
                     border-radius: 50%;
                     background-color: var(--color-primary-400);
 
@@ -101,6 +103,21 @@
                         color: var(--color-primary-800);
                         cursor: pointer;
                     }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1024px) {
+    .Contact {
+        .Content {
+            flex-direction: column;
+            padding: 32px 0 32px;
+
+            .Name {
+                h1 {
+                    font-size: 36px;
                 }
             }
         }
