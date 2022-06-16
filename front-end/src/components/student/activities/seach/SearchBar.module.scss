@@ -15,6 +15,7 @@
     .SearchArea {
         .Search {
             display: flex;
+            width: 100%;
 
             .SearchField {
                 width: 100%;
@@ -48,6 +49,28 @@
             margin-right: 24px;
             color: var(--color-grey-700);
             font-weight: 600;
+        }
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .SearchBar {
+        flex-direction: column;
+        height: 300px;
+        
+        .SearchArea {
+            flex: 1;
+        }
+
+        .RadioGroup {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 16px;
+
+            label {
+                width: 100%;
+            }
         }
     }
 }

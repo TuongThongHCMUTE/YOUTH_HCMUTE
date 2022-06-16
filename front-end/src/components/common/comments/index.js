@@ -75,7 +75,7 @@ const Comments = (props) => {
 
         const res = await createOneComment(data);
         if (res.data.status === 'success') {
-            setComments(prev => [...prev, res.data.data.comment]);
+            setComments(prev => [res.data.data.comment, ...prev]);
         }
     };
 

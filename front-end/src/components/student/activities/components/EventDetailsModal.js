@@ -1,16 +1,19 @@
 // Node Modules ============================================================ //
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import clsx from 'clsx';
 import moment from 'moment';
 // Styles ================================================================== //
 import styles from './EventDetailsModal.module.scss';
 // Assets ================================================================== //
 import fallbackSrc from 'assets/images/default-cover.jpg';
+// Context ================================================================= //
+import AppContext from 'store/AppContext';
 // Constants =============================================================== //
 const dateFormat = 'DD/MM/YYYY';
 const dateTimeFormat = 'HH:mm DD/MM/YYYY';
 // APIs ==================================================================== //
 import { getOneEventById } from 'apis/event';
+import { register, cancelRegister } from 'apis/attendance';
 // Material UI ============================================================= //
 import { Box, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -28,8 +31,12 @@ import Tag from 'components/common/tag';
 const EventDetailsModal = (props) => {
     const { id, open, onClose } = props;
 
+    const { state } = useContext(AppContext);
+
     const [event, setEvent] = useState(null);
+    const [attendance, setAttendance] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [updating, setUpdating] = useState(false);
     const [alert, setAlert] = useState(null);
     const [src, setSrc] = useState(fallbackSrc);
     const [imgError, setImgError] = useState(false);
@@ -41,6 +48,7 @@ const EventDetailsModal = (props) => {
             const res = await getOneEventById(id);
             if (res.data.status === 'success') {
                 setEvent(res.data.data.event);
+                setAttendance(res.data.data.attendance);
             }
         } catch (e) {
             setAlert({
@@ -74,7 +82,49 @@ const EventDetailsModal = (props) => {
     const handleCloseModal = () => {
         setShowComments(false);
         onClose();
-    }
+    };
+
+    const handleRegister = async () => {
+        try {
+            setUpdating(true);
+            const res = await register(event._id, state.user.maSoSV);
+            if (res.data.status === 'success') {
+                setAttendance(res.data.data.attendance);
+                setAlert({
+                    severity: 'success',
+                    message: 'Đăng ký thành công'
+                });
+            }
+        } catch (e) {
+            setAlert({
+                severity: 'error',
+                message: e.response?.data?.message || 'Đã xảy ra lỗi. Vui lòng thử lại.'
+            });
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const handleCancelRegister = async () => {
+        try {
+            setUpdating(true);
+            const res = await cancelRegister(event._id, state.user.maSoSV);
+            if (res.data.status === 'success') {
+                setAttendance(null);
+                setAlert({
+                    severity: 'success',
+                    message: 'Đã hủy đăng ký'
+                });
+            }
+        } catch (e) {
+            setAlert({
+                severity: 'error',
+                message: e.response?.data?.message || 'Đã xảy ra lỗi. Vui lòng thử lại.'
+            });
+        } finally {
+            setUpdating(false);
+        }
+    };
 
     return (
         <BaseModal
@@ -119,11 +169,23 @@ const EventDetailsModal = (props) => {
                                 </Box>
                             </Box>
                             <Box className={styles.SignUp}>
-                                <LoadingButton 
-                                    className={clsx('button', styles.SignUpBtn)}
-                                >
-                                    Đăng ký tham gia
-                                </LoadingButton>
+                                {
+                                    !attendance ?
+                                        <LoadingButton 
+                                            className={clsx('button', styles.SignUpBtn)}
+                                            loading={updating}
+                                            onClick={() => handleRegister()}
+                                        >
+                                            Đăng ký tham gia
+                                        </LoadingButton> :
+                                        <LoadingButton 
+                                            className={clsx('button', styles.CancelBtn)}
+                                            loading={updating}
+                                            onClick={() => handleCancelRegister()}
+                                        >
+                                            Hủy đăng ký
+                                        </LoadingButton>
+                                }
                             </Box>
                         </Box>
                     </Box>

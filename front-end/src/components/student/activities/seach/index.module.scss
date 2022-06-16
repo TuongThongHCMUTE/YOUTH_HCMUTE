@@ -1,3 +1,9 @@
 .SearchActivities {
     padding: 32px;
 }
+
+@media (max-width: 1024px) {
+    .SearchActivities {
+        padding: 0px;
+    }
+}
