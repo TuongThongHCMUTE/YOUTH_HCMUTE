@@ -1,5 +1,6 @@
 // Node Modules ============================================================ //
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 // Styles ================================================================== //
 import styles from './index.module.scss';
 // APIs ==================================================================== //
@@ -23,14 +24,17 @@ const Comments = (props) => {
     const { user } = state;
 
     const [comments, setComments] = useState([]);
+    const [totalRecords, setTotalRecords] = useState(0);
+    const [limit, setLimit] = useState(10);
     const [loading, setLoading] = useState(false);
 
     const getCommentsOfEvent = async (id) => {
         try {
             setLoading(true);
-            const res = await getComments({ hoatDong: id });
+            const res = await getComments({ hoatDong: id, limit: limit });
             if (res.data.status === 'success') {
                 setComments(res.data.data.comments);
+                setTotalRecords(res.data.all);
             }
         } catch (e) {
             console.error(e);
@@ -43,7 +47,7 @@ const Comments = (props) => {
         if (eventId) {
             getCommentsOfEvent(eventId);
         }
-    }, [eventId]);
+    }, [eventId, limit]);
 
     const isOwnComment = (comment) => {
         let senderId;
@@ -57,10 +61,6 @@ const Comments = (props) => {
         return user._id === senderId;
     }
 
-    if (loading) {
-        return <CircularLoading />
-    }
-
     const postComment = async (message) => {
         const data = {
             noiDung: message,
@@ -68,25 +68,20 @@ const Comments = (props) => {
         };
 
         if (user.role === USER_ROLES.DOAN_VIEN) {
-            data.sinhVien = {
-                _id: user._id,
-                image: user.image,
-                ho: user.ho,
-                ten: user.ten,
-            }
+            data.sinhVien = user._id;
         } else {
-            data.quanLy = {
-                _id: user._id,
-                image: user.image,
-                tenHienThi: user.tenHienThi,
-            }
+            data.quanLy = user._id;
         }
 
         const res = await createOneComment(data);
         if (res.data.status === 'success') {
             setComments(prev => [...prev, res.data.data.comment]);
         }
-    }
+    };
+
+    if (loading && comments.length <= 0) {
+        return <CircularLoading />
+    };
 
     return (
         <div className={styles.Comments}>
@@ -95,14 +90,21 @@ const Comments = (props) => {
                 onSubmit={(message) => postComment(message)}
             />
             { comments.length > 0 ?
-                <>
+                <InfiniteScroll
+                    dataLength={comments.length}
+                    next={() => setLimit(prev => prev + 10)}
+                    hasMore={comments.length < totalRecords}
+                    loader={<CircularLoading />}
+                    scrollableTarget="infinite-scroll-target"
+                >
                     { comments.map(comment => (
-                        <Comment 
+                        <Comment
+                            key={comment._id} 
                             comment={comment}
                             own={isOwnComment(comment)}
                         />
                     ))}
-                </> :
+                </InfiniteScroll> :
                 <Typography 
                     variant='p' 
                     component='p' 

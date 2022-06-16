@@ -53,7 +53,11 @@ const EventItem = (props) => {
             </Typography>
             <Box className={styles.Tags}>
                 {event.tieuChi.length > 0 && event.tieuChi.map(i => (
-                    <Tag className={styles.Tag} tag={{ id: i.maTieuChi, description: i.tenTieuChi }} />
+                    <Tag 
+                        className={styles.Tag}
+                        key={i.maTieuChi} 
+                        tag={{ id: i.maTieuChi, description: i.tenTieuChi }} 
+                    />
                 ))}
             </Box>
             <Box className={styles.Details}>
