@@ -26,7 +26,13 @@ exports.getAllComments = async (req, res, next) => {
 // Create new Comment
 exports.createOneComment = async (req, res, next) => {
     try {
-        const comment = await Comment.create({ ...req.body })
+        let comment = await Comment.create({ ...req.body })
+
+        if (comment.sinhVien) {
+            comment = await comment.populate('sinhVien', 'maSoSV ho ten email image')
+        } else if (comment.quanLy) {
+            comment = await comment.populate('quanLy', 'tenHienThi chucVu email image')
+        }
 
         res.status(200).json({
             status: 'success',
