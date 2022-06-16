@@ -86,7 +86,7 @@ const EventDetailsModal = (props) => {
                 <div className={styles.LoadingWrapper}>
                     <CircularLoading /> 
                 </div> :
-                <Box className={styles.Content}>
+                <Box className={styles.Content} id="infinite-scroll-target">
                     <Box className={styles.Header}>
                         <Box className={styles.ImageWrapper}>
                             <img
@@ -184,7 +184,11 @@ const EventDetailsModal = (props) => {
                             <Typography variant='h5' component='h5'>TIÊU CHÍ SINH VIÊN 5 TỐT</Typography>
                             <Box className={styles.Tags}>
                                 {event.tieuChi?.length > 0 && event.tieuChi.map(i => (
-                                    <Tag className={styles.Tag} tag={{ id: i.maTieuChi, description: i.tenTieuChi }} />
+                                    <Tag 
+                                        className={styles.Tag}
+                                        key={i.maTieuChi} 
+                                        tag={{ id: i.maTieuChi, description: i.tenTieuChi }} 
+                                    />
                                 ))}
                             </Box>
                         </Box>

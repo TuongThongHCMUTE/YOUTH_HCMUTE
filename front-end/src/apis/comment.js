@@ -10,6 +10,7 @@ export const getComments = (args) => {
     const params = {
         offset: offset ? offset : 0,
         hoatDong: hoatDong,
+        sortBy: 'createdAt:desc',
     }
 
     if (limit) {
