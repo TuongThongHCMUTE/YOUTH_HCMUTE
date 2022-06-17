@@ -81,3 +81,28 @@ export const getOneEventById = (id) => {
 
     return axios(option);
 }
+
+export const updateOneEvent = (event) => {
+    const option = {
+        method: "put",
+        url: `${url}/events/${event._id}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        data: event
+    }
+  
+    return axios(option);
+}
+
+export const deleteEvent = (eventId) => {
+    const option = {
+        method: "delete",
+        url: `${url}/events/${eventId}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+  
+    return axios(option);
+}

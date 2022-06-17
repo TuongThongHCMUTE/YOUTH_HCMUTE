@@ -2,9 +2,11 @@
 import FitScreenIcon from '@mui/icons-material/FitScreen';
 import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined';
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 
 // constant
 const icons = {
+    EventNoteIcon,
     FitScreenIcon,
     ViewListOutlinedIcon,
     WysiwygIcon
@@ -39,12 +41,20 @@ const other = {
                 }
             ]
         },
+        // {
+        //     id: 'ho-so',
+        //     title: 'Hồ sơ đoàn vụ',
+        //     type: 'item',
+        //     url: '/ho-so',
+        //     icon: icons.WysiwygIcon,
+        //     breadcrumbs: false
+        // },
         {
-            id: 'ho-so',
-            title: 'Hồ sơ đoàn vụ',
+            id: 'hoat-dong',
+            title: 'Hoạt động',
             type: 'item',
-            url: '/ho-so',
-            icon: icons.WysiwygIcon,
+            url: '/hoat-dong',
+            icon: icons.EventNoteIcon,
             breadcrumbs: false
         },
         {

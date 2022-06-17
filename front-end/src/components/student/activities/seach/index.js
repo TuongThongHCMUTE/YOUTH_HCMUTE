@@ -87,8 +87,6 @@ const SearchActivities = () => {
       <div className={styles.SearchBarWrapper}>
         <SearchBar
           className={styles.SearchBar}
-          faculties={[]}
-          classes={[]}
           searchValues={searchValues}
           onChange={(field, value) => handleChange(field, value)}
           onSearch={() => handleSearch()} 
