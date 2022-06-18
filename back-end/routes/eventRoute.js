@@ -2,8 +2,9 @@ const express = require('express')
 
 const { verifyToken } = require('../middleware/verifyToken')
 const { getAllEvents, createOneEvent, getOneEvent, searchAllEvents,
-        updateOneEvent, deleteOneEvent }
+        updateOneEvent, deleteOneEvent, getAttendanceEvents }
     = require('../controllers/eventController')
+
 const { getAllAttendances, modifyAttendance, cancelRegisterAttendance }
     = require('../controllers/attendanceController')
 
@@ -12,6 +13,8 @@ const Router = express.Router()
 Router.route('/').get(verifyToken, getAllEvents).post(verifyToken, createOneEvent)
 
 Router.route('/tim-kiem').get(verifyToken, searchAllEvents)
+
+Router.route('/tham-gia').get(verifyToken, getAttendanceEvents)
 
 Router.route('/:id').get(verifyToken, getOneEvent).put(verifyToken, updateOneEvent).delete(verifyToken, deleteOneEvent)
 

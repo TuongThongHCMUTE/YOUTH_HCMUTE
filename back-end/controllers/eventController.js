@@ -15,6 +15,23 @@ const getDateQuery = (query) => {
         }
     }
 
+    query.sinhViens = { $elemMatch: {} }
+    
+    if (query.dangKyThamGia !== undefined) {
+        query.sinhViens.$elemMatch.dangKyThamGia = query.dangKyThamGia
+        delete query.dangKyThamGia
+    }
+    
+    if (query.diemDanhRa !== undefined) {
+        query.sinhViens.$elemMatch.diemDanhRa = query.diemDanhRa
+        delete query.diemDanhRa
+    }
+
+    if (query.diemDanhVao !== undefined) {
+        query.sinhViens.$elemMatch.diemDanhVao = query.diemDanhVao
+        delete query.diemDanhVao
+    }
+
     delete query?.searchString
     delete query?.type
 
@@ -35,6 +52,57 @@ exports.getAllEvents = async (req, res, next) => {
             all: countAll,
             results: events.length,
             data: {events}
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
+// Get all Events
+exports.getAttendanceEvents = async (req, res, next) => {
+    try {
+        // const { email } = req.user 
+        const email = '18110234@student.hcmute.edu.vn'
+        const { sort, limit, skip, query } = getQueryParameter(req)
+        getDateQuery(query)
+
+        if (!email.includes('@student.hcmute.edu.vn')) {
+            const err = new Error('Không sử dụng tài khoản sinh viên')
+            err.statusCode = 400
+            return next(err)
+        }
+
+        const maSoSV = email.slice(0, 8)
+        query['sinhViens']['$elemMatch']['maSoSV'] = maSoSV
+
+        let selectFields = ''
+        Object.keys(Event.schema.paths).forEach(key => {
+            selectFields += ' ' + key
+        })
+        selectFields = selectFields.trim()
+
+        
+        const events = await Event.find(query).sort(sort).skip(skip).limit(limit)
+                                        .select(selectFields)
+                                        .select({ sinhViens: {$elemMatch: {maSoSV}}})
+                                        
+        const attendanceEvents = events.map((evt) => {
+            const { sinhViens, ...event } = evt.toJSON()
+            let attendance = sinhViens[0] ? sinhViens[0] : null
+            return {
+                ...event,
+                attendance
+            }
+        })
+
+        const countAll = await Event.countDocuments(query)
+        
+        res.status(200).json({
+            status: 'success',
+            all: countAll,
+            results: attendanceEvents.length,
+            data: {attendanceEvents}
         })
     } catch (e) {
         console.log(e)
