@@ -12,6 +12,7 @@ import { LoadingButton } from '@mui/lab';
 // My Components =========================================================== //
 import SearchBar from 'components/student/activities/seach/SearchBar';
 import EventsTable from './components/EventsTable';
+import CreateEventModal from './components/CreateEventModal';
 
 // ==========================|| EVENTS MANAGEMENT||========================= //
 const EventsManagement = () => {
@@ -27,6 +28,9 @@ const EventsManagement = () => {
     const [searchValues, setSearchValues] = useState(defaultSearchValues);
     const [exporting, setExporting] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [openCreateModal, setOpenCreateModal] = useState(false);
+    const [modalType, setModalType] = useState('create');
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
     const getEvents = async (params) => {
         try {
@@ -119,7 +123,10 @@ const EventsManagement = () => {
                         <Button 
                             className='button'
                             variant='contained'
-                            onClick={() => setOpenCreateModal(true)}
+                            onClick={() => {
+                                setModalType('create');
+                                setOpenCreateModal(true);
+                            }}
                         >
                             Thêm mới
                         </Button>
@@ -130,8 +137,18 @@ const EventsManagement = () => {
                     totalRecords={totalRecords}
                     loading={loading}
                     onRefetch={(args) => handleSearch({ ...searchValues, ...args })} 
+                    setModalType={setModalType}
+                    setSelectedEvent={setSelectedEvent}
+                    setOpenCreateModal={setOpenCreateModal}
                 />
             </Box>
+            <CreateEventModal
+                open={openCreateModal}
+                type={modalType}
+                event={selectedEvent}
+                onClose={() => setOpenCreateModal(false)}
+                onRefetch={() => handleSearch(searchValues)}
+            />
         </div>
     )
 }

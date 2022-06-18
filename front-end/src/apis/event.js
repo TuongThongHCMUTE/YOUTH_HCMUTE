@@ -82,6 +82,19 @@ export const getOneEventById = (id) => {
     return axios(option);
 }
 
+export const createOneEvent = (event) => {
+    const option = {
+        method: "post",
+        url: `${url}/events`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        data: event
+    }
+  
+    return axios(option);
+}
+
 export const updateOneEvent = (event) => {
     const option = {
         method: "put",

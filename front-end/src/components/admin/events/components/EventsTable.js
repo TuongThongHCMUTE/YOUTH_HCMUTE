@@ -177,7 +177,7 @@ const EventImage = ({ image }) => {
 }
 
 // ===========================|| STUDENTS TABLE ||========================== //
-export default function EnhancedTable({ data, totalRecords, loading, onRefetch }) {
+export default function EnhancedTable({ data, totalRecords, loading, onRefetch, setModalType, setSelectedEvent, setOpenCreateModal }) {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
     const [page, setPage] = useState(0);
@@ -202,8 +202,10 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
         setOrderBy(property);
     };
 
-    const handleClick = (event, id) => {
-        navigate(`/users/sinh-vien/${id}`);
+    const handleClick = (event, row) => {
+        setModalType('update');
+        setSelectedEvent(row);
+        setOpenCreateModal(true);
     };
 
     const handleChangeStatus = async (event, id, type, value) => {
@@ -292,7 +294,7 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                                 <TableRow
                                     sx={{ cursor: 'pointer' }}
                                     hover
-                                    onClick={(event) => handleClick(event, row.id)}
+                                    onClick={(event) => handleClick(event, data.filter(i => i._id === row.id)[0])}
                                     tabIndex={-1}
                                     key={row.id}
                                 >
@@ -301,6 +303,8 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                                         <b>{ReactHtmlParser(row.name)}</b>
                                     </TableCell>
                                     <TableCell align="left">
+                                        {/* <div>{`Từ: ${moment(row.eventTime.thoiGianBatDau).format(dateTimeFormat)}`}</div>
+                                        <div>{`Đến: ${moment(row.eventTime.thoiGianKetThuc).format(dateTimeFormat)}`}</div> */}
                                         {`${moment(row.eventTime.thoiGianBatDau).format(dateTimeFormat)} - ${moment(row.eventTime.thoiGianKetThuc).format(dateTimeFormat)}`}
                                     </TableCell>
                                     <TableCell align="left">
