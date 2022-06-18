@@ -1,4 +1,4 @@
-const { getQueryParameter, isObjectId, updateValues, populateFields } = require('../common/index')
+const { getQueryParameter, isObjectId, exportExcel} = require('../common/index')
 const Event = require('../models/event')
 const elasticClient = require('../configs/elasticSearch')
 
@@ -15,21 +15,21 @@ const getDateQuery = (query) => {
         }
     }
 
-    query.sinhViens = { $elemMatch: {} }
+    if (query.sinhViens) {
+        if (query.dangKyThamGia !== undefined) {
+            query.sinhViens.$elemMatch.dangKyThamGia = query.dangKyThamGia
+            delete query.dangKyThamGia
+        }
+        
+        if (query.diemDanhRa !== undefined) {
+            query.sinhViens.$elemMatch.diemDanhRa = query.diemDanhRa
+            delete query.diemDanhRa
+        }
     
-    if (query.dangKyThamGia !== undefined) {
-        query.sinhViens.$elemMatch.dangKyThamGia = query.dangKyThamGia
-        delete query.dangKyThamGia
-    }
-    
-    if (query.diemDanhRa !== undefined) {
-        query.sinhViens.$elemMatch.diemDanhRa = query.diemDanhRa
-        delete query.diemDanhRa
-    }
-
-    if (query.diemDanhVao !== undefined) {
-        query.sinhViens.$elemMatch.diemDanhVao = query.diemDanhVao
-        delete query.diemDanhVao
+        if (query.diemDanhVao !== undefined) {
+            query.sinhViens.$elemMatch.diemDanhVao = query.diemDanhVao
+            delete query.diemDanhVao
+        }
     }
 
     delete query?.searchString
@@ -59,13 +59,11 @@ exports.getAllEvents = async (req, res, next) => {
     }
 }
 
-// Get all Events
+// Get all Events for student
 exports.getAttendanceEvents = async (req, res, next) => {
     try {
-        // const { email } = req.user 
-        const email = '18110234@student.hcmute.edu.vn'
+        const { email } = req.user 
         const { sort, limit, skip, query } = getQueryParameter(req)
-        getDateQuery(query)
 
         if (!email.includes('@student.hcmute.edu.vn')) {
             const err = new Error('Không sử dụng tài khoản sinh viên')
@@ -74,7 +72,13 @@ exports.getAttendanceEvents = async (req, res, next) => {
         }
 
         const maSoSV = email.slice(0, 8)
-        query['sinhViens']['$elemMatch']['maSoSV'] = maSoSV
+        query.sinhViens = {
+            $elemMatch: {
+                maSoSV: maSoSV
+            }
+        }
+
+        getDateQuery(query)
 
         let selectFields = ''
         Object.keys(Event.schema.paths).forEach(key => {
