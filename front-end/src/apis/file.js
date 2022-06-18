@@ -1,7 +1,7 @@
 // Node Modules ============================================================ //
 import axios from "axios";
 
-const url = "https://sinhvien5tot-be.herokuapp.com/api/v1";
+import { url } from 'store/constant';
 const token = sessionStorage.getItem("token");
 
 export const uploadFile = (file) => {
@@ -10,7 +10,7 @@ export const uploadFile = (file) => {
 
     const option = {
         method: "post",
-        url: `${url}/forms/proofs`,
+        url: `${url}/files?type=events`,
         headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'

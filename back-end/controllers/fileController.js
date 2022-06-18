@@ -6,7 +6,7 @@ const unlinkFile = util.promisify(fs.unlink)
 const { getSaveFileFolder } = require('../common/methods')
 const { uploadFile, getFileStream, deleteFile } = require('../configs/s3')
 
-// Upload Proof
+// Upload File
 exports.uploadAFile = async (req, res, next) => {
     try {
         const file = req.file
