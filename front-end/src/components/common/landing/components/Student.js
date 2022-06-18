@@ -21,7 +21,7 @@ const Student = (props) => {
     <div id="student">
       <Grid container className={styles.Student}>
         <Grid item xs={10} className={styles.Content}>
-          <Grid item xl={5} sx={10} className={styles.Features}>
+          <Grid item xl={5} xs={12} className={styles.Features}>
             {feature.map((item, index) => (
               <div className={styles.Item}>
                 <div className={styles.Index}>{index + 1}</div>
@@ -29,7 +29,7 @@ const Student = (props) => {
               </div>
             ))}
           </Grid>
-          <Grid item xl={7} sx={10} className={styles.Login}>
+          <Grid item xl={5} xs={12} className={styles.Login}>
             <h3>Bạn là sinh viên HCM UTE?</h3>
             <p>Đăng nhập để trải nghiệm các tính năng chỉ bằng 1 click chuột</p>
             <div className={styles.ButtonWrapper}>
