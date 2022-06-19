@@ -114,6 +114,37 @@ exports.getAttendanceEvents = async (req, res, next) => {
     }
 }
 
+// Get all Events for SV5T
+exports.getEventsForSV5T = async (req, res, next) => {
+    try {        
+        const { maSoSV, maTieuChi } = req.params
+        const query = {
+            sinhViens: {
+                $elemMatch: {
+                    maSoSV,
+                    diemDanhVao: true
+                }
+            },
+            tieuChi: {
+                $elemMatch: {
+                    maTieuChi
+                }
+            }
+        }
+
+        const events = await Event.find(query).select('tenHoatDong moTa')
+        
+        res.status(200).json({
+            status: 'success',
+            results: events.length,
+            data: { events }
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
 // Search event Events
 exports.searchAllEvents = async (req, res, next) => {
     try {
