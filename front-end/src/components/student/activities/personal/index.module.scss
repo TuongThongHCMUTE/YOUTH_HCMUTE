@@ -1,0 +1,38 @@
+.MyActivities {
+    padding: 32px;
+};
+
+.ActivitiesSection {
+    margin-top: 32px;
+    padding: 0 16px 32px;
+
+    .GroupTitle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .Left {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            .Title {
+                font-size: 24px;
+                font-weight: 400;
+                margin: 24px 24px 24px 0;
+                cursor: pointer;
+            }
+
+            .ActivedTitle {
+                font-weight: 600;
+                color: var(--color-primary-400);
+            }
+        }
+    }
+}
+
+@media (max-width: 1024px) {
+    .MyActivities {
+        padding: 0px;
+    }
+}

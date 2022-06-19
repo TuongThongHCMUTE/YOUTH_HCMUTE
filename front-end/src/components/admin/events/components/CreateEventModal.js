@@ -12,6 +12,7 @@ import { createOneEvent, updateOneEvent, getOneEventById } from 'apis/event';
 import { uploadFile } from 'apis/file';
 // Constants =============================================================== //
 import merits from 'helpers/constants/merits';
+import { url } from 'store/constant';
 const initialValues = {
     tenHoatDong: '',
     moTa: '',
@@ -196,12 +197,12 @@ const CreateEventModal = (props) => {
 
         try {
             setUploading(true);
-            const res = await uploadFile(newFile);
+            const res = await uploadFile(newFile, 'events');
 
             if (res.data.status === 'success') {
                 setValues(prev => ({
                     ...prev,
-                    anhBia: res.data.data.imageKey
+                    anhBia: url + "/files?key=" + res.data.data.imageKey
                 }))
             }
 

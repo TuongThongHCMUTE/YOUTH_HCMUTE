@@ -10,6 +10,7 @@ import fallbackSrc from 'assets/images/default-cover.jpg';
 const dateFormat = 'DD/MM/YYYY';
 // Material UI ============================================================= //
 import { Box, Typography } from '@mui/material';
+// My Components =========================================================== //
 import Tag from 'components/common/tag';
 import LinearProgressBarWithLabel from 'components/common/progress/LinearProgressBarWithLabel';
 

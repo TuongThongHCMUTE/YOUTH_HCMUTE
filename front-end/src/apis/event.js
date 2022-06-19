@@ -7,7 +7,7 @@ import { url } from 'store/constant';
 const token = sessionStorage.getItem("token");
 
 export const getAllEvents = (args) => {
-    const { limit, offset, sortBy, isDescending, type } = args;
+    const { limit, offset, sortBy, isDescending, type, sinhVien } = args;
 
     const params = {
         offset: offset ? offset : 0,
@@ -20,6 +20,10 @@ export const getAllEvents = (args) => {
 
     if (type && type !== 'type') {
         params.type = type;
+    }
+
+    if (sinhVien) {
+        params['sinhViens.maSoSV'] = sinhVien.maSoSV
     }
 
     params.sortBy = isDescending ? params.sortBy + ":desc" : params.sortBy; 
@@ -37,7 +41,7 @@ export const getAllEvents = (args) => {
 }
 
 export const searchEvents = (args) => {
-    const { limit, offset, sortBy, isDescending, searchString, type } = args;
+    const { limit, offset, sortBy, isDescending, searchString, type, sinhVien } = args;
 
     const params = {
         offset: offset ? offset : 0,
@@ -56,6 +60,10 @@ export const searchEvents = (args) => {
         params.searchString = searchString;
     }
 
+    if (sinhVien) {
+        params['sinhViens.maSoSV'] = sinhVien.maSoSV
+    }
+
     params.sortBy = isDescending ? params.sortBy + ":desc" : params.sortBy; 
 
     const option = {
@@ -69,6 +77,8 @@ export const searchEvents = (args) => {
 
     return axios(option)
 }
+
+
 
 export const getOneEventById = (id) => {
     const option = {

@@ -26,6 +26,7 @@ import Comments from 'components/common/comments';
 import LinearProgressBarWithLabel from 'components/common/progress/LinearProgressBarWithLabel';
 import SnackBar from 'components/common/alert/Snackbar';
 import Tag from 'components/common/tag';
+import AddToCalendar from 'components/common/addToCalendar/AddToCalendar';
 
 // =============================|| EVENT LIST ||============================ //
 const EventDetailsModal = (props) => {
@@ -126,6 +127,16 @@ const EventDetailsModal = (props) => {
         }
     };
 
+    const calendarItems = [{ apple: 'Apple Calendar' }, { google: 'Google' }];
+
+    const calendarEvent = {
+        title: event?.tenHoatDong,
+        description: event?.moTa,
+        location: event?.diaDiem,
+        startTime: moment(event?.thoiGianToChuc?.thoiGianBatDau),
+        endTime: moment(event?.thoiGianToChuc?.thoiGianKetThuc),
+    };
+
     return (
         <BaseModal
             visible={open}
@@ -186,6 +197,13 @@ const EventDetailsModal = (props) => {
                                             Hủy đăng ký
                                         </LoadingButton>
                                 }
+                                <AddToCalendar
+                                    className={styles.AddToCalendarBtn}
+                                    event={calendarEvent}
+                                    items={calendarItems}
+                                    label="Thêm vào lịch"
+                                    icon={{ 'calendar-o': 'left' }}
+                                />
                             </Box>
                         </Box>
                     </Box>

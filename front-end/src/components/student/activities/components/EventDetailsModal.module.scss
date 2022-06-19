@@ -40,6 +40,10 @@
             }
 
             .SignUp {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
                 .SignUpBtn {
                     width: 200px;
                     background-color: #1D9D22;
@@ -56,6 +60,11 @@
                     &:hover {
                         background-color: #d12429;
                     }
+                }
+
+                .AddToCalendarBtn {
+                    margin-left: 16px;
+                    width: 200px;
                 }
             }
         }
