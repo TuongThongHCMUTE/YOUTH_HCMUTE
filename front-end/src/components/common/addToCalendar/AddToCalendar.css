@@ -1,76 +1,67 @@
-.react-add-to-calendar {
-    -webkit-font-smoothing: antialiased;
-    font-size: 13px;
-    font-weight: bold;
-    text-shadow: none;
-    position: relative;
-    display: inline-block;
-    margin: 0 auto;
-    width: 100%;
-}
-.react-add-to-calendar__wrapper {
-    zoom: 1;
-    cursor: pointer;
-}
-.react-add-to-calendar__button {
+.chq-atc {
     display: block;
-    padding: 12px 20px;
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+  
+  .chq-atc--button {
+    background: var(--color-primary-400);
     border: none;
-    border-radius: 0;
+    border-radius: 0px;
+    box-sizing: border-box;
     color: white;
-    background-color: var(--color-primary-400);
-    text-align: center;
-}
-
-.react-add-to-calendar__button:hover {
-    background-color: var(--color-primary-800);
-    color: white;
-}
-
-.react-add-to-calendar__button i {
-    font-size: 16px;
-}
-
-.react-add-to-calendar__button--light {
-    background-color: var(--color-primary-400);
-}
-.react-add-to-calendar__icon--right {
-    padding-left: 5px;
-}
-.react-add-to-calendar__icon--left {
-    padding-right: 5px;
-}
-.react-add-to-calendar__dropdown {
-    position: absolute;
-    top: 40px;
-    left: 0px;
-    width: 100%;
-    padding: 0px;
-    box-shadow: 1px 3px 6px rgba(0, 0, 0, 0.15);
-    border: 1px solid #a8a8a8;
-    background-color: #fff;
-    text-align: left;
-}
-.react-add-to-calendar__dropdown ul {
-    list-style: none;
+    cursor: pointer;
+    display: inline;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: bold;
+    line-height: inherit;
     margin: 0;
-    padding: 0;
-}
-
-.react-add-to-calendar__dropdown ul li a {
-    display: inline-block;
+    outline: none;
+    padding: 4px 10px;
+    height: 100%;
     width: 100%;
-    padding: 5px 0 5px 20px;
-    font-size: 15px;
-    font-weight: 500;
-    color: #000;
+    display: block;
+  }
+  
+  .chq-atc--button:focus {
+    background-color: var(--color-primary-800);
+  }
+  
+  .chq-atc--button:hover {
+    background-color: var(--color-primary-800);
+  }
+  
+  .chq-atc--button svg {
+    vertical-align: text-bottom;
+    margin-right: 8px;
+  }
+  
+  .chq-atc--button path {
+    fill: white;
+  }
+  
+  .chq-atc--dropdown {
+    background-color: white;
+    border-radius: 0px;
+    border: 1px solid var(--color-grey-400);
+    box-shadow: none;
+    box-sizing: border-box;
+    position: absolute;
+    text-align: left;
+    white-space: nowrap;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  .chq-atc--dropdown a {
+    color: var(--color-grey-600);
+    display: block;
+    padding: 8px 15px;
     text-decoration: none;
-}
-
-.react-add-to-calendar__dropdown ul li a:hover {
-    background-color: #f8f8f8;
-}
-
-.react-add-to-calendar__dropdown ul li a i {
-    padding-right: 10px;
-}
+  }
+  
+  .chq-atc--dropdown a:hover {
+    background-color: #eaeaea;
+  }

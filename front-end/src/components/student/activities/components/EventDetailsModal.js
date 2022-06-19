@@ -130,11 +130,11 @@ const EventDetailsModal = (props) => {
     const calendarItems = [{ apple: 'Apple Calendar' }, { google: 'Google' }];
 
     const calendarEvent = {
-        title: event?.tenHoatDong,
-        description: event?.moTa,
+        name: event?.tenHoatDong,
+        details: event?.moTa,
         location: event?.diaDiem,
-        startTime: moment(event?.thoiGianToChuc?.thoiGianBatDau),
-        endTime: moment(event?.thoiGianToChuc?.thoiGianKetThuc),
+        startsAt: moment(event?.thoiGianToChuc?.thoiGianBatDau).format(),
+        endsAt: moment(event?.thoiGianToChuc?.thoiGianKetThuc).format(),
     };
 
     return (

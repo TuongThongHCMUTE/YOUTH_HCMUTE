@@ -56,15 +56,16 @@
                 .CancelBtn {
                     width: 200px;
                     background-color: #EC1F25;
-
+                    
                     &:hover {
                         background-color: #d12429;
                     }
                 }
-
+                
                 .AddToCalendarBtn {
                     margin-left: 16px;
                     width: 200px;
+                    height: 40px;
                 }
             }
         }
