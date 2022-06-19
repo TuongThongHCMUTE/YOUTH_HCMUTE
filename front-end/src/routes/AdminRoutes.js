@@ -7,7 +7,7 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import Protected from 'components/common/Protected';
 // Pages =================================================================== //
-const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+const DashboardDefault = Loadable(lazy(() => import('components/admin/statistic')));
 const Barcode = Loadable(lazy(() => import('components/admin/barcodeSearch')));
 const BarcodeStatistic = Loadable(lazy(() => import('components/admin/barcodeStatistic')));
 const ClassList = Loadable(lazy(() => import('components/admin/class/classList')));
@@ -26,7 +26,7 @@ const AdminRoutes = {
     element: <MainLayout />,
     children: [
         {
-            path: 'admin/dashboard/default',
+            path: 'dashboard',
             element: <DashboardDefault />
         },
         {

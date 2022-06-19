@@ -44,14 +44,14 @@ const other = {
                 }
             ]
         },
-        {
-            id: 'system-config',
-            title: 'Cấu hình hệ thống',
-            type: 'item',
-            url: '/system-config',
-            icon: icons.SettingsApplicationsOutlinedIcon,
-            breadcrumbs: false
-        }
+        // {
+        //     id: 'system-config',
+        //     title: 'Cấu hình hệ thống',
+        //     type: 'item',
+        //     url: '/system-config',
+        //     icon: icons.SettingsApplicationsOutlinedIcon,
+        //     breadcrumbs: false
+        // }
     ]
 };
 

@@ -29,3 +29,15 @@ export const countStudentsByFaculty = () => {
   
     return axios(option);
 };
+
+export const statisticBills = () => {
+    const option = {
+        method: "get",
+        url: `${url}/statistic/hoa-don`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+  
+    return axios(option);
+}
