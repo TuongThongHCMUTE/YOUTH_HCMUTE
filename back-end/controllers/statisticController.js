@@ -2,6 +2,8 @@ const Student = require('../models/student')
 const Manager = require('../models/manager')
 const Faculty = require('../models/faculty')
 const Bill = require('../models/bill')
+const Event = require('../models/event')
+const Class = require('../models/class')
 
 // Statistical data for landing page
 exports.getDataForLandingPage = async (req, res, next) => {
@@ -107,9 +109,9 @@ exports.statisticStudents = async (req, res, next) => {
 // Receipts
 exports.statisticBills = async (req, res, next) => {
     try {
-        const totalUnionsMembers = await Student.countDocuments({doanVien: true})
+        const totalBills = await Student.countDocuments()
         const totalPaid = await Bill.countDocuments({trangThai: true})
-        const totalUnPaid = totalUnionsMembers - totalPaid
+        const totalUnPaid = totalBills - totalPaid
 
         // Đếm số lượng và tổng tiền bill
         const staticBill = await Bill.aggregate([
@@ -148,7 +150,7 @@ exports.statisticBills = async (req, res, next) => {
             status: 'success',
             data: {
                 countData: {
-                    totalUnionsMembers,
+                    totalBills,
                     totalPaid,
                     totalUnPaid
                 },
@@ -162,7 +164,121 @@ exports.statisticBills = async (req, res, next) => {
     }
 }
 
-
 // Events
+exports.statisticEvents = async (req, res, next) => {
+    try {
+        const totalEvents = await Event.countDocuments()
+        const totalApprovedEvent = await Event.countDocuments({daDuyet: true})
+        const totalUnApprovedEvent = totalEvents - totalApprovedEvent
+
+        // Thống kê đăng ký
+        let staticEvent = await Event.aggregate([
+            { 
+                $match: { /* Query can go here, if you want to filter results. */ }
+            },
+            {
+                $project: {
+                    count: {$sum: 1},
+                    soLuongThamGia: {$size: '$sinhViens'},
+                    quenLoiThamGia: '$quenLoiThamGia',
+                    diemCong: '$diemCong'
+                }
+            }
+        ])
+
+        let calculateEvents = {
+            'Tổng số': {
+                count: 0,
+                soLuongThamGia: 0,
+                soDiemCong: 0
+            }
+        }
+
+        staticEvent.forEach(x => {
+            let right = x.quenLoiThamGia ? x.quenLoiThamGia : 'Chưa xác định'
+
+            calculateEvents[right] = calculateEvents[right] ? calculateEvents[right] : {
+                count: 0,
+                soLuongThamGia: 0,
+                soDiemCong: 0
+            }
+
+            calculateEvents[right].count += 1
+            calculateEvents[right].soLuongThamGia += x.soLuongThamGia
+            calculateEvents[right].soDiemCong += x.soLuongThamGia * x.diemCong
+
+            calculateEvents['Tổng số'].count += 1
+            calculateEvents['Tổng số'].soLuongThamGia += x.soLuongThamGia
+            calculateEvents['Tổng số'].soDiemCong += x.soLuongThamGia * x.diemCong
+        })
+
+        let eventByRight = []
+        Object.keys(calculateEvents).forEach(key => {
+            eventByRight.push({
+                ...calculateEvents[key],
+                quenLoiThamGia: key
+            })
+        })
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                countData: {
+                    totalEvents,
+                    totalApprovedEvent,
+                    totalUnApprovedEvent
+                },
+                eventByRight
+            }
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
 
 // Classes
+exports.statisticClasses = async (req, res, next) => {
+    try {
+        // Đếm số lượng và tổng tiền lớp theo đơn vị
+        const staticClassByFaculty = await Class.aggregate([
+            {
+                $group: {
+                    _id: '$donVi',
+                    count: {$sum: 1}
+                }
+            }
+        ])
+
+        const faculties = await Faculty.find({}).sort({tenDonVi: 1})
+        const countByFaculty = faculties.map(faculty => {
+            const dataCount = staticClassByFaculty.find(x => x._id?.toString() == faculty._id)
+            return {
+                _id: faculty._id,
+                tenDonVi: faculty.tenDonVi,
+                count: dataCount ? dataCount.count : 0
+            }
+        })
+
+        // Đếm số lượng và tổng tiền lớp theo ngành học
+        const staticClassByMajor = await Class.aggregate([
+            {
+                $group: {
+                    _id: '$nganhHoc',
+                    count: {$sum: 1}
+                }
+            }
+        ])
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                staticBillByFaculty: countByFaculty,
+                staticClassByMajor
+            }
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
