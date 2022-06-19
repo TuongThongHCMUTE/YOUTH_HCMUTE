@@ -1,14 +1,16 @@
 // Node Modules ============================================================ //
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Styles ================================================================== //
 import styles from './Header.module.scss';
 // Material UI ============================================================= //
 import {
     Button,
-    Grid
+    Grid,
+    IconButton
 } from '@mui/material';
 import EastIcon from '@mui/icons-material/East';
+import MenuIcon from '@mui/icons-material/Menu';
 // Constants =============================================================== //
 import { USER_ROLES, LOGIN_STEPS } from 'store/constant';
 import config from 'config';
@@ -23,6 +25,8 @@ const Header = (props) => {
     const activedSection = 'header';
     const { state } = useContext(AppContext);
     const navigate = useNavigate();
+
+    const [showMenu, setShowMenu] = useState(window.innerWidth > 1024);
 
     const sections = [
         {
@@ -69,36 +73,54 @@ const Header = (props) => {
     return (
         <div id="header">
             <Grid container className={styles.Header}>
-                <Grid item xs={10} className={styles.Content}>
+                <Grid item xl={10} xs={11} className={styles.Content}>
                     <LogoSection />
-                    <ul className={styles.Sections}>
-                        {sections.map(item => 
-                            <li>
-                                <a 
-                                    className={activedSection === item.id && styles.ActivedLink} 
-                                    href={`#${item.id}`}
-                                >
-                                    {item.display}
-                                </a>
-                            </li>)}
-                    </ul>
-                    {state?.user ? (
-                        <Button 
-                            className="button"
-                            endIcon={<EastIcon />}
-                            onClick={() => navigate(redirectTo)}
+                    {
+                        showMenu && (
+                            <ul className={styles.Sections}>
+                                {sections.map(item => 
+                                    <li 
+                                        key={item.id}
+                                        onClick={() => {
+                                            if (window.innerWidth <= 1024) {
+                                                setShowMenu(false);
+                                            }
+                                        }} 
+                                    >
+                                        <a 
+                                            className={activedSection === item.id && styles.ActivedLink}
+                                            href={`#${item.id}`}
+                                        >
+                                            {item.display}
+                                        </a>
+                                    </li>)}
+                            </ul>
+                        )
+                    }
+                    <div className={styles.ButtonsWrapper}>
+                        <IconButton 
+                            className={styles.MenuButton}
+                            onClick={() => setShowMenu(prev => !prev)}
                         >
-                            Youth HCMUTE
-                        </Button>
-                    ) : (
-                        <Button 
-                            className="button"
-                            onClick={() => onOpenLogin(LOGIN_STEPS.CHOOSE_OPTIONS)}
-                        >
-                            Đăng nhập
-                        </Button>
-                    )}
-
+                            <MenuIcon />
+                        </IconButton>
+                        {state?.user ? (
+                            <Button 
+                                className="button"
+                                endIcon={<EastIcon />}
+                                onClick={() => navigate(redirectTo)}
+                            >
+                                Youth HCMUTE
+                            </Button>
+                        ) : (
+                            <Button 
+                                className="button"
+                                onClick={() => onOpenLogin(LOGIN_STEPS.CHOOSE_OPTIONS)}
+                            >
+                                Đăng nhập
+                            </Button>
+                        )}
+                    </div>
                 </Grid>
                 <div className={styles.HeaderDivider} />
             </Grid>

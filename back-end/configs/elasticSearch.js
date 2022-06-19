@@ -32,23 +32,31 @@ const insertOneDoc = async (index, { id, ...body }) => {
 // Update one document to elastic
 const updateOneDoc = async (index, { id, ...body }) => {
     try {
-        await client.update({
-            index,
-            id,
-            doc: {
-                ...body
-            }
-        })
-    
         const result = await client.get({
             index,
             id
-        })
+        }, {ignore: [404]})
+
+        if (result._source) {
+            await client.update({
+                index,
+                id,
+                doc: {
+                    ...body
+                }
+            })
+        } else {
+            await insertOneDoc('events', {
+                id,
+                ...body
+            })
+        }
         
         console.log('Cập nhật thành công!')
         console.log(result)
-    } catch {
+    } catch (e) {
         console.log('Lỗi kết nối Elasticsearch')
+        console.log(e)
         return false
     }
 }
@@ -75,11 +83,11 @@ const searchDoc = async (index, searchString, skip, limit, searchFields, highlig
         let highlighConfigs = {}
         if (!highlightFields) {
             searchFields.forEach(field => {
-                highlighConfigs[field] = { type: 'plain' }
+                highlighConfigs[field] = { type: 'plain', number_of_fragments: 0}
             })
         } else {
             highlightFields.forEach(field => {
-                highlighConfigs[field] = { type: 'plain' }
+                highlighConfigs[field] = { type: 'plain', number_of_fragments: 0 }
             })
         }
     
@@ -103,7 +111,7 @@ const searchDoc = async (index, searchString, skip, limit, searchFields, highlig
             highlight: {
                 order: 'score',
                 require_field_match: false, // Tag all field
-                pre_tags : ['<b>'], // Replace all <em>
+                pre_tags : ['<b style="color:red;">'], // Replace all <em>
                 post_tags : ['</b>'], // Replace all </em>
                 fields: {
                     ...highlighConfigs

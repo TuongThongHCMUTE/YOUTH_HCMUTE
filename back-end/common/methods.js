@@ -138,3 +138,21 @@ exports.updateValues = (type) => {
 
     return updateValues[type]
 }
+
+// File controller
+exports.getSaveFileFolder = (type) => {
+    let folder
+    switch (type) {
+        case 'events':
+            folder = 'events'
+            break
+        case 'avatars':
+            folder = 'avatars'
+            break
+        default:
+            folder = 'others'
+            break
+    }
+
+    return folder
+}

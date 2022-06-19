@@ -63,27 +63,27 @@ const Admin = (props) => {
           <div className={styles.Features}>
             <h3 className={styles.Title}>Số hóa hồ sơ, tiết kiệm thời gian và công sức cho người quản trị</h3>
             <Grid container className={styles.FeatureList}>
-              <Grid item xs={6} className={styles.FeatureItem}>
+              <Grid item sm={6} xs={12} className={styles.FeatureItem}>
                 <CheckCircleIcon className={styles.Icon} />
                 Tra cứu thông tin nhanh chóng
               </Grid>
-              <Grid item xs={6} className={styles.FeatureItem}>
+              <Grid item sm={6} xs={12} className={styles.FeatureItem}>
                 <CheckCircleIcon className={styles.Icon} />
                 Đồng bộ hồ sơ, hạn chế sai sót
               </Grid>
-              <Grid item xs={6} className={styles.FeatureItem}>
+              <Grid item sm={6} xs={12} className={styles.FeatureItem}>
                 <CheckCircleIcon className={styles.Icon} />
                 Thao tác nghiệp vụ dễ dàng
               </Grid>
-              <Grid item xs={6} className={styles.FeatureItem}>
+              <Grid item sm={6} xs={12} className={styles.FeatureItem}>
                 <CheckCircleIcon className={styles.Icon} />
                 Đơn giản hóa các thủ tục trước đây
               </Grid>
-              <Grid item xs={6} className={styles.FeatureItem}>
+              <Grid item sm={6} xs={12} className={styles.FeatureItem}>
                 <CheckCircleIcon className={styles.Icon} />
                 Xem thống kê một cách trực quan
               </Grid>
-              <Grid item xs={6} className={styles.FeatureItem}>
+              <Grid item sm={6} xs={12} className={styles.FeatureItem}>
                 <CheckCircleIcon className={styles.Icon} />
                 Truy cập bất kỳ đâu
               </Grid>

@@ -25,10 +25,10 @@ const SearchBar = (props) => {
 
     return (
         <Grid container className={styles.SearchBar}>
-            <Grid item xs={1.5}><h1 className={styles.Title}>Tìm kiếm:</h1></Grid>
-            <Grid item xs={10.5} className={styles.SearchArea}>
+            <Grid item lg={1.5} md={12}><h1 className={styles.Title}>Tìm kiếm:</h1></Grid>
+            <Grid item lg={10.5} md={12} className={styles.SearchArea}>
             <Grid container>
-                <Grid item xs={3} className={styles.Search}>
+                <Grid item xl={3} lg={12} className={styles.Search}>
                     <TextField
                         className={styles.SearchField}
                         variant='outlined'
@@ -51,8 +51,8 @@ const SearchBar = (props) => {
                         <SearchIcon />
                     </Button>
                 </Grid>
-                <Grid item xs={2} className={styles.Divider}></Grid>
-                <Grid item xs={5}>
+                <Grid item xl={2} lg={0} className={styles.Divider}></Grid>
+                <Grid item xl={5} lg={12}>
                     <FormControl className={styles.RadioGroup}>
                         <FormLabel id="label" className={styles.Label}>Hiển thị: </FormLabel>
                         <RadioGroup

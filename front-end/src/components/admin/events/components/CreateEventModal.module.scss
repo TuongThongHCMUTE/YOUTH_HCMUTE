@@ -1,0 +1,76 @@
+.ContentWrapper {
+    width: 1200px;
+    height: 80vh;
+    overflow-y: scroll;
+    background-color: white;
+
+    .Right {
+        background-color: var(--color-primary-200);
+        padding: 32px 16px 100px;
+    }
+
+    .Left {
+        padding-bottom: 60px;
+    }
+
+    .Divider {
+        width: 100%;
+        height: 2px;
+        margin: 16px 0 48px;
+        background-color: var(--color-grey-400);
+    }
+}
+
+.SectionTitle {
+    margin-left: 16px;
+    font-size: 20px;
+    color: var(--color-grey-700);
+    text-transform: uppercase;
+}
+
+.TextField {
+    width: 100%;
+}
+
+.TextField > div {
+    border-radius: 0px;
+}
+
+.Merits {
+    padding: 0 16px;
+    .Merit {
+        margin-top: 16px;
+
+        .MeritName {
+            margin: 4px 0;
+            font-size: 14px;
+            color: black;
+        }
+
+        .Category {
+            .Tag {
+                display: inline-block;
+                margin-right: 8px;
+            }
+        }
+    }
+}
+
+.Footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding: 0 0 16px;
+
+    .Divider {
+        width: 100%;
+        height: 3px;
+        background-image: var(--color-gradient);
+        margin-bottom: 16px;
+    }
+}
+
+.Cover {
+    width: 300px;
+}

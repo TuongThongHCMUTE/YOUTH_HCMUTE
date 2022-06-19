@@ -29,6 +29,7 @@
 
             .Title {
                 text-transform: uppercase;
+                text-align: justify;
             }
 
             .PlaceAndTime {
@@ -39,12 +40,32 @@
             }
 
             .SignUp {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
                 .SignUpBtn {
+                    width: 200px;
                     background-color: #1D9D22;
 
                     &:hover {
                         background-color: #1F7244;
                     }
+                }
+
+                .CancelBtn {
+                    width: 200px;
+                    background-color: #EC1F25;
+                    
+                    &:hover {
+                        background-color: #d12429;
+                    }
+                }
+                
+                .AddToCalendarBtn {
+                    margin-left: 16px;
+                    width: 200px;
+                    height: 40px;
                 }
             }
         }
@@ -116,3 +137,79 @@
         }
     }
 }
+
+/* Mobile */
+@media (max-width: 480px) {
+    .LoadingWrapper {
+        min-height: calc(100vh - 64px) !important;
+    }
+
+    .Content {
+        padding: 16px;
+        height: calc(100vh - 64px) !important;
+    }
+
+    .SignUp {
+        flex-direction: column;
+
+        .SignUpBtn, .CancelBtn {
+            width: 100% !important;
+        }
+    }
+}
+
+
+/* Tablet */
+@media (min-width: 480px) and (max-width: 1024px) {
+
+}
+
+/* Tablet & mobile */
+@media (max-width: 1024px) {
+    .LoadingWrapper {
+        width: 100%;
+        min-width: 100vw;
+        min-height: calc(100vh - 94px);
+    }
+
+    .Content {
+        width: 100%;
+        height: calc(100vh - 94px);
+
+        .Header {
+            flex-direction: column;
+            height: fit-content;
+
+            .ImageWrapper {
+                img {
+                    display: block;
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+
+            .MainInfo {
+                margin-left: 0;
+                margin-top: 24px;
+
+                .PlaceAndTime, .SignUp {
+                    margin-top: 16px;
+                }
+            }
+        }
+
+        .Body {
+            .Record {
+                flex-direction: column;
+                
+                div {
+                    &:nth-child(2) {
+                        margin-top: 8px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+

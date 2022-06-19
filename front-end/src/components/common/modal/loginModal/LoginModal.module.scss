@@ -198,3 +198,53 @@
         }
     }
 }
+
+@media (max-width: 480px) {
+    .Modal {
+        min-width: unset;
+        max-width: 95%;
+
+        .Header {
+            padding: 16px 16px 16px;
+    
+            .Logo {
+                display: none;
+            }
+
+            .Name {   
+                h2 {
+                    font-size: 18px;
+                }
+    
+                h5 {
+                    margin-top: 4px;
+                    font-size: 14px;
+                }
+            }
+        }
+
+        .Body {
+            .BodyWrapper {
+                width: 100%;
+                p {
+                    text-align: center;
+                }
+
+                .ButtonWrapper {
+                    flex-direction: column;
+    
+                    .StudentLogin {
+                        width: 300px;
+                        margin-right: 0;
+                    }
+    
+                    .AdminLogin {
+                        width: 300px;
+                        margin-left: 0;
+                        margin-top: 16px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -17,6 +17,7 @@
         img {
             display: block;
             height: 300px;
+            max-width: 450px;
         }
     }
 
@@ -28,6 +29,7 @@
             max-width: 95%;
             line-height: 24px;
             max-height: 48px;
+            min-height: 24px;
             overflow: hidden;
             display: block;
             display: -webkit-box;
@@ -40,6 +42,7 @@
             max-width: 95%;
             line-height: 18px;
             max-height: 36px;
+            min-height: 36px;
             overflow: hidden;
             display: block;
             display: -webkit-box;
@@ -72,6 +75,44 @@
 
             .ProgressBar {
                 margin-top: 8px;
+            }
+        }
+    }
+}
+
+/* Tablet & mobile */
+@media (max-width: 1024px) {
+    .Item {
+        flex-direction: column;
+        height: fit-content;
+
+        .ImageWrapper {
+            img {
+                display: block;
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+        .ContentWrapper {
+            .Description {
+                margin-top: 16px;
+                max-width: 100%;
+            }
+
+            .Details {
+                .Record {
+                    flex-direction: column;
+
+                    div {
+                        margin-right: 0;
+                        margin-top: 8px;
+
+                        &:nth-child(1) {
+                            margin-top: 4px;
+                        }
+                    }
+                }
             }
         }
     }

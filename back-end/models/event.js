@@ -17,7 +17,7 @@ const eventSchema = new mongoose.Schema({
     soLuongSinhVien: {type: Number, default: 0},
     quyMoToChuc: {type: String}, // Cấp trường, Cấp khoa
     quenLoiThamGia: {type: String}, // DIEM_REN_LUYEN, DIEM_CTXH
-    diemCong: {type: Number}, // 2, 3, 5
+    diemCong: {type: Number, default: 0}, // 2, 3, 5
     anhBia: {type: String}, // Link of picture
     maNamHoc: {type: String},
     hocKy: {type: String},
