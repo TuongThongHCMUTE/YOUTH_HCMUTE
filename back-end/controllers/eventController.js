@@ -1,6 +1,7 @@
+const elasticClient = require('../configs/elasticSearch')
 const { getQueryParameter, isObjectId, exportExcel} = require('../common/index')
 const Event = require('../models/event')
-const elasticClient = require('../configs/elasticSearch')
+const excelController = require('../common/xls/eventsXls')
 
 const getDateQuery = (query) => {
     const { type } = query
@@ -41,11 +42,17 @@ const getDateQuery = (query) => {
 exports.getAllEvents = async (req, res, next) => {
     try {
         const { sort, limit, skip, query } = getQueryParameter(req)
+        const xls = query.xls
         getDateQuery(query)
 
         const events = await Event.find(query).sort(sort).skip(skip).limit(limit)
                                     .select('-sinhViens')
         const countAll = await Event.countDocuments(query)
+
+        if (xls == 'true') {
+            const { columns, data } = excelController.getXlsForEvents(events)
+            return exportExcel('Events', columns, data, res)
+        }
         
         res.status(200).json({
             status: 'success',
@@ -60,6 +67,7 @@ exports.getAllEvents = async (req, res, next) => {
 }
 
 // Get all Events for student
+// get event with attendance of student
 exports.getAttendanceEvents = async (req, res, next) => {
     try {
         const { email } = req.user 
@@ -150,6 +158,8 @@ exports.searchAllEvents = async (req, res, next) => {
     try {
         const { limit, skip, sort, query } = getQueryParameter(req)
         const { searchString, type } = query
+        const xls = query.xls
+
         getDateQuery(query)
 
         const results = await elasticClient.searchDoc('events', searchString, skip, null, ['tenHoatDong', 'moTa'])
@@ -166,8 +176,11 @@ exports.searchAllEvents = async (req, res, next) => {
             events = results.hits.map(event => {
                 const dbEvent = matchEvents.find(x => x._id.toString() === event._id)
 
-                dbEvent.tenHoatDong = event.highlight?.tenHoatDong ? event.highlight?.tenHoatDong[0] : dbEvent.tenHoatDong
-                dbEvent.moTa = event.highlight?.moTa ? event.highlight?.moTa[0] : dbEvent.moTa
+                if (xls != 'true') {
+                    dbEvent.tenHoatDong = event.highlight?.tenHoatDong ? event.highlight?.tenHoatDong[0] : dbEvent.tenHoatDong
+                    dbEvent.moTa = event.highlight?.moTa ? event.highlight?.moTa[0] : dbEvent.moTa
+                }
+
                 return {
                     ...dbEvent.toJSON(),
                     score: event._score
@@ -197,6 +210,11 @@ exports.searchAllEvents = async (req, res, next) => {
             totalDocument = await Event.countDocuments(            
                 { $text: { $search : searchString }, ...query },  
                 { score : { $meta: "textScore" } })
+        }
+
+        if (xls == 'true') {
+            const { columns, data } = excelController.getXlsForEvents(events)
+            return exportExcel('Events', columns, data, res)
         }
 
         res.status(200).json({

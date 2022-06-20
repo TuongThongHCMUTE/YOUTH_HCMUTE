@@ -55,6 +55,7 @@ exports.exportExcelAllBills = async (req, res, next) => {
                                     .populate('donVi', 'tenDonVi')
 
         const columns = [
+            { header: 'STT', key: 'number', width: 6, style: stylesExcel.ALIGNMENT_MID_CENTER },
             { header: 'Mã số sinh viên', key: 'maSoSV', width: 15, style: stylesExcel.ALIGNMENT_MID_CENTER },
             { header: 'Họ và tên', key: 'hoVaTen', width: 30, style: stylesExcel.ALIGNMENT_MID },
             { header: 'Đơn vị', key: 'tenDonVi', width: 30, style: stylesExcel.ALIGNMENT_MID },
@@ -65,8 +66,10 @@ exports.exportExcelAllBills = async (req, res, next) => {
             { header: 'Ngày thanh toán', key: 'ngayThanhToan', width: 25, style: stylesExcel.LONG_DATE_FORMAT }
         ]
 
+        let stt = 1
         const data = bills.map(bill => {
             return {
+                number: stt++,
                 maSoSV: bill.maSoSV,
                 hoVaTen: bill.sinhVien.ho + ' ' + bill.sinhVien.ten,
                 tenDonVi: bill.donVi?.tenDonVi,

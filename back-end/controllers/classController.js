@@ -33,6 +33,7 @@ exports.exportExcelAllClasses = async (req, res, next) => {
                                         .populate('quanLy.sinhVien', 'soDienThoai email')
 
         const columns = [
+            { header: 'STT', key: 'number', width: 6, style: stylesExcel.ALIGNMENT_MID_CENTER },
             { header: 'Tên lớp', key: 'tenLop', width: 15, style: stylesExcel.ALIGNMENT_MID },
             { header: 'Đơn vị', key: 'tenDonVi', width: 30, style: stylesExcel.ALIGNMENT_MID },
             { header: 'Ngành học', key: 'nganhHoc', width: 40, style: stylesExcel.ALIGNMENT_MID },
@@ -43,10 +44,12 @@ exports.exportExcelAllClasses = async (req, res, next) => {
             { header: 'Trạng thái', key: 'trangThai', width: 15, style: stylesExcel.ALIGNMENT_MID_CENTER },
         ]
 
+        let stt = 1
         const data = classes.map(a_class => {
             const biThu = a_class.quanLy?.find(quanLy => quanLy.chucVu === 'BI_THU')
             const phoBiThu = a_class.quanLy?.find(quanLy => quanLy.chucVu === 'PHO_BI_THU')
             return {
+                number: stt++,
                 tenLop: a_class.tenLop,
                 tenDonVi: a_class.donVi?.tenDonVi,
                 nganhHoc: a_class.nganhHoc,
