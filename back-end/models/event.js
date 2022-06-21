@@ -33,6 +33,7 @@ const eventSchema = new mongoose.Schema({
     soLuongSinhVienDangKy: {type: Number, default: 0},
     soLuongSinhVienThamGia: {type: Number, default: 0},
     sinhViens: [{ type: attendanceSchema }],
+    dieuKienHoanThanhs: {type: [String], default: ['diemDanhVao']},
     daDuyet: {type: Boolean, default: false},
     hienThi: {type: Boolean, default: false},
     ghiChu: {type: String},
