@@ -204,6 +204,8 @@ const LoginModal = (props) => {
                             <Formik
                                 initialValues={{ email: '', password: '' }}
                                 enableReinitialize
+                                validateOnChange={false}
+                                validateOnBlur={false}
                                 validate={values => validateData(values)}
                                 onSubmit={(values) => { 
                                     handleAdminLogin(values);
