@@ -4,7 +4,7 @@ export const drawerWidth = 260;
 export const appDrawerWidth = 320;
 
 // server
-export const url = 'http://156.67.210.110/api/v1';
+export const url = 'http://156.67.210.110/secure/api/v1';
 
 
 // student
