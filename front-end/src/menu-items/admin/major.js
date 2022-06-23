@@ -58,6 +58,14 @@ const other = {
             breadcrumbs: false
         },
         {
+            id: 'diem-danh',
+            title: 'Điểm danh',
+            type: 'item',
+            url: '/diem-danh',
+            icon: icons.EventNoteIcon,
+            breadcrumbs: false
+        },
+        {
             id: 'chi-doan',
             title: 'Danh sách chi đoàn',
             type: 'item',
