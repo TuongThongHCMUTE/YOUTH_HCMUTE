@@ -39,7 +39,7 @@ exports.loginWithPassword = async (req, res, next) => {
                 status: 'success',
                 data: {
                     user,
-                    token: generateToken({_id: user._id, email: user.email, role: user.role, faculty: user.donVi})
+                    token: generateToken({_id: user._id, email: user.email, role: user.role, faculty: user.donVi, name: user.tenHienThi})
                 }
             })
         } else {
@@ -85,11 +85,13 @@ exports.loginWithGoogle = async (req, res, next) => {
             return next(err)
         }
 
+        const name = user.ho + ' ' + user.ten
+
         return res.status(200).json({
             status: 'success',
             data: {
                 user,
-                token: generateToken({_id: user._id, email: user.email, role: user.role, faculty: user.donVi})
+                token: generateToken({_id: user._id, email: user.email, role: user.role, faculty: user.donVi, name: name})
             }
         })
     } catch (e) {
