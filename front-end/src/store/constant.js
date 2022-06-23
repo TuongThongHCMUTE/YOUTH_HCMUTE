@@ -4,7 +4,7 @@ export const drawerWidth = 260;
 export const appDrawerWidth = 320;
 
 // server
-export const url = 'http://member.youthhcmute.com/api/v1';
+export const url = 'https://member.youthhcmute.com/api/v1';
 
 
 // student
