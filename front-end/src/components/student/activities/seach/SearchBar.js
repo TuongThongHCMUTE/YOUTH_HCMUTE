@@ -28,7 +28,7 @@ const SearchBar = (props) => {
             <Grid item lg={1.5} md={12}><h1 className={styles.Title}>Tìm kiếm:</h1></Grid>
             <Grid item lg={10.5} md={12} className={styles.SearchArea}>
             <Grid container>
-                <Grid item xl={3} lg={12} className={styles.Search}>
+                <Grid item lg={5} md={12} className={styles.Search}>
                     <TextField
                         className={styles.SearchField}
                         variant='outlined'
@@ -51,8 +51,8 @@ const SearchBar = (props) => {
                         <SearchIcon />
                     </Button>
                 </Grid>
-                <Grid item xl={2} lg={0} className={styles.Divider}></Grid>
-                <Grid item xl={5} lg={12}>
+                <Grid item lg={2} md={0} className={styles.Divider}></Grid>
+                <Grid item lg={5} md={12}>
                     <FormControl className={styles.RadioGroup}>
                         <FormLabel id="label" className={styles.Label}>Hiển thị: </FormLabel>
                         <RadioGroup
@@ -69,28 +69,6 @@ const SearchBar = (props) => {
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                {/* <Grid item xs={0.5} className={styles.Divider}></Grid>
-                <Grid item xs={3}>
-                    <LocalizationProvider locale='vi' dateAdapter={DateAdapter}>
-                        <div className={styles.DatePicker}>
-                            <Typography variant="p" component="p">
-                                Tháng:
-                            </Typography>
-                            <DatePicker
-                                views={['year', 'month']}
-                                inputFormat="MM/yyyy"
-                                minDate={moment('2012-03-01')}
-                                maxDate={moment('2023-06-01')}
-                                value={moment()}
-                                className='text-field'
-                                onChange={(newValue) => {
-                                    // setValue(newValue);
-                                }}
-                                renderInput={(params) => <TextField {...params} helperText={null} />}
-                            />
-                        </div>
-                    </LocalizationProvider>
-                </Grid> */}
             </Grid>
             </Grid>
         </Grid>
