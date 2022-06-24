@@ -3,13 +3,15 @@ import FitScreenIcon from '@mui/icons-material/FitScreen';
 import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined';
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import EventNoteIcon from '@mui/icons-material/EventNote';
+import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 
 // constant
 const icons = {
     EventNoteIcon,
     FitScreenIcon,
     ViewListOutlinedIcon,
-    WysiwygIcon
+    WysiwygIcon,
+    AssignmentTurnedInOutlinedIcon,
 };
 
 // ===========================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||=========================== //

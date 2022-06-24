@@ -10,7 +10,7 @@ import { getAllEvents, searchEvents } from 'apis/event';
 import { Box, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // My Components =========================================================== //
-import SearchBar from 'components/student/activities/seach/SearchBar';
+import SearchBar from 'components/student/activities/search/SearchBar';
 import EventsTable from './components/EventsTable';
 import CreateEventModal from './components/CreateEventModal';
 
