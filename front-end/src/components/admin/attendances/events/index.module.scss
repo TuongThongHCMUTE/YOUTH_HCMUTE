@@ -1,0 +1,9 @@
+.Events {
+    padding: 32px;
+}
+
+@media (max-width: 1024px) {
+    .Events {
+        padding: 0px;
+    }
+}

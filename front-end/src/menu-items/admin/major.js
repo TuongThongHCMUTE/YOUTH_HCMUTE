@@ -3,13 +3,15 @@ import FitScreenIcon from '@mui/icons-material/FitScreen';
 import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined';
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import EventNoteIcon from '@mui/icons-material/EventNote';
+import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 
 // constant
 const icons = {
     EventNoteIcon,
     FitScreenIcon,
     ViewListOutlinedIcon,
-    WysiwygIcon
+    WysiwygIcon,
+    AssignmentTurnedInOutlinedIcon,
 };
 
 // ===========================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||=========================== //
@@ -54,6 +56,14 @@ const other = {
             title: 'Hoạt động',
             type: 'item',
             url: '/hoat-dong',
+            icon: icons.EventNoteIcon,
+            breadcrumbs: false
+        },
+        {
+            id: 'diem-danh',
+            title: 'Điểm danh',
+            type: 'item',
+            url: '/diem-danh',
             icon: icons.EventNoteIcon,
             breadcrumbs: false
         },

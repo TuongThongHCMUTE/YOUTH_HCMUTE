@@ -12,7 +12,7 @@ import { getAllEvents, searchEvents } from 'apis/event';
 // Material UI ============================================================= //
 import { Box } from '@mui/material';
 // My Components =========================================================== //
-import SearchBar from '../seach/SearchBar';
+import SearchBar from '../search/SearchBar';
 import Events from './components/Events';
 
 const MyActivities = () => {

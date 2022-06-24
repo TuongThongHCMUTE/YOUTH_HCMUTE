@@ -8,7 +8,7 @@ import Loadable from 'ui-component/Loadable';
 import Protected from 'components/common/Protected';
 // Pages =================================================================== //
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
-const SearchActivities = Loadable(lazy(() => import('components/student/activities/seach')));
+const SearchActivities = Loadable(lazy(() => import('components/student/activities/search')));
 const MyActivities = Loadable(lazy(() => import('components/student/activities/personal')));
 
 // ===========================|| ADMIN ROUTING ||=========================== //
