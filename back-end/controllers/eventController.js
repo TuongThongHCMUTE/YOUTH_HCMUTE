@@ -2,6 +2,7 @@ const elasticClient = require('../configs/elasticSearch')
 const { getQueryParameter, isObjectId, exportExcel} = require('../common/index')
 const Event = require('../models/event')
 const excelController = require('../common/xls/eventsXls')
+const ELASTIC_SEARCH_INDEX = process.env.ELASTIC_SEARCH_INDEX || 'events'
 
 const getDateQuery = (query) => {
     const { type } = query
@@ -162,7 +163,7 @@ exports.searchAllEvents = async (req, res, next) => {
 
         getDateQuery(query)
 
-        const results = await elasticClient.searchDoc('events', searchString, skip, null, ['tenHoatDong', 'moTa'])
+        const results = await elasticClient.searchDoc(ELASTIC_SEARCH_INDEX, searchString, skip, null, ['tenHoatDong', 'moTa'])
 
         let events = []
         let totalDocument = 0
@@ -234,7 +235,7 @@ exports.createOneEvent = async (req, res, next) => {
     try {
         const event = await Event.create({ ...req.body })
 
-        await elasticClient.insertOneDoc('events', {
+        await elasticClient.insertOneDoc(ELASTIC_SEARCH_INDEX, {
             id: event._id,
             tenHoatDong: event.tenHoatDong,
             moTa: event.moTa
@@ -286,7 +287,7 @@ exports.updateOneEvent = async (req, res, next) => {
         const event = await Event.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
                                     .select('-sinhViens')
 
-        await elasticClient.updateOneDoc('events', {
+        await elasticClient.updateOneDoc(ELASTIC_SEARCH_INDEX, {
             id: event._id,
             tenHoatDong: event.tenHoatDong,
             moTa: event.moTa
@@ -310,7 +311,7 @@ exports.deleteOneEvent = async (req, res, next) => {
         const event = await Event.findByIdAndDelete(id)
                                     .select('-sinhViens')
 
-        await elasticClient.deleteOneDoc('events', event._id)
+        await elasticClient.deleteOneDoc(ELASTIC_SEARCH_INDEX, event._id)
 
         res.status(200).json({
             status: 'success',
