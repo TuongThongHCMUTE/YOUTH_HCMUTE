@@ -46,7 +46,6 @@ import BaseModal from 'components/common/modal/base/BaseModal';
 import SnackBar from 'components/common/alert/Snackbar';
 import CircularLoading from 'components/common/loading/CircularLoading';
 import Tag from 'components/common/tag';
-import { Box } from '@material-ui/system';
 
 // =======================|| CREATE STUDENT MODAL ||======================== //
 const CreateEventModal = (props) => {
@@ -157,15 +156,15 @@ const CreateEventModal = (props) => {
 
     const handleMeritClick = (merit) => {
         let merits = values.tieuChi;
-        const index = merits.findIndex(i => i.maTieuChi === merit.id);
+        const index = merits.findIndex(i => i.maTieuChi.toLowerCase() === merit.id.toLowerCase());
         
         if (index === -1) {
             merits.push({
-                maTieuChi: merit.id,
+                maTieuChi: merit.id.toLowerCase(),
                 tenTieuChi: merit.content
             })
         } else {
-            merits = merits.filter(i => i.maTieuChi !== merit.id);
+            merits = merits.filter(i => i.maTieuChi.toLowerCase() !== merit.id.toLowerCase());
         }
 
         setValues(prev => ({
