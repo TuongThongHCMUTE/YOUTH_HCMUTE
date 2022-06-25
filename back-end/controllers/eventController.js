@@ -1,8 +1,25 @@
 const elasticClient = require('../configs/elasticSearch')
-const { getQueryParameter, isObjectId, exportExcel} = require('../common/index')
+const { getQueryParameter, isObjectId, exportExcel } = require('../common/index')
 const Event = require('../models/event')
 const excelController = require('../common/xls/eventsXls')
 const ELASTIC_SEARCH_INDEX = process.env.ELASTIC_SEARCH_INDEX || 'events'
+const merits = require('../common/store/merits')
+
+const getMeritIds = (existIds) => {
+    let meritIds = []
+
+    merits.forEach(merit => 
+        merit.categories.forEach(category => 
+            category.items.forEach(item => {
+                if (!existIds.includes(item.id)){
+                    meritIds.push(item.id)
+                }
+            })
+        )   
+    )
+
+    return meritIds
+}
 
 const getDateQuery = (query) => {
     const { type } = query
@@ -131,7 +148,7 @@ exports.getEventsForSV5T = async (req, res, next) => {
             sinhViens: {
                 $elemMatch: {
                     maSoSV,
-                    diemDanhVao: true
+                    hoanThanhHoatDong: true
                 }
             },
             tieuChi: {
@@ -143,6 +160,47 @@ exports.getEventsForSV5T = async (req, res, next) => {
 
         const events = await Event.find(query).select('tenHoatDong moTa')
         
+        res.status(200).json({
+            status: 'success',
+            results: events.length,
+            data: { events }
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
+// Get all missing event of event in SV5T
+exports.getMissingEventsInSV5T = async (req, res, next) => {
+    try {        
+        const { email } = req.user
+
+        if (!email.includes('@student.hcmute.edu.vn')) {
+            const err = new Error('Không sử dụng tài khoản sinh viên')
+            err.statusCode = 400
+            return next(err)
+        }
+        const maSoSV = email.slice(0, 8)
+        let existIds = []
+        let events = await Event.find({sinhViens:{$elemMatch:{maSoSV, hoanThanhHoatDong: true}}})
+                                    .select('tieuChi')
+
+        events.forEach(event => event.tieuChi.forEach(tieuChi => {
+            if (!existIds.includes(tieuChi.maTieuChi)) {
+                existIds.push(tieuChi.maTieuChi)
+            }
+        }))
+
+        let meritIds = getMeritIds(existIds)
+
+        events = await Event.find({ 'tieuChi.maTieuChi':{$in: meritIds},
+                                    daDuyet: true,
+                                    hienThi: true,
+                                    'thoiGianToChuc.thoiGianBatDau': {$gt: new Date()}
+                                })
+                                .select('-sinhViens')
+
         res.status(200).json({
             status: 'success',
             results: events.length,
