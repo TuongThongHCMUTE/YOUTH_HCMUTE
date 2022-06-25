@@ -20,7 +20,7 @@ exports.stylesExcel = {
 exports.populateFields = {
     attendance: {
         path: 'sinhViens.sinhVien',
-        select: 'maSoSV ho ten',
+        select: 'maSoSV ho ten image',
         populate: {
             path:  'donVi',
             select: 'tenDonVi'
