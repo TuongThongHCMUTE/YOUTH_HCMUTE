@@ -2,11 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // material-ui
-import { Grid, MenuItem, TextField, Typography, useTheme } from '@material-ui/core';
+import { Grid, Typography, useTheme } from '@material-ui/core';
 
 // third-party
 import ApexCharts from 'apexcharts';
-import Chart from 'react-apexcharts';
 
 // project imports
 import SkeletonTotalGrowthBarChart from 'ui-component/cards/Skeleton/TotalGrowthBarChart';
@@ -35,7 +34,6 @@ const status = [
 // ===========================|| DASHBOARD DEFAULT - TOTAL GROWTH BAR CHART ||=========================== //
 
 const TotalGrowthBarChart = ({ isLoading, data, total }) => {
-    const [value, setValue] = React.useState('today');
     const theme = useTheme();
 
     const { primary } = theme.palette.text;
@@ -50,21 +48,6 @@ const TotalGrowthBarChart = ({ isLoading, data, total }) => {
     React.useEffect(() => {
         const newChartData = {
             ...chartData.options,
-            colors: [primary200, primaryDark, secondaryMain, secondaryLight],
-            xaxis: {
-                labels: {
-                    style: {
-                        colors: [primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary]
-                    }
-                }
-            },
-            yaxis: {
-                labels: {
-                    style: {
-                        colors: [primary]
-                    }
-                }
-            },
             grid: {
                 borderColor: grey200
             },
@@ -103,20 +86,6 @@ const TotalGrowthBarChart = ({ isLoading, data, total }) => {
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                                {/* <Grid item>
-                                    <TextField
-                                        id="standard-select-currency"
-                                        select
-                                        value={value}
-                                        onChange={(e) => setValue(e.target.value)}
-                                    >
-                                        {status.map((option) => (
-                                            <MenuItem key={option.value} value={option.value}>
-                                                {option.label}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                </Grid> */}
                             </Grid>
                         </Grid>
                         <Grid item xs={12}>

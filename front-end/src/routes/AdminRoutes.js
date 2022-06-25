@@ -30,8 +30,12 @@ const AdminRoutes = {
     element: <MainLayout />,
     children: [
         {
-            path: '/dashboard',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><DashboardDefault /></Protected>
+            path: '/admin/dashboard',
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><DashboardDefault /></Protected>
+        },
+        {
+            path: '/cong-tac-vien/dashboard',
+            element: <Protected roles={[USER_ROLES.CONG_TAC_VIEN]}><DashboardDefault /></Protected>
         },
         {
             path: '/admin',

@@ -36,7 +36,7 @@ const DistributedColumnChart = ({ data }) => {
             show: false
         },
         xaxis: {
-            categories: data?.map(i => FACULTY_NAMES[i.tenDonVi]),
+            categories: data ? data.map(i => FACULTY_NAMES[i.tenDonVi]) : [],
             labels: {
                 style: {
                     fontSize: '12px'
