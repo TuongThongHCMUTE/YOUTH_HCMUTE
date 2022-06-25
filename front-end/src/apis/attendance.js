@@ -37,7 +37,7 @@ export const getListAttendances = (eventId) => {
         },
     };
 
-    return axios(option);ß
+    return axios(option);
 };
 
 export const checkIn = (eventId, studentId) => {
