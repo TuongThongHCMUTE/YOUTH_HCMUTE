@@ -13,7 +13,8 @@ import styles from './LoginModal.module.scss';
 // Assets ================================================================== //
 import logo from 'assets/images/logo-hcmute-small.png';
 // Constants =============================================================== //
-import { LOGIN_STEPS, USER_ROLES, GOOGLE_CLIENT_ID } from 'store/constant';
+import { LOGIN_STEPS, GOOGLE_CLIENT_ID } from 'store/constant';
+import { USER_ROLES } from 'helpers/constants/user';
 // Material UI ============================================================= //
 import {
     Box, 
@@ -74,9 +75,14 @@ const LoginModal = (props) => {
                 sessionStorage.setItem('role', user.role);
                 dispatch({type: "CURRENT_USER", payload: user});
 
+                console.log("user role: ", USER_ROLES.CONG_TAC_VIEN);
+
                 switch(user.role) {
                     case USER_ROLES.DOAN_TRUONG:
-                        navigate('/admin');
+                        navigate('/dashboard');
+                        break;
+                    case USER_ROLES.CONG_TAC_VIEN:
+                        navigate('/dashboard');
                         break;
                     default:
                         break;

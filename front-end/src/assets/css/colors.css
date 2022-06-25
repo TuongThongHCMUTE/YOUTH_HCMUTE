@@ -25,5 +25,9 @@
     --color-green-400: #1D9D22;
     --color-green-500: #1F7244;
 
+    /* Red */
+    --color-red-400: #ec1f25;
+    --color-red-500: #c32025;
+
     --color-gradient: linear-gradient(90deg, #ec1f25, #2c3192)
 }

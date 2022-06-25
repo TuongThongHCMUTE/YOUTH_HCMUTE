@@ -15,12 +15,13 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Customization from '../Customization';
 import adminNavigation from 'menu-items/admin';
+import collaboratorNavigation from 'menu-items/collaborator';
 import studentNavigation from 'menu-items/student';
 import { drawerWidth } from 'store/constant';
 import { SET_MENU } from 'store/actions';
 
 // constant
-import { USER_ROLES } from 'store/constant';
+import { USER_ROLES } from 'helpers/constants/user';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
@@ -103,6 +104,8 @@ const MainLayout = () => {
         switch (role) {
             case USER_ROLES.DOAN_TRUONG:
                 return adminNavigation;
+            case USER_ROLES.CONG_TAC_VIEN:
+                return collaboratorNavigation;
             case USER_ROLES.SINH_VIEN:
                 return studentNavigation;
             default:

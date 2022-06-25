@@ -1,7 +1,7 @@
 // Node Modules ============================================================ //
 import React, { lazy } from 'react';
 // Constants =============================================================== //
-import { USER_ROLES } from 'store/constant';
+import { USER_ROLES } from 'helpers/constants/user';
 // My components =========================================================== //
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
@@ -30,20 +30,20 @@ const AdminRoutes = {
     element: <MainLayout />,
     children: [
         {
-            path: 'dashboard',
-            element: <DashboardDefault />
+            path: '/dashboard',
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><DashboardDefault /></Protected>
         },
         {
             path: '/admin',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><Barcode /></Protected>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><Barcode /></Protected>
         },
         {
             path: '/barcode/tra-cuu',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><Barcode /></Protected>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><Barcode /></Protected>
         },
         {
             path: '/barcode/thong-ke',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><BarcodeStatistic /></Protected>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><BarcodeStatistic /></Protected>
         },
         {
             path: '/ho-so',
@@ -55,11 +55,11 @@ const AdminRoutes = {
         },
         {
             path: '/chi-doan',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><ClassList /></Protected>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><ClassList /></Protected>
         },
         {
             path: '/chi-doan/:id',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><ClassDetail /></Protected>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><ClassDetail /></Protected>
         },
         {
             path: '/users/thong-ke-nguoi-dung',
@@ -83,11 +83,11 @@ const AdminRoutes = {
         },
         {
             path: '/diem-danh',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><AttendanceList /></Protected>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><AttendanceList /></Protected>
         },
         {
             path: '/diem-danh/:id',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><CheckIn /></Protected>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><CheckIn /></Protected>
         },
         {
             path: '/system-config',

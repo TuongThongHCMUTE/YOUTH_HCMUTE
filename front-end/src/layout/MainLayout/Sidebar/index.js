@@ -18,9 +18,10 @@ import { drawerWidth } from 'store/constant';
 // import menuItem from 'menu-items';
 import adminMenuItems from 'menu-items/admin';
 import studentMenuItems from 'menu-items/student';
+import collaboratorMenuItems from 'menu-items/collaborator';
 
 // constant
-import { USER_ROLES } from 'store/constant';
+import { USER_ROLES } from 'helpers/constants/user';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -78,6 +79,8 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
         switch (role) {
             case USER_ROLES.DOAN_TRUONG:
                 return adminMenuItems;
+            case USER_ROLES.CONG_TAC_VIEN:
+                return collaboratorMenuItems;
             case USER_ROLES.SINH_VIEN:
                 return studentMenuItems;
             default:
