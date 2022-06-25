@@ -1,0 +1,54 @@
+.CheckIn {
+    padding: 0 32px;
+
+    .Link {
+        display: flex;
+        align-items: center;
+        height: 48px;
+
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-grey-700);
+
+            .BackIcon {
+                width: 20px;
+                height: 20px;
+                margin-right: 8px;
+            }
+        }
+    }
+
+    .Type {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        .Title {
+            font-size: 24px;
+            font-weight: 400;
+            margin: 8px 24px 8px 0;
+            cursor: pointer;
+        }
+
+        .ActivedTitle {
+            font-weight: 600;
+            color: var(--color-primary-400);
+        }
+    }
+
+    .CheckInField {
+        margin-top: 16px;
+    }
+
+    .Status {
+        margin: 16px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

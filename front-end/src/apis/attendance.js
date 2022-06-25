@@ -36,6 +36,8 @@ export const getListAttendances = (eventId) => {
             Authorization: `Bearer ${token}`,
         },
     };
+
+    return axios(option);ß
 };
 
 export const checkIn = (eventId, studentId) => {

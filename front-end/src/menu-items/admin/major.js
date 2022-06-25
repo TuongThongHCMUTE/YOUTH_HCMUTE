@@ -64,7 +64,7 @@ const other = {
             title: 'Điểm danh',
             type: 'item',
             url: '/diem-danh',
-            icon: icons.EventNoteIcon,
+            icon: icons.AssignmentTurnedInOutlinedIcon,
             breadcrumbs: false
         },
         {
