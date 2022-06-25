@@ -2,7 +2,8 @@ const express = require('express')
 
 const { verifyToken } = require('../middleware/verifyToken')
 const { getAllEvents, createOneEvent, getOneEvent, searchAllEvents,
-        updateOneEvent, deleteOneEvent, getAttendanceEvents, getEventsForSV5T }
+        updateOneEvent, deleteOneEvent, getAttendanceEvents, getEventsForSV5T,
+        getMissingEventsInSV5T }
     = require('../controllers/eventController')
 
 const { getAllAttendances, modifyAttendance, cancelRegisterAttendance }
@@ -17,6 +18,8 @@ Router.route('/tim-kiem').get(verifyToken, searchAllEvents)
 Router.route('/tham-gia').get(verifyToken, getAttendanceEvents)
 
 Router.route('/tham-gia/:maSoSV/:maTieuChi').get(getEventsForSV5T)
+
+Router.route('/hoat-dong-con-thieu').get(verifyToken, getMissingEventsInSV5T)
 
 Router.route('/:id').get(verifyToken, getOneEvent).put(verifyToken, updateOneEvent).delete(verifyToken, deleteOneEvent)
 
