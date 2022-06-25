@@ -16,10 +16,12 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    Tooltip,
     Paper
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 // Components ============================================================== //
 import BorderTopCard from 'ui-component/cards/BorderTopCard';
 
@@ -28,12 +30,14 @@ function createData(attendant) {
     const studentId = attendant.maSoSV;
     const image = attendant.sinhVien.image;
     const name = attendant.sinhVien.ho + ' ' + attendant.sinhVien.ten;
+    const registered = attendant.dangKyThamGia;
+    const registeredTime = attendant.thoiGianDangKy;
     const checkIn = attendant.thoiGianDiemDanhVao;
     const checkOut = attendant.thoiGianDiemDanhRa;
     const status = attendant.hoanThanhHoatDong;
     const note = attendant.ghiChu
 
-    return { id, name, studentId, checkIn, checkOut, status, note, image};
+    return { id, name, studentId, checkIn, checkOut, status, note, image, registered, registeredTime};
 }
 
 const headCells = [
@@ -54,6 +58,12 @@ const headCells = [
         align: 'left',
         disablePadding: false,
         label: 'Họ và tên',
+    },
+    {
+        id: 'registered',
+        align: 'center',
+        disablePadding: false,
+        label: 'Đã đăng ký',
     },
     {
         id: 'checkIn',
@@ -123,11 +133,19 @@ export default function EnhancedTable({ data }) {
                                         tabIndex={-1}
                                         key={row.id}
                                     >
-                                        <TableCell padding="8px" align="center">
+                                        <TableCell align="center">
                                             <Avatar src={row.image} {...stringAvatar(row.name)} />
                                         </TableCell>
                                         <TableCell align="left">{row.studentId}</TableCell>
                                         <TableCell align="left">{row.name}</TableCell>
+                                        <TableCell align="center">
+                                            {row.registered ? 
+                                                <Tooltip title={moment(row.registeredTime).format(dateTimeFormat)}>
+                                                    <IconButton>
+                                                        <AssignmentTurnedInIcon color='primary' />
+                                                    </IconButton>
+                                                </Tooltip> : ''}
+                                        </TableCell>
                                         <TableCell align="center">
                                             {row.checkIn ? moment(row.checkIn).format(dateTimeFormat) : ''}
                                         </TableCell>

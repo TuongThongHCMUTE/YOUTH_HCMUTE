@@ -20,7 +20,7 @@ const dashboard = {
             id: 'dashboard',
             title: 'Dashboard',
             type: 'item',
-            url: '/dashboard',
+            url: '/cong-tac-vien/dashboard',
             icon: icons.QueryStatsIcon,
             breadcrumbs: false
         }

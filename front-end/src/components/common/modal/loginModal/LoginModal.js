@@ -75,14 +75,12 @@ const LoginModal = (props) => {
                 sessionStorage.setItem('role', user.role);
                 dispatch({type: "CURRENT_USER", payload: user});
 
-                console.log("user role: ", USER_ROLES.CONG_TAC_VIEN);
-
                 switch(user.role) {
                     case USER_ROLES.DOAN_TRUONG:
-                        navigate('/dashboard');
+                        navigate('/admin/dashboard');
                         break;
                     case USER_ROLES.CONG_TAC_VIEN:
-                        navigate('/dashboard');
+                        navigate('/cong-tac-vien/dashboard');
                         break;
                     default:
                         break;
