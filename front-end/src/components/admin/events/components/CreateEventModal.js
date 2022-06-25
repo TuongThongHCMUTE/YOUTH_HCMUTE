@@ -223,6 +223,7 @@ const CreateEventModal = (props) => {
             onClose={() => {
                 setValues(initialValues);
                 setErrors(null);
+                setAlert(null);
                 onClose();
             }}
         >
