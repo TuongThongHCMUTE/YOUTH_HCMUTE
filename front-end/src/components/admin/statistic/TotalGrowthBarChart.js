@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import NumberFormat from 'react-number-format';
 
 // material-ui
 import { Grid, Typography, useTheme } from '@material-ui/core';
@@ -82,7 +83,18 @@ const TotalGrowthBarChart = ({ isLoading, data, total }) => {
                                             <Typography variant="subtitle2">Tổng thu</Typography>
                                         </Grid>
                                         <Grid item>
-                                            <Typography variant="h3">{total || 0} VNĐ</Typography>
+                                            {
+                                                total
+                                                ? <NumberFormat 
+                                                    value={total}
+                                                    displayType={'text'}
+                                                    thousandSeparator={true}
+                                                    suffix=" VNĐ"
+                                                    variant='h3'
+                                                    renderText={(value, props) => <Typography {...props}>{value}</Typography>}
+                                                />
+                                                : <Typography variant='h3'>0 VNĐ</Typography>
+                                            }
                                         </Grid>
                                     </Grid>
                                 </Grid>

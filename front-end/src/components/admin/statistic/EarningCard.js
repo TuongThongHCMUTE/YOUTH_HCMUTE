@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import NumberFormat from 'react-number-format';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
@@ -127,7 +128,17 @@ const EarningCard = ({ isLoading, data }) => {
                         <Grid item>
                             <Grid container alignItems="center">
                                 <Grid item>
-                                    <Typography className={classes.cardHeading}>{data || 0} VNĐ</Typography>
+                                    { data
+                                        ? <NumberFormat 
+                                        value={data}
+                                        className={classes.cardHeading}
+                                        displayType={'text'}
+                                        thousandSeparator={true}
+                                        suffix=" VNĐ"
+                                        renderText={(value, props) => <Typography {...props}>{value}</Typography>}
+                                        />
+                                        : <Typography className={classes.cardHeading}>0</Typography>
+                                    }
                                 </Grid>
                             </Grid>
                         </Grid>
