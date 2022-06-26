@@ -85,13 +85,43 @@ const CreateEventModal = (props) => {
         const errors = {};
 
         if (!values.tenHoatDong) {
-          errors.ho = 'Tên hoạt động không được để trống.'
+          errors.tenHoatDong = 'Tên hoạt động không được để trống.'
         }
 
-        return errors;
+        if (!values.thoiGianDangKy?.thoiGianBatDau) {
+            errors.batDauDangKy = 'Chọn ngày bắt đầu đăng ký'
+        }
+
+        if (!values.thoiGianDangKy?.thoiGianKetThuc) {
+            errors.ketThucDangKy = 'Chọn ngày kết thúc đăng ký'
+        }
+
+        if (!values.thoiGianToChuc?.thoiGianBatDau) {
+            errors.batDauToChuc = 'Chọn ngày bắt đầu tổ chức'
+        }
+
+        if (!values.thoiGianToChuc?.thoiGianKetThuc) {
+            errors.ketThucToChuc = 'Chọn ngày kết thúc tổ chức'
+        }
+
+        if (!moment(values.thoiGianDangKy?.thoiGianBatDau).isBefore(values.thoiGianDangKy.thoiGianKetThuc)) {
+            errors.ketThucDangKy = 'Thời gian kết thúc phải sau thời gian bắt đầu'
+        }
+
+        if (!moment(values.thoiGianToChuc?.thoiGianBatDau).isBefore(values.thoiGianToChuc.thoiGianKetThuc)) {
+            errors.ketThucToChuc = 'Thời gian kết thúc phải sau thời gian bắt đầu'
+        }
+
+        setErrors(errors);
+        return(errors);
     };
 
     const handleCreateAccount = async (values) => {
+        const e = validateData(values);
+        if (Object.keys(e).length > 0) {
+            return;
+        }
+
         try {
             setCreating(true);
           
@@ -295,7 +325,7 @@ const CreateEventModal = (props) => {
                                                 required
                                                 onChange={e => handleChange('tenHoatDong', e.target.value)}
                                                 value={values?.tenHoatDong || ''}
-                                                error={errors?.tenHoatDong}
+                                                // error={errors?.tenHoatDong}
                                                 helperText={errors?.tenHoatDong}
                                             />
                                         </Grid>
@@ -373,7 +403,16 @@ const CreateEventModal = (props) => {
                                                 label="Bắt đầu đăng ký"
                                                 onChange={(value) => handleChange('BAT_DAU_DANG_KY', value)}
                                                 value={values?.thoiGianDangKy?.thoiGianBatDau || moment()}
-                                                renderInput={(props) => <TextField {...props} className={styles.TextField} />}
+                                                // error={errors?.batDauDangKy}
+                                                helperText={errors?.batDauDangKy}
+                                                renderInput={(props) => 
+                                                    <TextField 
+                                                        {...props} 
+                                                        className={styles.TextField}
+                                                        // error={errors?.batDauDangKy}
+                                                        helperText={errors?.batDauDangKy}
+                                                    />
+                                                }
                                             />
                                         </Grid>
                                         <Grid item xs={6} sx={{ p: 2 }}>
@@ -382,7 +421,15 @@ const CreateEventModal = (props) => {
                                                 label="Kết thúc đăng ký"
                                                 onChange={(value) => handleChange('KET_THUC_DANG_KY', value)}
                                                 value={values?.thoiGianDangKy?.thoiGianKetThuc || moment()}
-                                                renderInput={(props) => <TextField {...props} className={styles.TextField} />}
+                                                // error={errors?.ketThucDangKy}
+                                                helperText={errors?.ketThucDangKy}
+                                                renderInput={(props) => 
+                                                    <TextField 
+                                                        {...props} 
+                                                        className={styles.TextField} 
+                                                        // error={errors?.ketThucDangKy}
+                                                        helperText={errors?.ketThucDangKy}
+                                                    />}
                                             />
                                         </Grid>
                                         <Grid item xs={6} sx={{ p: 2 }}>
@@ -391,7 +438,15 @@ const CreateEventModal = (props) => {
                                                 label="Bắt đầu tổ chức"
                                                 onChange={(value) => handleChange('BAT_DAU_TO_CHUC', value)}
                                                 value={values?.thoiGianToChuc?.thoiGianBatDau || moment()}
-                                                renderInput={(props) => <TextField {...props} className={styles.TextField} />}
+                                                // error={errors?.batDauToChuc}
+                                                helperText={errors?.batDauToChuc}
+                                                renderInput={(props) => 
+                                                    <TextField 
+                                                        {...props} 
+                                                        className={styles.TextField} 
+                                                        // error={errors?.batDauToChuc}
+                                                        helperText={errors?.batDauToChuc}
+                                                    />}
                                             />
                                         </Grid>
                                         <Grid item xs={6} sx={{ p: 2 }}>
@@ -400,7 +455,15 @@ const CreateEventModal = (props) => {
                                                 label="Kết thúc tổ chức"
                                                 onChange={(value) => handleChange('KET_THUC_TO_CHUC', value)}
                                                 value={values?.thoiGianToChuc?.thoiGianKetThuc || moment()}
-                                                renderInput={(props) => <TextField {...props} className={styles.TextField} />}
+                                                // error={errors?.ketThucTochuc}
+                                                helperText={errors?.ketThucTochuc}
+                                                renderInput={(props) => 
+                                                    <TextField 
+                                                        {...props} 
+                                                        className={styles.TextField} 
+                                                        // error={errors?.ketThucTochuc}
+                                                        helperText={errors?.ketThucToChuc}
+                                                    />}
                                             />
                                         </Grid>
                                         <Grid item xs={12} sx={{ p: 2 }}>
@@ -498,7 +561,9 @@ const CreateEventModal = (props) => {
                                 variant='contained'
                                 className={clsx('button', styles.Button)}
                                 loading={creating}
-                                onClick={() => handleCreateAccount(values)}
+                                onClick={() => {
+                                    handleCreateAccount(values)
+                                }}
                             >
                                 { type === 'create' ? 'Tạo hoạt động' : 'Cập nhật' }
                             </LoadingButton>
