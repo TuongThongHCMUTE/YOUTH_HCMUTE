@@ -6,7 +6,7 @@ const { getAllEvents, createOneEvent, getOneEvent, searchAllEvents,
         getMissingEventsInSV5T }
     = require('../controllers/eventController')
 
-const { getAllAttendances, modifyAttendance, cancelRegisterAttendance }
+const { getAllAttendances, modifyAttendance, cancelRegisterAttendance, exportExcelAllAttendances }
     = require('../controllers/attendanceController')
 
 const Router = express.Router()
@@ -24,6 +24,8 @@ Router.route('/hoat-dong-con-thieu').get(verifyToken, getMissingEventsInSV5T)
 Router.route('/:id').get(verifyToken, getOneEvent).put(verifyToken, updateOneEvent).delete(verifyToken, deleteOneEvent)
 
 Router.route('/:id/attendances').get(verifyToken, getAllAttendances)
+
+Router.route('/:id/attendances/xls').get(verifyToken, exportExcelAllAttendances)
 
 Router.route('/:id/attendances/:maSoSV/:huy-dang-ky').put(verifyToken, cancelRegisterAttendance)
 

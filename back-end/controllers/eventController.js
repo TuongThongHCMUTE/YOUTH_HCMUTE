@@ -1,5 +1,5 @@
 const elasticClient = require('../configs/elasticSearch')
-const { getQueryParameter, isObjectId, exportExcel } = require('../common/index')
+const { getQueryParameter, isObjectId, exportExcel, selectFields } = require('../common/index')
 const Event = require('../models/event')
 const excelController = require('../common/xls/eventsXls')
 const ELASTIC_SEARCH_INDEX = process.env.ELASTIC_SEARCH_INDEX || 'events'
@@ -60,11 +60,33 @@ const getDateQuery = (query) => {
 exports.getAllEvents = async (req, res, next) => {
     try {
         const { sort, limit, skip, query } = getQueryParameter(req)
+        const { email } = req.user
         const xls = query.xls
+
         getDateQuery(query)
 
-        const events = await Event.find(query).sort(sort).skip(skip).limit(limit)
-                                    .select('-sinhViens')
+        let events = []
+        if (email.includes('@student.hcmute.edu.vn')) {
+            const maSoSV = email.slice(0, 8)
+            query.daDuyet = true
+            query.hienThi = true
+
+            const eventsAttendance = await Event.find(query).select(selectFields['EVENT']).select({ sinhViens: {$elemMatch: {maSoSV}}})
+
+            events = eventsAttendance.map(eventAttendance => {
+                const attendance = eventAttendance?.sinhViens[0] ? eventAttendance.sinhViens[0] : null
+                const { sinhViens, ...event } = eventAttendance.toJSON()
+
+                return {
+                    ...event,
+                    attendance
+                }
+            })
+
+        } else {
+            events = await Event.find(query).sort(sort).skip(skip).limit(limit)
+                                        .select('-sinhViens')
+        }
         const countAll = await Event.countDocuments(query)
 
         if (xls == 'true') {
@@ -216,6 +238,7 @@ exports.getMissingEventsInSV5T = async (req, res, next) => {
 exports.searchAllEvents = async (req, res, next) => {
     try {
         const { limit, skip, sort, query } = getQueryParameter(req)
+        const { email } = req.user
         const { searchString, type } = query
         const xls = query.xls
 
@@ -226,14 +249,30 @@ exports.searchAllEvents = async (req, res, next) => {
         let events = []
         let totalDocument = 0
         if (results) {
-            const idEvents = results.hits
+            let idEvents = results.hits
                                 .filter(event => isObjectId(event._id))
                                 .map(event => event._id)
-            const matchEvents = await Event.find({_id: { $in: idEvents }})
-                                                .select('-sinhViens')
 
-            events = results.hits.map(event => {
-                const dbEvent = matchEvents.find(x => x._id.toString() === event._id)
+            let matchEvents = []
+            if (email.includes('@student.hcmute.edu.vn')) {
+                const maSoSV = email.slice(0, 8)
+
+                matchEvents = await Event.find({_id: { $in: idEvents }}).select(selectFields['EVENT']).select({ sinhViens: {$elemMatch: {maSoSV}}})
+                matchEvents = matchEvents.filter(event => event.hienThi == true && event.daDuyet == true)
+
+                idEvents = matchEvents.map(event => event._id.toString())
+            } else {
+                matchEvents = await Event.find({_id: { $in: idEvents }})
+                                                .select('-sinhViens')
+            }
+
+            events = results.hits.filter(x => idEvents.includes(x._id)).map(event => {
+                const { sinhViens, ...dbEvent} = matchEvents.find(x => x._id.toString() === event._id).toJSON()
+
+                let attendance = undefined
+                if (sinhViens) {
+                    attendance = sinhViens[0] ? sinhViens[0] : null
+                }
 
                 if (xls != 'true') {
                     dbEvent.tenHoatDong = event.highlight?.tenHoatDong ? event.highlight?.tenHoatDong[0] : dbEvent.tenHoatDong
@@ -241,7 +280,8 @@ exports.searchAllEvents = async (req, res, next) => {
                 }
 
                 return {
-                    ...dbEvent.toJSON(),
+                    ...dbEvent,
+                    attendance,
                     score: event._score
                 }
             })
@@ -259,12 +299,39 @@ exports.searchAllEvents = async (req, res, next) => {
                 events = events.slice(skip, skip + limit)
             }
         } else {
-            events = await Event.find(
-                { $text: { $search : searchString }, ...query },  
-                { score : { $meta: "textScore" } })
-                .sort({ score: { $meta : 'textScore' }})
-                .skip(skip)
-                .limit(limit)
+
+            if (email.includes('@student.hcmute.edu.vn')) {
+                const maSoSV = email.slice(0, 8)
+                query.daDuyet = true
+                query.hienThi = true
+    
+                const eventsAttendance = await Event.find(  { $text: { $search : searchString }, ...query },  
+                                                            { score : { $meta: "textScore" } })
+                                                        .sort({ score: { $meta : 'textScore' }})
+                                                        .skip(skip)
+                                                        .limit(limit)
+                                                        .select(selectFields['EVENT'])
+                                                        .select({ sinhViens: {$elemMatch: {maSoSV}}})
+    
+                events = eventsAttendance.map(eventAttendance => {
+                    const attendance = eventAttendance?.sinhViens[0] ? eventAttendance.sinhViens[0] : null
+                    const { sinhViens, ...event } = eventAttendance.toJSON()
+    
+                    return {
+                        ...event,
+                        attendance
+                    }
+                })
+    
+            } else {
+                events = await Event.find(
+                    { $text: { $search : searchString }, ...query },  
+                    { score : { $meta: "textScore" } })
+                    .sort({ score: { $meta : 'textScore' }})
+                    .skip(skip)
+                    .limit(limit)
+                    .select('-sinhViens')
+            }
 
             totalDocument = await Event.countDocuments(            
                 { $text: { $search : searchString }, ...query },  
