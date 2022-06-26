@@ -50,17 +50,54 @@
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
+  <script>
+
+    let __protocol = document.location.protocol;
+    let __baseUrl = __protocol + '//livechat.fpt.ai/v35/src';
+
+    let prefixNameLiveChat = 'YOUTH HCMUTE';
+    let objPreDefineLiveChat = {
+            appCode: '0b7b31f0a03b528ff69a768068971d73',
+            themes: '',
+            appName: prefixNameLiveChat ? prefixNameLiveChat : 'Live support',
+            thumb: '',
+            icon_bot: ''
+        },
+        appCodeHash = window.location.hash.substr(1);
+    if (appCodeHash.length == 32) {
+        objPreDefineLiveChat.appCode = appCodeHash;
+    }
+
+    let fpt_ai_livechat_script = document.createElement('script');
+    fpt_ai_livechat_script.id = 'fpt_ai_livechat_script';
+    fpt_ai_livechat_script.src = __baseUrl + '/static/fptai-livechat.js';
+    document.body.appendChild(fpt_ai_livechat_script);
+
+    let fpt_ai_livechat_stylesheet = document.createElement('link');
+    fpt_ai_livechat_stylesheet.id = 'fpt_ai_livechat_script';
+    fpt_ai_livechat_stylesheet.rel = 'stylesheet';
+    fpt_ai_livechat_stylesheet.href = __baseUrl + '/static/fptai-livechat.css';
+    document.body.appendChild(fpt_ai_livechat_stylesheet);
+
+    fpt_ai_livechat_script.onload = function () {
+        fpt_ai_render_chatbox(objPreDefineLiveChat, __baseUrl, 'livechat.fpt.ai:443');
+    }
+  </script>
   <div id="root"></div>
-  <!--
-          This HTML file is a template.
-          If you open it directly in the browser, you will see an empty page.
+  <!-- <style>
+    #fpt_ai_livechat_button {
+        border-radius: 50% !important;
+        position: fixed;
+        left: 16px !important;
+        bottom: 16px !important;
+    }
 
-          You can add webfonts, meta tags, or analytics to this file.
-          The build step will place the bundled scripts into the <body> tag.
-
-          To begin the development, run `npm start` or `yarn start`.
-          To create a production bundle, use `npm run build` or `yarn build`.
-   -->  
+    #fpt_ai_livechat_display_container {
+        position: fixed;
+        left: 16px !important;
+        bottom: 86px !important;
+    }
+  </style> -->
 </body>
 
 </html>
