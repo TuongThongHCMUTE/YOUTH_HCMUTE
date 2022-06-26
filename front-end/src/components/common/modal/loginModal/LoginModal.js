@@ -110,7 +110,7 @@ const LoginModal = (props) => {
             sessionStorage.setItem('role', user.role);
             dispatch({type: "CURRENT_USER", payload: user});
             
-            navigate('/student');
+            navigate('/tim-kiem');
         } catch (error) {
             setAlert({
                 severity: 'error',

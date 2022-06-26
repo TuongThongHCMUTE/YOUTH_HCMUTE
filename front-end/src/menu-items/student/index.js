@@ -5,7 +5,7 @@ import profile from './profile';
 // ===========================|| MENU ITEMS ||=========================== //
 
 const menuItems = {
-    items: [dashboard, activity, profile]
+    items: [activity]
 };
 
 export default menuItems;

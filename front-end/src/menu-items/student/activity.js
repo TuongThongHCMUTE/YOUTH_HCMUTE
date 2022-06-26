@@ -33,14 +33,14 @@ const activity = {
             icon: icons.EventNoteIcon,
             breadcrumbs: false
         },
-        {
-            id: 'doan-vu',
-            title: 'Đoàn vụ',
-            type: 'item',
-            url: '/ca-nhan/doan-vu',
-            icon: icons.DocumentScannerIcon,
-            breadcrumbs: false
-        }
+        // {
+        //     id: 'doan-vu',
+        //     title: 'Đoàn vụ',
+        //     type: 'item',
+        //     url: '/ca-nhan/doan-vu',
+        //     icon: icons.DocumentScannerIcon,
+        //     breadcrumbs: false
+        // }
     ]
 };
 
