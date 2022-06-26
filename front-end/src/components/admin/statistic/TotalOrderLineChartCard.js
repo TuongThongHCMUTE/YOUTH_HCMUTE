@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import NumberFormat from 'react-number-format';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
@@ -125,7 +126,17 @@ const TotalOrderLineChartCard = ({ isLoading, data }) => {
                                 <Grid item xs={12}>
                                     <Grid container alignItems="center">
                                         <Grid item>
-                                            <Typography className={classes.cardHeading}>{data || 0} hóa đơn</Typography>
+                                            { data
+                                                ? <NumberFormat 
+                                                value={data}
+                                                className={classes.cardHeading}
+                                                displayType={'text'}
+                                                thousandSeparator={true}
+                                                suffix=" hóa đơn"
+                                                renderText={(value, props) => <Typography {...props}>{value}</Typography>}
+                                                />
+                                                : <Typography className={classes.cardHeading}>0</Typography>
+                                            }
                                         </Grid>
                                         <Grid item xs={12}>
                                             <Typography className={classes.subHeading}>Tổng hóa đơn</Typography>
