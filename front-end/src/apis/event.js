@@ -78,7 +78,31 @@ export const searchEvents = (args) => {
     return axios(option)
 }
 
+export const getAttendanceForSV5T = (args) => {
+    const { limit, offset, sortBy, isDescending } = args;
 
+    const params = {
+        offset: offset ? offset : 0,
+        sortBy: sortBy ? sortBy : 'createdAt',
+    }
+
+    if (limit) {
+        params.limit = limit;
+    }
+
+    params.sortBy = isDescending ? params.sortBy + ":desc" : params.sortBy;
+
+    const option = {
+        method: 'get',
+        url: `${url}/events/tham-gia`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        params: params
+    }
+
+    return axios(option);
+}
 
 export const getOneEventById = (id) => {
     const option = {
