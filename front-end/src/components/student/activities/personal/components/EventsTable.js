@@ -5,11 +5,9 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 // Assets ================================================================== //
 import fallbackSrc from 'assets/images/default-cover.jpg';
-// APIs ==================================================================== //
-import { updateOneEvent, deleteEvent } from 'apis/event';
 // Constants =============================================================== //
 const DEFAULT_LIMIT = 10;
-const dateTimeFormat = 'HH:mm DD/MM/YYYY'
+const dateTimeFormat = 'DD/MM/YYYY - hh:mm A';
 // Material UI ============================================================= //
 import {
     Box,
@@ -26,9 +24,6 @@ import {
     Paper
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import LockIcon from '@mui/icons-material/Lock';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 // Components ============================================================== //
@@ -39,52 +34,59 @@ import SnackBar from 'components/common/alert/Snackbar';
 function createData(event) {
     const id = event._id;
     const name = event.tenHoatDong;
-    const registrationTime = event.thoiGianDangKy;
-    const eventTime = event.thoiGianToChuc;
-    const location = event.diaDiem;
     const image = event.anhBia;
-    const approved = event.daDuyet;
-    const status = event.hienThi;
+    const eventTime = event.thoiGianToChuc;
+    const isCheckIn = event.attendance?.diemDanhVao;
+    const checkInTime = event.attendance?.thoiGianDiemDanhVao;
+    const isCheckOut = event.attendance?.diemDanhRa;
+    const checkOutTime = event.attendance?.thoiGianDiemDanhRa;
+    const status = event.attendance?.hoanThanhHoatDong;
 
-    return { id, name, registrationTime, eventTime, location, image, approved, status};
+    return { id, name, image, eventTime, isCheckIn, checkInTime, isCheckOut, checkOutTime, status };
 }
 
 const headCells = [
     {
         id: 'image',
-        numeric: false,
+        align: 'left',
         disablePadding: false,
-        label: 'Ảnh bìa',
+        label: '',
+        minWidth: 70,
     },
     {
         id: 'name',
-        numeric: false,
+        align: 'left',
         disablePadding: false,
         label: 'Tên hoạt động',
+        minWidth: 300,
     },
     {
         id: 'eventTime',
-        numeric: false,
+        align: 'center',
         disablePadding: false,
         label: 'Thời gian tổ chức',
+        minWidth: 200,
     },
     {
-        id: 'location',
-        numeric: false,
+        id: 'checkIn',
+        align: 'center',
         disablePadding: false,
-        label: 'Địa điểm',
+        label: 'Điểm danh vào',
+        minWidth: 200,
     },
     {
-        id: 'approved',
-        numeric: false,
+        id: 'checkOut',
+        align: 'center',
         disablePadding: false,
-        label: 'Duyệt',
+        label: 'Điểm danh ra',
+        minWidth: 200,
     },
     {
         id: 'status',
-        numeric: true,
+        align: 'center',
         disablePadding: false,
-        label: '',
+        label: 'Hoàn thành',
+        minWidth: 120,
     },
 ];
 
@@ -92,10 +94,6 @@ const mapOrderBy = field => {
     switch (field) {
         case 'name':
             return 'tenHoatDong';
-        case 'status':
-            return 'hienThi';
-        case 'approved':
-            return 'daDuyet';
         default:
             return undefined;
     }
@@ -105,9 +103,7 @@ function EnhancedTableHead(props) {
     const { order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
         if (
-            property === 'image' || 
-            property === 'eventTime' || 
-            property === 'actions'
+            property !== 'name'
         ) 
             return;
         onRequestSort(event, property);
@@ -119,14 +115,13 @@ function EnhancedTableHead(props) {
                 {headCells.map((headCell) => (
                 <TableCell
                     key={headCell.id}
-                    align={headCell.numeric ? 'right' : 'left'}
+                    align={headCell.align}
                     padding={headCell.disablePadding ? 'none' : 'normal'}
                     sortDirection={orderBy === headCell.id ? order : false}
+                    style={{ minWidth: headCell.minWidth }}
                 >
                     {
-                        headCell.id !== 'image' && 
-                        headCell.id !== 'eventTime' && 
-                        headCell.id !== 'actions' ?
+                        headCell.id === 'name' ?
                     <TableSortLabel
                         active={orderBy === headCell.id}
                         direction={orderBy === headCell.id ? order : 'asc'}
@@ -205,64 +200,11 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch, 
         setOpenCreateModal(true);
     };
 
-    const handleChangeStatus = async (event, id, type, value) => {
-        event.stopPropagation();
-        const data = { _id: id };
-        if (type === 'hienThi') {
-            data.hienThi = value;
-        } else if (type === 'daDuyet') {
-            data.daDuyet = value;
-        }
-        try {
-            const res = await updateOneEvent(data);
-            if (res.data.status === 'success') {
-                setAlert({
-                    severity: 'success',
-                    message: 'Cập nhật thành công!'
-                });
-                onRefetch({
-                    limit: DEFAULT_LIMIT,
-                    offset: page,
-                    sortBy: mapOrderBy(orderBy),
-                    isDescending: order === 'desc'
-                });
-            }
-        } catch (error) {
-            setAlert({
-                severity: 'error',
-                message: error.response.data.message
-            });
-        }
-    }
-
-    const handleDelete = async (id) => {
-        try {
-            const res = await deleteEvent(id);
-            if (res.data.status === 'success') {
-                setAlert({
-                    severity: 'success',
-                    message: 'Xóa thành công!'
-                });
-                onRefetch({
-                    limit: DEFAULT_LIMIT,
-                    offset: page,
-                    sortBy: mapOrderBy(orderBy),
-                    isDescending: order === 'desc'
-                });
-            }
-        } catch (e) {
-            setAlert({
-                severity: 'error',
-                message: e.response?.data?.message || 'Đã xảy ra lỗi'
-            });
-        }
-    };
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage - 1);
     };
 
-    const rows = data.map(studentClass => createData(studentClass))
+    const rows = data.map(event => createData(event))
 
     return (
         <BorderTopCard
@@ -299,38 +241,19 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch, 
                                     <TableCell align="left">
                                         <b>{ReactHtmlParser(row.name)}</b>
                                     </TableCell>
-                                    <TableCell align="left">
-                                        {/* <div>{`Từ: ${moment(row.eventTime.thoiGianBatDau).format(dateTimeFormat)}`}</div>
-                                        <div>{`Đến: ${moment(row.eventTime.thoiGianKetThuc).format(dateTimeFormat)}`}</div> */}
+                                    <TableCell align="center">
                                         {`${moment(row.eventTime.thoiGianBatDau).format(dateTimeFormat)} - ${moment(row.eventTime.thoiGianKetThuc).format(dateTimeFormat)}`}
                                     </TableCell>
-                                    <TableCell align="left">
-                                        {row.location}
+                                    <TableCell align="center">
+                                        {row.isCheckIn ? moment(row.checkInTime).format(dateTimeFormat) : ''}
                                     </TableCell>
-                                    <TableCell align="left">
-                                        <IconButton 
-                                            onClick={(event) => handleChangeStatus(event, row.id, 'daDuyet', !row.approved)}
-                                        >
-                                            {row.approved ? <CheckCircleIcon color='success' /> : <CancelIcon />}
+                                    <TableCell align="center">
+                                        {row.isCheckOut ? moment(row.checkOutTime).format(dateTimeFormat) : ''}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <IconButton>
+                                            {row.status ? <CheckCircleIcon color='success' /> : <CancelIcon color='error' />}
                                         </IconButton>
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <Box sx={{ display: 'flex' }}>
-                                            <IconButton 
-                                                onClick={(event) => handleChangeStatus(event, row.id, 'hienThi', !row.status)}
-                                            >
-                                                {row.status ? <LockOpenIcon color='success' /> : <LockIcon />}
-                                            </IconButton>
-                                            <IconButton 
-                                                onClick={(event) => {
-                                                    event.stopPropagation();
-                                                    setSelectedRow(row);
-                                                    setShowConfirmation(true);
-                                                }}
-                                            >
-                                                <DeleteOutlineIcon color="error" />
-                                            </IconButton>
-                                        </Box>
                                     </TableCell>
                                 </TableRow>
                             );

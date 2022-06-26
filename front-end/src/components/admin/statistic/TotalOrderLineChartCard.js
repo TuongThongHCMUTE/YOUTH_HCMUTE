@@ -120,9 +120,9 @@ const TotalOrderLineChartCard = ({ isLoading, data }) => {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item sx={{ mb: 0.75 }}>
+                        <Grid item sx={{ mb: 1.25 }}>
                             <Grid container alignItems="center">
-                                <Grid item xs={6}>
+                                <Grid item xs={12}>
                                     <Grid container alignItems="center">
                                         <Grid item>
                                             <Typography className={classes.cardHeading}>{data || 0} hóa đơn</Typography>
@@ -131,9 +131,6 @@ const TotalOrderLineChartCard = ({ isLoading, data }) => {
                                             <Typography className={classes.subHeading}>Tổng hóa đơn</Typography>
                                         </Grid>
                                     </Grid>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    {timeValue ? <Chart {...ChartDataMonth} /> : <Chart {...ChartDataYear} />}
                                 </Grid>
                             </Grid>
                         </Grid>

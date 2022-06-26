@@ -101,6 +101,9 @@ const CreateEventModal = (props) => {
                     severity: 'success',
                     message: type === 'create' ? 'Thêm hoạt động thành công!' : 'Chỉnh sửa hoạt động thành công!'
                 });
+                if (type === 'create') {
+                    setValues(initialValues);
+                };
                 onRefetch();
             }
         } catch (e) {
@@ -398,6 +401,18 @@ const CreateEventModal = (props) => {
                                                 onChange={(value) => handleChange('KET_THUC_TO_CHUC', value)}
                                                 value={values?.thoiGianToChuc?.thoiGianKetThuc || moment()}
                                                 renderInput={(props) => <TextField {...props} className={styles.TextField} />}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sx={{ p: 2 }}>
+                                            <TextField 
+                                                name='diaDiem'
+                                                className={styles.TextField}
+                                                variant="filled"
+                                                label="Địa điểm"
+                                                onChange={e => handleChange('diaDiem', e.target.value)}
+                                                value={values?.diaDiem || ''}
+                                                error={errors?.diaDiem}
+                                                helperText={errors?.diaDiem}
                                             />
                                         </Grid>
                                     </Grid>
