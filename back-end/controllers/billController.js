@@ -1,7 +1,8 @@
-const { getQueryParameter, exportExcel, stylesExcel, addHours } = require('../common/index')
+const { getQueryParameter, exportExcel } = require('../common/index')
 const Bill = require('../models/bill')
 const GroupBook = require('../models/groupBook')
 const Student = require('../models/student')
+const excelController = require('../common/xls/billsXls')
 
 const getPaymentDateQuery = (query) => {
     if (query.startDate && query.endDate) {
@@ -53,33 +54,8 @@ exports.exportExcelAllBills = async (req, res, next) => {
         const bills = await Bill.find(query).sort(sort).skip(skip).limit(limit)
                                     .populate('sinhVien','ho ten')
                                     .populate('donVi', 'tenDonVi')
-
-        const columns = [
-            { header: 'STT', key: 'number', width: 6, style: stylesExcel.ALIGNMENT_MID_CENTER },
-            { header: 'Mã số sinh viên', key: 'maSoSV', width: 15, style: stylesExcel.ALIGNMENT_MID_CENTER },
-            { header: 'Họ và tên', key: 'hoVaTen', width: 30, style: stylesExcel.ALIGNMENT_MID },
-            { header: 'Đơn vị', key: 'tenDonVi', width: 30, style: stylesExcel.ALIGNMENT_MID },
-            { header: 'Nộp sổ đoàn', key: 'nopSoDoan', width: 12, style: stylesExcel.ALIGNMENT_MID_CENTER},
-            { header: 'Năm học', key: 'namHoc', width: 12, style: stylesExcel.ALIGNMENT_MID_CENTER},
-            { header: 'Trạng thái', key: 'trangThai', width: 20, style: stylesExcel.ALIGNMENT_MID_CENTER },
-            { header: 'Tổng tiền', key: 'tongTien', width: 15, style: stylesExcel.ALIGNMENT_MID },
-            { header: 'Ngày thanh toán', key: 'ngayThanhToan', width: 25, style: stylesExcel.LONG_DATE_FORMAT }
-        ]
-
-        let stt = 1
-        const data = bills.map(bill => {
-            return {
-                number: stt++,
-                maSoSV: bill.maSoSV,
-                hoVaTen: bill.sinhVien.ho + ' ' + bill.sinhVien.ten,
-                tenDonVi: bill.donVi?.tenDonVi,
-                nopSoDoan: bill.cacKhoanPhi?.find(priceList => priceList.tenChiPhi === 'Sổ đoàn viên') ? 'X' : '',
-                namHoc: bill.namHoc,
-                trangThai: bill.trangThai ? 'Đã thanh toán' : 'Chưa thanh toán',
-                tongTien: bill.tongTien,
-                ngayThanhToan: bill.ngayThanhToan ? addHours(7, bill.ngayThanhToan) : ''
-            }
-        })
+        
+        const { columns, data } = excelController.getXlsForBills(bills)
 
         exportExcel('Bills', columns, data, res)
     } catch (e) {
@@ -95,38 +71,31 @@ exports.getKPIValuesByCheckoutDate = async (req, res, next) => {
 
         const bills = await Bill.find(query)
 
-        let kpiValues = []
+        let kpiValues = {}
         let tongDoanPhi = 0
         bills.forEach(bill => {
             let priceLists = bill.cacKhoanPhi
 
             priceLists.forEach(priceList => {
                 let value = priceList.tenChiPhi == 'Sổ đoàn viên' ? priceList.soLuong : priceList.thanhTien
-                let kpi = kpiValues.find(kpi => kpi.name == priceList.tenChiPhi)
 
-                if (kpi) {
-                    kpi.total += value
+                if (kpiValues[priceList.tenChiPhi]) {
+                    kpiValues[priceList.tenChiPhi].total += value
                 } else {
-                    kpi = {
+                    kpiValues[priceList.tenChiPhi] = {
                         name: priceList.tenChiPhi,
                         total: value
                     }
-                    kpiValues.push(kpi)
                 }
             })
 
             tongDoanPhi += bill.tongTien
         })
 
+        kpiValues = Object.values(kpiValues)
         kpiValues.unshift(
-            {
-                name: 'Tổng tiền đã thu',
-                total: tongDoanPhi
-            },
-            {
-                name: 'Tổng số hóa đơn',
-                total: bills.length
-            }
+            { name: 'Tổng tiền đã thu', total: tongDoanPhi },
+            { name: 'Tổng số hóa đơn', total: bills.length }
         )
 
         res.status(200).json({
