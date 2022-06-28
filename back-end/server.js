@@ -25,7 +25,8 @@ const managerRoute = require('./routes/managerRoute')
 const notificationRoute = require('./routes/notificationRoute')
 const priceListRoute = require('./routes/priceListRoute')
 const schoolYearRoute = require('./routes/schoolYearRoute')
-const statisticRoute = require('./routes/statisticRoute')
+const statisticRoute = require('./routes/statisticRoute') 
+const studentBillRoute = require('./routes/studentBillRoute')
 const studentRoute = require('./routes/studentRoute')
 
 
@@ -51,6 +52,7 @@ app.use('/api/v1/notifications', notificationRoute)
 app.use('/api/v1/price-lists', priceListRoute)
 app.use('/api/v1/school-years', schoolYearRoute)
 app.use('/api/v1/statistic', statisticRoute)
+app.use('/api/v1/student-bills', studentBillRoute)
 app.use('/api/v1/students', studentRoute)
 
 app.get('/', (req, res, next) => {
