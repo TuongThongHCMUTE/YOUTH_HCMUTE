@@ -153,3 +153,21 @@ export const deleteEvent = (eventId) => {
   
     return axios(option);
 }
+
+export const exportExcelAllEvents = () => {
+    const headers = {'Content-Type': 'blob'};
+    const option = {
+        headers,
+        method: 'get',
+        responseType: 'arraybuffer',
+        url: `${url}/events`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        params: {
+            xls: true,
+        },
+    }
+
+    return axios(option)
+}
