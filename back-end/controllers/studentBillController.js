@@ -7,25 +7,49 @@ const excelController = require('../common/xls/studentBillsXls')
 // Get all Bills
 exports.getAllStudentBills = async (req, res, next) => {
     try {
-        const { type, xls } = req.query
-        delete req.query?.type
+        const { doanPhi, soDoan, xls } = req.query
+        delete req.query?.doanPhi
+        delete req.query?.soDoan
         delete req.query?.xls
 
         const { sort, limit, skip, query } = getQueryParameter(req)
 
-        if (type == 'da-dong') {
+        if (doanPhi == 'da-dong') {
             query.bills = {$elemMatch: {trangThai: true}}
-        } else if (type == 'chua-dong') {
-            // query['bills.trangThai'] = { $exists: false }
+        } else if (doanPhi == 'chua-dong') {
             query['$or'] = [
                 {'bills.trangThai': { $exists: false }},
                 {'bills.trangThai': false}
             ]
         }
 
+        if (soDoan == 'da-nop') {
+            query['thongTinDoanVien.trangThaiSoDoan'] = 'DA_NOP'
+        } else if (soDoan == 'chua-nop') {
+            if (doanPhi == 'chua-dong') {
+                query['$and'] = [
+                    { ...query['$or']},
+                    { 
+                        $or: [
+                            {'thongTinDoanVien.trangThaiSoDoan': { $exists: false }},
+                            {'thongTinDoanVien.trangThaiSoDoan': 'CHUA_NOP'}
+                        ]
+                    }
+                ]
+
+                delete query['$or']
+            } else {
+                query['$or'] = [
+                    {'thongTinDoanVien.trangThaiSoDoan': { $exists: false }},
+                    {'thongTinDoanVien.trangThaiSoDoan': 'CHUA_NOP'}
+                ]
+            }
+        }
+
         let studentBills = await Student.find(query).sort(sort).skip(skip).limit(limit)
                                                         .populate('donVi', 'tenDonVi')
                                                         .populate('lopSV', 'tenLop')
+                                                        .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan ngayNopSo')
                                                         .populate('bills.bill', 'tongTien ngayThanhToan')
         const countAll = await Student.countDocuments(query)
 
