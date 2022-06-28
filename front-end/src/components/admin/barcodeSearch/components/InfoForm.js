@@ -10,6 +10,7 @@ import {
     Grid, 
     InputLabel,
     FormControl,
+    FormHelperText,
     MenuItem,
     Select,  
     TextField, 
@@ -26,6 +27,23 @@ const InfoForm = (props) => {
 
     const validateData = (values) => {
         const errors = {};
+
+        if (!values.ho) {
+            errors.ho = 'Thông tin bắt buộc';
+        };
+
+        if (!values.ten) {
+            errors.ten = 'Thông tin bắt buộc';
+        };
+
+        if (!values.lopSV?._id) {
+            errors.lopSV = 'Thông tin bắt buộc';
+        };
+
+        if (!values.donVi?._id) {
+            errors.donVi = 'Thông tin bắt buộc';
+        };
+
         return errors;
     }
 
@@ -35,6 +53,8 @@ const InfoForm = (props) => {
             initialValues={student}
             enableReinitialize
             validate={values => validateData(values)}
+            validateOnChange={false}
+            validateOnBlur={false}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(true);
                 onSubmit(values).then(() => {
@@ -71,6 +91,8 @@ const InfoForm = (props) => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values?.ho || ''}
+                                    error={errors.ho}
+                                    helperText={errors.ho}
                                 />
                             </Grid>
                             <Grid item xs={6} sx={{ p: 2 }}>
@@ -82,6 +104,8 @@ const InfoForm = (props) => {
                                     value={values?.ten || ''}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    error={errors.ten}
+                                    helperText={errors.ten}
                                 />
                             </Grid>
                             <Grid item xs={6} sx={{ p: 2 }}>
@@ -159,7 +183,12 @@ const InfoForm = (props) => {
                                 />
                             </Grid>
                             <Grid item xs={6} sx={{ p: 2 }}>
-                                <FormControl fullWidth variant='filled' className='text-field'>
+                                <FormControl 
+                                    fullWidth 
+                                    variant='filled' 
+                                    className='text-field'
+                                    error={errors.donVi}
+                                >
                                     <InputLabel id="faculty-group">Khoa *</InputLabel>
                                     <Select
                                         name='donVi._id'
@@ -177,10 +206,16 @@ const InfoForm = (props) => {
                                             <MenuItem key={f._id} value={f._id}>{f.tenDonVi}</MenuItem>
                                         ))}
                                     </Select>
+                                    {errors.donVi && <FormHelperText>{errors.donVi}</FormHelperText>}
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6} sx={{ p: 2 }}>
-                                <FormControl fullWidth variant='filled' className='text-field'>
+                                <FormControl 
+                                    fullWidth 
+                                    variant='filled' 
+                                    className='text-field'
+                                    error={errors.lopSV}
+                                >
                                     <InputLabel id="class-group">Lớp *</InputLabel>
                                     <Select
                                         name='lopSV._id'
@@ -198,6 +233,7 @@ const InfoForm = (props) => {
                                             <MenuItem key={c._id} value={c._id}>{c.tenLop}</MenuItem>
                                         ))}
                                     </Select>
+                                    {errors.lopSV && <FormHelperText>{errors.lopSV}</FormHelperText>}
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6} sx={{ p: 2 }}>

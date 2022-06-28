@@ -12,6 +12,7 @@ import { createOneEvent, updateOneEvent, getOneEventById } from 'apis/event';
 import { uploadFile } from 'apis/file';
 // Constants =============================================================== //
 import merits from 'helpers/constants/merits';
+import { SCALES, SCORES } from 'helpers/constants/event';
 import { url } from 'store/constant';
 const initialValues = {
     tenHoatDong: '',
@@ -37,6 +38,11 @@ const initialValues = {
 // Material UI ============================================================= //
 import { 
   Grid,
+  InputLabel,
+  FormControl,
+  FormHelperText,
+  MenuItem,
+  Select,  
   TextField, 
 } from '@mui/material';
 import DateAdapter from '@mui/lab/AdapterMoment';
@@ -356,16 +362,27 @@ const CreateEventModal = (props) => {
                                             />
                                         </Grid>
                                         <Grid item xs={8} sx={{ p: 2 }}>
-                                            <TextField 
-                                                name='quyMoToChuc'
+                                            <FormControl 
+                                                fullWidth 
+                                                variant='filled' 
                                                 className={styles.TextField}
-                                                variant="filled"
-                                                label="Quy mô tổ chức"
-                                                onChange={e => handleChange('quyMoToChuc', e.target.value)}
-                                                value={values?.quyMoToChuc || ''}
                                                 error={errors?.quyMoToChuc}
-                                                helperText={errors?.quyMoToChuc}
-                                            />
+                                            >
+                                                <InputLabel id="faculty-group">Quy mô tổ chức</InputLabel>
+                                                <Select
+                                                    name='quyMoToChuc'
+                                                    labelId="scales-group"
+                                                    id="input-scale"
+                                                    value={values?.quyMoToChuc || 'Cấp khoa'}
+                                                    label="Quy mô tổ chức"
+                                                    onChange={e => handleChange('quyMoToChuc', e.target.value)}
+                                                >
+                                                    {SCALES.map((i) => (
+                                                        <MenuItem key={i} value={i}>{i}</MenuItem>
+                                                    ))}
+                                                </Select>
+                                                {errors?.quyMoToChuc && <FormHelperText>{errors.quyMoToChuc}</FormHelperText>}
+                                            </FormControl>
                                         </Grid>
                                         <Grid item xs={4} sx={{ p: 2 }}>
                                             <TextField 
@@ -497,16 +514,27 @@ const CreateEventModal = (props) => {
                                 sx={{ display: 'flex', flexWrap: 'wrap' }}
                             >
                                 <Grid item xs={7} sx={{ p: 2 }}>
-                                    <TextField 
-                                        name='quenLoiThamGia'
+                                    <FormControl 
+                                        fullWidth 
+                                        variant='outlined' 
                                         className={styles.TextField}
-                                        variant="outlined"
-                                        label="Quyền lợi tham gia"
-                                        onChange={e => handleChange('quenLoiThamGia', e.target.value)}
-                                        value={values?.quenLoiThamGia || ''}
                                         error={errors?.quenLoiThamGia}
-                                        helperText={errors?.quenLoiThamGia}
-                                    />
+                                    >
+                                        <InputLabel id="scores-group">Quyền lợi tham gia</InputLabel>
+                                        <Select
+                                            name='quenLoiThamGia'
+                                            labelId="scores-group"
+                                            id="input-score"
+                                            value={values?.quenLoiThamGia || 'Điểm rèn luyện'}
+                                            label="Quyền lợi tham gia"
+                                            onChange={e => handleChange('quenLoiThamGia', e.target.value)}
+                                        >
+                                            {SCORES.map((i) => (
+                                                <MenuItem key={i} value={i}>{i}</MenuItem>
+                                            ))}
+                                        </Select>
+                                        {errors?.quyMoToChuc && <FormHelperText>{errors.quyMoToChuc}</FormHelperText>}
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={5} sx={{ p: 2 }}>
                                     <TextField 
