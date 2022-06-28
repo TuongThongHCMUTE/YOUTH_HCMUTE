@@ -7,4 +7,18 @@ export const SCORES = [
 export const SCALES = [
     'Cấp khoa',
     'Cấp trường',
-]
+];
+export const ACCEPTED_CRITERIAS = [
+    {
+        display: 'Đăng ký',
+        value: 'dangKyThamGia'
+    },
+    {
+        display: 'Điểm danh vào',
+        value: 'diemDanhVao'
+    },
+    {
+        display: 'Điểm danh ra',
+        value: 'diemDanhRa'
+    },
+];
