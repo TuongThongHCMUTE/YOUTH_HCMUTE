@@ -58,3 +58,7 @@ exports.defaultBill = {
         "thanhTien": 2000
     }
 }
+
+exports.selectFields = {
+    'EVENT': 'tenHoatDong moTa thoiGianDangKy thoiGianToChuc diaDiem soLuongSinhVien quyMoToChuc quenLoiThamGia diemCong anhBia tieuChi soLuongSinhVienDangKy hienThi daDuyet'
+}

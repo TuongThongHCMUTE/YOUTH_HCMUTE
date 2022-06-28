@@ -1,4 +1,5 @@
-const { getQueryParameter, updateValues, populateFields } = require('../common/index')
+const { getQueryParameter, updateValues, populateFields, exportExcel } = require('../common/index')
+const excelController = require('../common/xls/attendancesXls')
 
 const { Attendance } = require('../models/attendance')
 const Student = require('../models/student')
@@ -42,6 +43,22 @@ exports.getAllAttendances = async (req, res, next) => {
                 }            
             }
         })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
+// Attendances
+exports.exportExcelAllAttendances = async (req, res, next) => {
+    try {
+        const { id } = req.params
+
+        const event = await Event.findById(id)
+                                    .populate(populateFields['attendance'])
+
+        const { columns, data } = excelController.getXlsForAttendances(event.sinhViens)
+        return exportExcel('Attendances', columns, data, res)
     } catch (e) {
         console.log(e)
         next(e)
