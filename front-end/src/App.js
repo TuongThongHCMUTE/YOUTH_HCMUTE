@@ -15,6 +15,8 @@ import themes from './themes';
 import NavigationScroll from './layout/NavigationScroll';
 // APIs ==================================================================== //
 import { getCurrentUser } from 'apis/auth';
+import { getAllClasses } from 'apis/class';
+import { getAllFaculties } from 'apis/faculty';
 
 // ===========================|| APP ||=========================== //
 
@@ -23,7 +25,7 @@ const App = () => {
 
     const [state, dispatch] = useReducer(AppReducer, null);
 
-    useEffect(async () => {
+    const getUser = async () => {
         try {    
             const response = await getCurrentUser();
     
@@ -34,6 +36,38 @@ const App = () => {
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const getFaculties = async () => {
+        try {    
+            const response = await getAllFaculties({ hienThi: true });
+    
+            if(response.data.data.faculties) {
+                const faculties = response.data.data.faculties;
+                dispatch({type: "ACTIVE_FACULTIES", payload: faculties});
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getClasses = async () => {
+        try {    
+            const response = await getAllClasses({ hienThi: true });
+    
+            if(response.data.data.classes) {
+                const classes = response.data.data.classes;
+                dispatch({type: "ACTIVE_CLASSES", payload: classes});
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getUser();
+        getFaculties();
+        getClasses();
     }, []);
 
     return (

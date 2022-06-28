@@ -177,8 +177,8 @@ const EventImage = ({ image }) => {
 
 // ===========================|| STUDENTS TABLE ||========================== //
 export default function EnhancedTable({ data, totalRecords, loading, onRefetch, setModalType, setSelectedEvent, setOpenCreateModal }) {
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('name');
+    const [order, setOrder] = useState('desc');
+    const [orderBy, setOrderBy] = useState('createdAt');
     const [page, setPage] = useState(0);
     const [selectedRow, setSelectedRow] = useState(null);
     const [alert, setAlert] = useState(null);

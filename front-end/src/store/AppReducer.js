@@ -7,6 +7,10 @@ const appReducer = (state, action) => {
                 ...state,
                 user: {...state.user, ...action.payload}
             };
+        case "ACTIVE_FACULTIES":
+            return { ...state, faculties: action.payload }
+        case "ACTIVE_CLASSES":
+            return { ...state, classes: action.payload }
         default:
             return state;
     }

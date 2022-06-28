@@ -21,6 +21,7 @@ const EventsManagement = Loadable(lazy(() => import('components/admin/events')))
 const AttendanceList = Loadable(lazy(() => import('components/admin/attendances/events')));
 const CheckIn = Loadable(lazy(() => import('components/admin/attendances/checkIn')));
 const AttendanceManagement = Loadable(lazy(() => import('components/admin/attendances/management')));
+const FeeManagement = Loadable(lazy(() => import('components/admin/fees')));
 
 
 // ===========================|| ADMIN ROUTING ||=========================== //
@@ -92,6 +93,10 @@ const AdminRoutes = {
         {
             path: '/diem-danh/:id',
             element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><CheckIn /></Protected>
+        },
+        {
+            path: '/doan-phi',
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><FeeManagement /></Protected>
         },
         {
             path: '/system-config',
