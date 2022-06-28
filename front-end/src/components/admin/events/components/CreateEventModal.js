@@ -12,7 +12,7 @@ import { createOneEvent, updateOneEvent, getOneEventById } from 'apis/event';
 import { uploadFile } from 'apis/file';
 // Constants =============================================================== //
 import merits from 'helpers/constants/merits';
-import { SCALES, SCORES } from 'helpers/constants/event';
+import { SCALES, SCORES, ACCEPTED_CRITERIAS } from 'helpers/constants/event';
 import { url } from 'store/constant';
 const initialValues = {
     tenHoatDong: '',
@@ -33,13 +33,17 @@ const initialValues = {
     anhBia: '',
     quyenLoiThamGia: '',
     diemCong: 0,
-    tieuChi: []
+    tieuChi: [],
+    dieuKienHoanThanhs: ['diemDanhVao']
 };
 // Material UI ============================================================= //
 import { 
+  Checkbox,
   Grid,
   InputLabel,
   FormControl,
+  FormControlLabel,
+  FormGroup,
   FormHelperText,
   MenuItem,
   Select,  
@@ -185,13 +189,28 @@ const CreateEventModal = (props) => {
                 thoiGianDangKy,
                 thoiGianToChuc
             }));
-        }
+            return;
+        };
 
         setValues(prev => ({
             ...prev,
             [field]: value
         }));
     };
+
+    const handleCheck = (field, checked) => {
+        let newCriterias = values.dieuKienHoanThanhs;
+        if (!checked && field !== 'diemDanhVao') {
+            newCriterias = newCriterias.filter(i => i !== field);
+        } else {
+            newCriterias.push(field);
+        }
+        
+        setValues(prev => ({
+            ...prev,
+            dieuKienHoanThanhs: newCriterias
+        }));
+    }
 
     const handleMeritClick = (merit) => {
         let merits = values.tieuChi;
@@ -551,6 +570,20 @@ const CreateEventModal = (props) => {
                                     />
                                 </Grid>
                             </Grid>
+                            <h3 className={styles.SectionTitle}>Điều kiện hoàn thành</h3>
+                            <FormGroup className={styles.CheckBoxes}>
+                                { ACCEPTED_CRITERIAS.map(criteria => 
+                                    <FormControlLabel
+                                        className={styles.CheckBox} 
+                                        control={
+                                            <Checkbox  
+                                                checked={values?.dieuKienHoanThanhs?.findIndex(i => i === criteria.value) !== -1}
+                                                onChange={(e) => handleCheck(criteria.value, e.target.checked)} 
+                                            />} 
+                                        label={criteria.display}
+                                    />
+                                )}
+                            </FormGroup>
                             <div className={styles.Divider} />
                             <h3 className={styles.SectionTitle}>Tiêu chí sinh viên 5 tốt</h3>
                             <div className={styles.Merits}>                    
