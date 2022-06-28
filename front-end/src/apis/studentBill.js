@@ -51,9 +51,7 @@ export const getAllStudentBills = (args) => {
 };
 
 export const exportExcelStudentBills = (args) => {
-    const { limit, offset, sortBy, isDescending, maSoSV, donVi, lopSV, doanPhi, soDoan } = args;
-
-    console.log('get all:', args);
+    const { offset, sortBy, isDescending, maSoSV, donVi, lopSV, doanPhi, soDoan } = args;
 
     const params = {
         xls: true,
@@ -95,4 +93,21 @@ export const exportExcelStudentBills = (args) => {
     }
 
     return axios(option)
+};
+
+export const importBillsFromFile = (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const option = {
+        method: "post",
+        url: `${url}/student-bills/nhap-du-lieu`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+        },
+        params: { fileType: 'excel' },
+        data: formData
+    }
+    return axios(option);
 }

@@ -225,7 +225,7 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
                                 <TableRow
                                     sx={{ cursor: 'pointer' }}
                                     hover
-                                    onClick={(event) => handleClick(event, row.id)}
+                                    // onClick={(event) => handleClick(event, row.id)}
                                     tabIndex={-1}
                                     key={row.id}
                                 >
