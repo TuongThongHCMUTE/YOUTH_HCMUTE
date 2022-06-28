@@ -14,6 +14,7 @@ import InfoForm from './components/InfoForm';
 import BillForm from './components/BillForm';
 import BarcodeSection from './components/BarcodeSection';
 import ReceiptModal from './components/ReceiptModal';
+import SnackBar from 'components/common/alert/Snackbar';
 
 // ==============================|| BARCODE ||============================== //
 const BarcodePage = () => {
@@ -24,6 +25,7 @@ const BarcodePage = () => {
     const [faculties, setFaculties] = useState([]);
     const [classes, setClasses] = useState([]);
     const [openModal, setOpenModal] = useState(false);
+    const [alert, setAlert] = useState(null);
 
     useEffect(async () => {
         try {
@@ -74,9 +76,16 @@ const BarcodePage = () => {
 
             if (res.data.status === 'success') {
                 setStudent(res.data.data.student);
+                setAlert({
+                    severity: 'success',
+                    message: 'Cập nhật thông tin thành công'
+                });
             }
-        } catch (err) {
-            alert(err)
+        } catch (e) {
+            setAlert({
+                severity: 'error',
+                message: e.response?.data?.message || 'Đã xảy ra lỗi, vui lòng thử lại.'
+            });
         }
     }
 
@@ -91,6 +100,7 @@ const BarcodePage = () => {
     }
 
     return (
+        <>
         <Grid container className={styles.BarcodePage}>
             <Grid 
                 xs={12} 
@@ -175,6 +185,14 @@ const BarcodePage = () => {
                 bill={bill}
             />
         </Grid>
+        {alert && 
+            <SnackBar 
+                message={alert.message}
+                severity={alert.severity}
+                onClose={() => setAlert(null)}
+            />
+        }
+        </>
     );
 };
 
