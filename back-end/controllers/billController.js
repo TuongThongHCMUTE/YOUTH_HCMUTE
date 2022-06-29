@@ -116,6 +116,10 @@ exports.createOneBill = async (req, res, next) => {
         
         const bill = await Bill.create({ ...req.body })
 
+        await Student.findOneAndUpdate(
+                            {maSoSV: bill.maSoSV},
+                            { $push: { bills: {bill: bill._id, trangThai: bill.trangThai} } },
+                            {new: true, runValidators: true})
         res.status(200).json({
             status: 'success',
             data: { bill }
@@ -150,6 +154,10 @@ exports.updateOneBill = async (req, res, next) => {
 
         const bill = await Bill.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
 
+        await Student.findOneAndUpdate({maSoSV: bill.maSoSV, 'bills.bill': bill._id},
+                                        { $set: { 'bills.$.trangThai': bill.trangThai}},
+                                        {new: true, runValidators: true})
+
         res.status(200).json({
             status: 'success',
             data: { bill }
@@ -170,6 +178,10 @@ exports.checkOutBill = async (req, res, next) => {
             bill.trangThai = true,
             bill.ngayThanhToan = bill.ngayThanhToan ? bill.ngayThanhToan : new Date()
             await bill.save()
+
+            await Student.findOneAndUpdate({maSoSV: bill.maSoSV, 'bills.bill': bill._id},
+                            { $set: { 'bills.$.trangThai': bill.trangThai}},
+                            {new: true, runValidators: true})
         }
         
         let bookSummit = bill.cacKhoanPhi.find(data => data.tenChiPhi == 'Sổ đoàn viên' && data.soLuong == 1)    
@@ -223,6 +235,10 @@ exports.cancelPayment = async (req, res, next) => {
                                     .populate('sinhVien','ho ten')
                                     .populate('donVi', 'tenDonVi')
 
+        await Student.findOneAndUpdate({maSoSV: bill.maSoSV, 'bills.bill': bill._id},
+                                { $set: { 'bills.$.trangThai': bill.trangThai}},
+                                {new: true, runValidators: true})
+
         if (huySoDoan) {
             await GroupBook.findOneAndDelete({maSoSV: bill.maSoSV})
             await Student.findOneAndUpdate({maSoSV: bill.maSoSV},
@@ -252,6 +268,8 @@ exports.deleteOneBill = async (req, res, next) => {
         const { id } = req.params
 
         const bill = await Bill.findByIdAndDelete(id)
+
+        await Student.findOneAndUpdate({maSoSV: bill.maSoSV}, { $pull: { bills: {bill: bill._id.toString()}}})
 
         res.status(200).json({
             status: 'success',
