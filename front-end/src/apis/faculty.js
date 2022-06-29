@@ -6,7 +6,17 @@ import { url } from 'store/constant';
 
 const token = sessionStorage.getItem("token");
 
-export const getAllFaculties = () => {
+export const getAllFaculties = (args) => {
+    const { hienThi } = args;
+
+    const params = {
+        sortBy: 'thuTu',
+    };
+
+    if (hienThi === true || hienThi === false) {
+        params.hienThi = hienThi;
+    }
+
     const option = {
         method: 'get',
         url: `${url}/faculties`,

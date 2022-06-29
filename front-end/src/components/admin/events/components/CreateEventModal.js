@@ -12,6 +12,7 @@ import { createOneEvent, updateOneEvent, getOneEventById } from 'apis/event';
 import { uploadFile } from 'apis/file';
 // Constants =============================================================== //
 import merits from 'helpers/constants/merits';
+import { SCALES, SCORES, ACCEPTED_CRITERIAS } from 'helpers/constants/event';
 import { url } from 'store/constant';
 const initialValues = {
     tenHoatDong: '',
@@ -32,11 +33,20 @@ const initialValues = {
     anhBia: '',
     quyenLoiThamGia: '',
     diemCong: 0,
-    tieuChi: []
+    tieuChi: [],
+    dieuKienHoanThanhs: ['diemDanhVao']
 };
 // Material UI ============================================================= //
 import { 
+  Checkbox,
   Grid,
+  InputLabel,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormHelperText,
+  MenuItem,
+  Select,  
   TextField, 
 } from '@mui/material';
 import DateAdapter from '@mui/lab/AdapterMoment';
@@ -179,13 +189,28 @@ const CreateEventModal = (props) => {
                 thoiGianDangKy,
                 thoiGianToChuc
             }));
-        }
+            return;
+        };
 
         setValues(prev => ({
             ...prev,
             [field]: value
         }));
     };
+
+    const handleCheck = (field, checked) => {
+        let newCriterias = values.dieuKienHoanThanhs;
+        if (!checked && field !== 'diemDanhVao') {
+            newCriterias = newCriterias.filter(i => i !== field);
+        } else {
+            newCriterias.push(field);
+        }
+        
+        setValues(prev => ({
+            ...prev,
+            dieuKienHoanThanhs: newCriterias
+        }));
+    }
 
     const handleMeritClick = (merit) => {
         let merits = values.tieuChi;
@@ -356,16 +381,27 @@ const CreateEventModal = (props) => {
                                             />
                                         </Grid>
                                         <Grid item xs={8} sx={{ p: 2 }}>
-                                            <TextField 
-                                                name='quyMoToChuc'
+                                            <FormControl 
+                                                fullWidth 
+                                                variant='filled' 
                                                 className={styles.TextField}
-                                                variant="filled"
-                                                label="Quy mô tổ chức"
-                                                onChange={e => handleChange('quyMoToChuc', e.target.value)}
-                                                value={values?.quyMoToChuc || ''}
                                                 error={errors?.quyMoToChuc}
-                                                helperText={errors?.quyMoToChuc}
-                                            />
+                                            >
+                                                <InputLabel id="faculty-group">Quy mô tổ chức</InputLabel>
+                                                <Select
+                                                    name='quyMoToChuc'
+                                                    labelId="scales-group"
+                                                    id="input-scale"
+                                                    value={values?.quyMoToChuc || 'Cấp khoa'}
+                                                    label="Quy mô tổ chức"
+                                                    onChange={e => handleChange('quyMoToChuc', e.target.value)}
+                                                >
+                                                    {SCALES.map((i) => (
+                                                        <MenuItem key={i} value={i}>{i}</MenuItem>
+                                                    ))}
+                                                </Select>
+                                                {errors?.quyMoToChuc && <FormHelperText>{errors.quyMoToChuc}</FormHelperText>}
+                                            </FormControl>
                                         </Grid>
                                         <Grid item xs={4} sx={{ p: 2 }}>
                                             <TextField 
@@ -497,16 +533,27 @@ const CreateEventModal = (props) => {
                                 sx={{ display: 'flex', flexWrap: 'wrap' }}
                             >
                                 <Grid item xs={7} sx={{ p: 2 }}>
-                                    <TextField 
-                                        name='quenLoiThamGia'
+                                    <FormControl 
+                                        fullWidth 
+                                        variant='outlined' 
                                         className={styles.TextField}
-                                        variant="outlined"
-                                        label="Quyền lợi tham gia"
-                                        onChange={e => handleChange('quenLoiThamGia', e.target.value)}
-                                        value={values?.quenLoiThamGia || ''}
                                         error={errors?.quenLoiThamGia}
-                                        helperText={errors?.quenLoiThamGia}
-                                    />
+                                    >
+                                        <InputLabel id="scores-group">Quyền lợi tham gia</InputLabel>
+                                        <Select
+                                            name='quenLoiThamGia'
+                                            labelId="scores-group"
+                                            id="input-score"
+                                            value={values?.quenLoiThamGia || 'Điểm rèn luyện'}
+                                            label="Quyền lợi tham gia"
+                                            onChange={e => handleChange('quenLoiThamGia', e.target.value)}
+                                        >
+                                            {SCORES.map((i) => (
+                                                <MenuItem key={i} value={i}>{i}</MenuItem>
+                                            ))}
+                                        </Select>
+                                        {errors?.quyMoToChuc && <FormHelperText>{errors.quyMoToChuc}</FormHelperText>}
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={5} sx={{ p: 2 }}>
                                     <TextField 
@@ -523,6 +570,20 @@ const CreateEventModal = (props) => {
                                     />
                                 </Grid>
                             </Grid>
+                            <h3 className={styles.SectionTitle}>Điều kiện hoàn thành</h3>
+                            <FormGroup className={styles.CheckBoxes}>
+                                { ACCEPTED_CRITERIAS.map(criteria => 
+                                    <FormControlLabel
+                                        className={styles.CheckBox} 
+                                        control={
+                                            <Checkbox  
+                                                checked={values?.dieuKienHoanThanhs?.findIndex(i => i === criteria.value) !== -1}
+                                                onChange={(e) => handleCheck(criteria.value, e.target.checked)} 
+                                            />} 
+                                        label={criteria.display}
+                                    />
+                                )}
+                            </FormGroup>
                             <div className={styles.Divider} />
                             <h3 className={styles.SectionTitle}>Tiêu chí sinh viên 5 tốt</h3>
                             <div className={styles.Merits}>                    

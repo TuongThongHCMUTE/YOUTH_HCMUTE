@@ -34,7 +34,7 @@ const BarcodeStatistic = () => {
 
   useEffect(async () => {
     try {
-        const res = await getAllFaculties();
+        const res = await getAllFaculties({ hienThi: true });
 
         if (res.data.status === 'success') {
             setFaculties(res.data.data.faculties);

@@ -17,10 +17,10 @@ const dashboard = {
     type: 'group',
     children: [
         {
-            id: 'default',
+            id: 'dashboard',
             title: 'Dashboard',
             type: 'item',
-            url: '/student/dashboard/default',
+            url: '/sinh-vien/dashboard',
             icon: icons.QueryStatsIcon,
             breadcrumbs: false
         }

@@ -7,7 +7,7 @@ import { url } from 'store/constant';
 const token = sessionStorage.getItem("token");
 
 export const getAllClasses = (args) => {
-    const { limit, offset, sortBy, isDescending, className, faculty } = args;
+    const { limit, offset, sortBy, isDescending, className, faculty , hienThi } = args;
 
     const params = {
         offset: offset ? offset : 0,
@@ -24,6 +24,10 @@ export const getAllClasses = (args) => {
 
     if (faculty && faculty !== 'all') {
         params.donVi = faculty;
+    }
+
+    if (hienThi === true || hienThi === false) {
+        params.hienThi = hienThi;
     }
 
     params.sortBy = isDescending ? params.sortBy + ":desc" : params.sortBy; 

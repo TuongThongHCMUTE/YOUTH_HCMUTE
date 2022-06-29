@@ -28,6 +28,14 @@
     text-transform: uppercase;
 }
 
+.CheckBoxes {
+    margin: 0 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .TextField {
     width: 100%;
 }
