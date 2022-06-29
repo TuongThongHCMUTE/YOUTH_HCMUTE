@@ -87,7 +87,7 @@ const TotalIncomeLightCard = ({ isLoading, data }) => {
                                         value={data}
                                         displayType={'text'}
                                         thousandSeparator={true}
-                                        suffix=" hóa đơn"
+                                        suffix=" sinh viên"
                                         variant='h4'
                                         renderText={(value, props) => <Typography {...props}>{value}</Typography>}
                                     />
@@ -95,7 +95,7 @@ const TotalIncomeLightCard = ({ isLoading, data }) => {
                                 }
                                 secondary={
                                     <Typography variant="subtitle2" className={classes.secondary}>
-                                        Chưa thanh toán
+                                        Chưa hoàn thành đoàn phí, CTTN
                                     </Typography>
                                 }
                             />

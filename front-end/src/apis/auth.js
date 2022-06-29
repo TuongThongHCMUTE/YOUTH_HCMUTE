@@ -3,8 +3,6 @@ import axios from "axios";
 // Constants =============================================================== //
 import { url } from 'store/constant';
 
-const token = sessionStorage.getItem("token");
-
 export const login = (data) => {
     const option = {
         method: "post",
@@ -26,6 +24,7 @@ export const googleLogin = (data) => {
 }
 
 export const getCurrentUser = () => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "get",
         url: `${url}/auth/ca-nhan`,
