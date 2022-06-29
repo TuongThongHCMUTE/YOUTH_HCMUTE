@@ -4,12 +4,9 @@ import axios from "axios";
 // Constants =============================================================== //
 import { url } from 'store/constant';
 
-const token = sessionStorage.getItem("token");
-
 export const getAllStudentBills = (args) => {
+    const token = sessionStorage.getItem("token");
     const { limit, offset, sortBy, isDescending, maSoSV, donVi, lopSV, doanPhi, soDoan, doanVien } = args;
-
-    console.log('get all:', args);
 
     const params = {};
 
@@ -55,6 +52,7 @@ export const getAllStudentBills = (args) => {
 };
 
 export const exportExcelStudentBills = (args) => {
+    const token = sessionStorage.getItem("token");
     const { offset, sortBy, isDescending, maSoSV, donVi, lopSV, doanPhi, soDoan } = args;
 
     const params = {
@@ -100,6 +98,7 @@ export const exportExcelStudentBills = (args) => {
 };
 
 export const importBillsFromFile = (file) => {
+    const token = sessionStorage.getItem("token");
     const formData = new FormData();
     formData.append("file", file);
 

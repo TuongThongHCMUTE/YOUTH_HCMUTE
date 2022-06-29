@@ -96,3 +96,16 @@
         }
     }
 }
+
+/* Mobile */
+@media (max-width: 480px) {
+    .Scores {
+        .Summary {
+            flex-direction: column;
+
+            .SummaryItem {
+                width: 100%;
+            }
+        }
+    }
+}

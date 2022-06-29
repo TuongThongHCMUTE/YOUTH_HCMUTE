@@ -4,9 +4,8 @@ import axios from "axios";
 // Constants =============================================================== //
 import { url } from 'store/constant';
 
-const token = sessionStorage.getItem("token");
-
 export const getAllClasses = (args) => {
+    const token = sessionStorage.getItem("token");
     const { limit, offset, sortBy, isDescending, className, faculty , hienThi } = args;
 
     const params = {
@@ -45,6 +44,7 @@ export const getAllClasses = (args) => {
 }
 
 export const exportExcelAllClasses = (args) => {
+    const token = sessionStorage.getItem("token");
     const { limit, offset, sortBy, isDescending, className, faculty } = args;
 
     const params = {
@@ -82,6 +82,7 @@ export const exportExcelAllClasses = (args) => {
 }
 
 export const getAClassById = (id) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "get",
         url: `${url}/classes/${id}`,
@@ -94,6 +95,7 @@ export const getAClassById = (id) => {
 }
 
 export const createClass = (classObject) => {
+    const token = sessionStorage.getItem("token");
     const sendData = {};
     sendData.tenLop = classObject.name;
     sendData.donVi = classObject.faculty._id;
@@ -113,6 +115,7 @@ export const createClass = (classObject) => {
 }
 
 export const updateClass = (classObject) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "put",
         url: `${url}/classes/${classObject._id}`,
@@ -126,6 +129,7 @@ export const updateClass = (classObject) => {
 }
 
 export const deleteClass = (classId) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "delete",
         url: `${url}/classes/${classId}`,

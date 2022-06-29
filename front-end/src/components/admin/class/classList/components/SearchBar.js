@@ -51,6 +51,11 @@ const SearchBar = (props) => {
                 label='Lớp'
                 value={searchValues.className}
                 onChange={e => onChange("className", e.target.value)}
+                onKeyPress={(e) => { 
+                  if(e.key === "Enter") {
+                    onSearch(searchValues);
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={0.5} className={styles.Divider}></Grid>

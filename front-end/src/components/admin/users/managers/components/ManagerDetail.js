@@ -18,6 +18,7 @@ import {
     Grid,
     InputLabel,
     FormControl,
+    FormHelperText,
     MenuItem,
     Select,  
     TextField, 
@@ -38,6 +39,15 @@ const FormComponent = ({ data, faculties, onSubmit, updating, setAlert }) => {
 
     const validateData = (values) => {
         const errors = {};
+
+        if (!values.tenHienThi) {
+            errors.tenHienThi = 'Tên hiển thị không được để trống';
+        }
+
+        if (!values.donVi || !values.donVi._id) {
+            errors.donVi = 'Khoa không được để trống';
+        }
+
         return errors;
     };
 
@@ -99,20 +109,28 @@ const FormComponent = ({ data, faculties, onSubmit, updating, setAlert }) => {
                                 className={styles.TextField}
                                 variant="filled"
                                 label="Tên hiển thị"
+                                required
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values?.tenHienThi || ''}
+                                error={errors.tenHienThi}
+                                helperText={errors.tenHienThi}
                             />
                         </Grid>
                         <Grid item xs={6} sx={{ p: 2 }}>
-                            <FormControl fullWidth variant='filled' className='text-field'>
-                                <InputLabel id="faculty-group">Đơn vị</InputLabel>
+                            <FormControl 
+                                fullWidth 
+                                variant='filled' 
+                                className='text-field'
+                                error={errors.donVi}
+                            >
+                                <InputLabel id="faculty-group">Đơn vị *</InputLabel>
                                 <Select
                                     name='donVi._id'
                                     labelId="faculty-group"
                                     id="input-faculty"
                                     value={values?.donVi?._id || undefined}
-                                    label="Đơn vị"
+                                    label="Đơn vị *"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 >
@@ -123,6 +141,7 @@ const FormComponent = ({ data, faculties, onSubmit, updating, setAlert }) => {
                                         <MenuItem key={f._id} value={f._id}>{f.tenDonVi}</MenuItem>
                                     ))}
                                 </Select>
+                                {errors.donVi && <FormHelperText>{errors.donVi}</FormHelperText>}
                             </FormControl>
                         </Grid>
                         <Grid item xs={6} sx={{ p: 2 }}>

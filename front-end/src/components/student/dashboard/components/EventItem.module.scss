@@ -125,3 +125,23 @@
         }
     }
 }
+
+/* Mobile */
+@media (max-width: 480px) {
+    .Item {
+        .ImageWrapper {
+            img {
+                display: block;
+                height: 100%;
+                width: 100%;
+                max-width: unset;
+            }
+        }
+
+        .ButtonWrapper {
+            .CheckInButton {
+                margin-bottom: 16px;
+            }
+        }
+    }
+}

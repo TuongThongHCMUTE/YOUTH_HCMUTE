@@ -4,9 +4,8 @@ import axios from "axios";
 // Constants =============================================================== //
 import { url } from 'store/constant';
 
-const token = sessionStorage.getItem("token");
-
 export const getAllEvents = (args) => {
+    const token = sessionStorage.getItem("token");
     const { limit, offset, sortBy, isDescending, type, sinhVien } = args;
 
     const params = {
@@ -41,6 +40,7 @@ export const getAllEvents = (args) => {
 }
 
 export const searchEvents = (args) => {
+    const token = sessionStorage.getItem("token");
     const { limit, offset, sortBy, isDescending, searchString, type, sinhVien } = args;
 
     const params = {
@@ -79,6 +79,7 @@ export const searchEvents = (args) => {
 }
 
 export const getMissingEventsForSv5t = () => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: 'get',
         url: `${url}/events/hoat-dong-con-thieu`,
@@ -91,6 +92,7 @@ export const getMissingEventsForSv5t = () => {
 };
 
 export const getAttendanceForSV5T = (args) => {
+    const token = sessionStorage.getItem("token");
     const { limit, offset, sortBy, isDescending } = args;
 
     const params = {
@@ -117,6 +119,7 @@ export const getAttendanceForSV5T = (args) => {
 }
 
 export const getOneEventById = (id) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: 'get',
         url: `${url}/events/${id}`,
@@ -129,6 +132,7 @@ export const getOneEventById = (id) => {
 }
 
 export const createOneEvent = (event) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "post",
         url: `${url}/events`,
@@ -142,6 +146,7 @@ export const createOneEvent = (event) => {
 }
 
 export const updateOneEvent = (event) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "put",
         url: `${url}/events/${event._id}`,
@@ -155,6 +160,7 @@ export const updateOneEvent = (event) => {
 }
 
 export const deleteEvent = (eventId) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "delete",
         url: `${url}/events/${eventId}`,
@@ -167,6 +173,7 @@ export const deleteEvent = (eventId) => {
 }
 
 export const exportExcelAllEvents = () => {
+    const token = sessionStorage.getItem("token");
     const headers = {'Content-Type': 'blob'};
     const option = {
         headers,

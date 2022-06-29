@@ -4,9 +4,8 @@ import axios from "axios";
 // Constants =============================================================== //
 import { url } from 'store/constant';
 
-const token = sessionStorage.getItem("token");
-
 export const getAllFaculties = (args) => {
+    const token = sessionStorage.getItem("token");
     const { hienThi } = args;
 
     const params = {
@@ -30,6 +29,7 @@ export const getAllFaculties = (args) => {
 }
 
 export const getFacultyById = (id) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: 'get',
         url: `${url}/faculties/${id}`,

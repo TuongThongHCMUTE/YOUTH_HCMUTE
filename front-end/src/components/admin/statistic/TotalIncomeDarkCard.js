@@ -92,7 +92,7 @@ const TotalIncomeDarkCard = ({ isLoading, data }) => {
                                         value={data}
                                         displayType={'text'}
                                         thousandSeparator={true}
-                                        suffix=" hóa đơn"
+                                        suffix=" sinh viên"
                                         variant='h4'
                                         className={classes.primary}
                                         renderText={(value, props) => <Typography {...props}>{value}</Typography>}
@@ -101,7 +101,7 @@ const TotalIncomeDarkCard = ({ isLoading, data }) => {
                                 }
                                 secondary={
                                     <Typography variant="subtitle2" className={classes.secondary}>
-                                        Đã thanh toán
+                                        Đã hoàn thành đoàn phí, CTTN
                                     </Typography>
                                 }
                             />
