@@ -5,9 +5,8 @@ import moment from "moment";
 // Constants =============================================================== //
 import { url } from 'store/constant';
 
-const token = sessionStorage.getItem("token");
-
 export const getAllBills = (args) => {
+    const token = sessionStorage.getItem("token");
     const { limit, offset, sortBy, isDescending, studentId, faculty, status, date } = args;
 
     const params = {
@@ -45,6 +44,7 @@ export const getAllBills = (args) => {
 }
 
 export const exportExcelAllBills = (args) => {
+    const token = sessionStorage.getItem("token");
     const { limit, offset, sortBy, isDescending, studentId, faculty, status, date } = args;
 
     const params = {
@@ -85,6 +85,7 @@ export const exportExcelAllBills = (args) => {
 }
 
 export const createOneBill = (bill) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "post",
         url: `${url}/bills`,
@@ -98,6 +99,7 @@ export const createOneBill = (bill) => {
 }
 
 export const updateOneBill = (bill) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "put",
         url: `${url}/bills/${bill._id}`,
@@ -111,6 +113,7 @@ export const updateOneBill = (bill) => {
 }
 
 export const checkOutBill = (billId) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "put",
         url: `${url}/bills/thanh-toan/${billId}`,
@@ -124,6 +127,7 @@ export const checkOutBill = (billId) => {
 }
 
 export const getBillStatistic = ({ studentId, faculty, status, date }) => {
+    const token = sessionStorage.getItem("token");
     const params = {
         startDate: moment(date[0]).startOf('day').toDate(),
         endDate: moment(date[1]).endOf('day').toDate()

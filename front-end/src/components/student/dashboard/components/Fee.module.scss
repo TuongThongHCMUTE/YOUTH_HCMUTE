@@ -1,0 +1,70 @@
+.Fee {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .Left {
+        flex: 1;
+        margin-right: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #E7BC24;
+        padding: 16px 24px;
+        height: 110px;
+
+        .Icon {
+            color: #F6E5A8;
+        }
+    }
+
+    .Right {
+        flex: 1;
+        margin-left: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #198532;
+        padding: 16px 24px;
+        height: 110px;
+
+        .Icon {
+            color: #A0D8AA;
+        }
+    }
+
+    .Title {
+        color: white;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .Value {
+        color: white;
+        font-size: 36px;
+        font-weight: 700;
+        margin-top: 4px;
+    }
+
+    .Icon {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .Fee {
+        flex-direction: column;
+
+        .Left {
+            margin: 0;
+            width: 100%;
+        }
+
+        .Right {
+            margin: 16px 0 0;
+            width: 100%;
+        }
+    }
+}

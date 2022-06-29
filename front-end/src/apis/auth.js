@@ -3,8 +3,6 @@ import axios from "axios";
 // Constants =============================================================== //
 import { url } from 'store/constant';
 
-const token = sessionStorage.getItem("token");
-
 export const login = (data) => {
     const option = {
         method: "post",
@@ -26,6 +24,7 @@ export const googleLogin = (data) => {
 }
 
 export const getCurrentUser = () => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "get",
         url: `${url}/auth/ca-nhan`,
@@ -33,5 +32,15 @@ export const getCurrentUser = () => {
           Authorization: `Bearer ${token}`,
         },
     }
+    return axios(option);
+}
+
+export const resetPassword = (data) => {
+    const option = {
+        method: "put",
+        url: `${url}/auth/cap-lai-mat-khau`,
+        data: data
+    }
+  
     return axios(option);
 }

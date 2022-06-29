@@ -120,8 +120,7 @@ const Filters = (props) => {
                 </Grid>
             </Grid>
             <Grid container mt={1}>
-                <Grid item lg={1.5} md={0} className={styles.Divider}></Grid>
-                <Grid item lg={5} md={12}>
+                <Grid item lg={4} md={12}>
                     <FormControl className={styles.RadioGroup}>
                         <FormLabel id="label" className={styles.Label}>Tình trạng đoàn phí: </FormLabel>
                         <RadioGroup
@@ -138,7 +137,7 @@ const Filters = (props) => {
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item lg={5} md={12}>
+                <Grid item lg={4} md={12}>
                     <FormControl className={styles.RadioGroup}>
                         <FormLabel id="label" className={styles.Label}>Sổ đoàn: </FormLabel>
                         <RadioGroup
@@ -151,6 +150,23 @@ const Filters = (props) => {
                         >
                             <FormControlLabel value="da-nop" control={<Radio className='radio' />} label="Đã nộp" />
                             <FormControlLabel value="chua-nop" control={<Radio className='radio' />} label="Chưa nộp" />
+                            <FormControlLabel value="all" control={<Radio className='radio' />} label="Tất cả" />
+                        </RadioGroup>
+                    </FormControl>
+                </Grid>
+                <Grid item lg={4} md={12}>
+                    <FormControl className={styles.RadioGroup}>
+                        <FormLabel id="label" className={styles.Label}>Sinh viên: </FormLabel>
+                        <RadioGroup
+                            row
+                            aria-labelledby="label"
+                            name="row-radio-buttons-group"
+                            className={styles.Options}
+                            value={searchValues?.doanVien || 'all'}
+                            onChange={e => handleChange("doanVien", e.target.value)}
+                        >
+                            <FormControlLabel value={true} control={<Radio className='radio' />} label="Đã vào đoàn" />
+                            <FormControlLabel value={false} control={<Radio className='radio' />} label="Chưa vào đoàn" />
                             <FormControlLabel value="all" control={<Radio className='radio' />} label="Tất cả" />
                         </RadioGroup>
                     </FormControl>

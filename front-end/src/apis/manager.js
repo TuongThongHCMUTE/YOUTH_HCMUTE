@@ -4,9 +4,8 @@ import axios from "axios";
 // Constants =============================================================== //
 import { url } from 'store/constant';
 
-const token = sessionStorage.getItem("token");
-
 export const getAllManagers= (args) => {
+    const token = sessionStorage.getItem("token");
     const { limit, offset, sortBy, isDescending, email, faculty, role, status } = args;
 
     const params = {
@@ -46,6 +45,7 @@ export const getAllManagers= (args) => {
 }
 
 export const getOneManagerById = (id) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: 'get',
         url: `${url}/managers/${id}`,
@@ -58,6 +58,7 @@ export const getOneManagerById = (id) => {
 }
 
 export const createOneManager = (manager) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "post",
         url: `${url}/managers`,
@@ -71,6 +72,7 @@ export const createOneManager = (manager) => {
 }
 
 export const updateOneManager = ({ password, ...manager }) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "put",
         url: `${url}/managers/${manager._id}`,
@@ -84,6 +86,7 @@ export const updateOneManager = ({ password, ...manager }) => {
 }
 
 export const resetManagerPassword = (email, password) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "put",
         url: `${url}/auth/cap-mat-khau`,
@@ -97,6 +100,7 @@ export const resetManagerPassword = (email, password) => {
 }
 
 export const deleteManager = (id) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "delete",
         url: `${url}/managers/${id}`,
@@ -109,6 +113,7 @@ export const deleteManager = (id) => {
 }
 
 export const exportExcelAllManagers = () => {
+    const token = sessionStorage.getItem("token");
     const headers = {'Content-Type': 'blob'};
     const option = {
         headers,

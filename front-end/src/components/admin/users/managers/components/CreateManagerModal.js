@@ -123,6 +123,7 @@ const CreateManagerModal = (props) => {
                                     className={styles.TextField}
                                     variant="outlined"
                                     label="Tên hiển thị"
+                                    required
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values?.tenHienThi || ''}
@@ -137,13 +138,13 @@ const CreateManagerModal = (props) => {
                                     className='text-field'
                                     error={errors.donVi}
                                 >
-                                    <InputLabel id="faculty-group">Đơn vị</InputLabel>
+                                    <InputLabel id="faculty-group">Đơn vị *</InputLabel>
                                     <Select
                                         name='donVi._id'
                                         labelId="faculty-group"
                                         id="input-faculty"
                                         value={values?.donVi?._id || 'none'}
-                                        label="Đơn vị"
+                                        label="Đơn vị *"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         error={errors.donVi}
@@ -165,6 +166,7 @@ const CreateManagerModal = (props) => {
                                     className={styles.TextField}
                                     variant="outlined"
                                     label="Email"
+                                    required
                                     value={values?.email || ''}
                                     onChange={handleChange}
                                     onBlur={handleBlur}

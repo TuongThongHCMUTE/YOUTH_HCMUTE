@@ -169,7 +169,7 @@ const getDataErrors = (importData, students, bills) => {
         if (isNaN(data.cttn) || data.cttn <= 0) {
             err = {
                 key: `STT ${data.stt}`,
-                message: 'Tiền đoàn công trình thanh niên'
+                message: 'Tiền công trình thanh niên không hợp lệ'
             }
             dataErrors.push(err)
         }
@@ -214,7 +214,7 @@ exports.importBillsOfStudents = async (req, res, next) => {
             let data = {
                 stt: row.values[1],
                 hoVaTen: row.values[2],
-                maSoSV: row.values[3].toString(),
+                maSoSV: row.values[3] ? row.values[3].toString() : undefined,
                 doanPhi: row.values[4],
                 cttn: row.values[5],
             }        

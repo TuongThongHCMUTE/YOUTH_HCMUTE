@@ -31,7 +31,7 @@ const initialValues = {
     },
     diaDiem: '',
     anhBia: '',
-    quyenLoiThamGia: '',
+    quenLoiThamGia: 'Điểm rèn luyện',
     diemCong: 0,
     tieuChi: [],
     dieuKienHoanThanhs: ['diemDanhVao']
