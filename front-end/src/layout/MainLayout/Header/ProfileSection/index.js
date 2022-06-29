@@ -131,7 +131,7 @@ const ProfileSection = () => {
 
     const navigate = useNavigate();
 
-    const handleLogout = async () => {
+    const handleLogout = () => {
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('role');
         dispatch({type: "CURRENT_USER", payload: null })

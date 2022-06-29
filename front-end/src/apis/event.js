@@ -78,6 +78,18 @@ export const searchEvents = (args) => {
     return axios(option)
 }
 
+export const getMissingEventsForSv5t = () => {
+    const option = {
+        method: 'get',
+        url: `${url}/events/hoat-dong-con-thieu`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    return axios(option);
+};
+
 export const getAttendanceForSV5T = (args) => {
     const { limit, offset, sortBy, isDescending } = args;
 

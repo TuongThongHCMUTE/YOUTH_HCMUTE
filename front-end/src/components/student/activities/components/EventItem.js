@@ -30,6 +30,7 @@ const EventItem = (props) => {
 
   return (
     <Box className={styles.Item} onClick={onClick}>
+        <Box className={styles.Status}>Đã đăng ký</Box>
         <Box className={styles.ImageWrapper}>
             <img
                 className={styles.Image}

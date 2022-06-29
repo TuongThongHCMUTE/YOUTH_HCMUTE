@@ -1,0 +1,98 @@
+.Scores {
+    .Summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .SummaryItem {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--color-primary-300);
+            padding: 16px 24px;
+            height: 110px;
+            background-color: white;
+
+            .Icon {
+                width: 40px;
+                height: 40px;
+                color: var(--color-grey-500);
+            }
+
+            .Score {
+                flex: 1;
+                text-align: center;
+
+                .Value {
+                    font-size: 36px;
+                    font-weight: bold;
+                    color: var(--color-grey-700);
+                }
+            }
+        }
+    }
+
+    .Message {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+
+        b {
+            color: var(--color-red-400);
+        }
+    }
+
+    .SuccessMessage {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--color-green-500);
+    }
+
+    .List {
+        margin-top: 32px;
+        background-color: white;
+
+        .Events {
+            max-height: 400px;
+            overflow-y: scroll;
+
+            .EventItem {
+                padding: 8px 16px;
+                border-bottom: 1px solid var(--color-grey-400);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+
+                // &:hover {
+                //     background-color: var(--color-primary-200);
+                // }
+
+                .Button {
+                    background-color: white;
+                    border: 1px solid var(--color-primary-400);
+                    height: 32px !important;
+                    border-radius: 16px;
+                    padding: 4px 16px;
+                    color: var(--color-primary-400);
+                    font-weight: bold;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: var(--color-primary-400);
+                        color: white;
+                    }
+                }
+            }
+        }
+
+        .NoEvents {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--color-grey-500);
+        }
+    }
+}

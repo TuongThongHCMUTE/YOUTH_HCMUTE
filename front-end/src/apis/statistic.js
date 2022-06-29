@@ -41,3 +41,15 @@ export const statisticBills = () => {
   
     return axios(option);
 }
+
+export const getDataForStudentDashboard = () => {
+    const option = {
+        method: "get",
+        url: `${url}/statistic/dashboard-sinh-vien`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+  
+    return axios(option);
+}
