@@ -35,3 +35,13 @@ export const getCurrentUser = () => {
     }
     return axios(option);
 }
+
+export const resetPassword = (data) => {
+    const option = {
+        method: "put",
+        url: `${url}/auth/cap-lai-mat-khau`,
+        data: data
+    }
+  
+    return axios(option);
+}
