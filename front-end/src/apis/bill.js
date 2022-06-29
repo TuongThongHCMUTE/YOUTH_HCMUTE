@@ -151,4 +151,4 @@ export const getBillStatistic = ({ studentId, faculty, status, date }) => {
     }
 
     return axios(option)
-}
+};

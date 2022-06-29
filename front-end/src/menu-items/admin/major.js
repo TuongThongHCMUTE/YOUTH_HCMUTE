@@ -4,6 +4,7 @@ import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined';
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 
 // constant
 const icons = {
@@ -12,6 +13,7 @@ const icons = {
     ViewListOutlinedIcon,
     WysiwygIcon,
     AssignmentTurnedInOutlinedIcon,
+    LocalAtmIcon,
 };
 
 // ===========================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||=========================== //
@@ -73,6 +75,14 @@ const other = {
             type: 'item',
             url: '/chi-doan',
             icon: icons.ViewListOutlinedIcon,
+            breadcrumbs: false
+        },
+        {
+            id: 'doan-phi',
+            title: 'Sổ đoàn và đoàn phí',
+            type: 'item',
+            url: '/doan-phi',
+            icon: icons.LocalAtmIcon,
             breadcrumbs: false
         }
     ]
