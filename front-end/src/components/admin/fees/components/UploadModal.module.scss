@@ -24,6 +24,18 @@
         .DownloadButton {
             width: 200px;
             margin-right: 8px;
+            position: relative;
+            a {
+                text-decoration: none;
+                display: block;
+                color: white;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                line-height: 40px;
+            }
         }
 
         .UploadButton {

@@ -133,6 +133,7 @@ const FeeManagement = () => {
                 totalRecords={totalRecords}
                 loading={loading}
                 onRefetch={setSearchValues} 
+                searchValues={searchValues}
             />
             <UploadModal
                 open={showModal}
