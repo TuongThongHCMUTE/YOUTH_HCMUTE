@@ -91,25 +91,6 @@ exports.getAllStudentBills = async (req, res, next) => {
     }
 }
 
-const validateExcelData = (row, rowNumber) => {
-    let data = {
-        hoVaTen: row.values[2],
-        maSoSV: row.values[3].toString(),
-        doanPhi: parseInt(row.values[4]),
-        cttn: parseInt(row.values[5]),
-    }
-
-    var err = {
-        rowNumber,
-        maSoSV: data.maSoSV,
-        message: []
-    }
-
-    if (data.maSoSV.length !== 8) {
-        err.push()
-    }
-}
-
 // Const get default bills
 const getDefaultBill = (student, priceLists, data) => {
     let bill = new Bill({

@@ -1,7 +1,8 @@
 const express = require('express')
 
 const { getDataForLandingPage, countStudentsByFaculty, countUserByRole, 
-        statisticStudents, statisticBills, statisticEvents, statisticClasses}
+        statisticStudents, statisticBills, statisticEvents, statisticClasses,
+        getDataForStudentDashboard }
     = require('../controllers/statisticController')
 
 const Router = express.Router()
@@ -19,5 +20,7 @@ Router.route('/chi-doan').get(statisticClasses)
 Router.route('/sinh-vien-theo-don-vi').get(countStudentsByFaculty)
 
 Router.route('/tai-khoan-theo-role').get(countUserByRole)
+
+Router.route('/dashboard-sinh-vien').get(getDataForStudentDashboard)
 
 module.exports = Router

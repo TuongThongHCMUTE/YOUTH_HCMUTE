@@ -282,3 +282,69 @@ exports.statisticClasses = async (req, res, next) => {
         next(e)
     }
 }
+
+// Student Dashboard
+exports.getDataForStudentDashboard = async (req, res, next) => {
+    try {
+        // const { email } = req.user
+        const email = '18110234@student.hcmute.edu.vn'
+        const maSoSV = email.slice(0, 8)
+
+        if (!email.includes('@student.hcmute.edu.vn')) {
+            const err = new Error('Không sử dụng tài khoản sinh viên')
+            err.statusCode = 400
+            return next(err)
+        }
+        
+        // Student section
+        const student = await Student.findOne({maSoSV})
+
+        const dongDoanPhi = student.bills.find(x => x.trangThai == true) ? true : false
+        const nopSoDoan = student?.thongTinDoanVien?.trangThaiSoDoan == 'DA_NOP' ? true : false
+
+
+        // Event section
+        const events = await Event.find({sinhViens:{$elemMatch:{maSoSV, hoanThanhHoatDong: true}}})
+                                    .select('_id quenLoiThamGia diemCong')
+        let diemCong = {}
+        let idEvents = []
+        events.forEach(event => {
+            idEvents.push(event._id)
+
+            if (!diemCong[event.quenLoiThamGia]) {
+                diemCong[event.quenLoiThamGia] = event.diemCong
+            } else {
+                diemCong[event.quenLoiThamGia] += event.diemCong
+            }
+        })
+
+
+        const recommendEvents = await Event.find({
+                                                    _id: { $nin: idEvents},
+                                                    daDuyet: true,
+                                                    hienThi: true,
+                                                    'thoiGianToChuc.thoiGianBatDau': {$gt: new Date()}
+                                                }).select('tenHoatDong anhBia thoiGianDangKy thoiGianToChuc quenLoiThamGia diemCong')
+
+        // Validate section
+        
+        res.status(200).json({
+            status: 'success',
+            data: {
+                dongDoanPhi,
+                nopSoDoan,
+                diemRenLuyen : {
+                    tongDiem: diemCong['Điểm rèn luyện'],
+                    events: recommendEvents.filter(x => x.quenLoiThamGia == 'Điểm rèn luyện')
+                },
+                diemCTXH : {
+                    tongDiem: diemCong['Điểm CTXH'],
+                    events: recommendEvents.filter(x => x.quenLoiThamGia == 'Điểm CTXH')
+                }
+            }
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
