@@ -73,9 +73,8 @@ const UploadModal = (props) => {
                 <div className={styles.ButtonsWrapper}>
                     <Button
                         className={clsx('button', styles.DownloadButton)}
-                        endIcon={<DownloadIcon />}
                     >
-                        Tải file mẫu
+                        <a target="_blank" rel="noopener noreferrer" href='https://docs.google.com/spreadsheets/d/12Py1kduPMqoT-htyFFTqhTW5qIV6nqk0/edit?usp=sharing&ouid=117637320187453264140&rtpof=true&sd=true'>Tải file mẫu  </a>
                     </Button>
                     <label htmlFor="contained-button-upload">
                         <input 
