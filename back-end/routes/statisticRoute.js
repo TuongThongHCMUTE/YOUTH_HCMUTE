@@ -1,5 +1,6 @@
 const express = require('express')
 
+const { verifyToken } = require('../middleware/verifyToken')
 const { getDataForLandingPage, countStudentsByFaculty, countUserByRole, 
         statisticStudents, statisticBills, statisticEvents, statisticClasses,
         getDataForStudentDashboard }
@@ -21,6 +22,6 @@ Router.route('/sinh-vien-theo-don-vi').get(countStudentsByFaculty)
 
 Router.route('/tai-khoan-theo-role').get(countUserByRole)
 
-Router.route('/dashboard-sinh-vien').get(getDataForStudentDashboard)
+Router.route('/dashboard-sinh-vien').get(verifyToken, getDataForStudentDashboard)
 
 module.exports = Router

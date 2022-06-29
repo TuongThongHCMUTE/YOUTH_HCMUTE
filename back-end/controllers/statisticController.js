@@ -286,8 +286,7 @@ exports.statisticClasses = async (req, res, next) => {
 // Student Dashboard
 exports.getDataForStudentDashboard = async (req, res, next) => {
     try {
-        // const { email } = req.user
-        const email = '18110234@student.hcmute.edu.vn'
+        const { email } = req.user
         const maSoSV = email.slice(0, 8)
 
         if (!email.includes('@student.hcmute.edu.vn')) {
@@ -334,11 +333,11 @@ exports.getDataForStudentDashboard = async (req, res, next) => {
                 dongDoanPhi,
                 nopSoDoan,
                 diemRenLuyen : {
-                    tongDiem: diemCong['Điểm rèn luyện'],
+                    tongDiem: diemCong['Điểm rèn luyện'] ? diemCong['Điểm rèn luyện'] : 0,
                     events: recommendEvents.filter(x => x.quenLoiThamGia == 'Điểm rèn luyện')
                 },
                 diemCTXH : {
-                    tongDiem: diemCong['Điểm CTXH'],
+                    tongDiem: diemCong['Điểm CTXH'] ? diemCong['Điểm CTXH'] : 0,
                     events: recommendEvents.filter(x => x.quenLoiThamGia == 'Điểm CTXH')
                 }
             }

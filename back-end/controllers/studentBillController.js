@@ -99,6 +99,7 @@ const getDefaultBill = (student, priceLists, data) => {
         maSoSV: student.maSoSV,
         namHoc: '2021-2022',
         trangThai: true,
+        ngayThanhToan: new Date(),
         cacKhoanPhi: [] 
     })
 
