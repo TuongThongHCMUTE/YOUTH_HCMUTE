@@ -33,9 +33,16 @@ const uploadFile = multer({
             fileSize: 5000000
         },
         fileFilter(req, file, cb) {
-            if (!file.originalname.match(/\.(jpg|jpeg|png|pdf)$/)) {
-                cb(new Error('Vui lòng upload ảnh hoặc pdf'))
+            if (req.query?.fileType == 'excel') {
+                if (!file.originalname.match(/\.(xlsx)$/)) {
+                    cb(new Error('Vui lòng upload file xlsx'))
+                }
+            } else {
+                if (!file.originalname.match(/\.(jpg|jpeg|png|pdf)$/)) {
+                    cb(new Error('Vui lòng upload ảnh hoặc pdf'))
+                }
             }
+
             cb(undefined, true)
         }
 })
