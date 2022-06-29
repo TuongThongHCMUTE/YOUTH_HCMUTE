@@ -39,6 +39,7 @@ const Filters = (props) => {
     const handleChange = (field, value) => {
         setSearchValues(prev => ({
             ...prev,
+            offset: 0,
             [field]: value,
         }));
     };
