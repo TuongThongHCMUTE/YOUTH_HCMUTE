@@ -40,6 +40,20 @@ export const getListAttendances = (eventId) => {
     return axios(option);
 };
 
+export const exportExcelAttendances = (eventId) => {
+    const option = {
+        headers: {'Content-Type': 'blob'},
+        responseType: 'arraybuffer',
+        method: "get",
+        url: `${url}/events/${eventId}/attendances/xls`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    return axios(option);
+};
+
 export const checkIn = (eventId, studentId) => {
     const option = {
         method: "put",
