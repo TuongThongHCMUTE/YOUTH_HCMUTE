@@ -35,7 +35,7 @@ const StudentDashboard = () => {
         <div className={styles.StudentDashboard}>
             <Welcome user={state?.user} /> 
             <Grid className={styles.Content} container>
-              <Grid className={styles.Left} item xs={6.5}>
+              <Grid className={styles.Left} item lg={6.5} xs={12}>
                 <div className={styles.Fees}>
                   <Typography className={styles.Title} variant='h4' component='h4'>Đoàn phí và sổ đoàn</Typography>
                   <Fee loading={loading} dongDoanPhi={data?.dongDoanPhi} nopSoDoan={data?.nopSoDoan} />
@@ -48,7 +48,7 @@ const StudentDashboard = () => {
                   <Sv5t />
                 </div>
               </Grid>
-              <Grid className={styles.Right} item xs={5.5}>
+              <Grid className={styles.Right} item lg={5.5} xs={12}>
                 <Typography className={styles.Title} variant='h4' component='h4'>Điểm rèn luyện và CTXH</Typography>
                 <Scores loading={loading} diemCTXH={data?.diemCTXH} diemRenLuyen={data?.diemRenLuyen} />
               </Grid>
