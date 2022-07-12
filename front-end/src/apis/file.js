@@ -2,9 +2,9 @@
 import axios from "axios";
 
 import { url } from 'store/constant';
-const token = sessionStorage.getItem("token");
 
 export const uploadFile = (file, type) => {
+    const token = sessionStorage.getItem("token");
     const formData = new FormData();
     formData.append("file", file);
 

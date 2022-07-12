@@ -171,7 +171,7 @@ EnhancedTableHead.propTypes = {
 };
 
 // ============================|| BILLS TABLE ||============================ //
-export default function EnhancedTable({ data, totalRecords, loading, onRefetch }) {
+export default function EnhancedTable({ data, totalRecords, loading, onRefetch, searchValues }) {
     const [order, setOrder] = useState('desc');
     const [orderBy, setOrderBy] = useState('maSoSV');
     const [page, setPage] = useState(0);
@@ -184,6 +184,12 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch }
             isDescending: order === 'desc'
         }))
     }, [order, orderBy, page]); 
+
+    useEffect(() => {
+        if (searchValues.offset !== page) {
+            setPage(searchValues.offset)
+        }
+    }, [searchValues.offset])
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';

@@ -5,10 +5,14 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 // Styles ================================================================== //
 import styles from './index.module.scss';
+// Assets ================================================================== //
+import excelImage from 'assets/images/icons/excel.png';
 // Material UI ============================================================= //
+import { Box } from '@mui/material'; 
 import WestIcon from '@mui/icons-material/West';
+import { LoadingButton } from '@mui/lab';
 // APIs ==================================================================== //
-import { getListAttendances, checkIn, checkOut } from 'apis/attendance';
+import { getListAttendances, checkIn, checkOut, exportExcelAttendances } from 'apis/attendance';
 import { getOneEventById } from 'apis/event';
 // My components =========================================================== //
 import AttendancesTable from './components/AttendancesTable';
@@ -26,6 +30,8 @@ const CheckIn = () => {
   const [event, setEvent] = useState(null);
   const [studentId, setStudentId] = useState('');
   const [loading, setLoading] = useState(false);
+  const [total, setTotal] = useState(null);
+  const [exporting, setExporting] = useState(false);
 
   const getAttendances = async () => {
     try {
@@ -44,6 +50,26 @@ const CheckIn = () => {
   useEffect(() => {
     getAttendances();
   }, []);
+
+  useEffect(() => {
+    if (attendances) {
+      setTotal({
+        'tong': attendances.length,
+        'dangKyThamGia': attendances.filter(i => i.dangKyThamGia).length,
+        'diemDanhVao': attendances.filter(i => i.diemDanhVao).length,
+        'diemDanhRa': attendances.filter(i => i.diemDanhRa).length,
+        'hoanThanhHoatDong': attendances.filter(i => i.hoanThanhHoatDong).length,
+      });
+    } else {
+      setTotal({
+        'tong': 0,
+        'dangKyThamGia': 0,
+        'diemDanhVao': 0,
+        'diemDanhRa': 0,
+        'hoanThanhHoatDong': 0,
+      });
+    }
+  }, [attendances])
 
   const getEvent = async (id) => {
     try {
@@ -88,6 +114,26 @@ const CheckIn = () => {
       setError(e.response?.data?.message || 'Đã xảy ra lỗi');
       console.error(e);
     }
+  };
+
+  const exportExcel = async () => {
+      try {
+          setExporting(true);
+          const res = await exportExcelAttendances(id);   
+          const outputFilename = `Danh sách điểm danh.xlsx`;
+      
+          // Download file automatically using link attribute.
+          const url = URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', outputFilename);
+          document.body.appendChild(link);
+          link.click();
+      } catch(err) {
+          alert(err);
+      } finally {
+          setExporting(false);
+      }
   };
 
   return (
@@ -140,6 +186,30 @@ const CheckIn = () => {
             <CheckInStatus status={status} error={error} />
           </div>
           <div className={styles.AttendancesTable}>
+            <Box className={styles.TableTitle}>
+                <div className={styles.Left}>
+                    <h3 className={styles.Title}>Tổng cộng: {total?.tong} </h3>
+                    <p className={styles.TotalRecord}>Đã đăng ký: { total?.dangKyThamGia }</p>
+                    <p className={styles.TotalRecord}>Điểm danh vào: { total?.diemDanhVao }</p>
+                    <p className={styles.TotalRecord}>Điểm danh ra: { total?.diemDanhRa }</p>
+                    <p className={styles.TotalRecord}>Hoàn thành: { total?.hoanThanhHoatDong }</p>
+                </div>
+                <div className={styles.ButtonWrapper}>
+                    <LoadingButton 
+                        className={styles.ExportButton}
+                        variant='contained'
+                        onClick={() => exportExcel()}
+                        loading={exporting}        
+                    >
+                        {!exporting && 
+                            <>
+                                <img src={excelImage} />
+                                Xuất dữ liệu
+                            </>
+                        }
+                    </LoadingButton>
+                </div>
+            </Box>
             <AttendancesTable data={attendances} />
           </div>
         </>

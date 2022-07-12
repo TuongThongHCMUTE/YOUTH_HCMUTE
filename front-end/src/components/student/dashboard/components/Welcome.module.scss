@@ -1,0 +1,15 @@
+.Welcome {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    background-color: white;
+    border: 1px solid var(--color-grey-400);
+    padding: 16px 24px;
+
+    .Avatar {
+        width: 80px;
+        height: 80px;
+        margin-right: 24px;
+    }
+}

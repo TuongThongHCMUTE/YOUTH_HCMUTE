@@ -2,9 +2,9 @@
 import axios from "axios";
 // Constants =============================================================== //
 import { url } from 'store/constant';
-const token = sessionStorage.getItem("token");
 
 export const getComments = (args) => {
+    const token = sessionStorage.getItem("token");
     const { limit, offset, hoatDong } = args;
 
     const params = {
@@ -30,6 +30,7 @@ export const getComments = (args) => {
 }
 
 export const createOneComment= (comment) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "post",
         url: `${url}/comments`,

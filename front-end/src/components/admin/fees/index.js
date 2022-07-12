@@ -29,6 +29,7 @@ const FeeManagement = () => {
         lopSV: 'all',
         doanPhi: 'all',
         soDoan: 'all',
+        doanVien: 'all',
     };
 
     const [searchValues, setSearchValues] = useState(defaultSearchValues);
@@ -87,6 +88,7 @@ const FeeManagement = () => {
         searchValues.offset, 
         searchValues.sortBy,
         searchValues.isDescending,
+        searchValues.doanVien,
     ]);
 
     return (
@@ -131,6 +133,7 @@ const FeeManagement = () => {
                 totalRecords={totalRecords}
                 loading={loading}
                 onRefetch={setSearchValues} 
+                searchValues={searchValues}
             />
             <UploadModal
                 open={showModal}

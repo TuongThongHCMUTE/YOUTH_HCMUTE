@@ -195,9 +195,7 @@ export default function EnhancedTable({ data, totalRecords, loading, onRefetch, 
     };
 
     const handleClick = (event, row) => {
-        setModalType('update');
-        setSelectedEvent(row);
-        setOpenCreateModal(true);
+
     };
 
     const handleChangePage = (event, newPage) => {

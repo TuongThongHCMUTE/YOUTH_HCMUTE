@@ -10,6 +10,7 @@ exports.getAllStudents = async (req, res, next) => {
         const { sort, limit, skip, query } = getQueryParameter(req)
 
         const students = await Student.find(query).sort(sort).skip(skip).limit(limit)
+                                        .select('-bills')
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
                                         .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
@@ -34,6 +35,7 @@ exports.exportExcelAllStudents = async (req, res, next) => {
         const { sort, limit, skip, query } = getQueryParameter(req)
 
         const students = await Student.find(query).sort(sort).skip(skip).limit(limit)
+                                        .select('-bills')
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
                                         .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
@@ -69,6 +71,7 @@ exports.getOneStudent = async (req, res, next) => {
         const { id } = req.params
 
         const student = await Student.findById(id)
+                                        .select('-bills')
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
                                         .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
@@ -90,6 +93,7 @@ exports.getStudentBarcode = async (req, res, next) => {
         const { maNamHoc } = req.query
 
         const student = await Student.findOne({ maSoSV })
+                                        .select('-bills')
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
                                         .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
@@ -150,6 +154,7 @@ exports.getStudentInfo = async (req, res, next) => {
         const { maSoSV } = req.params
 
         const student = await Student.findOne({ maSoSV })
+                                        .select('-bills')
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
                                         .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
@@ -171,6 +176,7 @@ exports.updateOneStudent = async (req, res, next) => {
         const { id } = req.params
 
         const student = await Student.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
+                                        .select('-bills')
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
                                         .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
@@ -191,6 +197,7 @@ exports.deleteOneStudent = async (req, res, next) => {
         const { id } = req.params
 
         const student = await Student.findByIdAndDelete(id)
+                                        .select('-bills')
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
                                         .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')

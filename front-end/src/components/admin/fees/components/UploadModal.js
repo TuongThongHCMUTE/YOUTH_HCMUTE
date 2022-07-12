@@ -18,7 +18,6 @@ import { LoadingButton } from '@mui/lab';
 // My components =========================================================== //
 import BaseModal from 'components/common/modal/base/BaseModal';
 import SnackBar from 'components/common/alert/Snackbar';
-import CircularLoading from 'components/common/loading/CircularLoading';
 import ImportDataTable from './ImportDataTable';
 import ImportErrorsTable from './ImportErrorsTable';
 
@@ -35,7 +34,7 @@ const UploadModal = (props) => {
         try {
             setUploading(true);
             const res = await importBillsFromFile(file);
-            if (res.data.status === success) {
+            if (res.data.status === 'success') {
                 setImportedDate(res.data.data.importData);
                 setFile(null);
                 setAlert({
@@ -44,6 +43,7 @@ const UploadModal = (props) => {
                 });
             };
         } catch (e) {
+            console.error(e);
             if (e.response?.data?.errors) {
                 setErrors(e.response?.data?.errors);
             } else {
@@ -73,9 +73,8 @@ const UploadModal = (props) => {
                 <div className={styles.ButtonsWrapper}>
                     <Button
                         className={clsx('button', styles.DownloadButton)}
-                        endIcon={<DownloadIcon />}
                     >
-                        Tải file mẫu
+                        <a target="_blank" rel="noopener noreferrer" href='https://docs.google.com/spreadsheets/d/12Py1kduPMqoT-htyFFTqhTW5qIV6nqk0/edit?usp=sharing&ouid=117637320187453264140&rtpof=true&sd=true'>Tải file mẫu  </a>
                     </Button>
                     <label htmlFor="contained-button-upload">
                         <input 

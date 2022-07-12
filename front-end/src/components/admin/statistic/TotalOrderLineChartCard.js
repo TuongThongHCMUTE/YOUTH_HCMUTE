@@ -132,14 +132,14 @@ const TotalOrderLineChartCard = ({ isLoading, data }) => {
                                                 className={classes.cardHeading}
                                                 displayType={'text'}
                                                 thousandSeparator={true}
-                                                suffix=" hóa đơn"
+                                                suffix=" sinh viên"
                                                 renderText={(value, props) => <Typography {...props}>{value}</Typography>}
                                                 />
                                                 : <Typography className={classes.cardHeading}>0</Typography>
                                             }
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Typography className={classes.subHeading}>Tổng hóa đơn</Typography>
+                                            <Typography className={classes.subHeading}>Tổng sinh viên</Typography>
                                         </Grid>
                                     </Grid>
                                 </Grid>
