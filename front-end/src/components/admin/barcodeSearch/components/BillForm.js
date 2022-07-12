@@ -4,6 +4,8 @@ import moment from 'moment';
 import 'moment/locale/vi';
 // Styles ================================================================== //
 import styles from './BillForm.module.css';
+// Constants =============================================================== //
+import { USER_ROLES } from 'helpers/constants/user';
 // APIs ==================================================================== //
 import { createOneBill, updateOneBill } from 'apis/bill';
 // Material UI ============================================================= //
@@ -22,7 +24,7 @@ import { ConfirmationModal } from 'components/common/modal';
 
 // =============================|| BILL FORM ||============================= //
 const BillForm = (props) => {
-    const { onCheckOut, newBill } = props;
+    const { onCheckOut, newBill, user } = props;
 
     const [bill, setBill] = useState(props.bill);
     const [showConfirmation, setShowConfirmation] = useState(false);
@@ -154,6 +156,7 @@ const BillForm = (props) => {
                     variant='contained'
                     className='button'
                     onClick={() => setShowConfirmation(true)}
+                    disabled={user?.role === USER_ROLES.CONG_TAC_VIEN}
                 >
                     XUẤT HÓA ĐƠN
                 </Button>

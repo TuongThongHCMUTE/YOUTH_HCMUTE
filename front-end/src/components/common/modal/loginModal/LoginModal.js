@@ -80,7 +80,8 @@ const LoginModal = (props) => {
                         navigate('/admin/dashboard');
                         break;
                     case USER_ROLES.CONG_TAC_VIEN:
-                        navigate('/cong-tac-vien/dashboard');
+                        navigate('/barcode/tra-cuu')
+                        // navigate('/cong-tac-vien/dashboard');
                         break;
                     default:
                         break;

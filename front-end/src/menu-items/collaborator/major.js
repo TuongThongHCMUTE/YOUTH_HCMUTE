@@ -34,23 +34,23 @@ const other = {
                     url: '/barcode/tra-cuu',
                     breadcrumbs: false,
                 },
-                {
-                    id: 'thong-ke',
-                    title: 'Thống kê',
-                    type: 'item',
-                    url: '/barcode/thong-ke',
-                    breadcrumbs: false,
-                }
+                // {
+                //     id: 'thong-ke',
+                //     title: 'Thống kê',
+                //     type: 'item',
+                //     url: '/barcode/thong-ke',
+                //     breadcrumbs: false,
+                // }
             ]
         },
-        {
-            id: 'diem-danh',
-            title: 'Điểm danh',
-            type: 'item',
-            url: '/diem-danh',
-            icon: icons.AssignmentTurnedInOutlinedIcon,
-            breadcrumbs: false
-        },
+        // {
+        //     id: 'diem-danh',
+        //     title: 'Điểm danh',
+        //     type: 'item',
+        //     url: '/diem-danh',
+        //     icon: icons.AssignmentTurnedInOutlinedIcon,
+        //     breadcrumbs: false
+        // },
         {
             id: 'chi-doan',
             title: 'Danh sách chi đoàn',
