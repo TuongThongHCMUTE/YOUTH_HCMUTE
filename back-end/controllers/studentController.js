@@ -2,6 +2,7 @@ const { getQueryParameter, stylesExcel, exportExcel, addHours } = require('../co
 const Student = require('../models/student')
 const Bill = require('../models/bill')
 const PriceList = require('../models/priceList')
+const GroupBook = require('../models/groupBook')
 const excelController = require('../common/xls/studentsXls')
 
 // Get all student
@@ -179,7 +180,21 @@ exports.updateOneStudent = async (req, res, next) => {
                                         .select('-bills')
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
-                                        .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
+
+        let groupBook = await GroupBook.findOne({maSoSV: student.maSoSV})
+        if (groupBook) {
+            groupBook.trangThaiSoDoan = student.thongTinDoanVien.trangThaiSoDoan
+            await groupBook.save()
+        } else if (student.thongTinDoanVien?.trangThaiSoDoan) {
+            groupBook = await GroupBook.create({
+                sinhVien: student._id,
+                maSoSV: student.maSoSV,
+                trangThaiSoDoan: student.thongTinDoanVien.trangThaiSoDoan
+            })
+
+            student.thongTinDoanVien.soDoan = groupBook._id
+            await student.save()
+        }
 
         res.status(200).json({
             status: 'success',
