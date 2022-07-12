@@ -4,7 +4,7 @@ import major from './major';
 // ===========================|| MENU ITEMS ||=========================== //
 
 const menuItems = {
-    items: [dashboard, major]
+    items: [major]
 };
 
 export default menuItems;

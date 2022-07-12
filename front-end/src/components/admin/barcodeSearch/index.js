@@ -1,7 +1,9 @@
 // Node Modules ============================================================ //
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // Styles ================================================================== //
 import styles from './index.module.css';
+// Context ================================================================== //
+import AppContext from 'store/AppContext';
 // APIs ==================================================================== //
 import { getOneStudentByStudentId, updateOneStudent } from 'apis/student';
 import { getAllFaculties } from 'apis/faculty';
@@ -26,6 +28,9 @@ const BarcodePage = () => {
     const [classes, setClasses] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [alert, setAlert] = useState(null);
+
+    const { state } = useContext(AppContext);
+    const user = state ? state.user : null;
 
     useEffect(async () => {
         try {
@@ -148,7 +153,7 @@ const BarcodePage = () => {
                             xs={6}
                             className={styles.InfoForm}
                         >
-                            <InfoForm 
+                            <InfoForm
                                 student={student} 
                                 faculties={faculties}
                                 classes={classes} 
@@ -162,6 +167,7 @@ const BarcodePage = () => {
                             {   
                                 bill 
                                 ?   <BillForm 
+                                        user={user} 
                                         newBill={newBill} 
                                         bill={bill} 
                                         onCheckOut={bill => handleCheckOut(bill)}
