@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import NumberFormat from 'react-number-format';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
@@ -17,7 +18,6 @@ import ChartDataYear from './chart-data/total-order-year-line-chart';
 
 // assets
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -121,20 +121,27 @@ const TotalOrderLineChartCard = ({ isLoading, data }) => {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item sx={{ mb: 0.75 }}>
+                        <Grid item sx={{ mb: 1.25 }}>
                             <Grid container alignItems="center">
-                                <Grid item xs={6}>
+                                <Grid item xs={12}>
                                     <Grid container alignItems="center">
                                         <Grid item>
-                                            <Typography className={classes.cardHeading}>{data || 0} hóa đơn</Typography>
+                                            { data
+                                                ? <NumberFormat 
+                                                value={data}
+                                                className={classes.cardHeading}
+                                                displayType={'text'}
+                                                thousandSeparator={true}
+                                                suffix=" sinh viên"
+                                                renderText={(value, props) => <Typography {...props}>{value}</Typography>}
+                                                />
+                                                : <Typography className={classes.cardHeading}>0</Typography>
+                                            }
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Typography className={classes.subHeading}>Tổng hóa đơn</Typography>
+                                            <Typography className={classes.subHeading}>Tổng sinh viên</Typography>
                                         </Grid>
                                     </Grid>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    {timeValue ? <Chart {...ChartDataMonth} /> : <Chart {...ChartDataYear} />}
                                 </Grid>
                             </Grid>
                         </Grid>

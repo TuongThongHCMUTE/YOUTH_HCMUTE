@@ -1,0 +1,37 @@
+.CheckInStatus {
+    .StatusBox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+        width: fit-content;
+        background-color: white;
+        border-radius: 25px;
+        border: 2px solid var(--color-grey-300);
+        padding: 0 16px;
+
+        .Icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 4px;
+        }
+
+        .Message {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--color-grey-700);
+        }
+    }
+
+    .Ready {
+        border-color: var(--color-green-400);
+    }
+
+    .Waiting {
+        border-color: var(--color-primary-400);
+    }
+
+    .Error {
+        border-color: var(--color-red-400);
+    }
+}

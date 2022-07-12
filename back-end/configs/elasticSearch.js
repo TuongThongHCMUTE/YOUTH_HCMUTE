@@ -20,7 +20,7 @@ const insertOneDoc = async (index, { id, ...body }) => {
             }
         })
     
-        await client.indices.refresh({index: 'events'})
+        await client.indices.refresh({index})
         console.log('Thêm vào Elasticsearch thành công')
         console.log(body)
     } catch {
@@ -46,7 +46,7 @@ const updateOneDoc = async (index, { id, ...body }) => {
                 }
             })
         } else {
-            await insertOneDoc('events', {
+            await insertOneDoc(index, {
                 id,
                 ...body
             })

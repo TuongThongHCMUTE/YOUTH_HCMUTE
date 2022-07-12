@@ -4,9 +4,8 @@ import axios from "axios";
 // Constants =============================================================== //
 import { url } from 'store/constant';
 
-const token = sessionStorage.getItem("token");
-
 export const getAllStudents= (args) => {
+    const token = sessionStorage.getItem("token");
     const { limit, offset, sortBy, isDescending, studentId, studentClass, faculty } = args;
 
     const params = {
@@ -45,6 +44,7 @@ export const getAllStudents= (args) => {
 }
 
 export const getOneStudentById = (id) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: 'get',
         url: `${url}/students/${id}`,
@@ -57,6 +57,7 @@ export const getOneStudentById = (id) => {
 }
 
 export const getListStudentsByStudentId = (id) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: 'get',
         url: `${url}/students`,
@@ -70,6 +71,7 @@ export const getListStudentsByStudentId = (id) => {
 }
 
 export const getOneStudentByStudentId = (studentId) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: 'get',
         url: `${url}/students/thong-tin-barcode/${studentId}`,
@@ -83,6 +85,7 @@ export const getOneStudentByStudentId = (studentId) => {
 }
 
 export const createOneStudent= (student) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "post",
         url: `${url}/students`,
@@ -96,6 +99,7 @@ export const createOneStudent= (student) => {
 }
 
 export const updateOneStudent = ({ googleId, ...student }) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "put",
         url: `${url}/students/${student._id}`,
@@ -109,6 +113,7 @@ export const updateOneStudent = ({ googleId, ...student }) => {
 }
 
 export const deleteStudent = (studentId) => {
+    const token = sessionStorage.getItem("token");
     const option = {
         method: "delete",
         url: `${url}/students/${studentId}`,
@@ -121,6 +126,7 @@ export const deleteStudent = (studentId) => {
 }
 
 export const exportExcelAllStudents = () => {
+    const token = sessionStorage.getItem("token");
     const headers = {'Content-Type': 'blob'};
     const option = {
         headers,

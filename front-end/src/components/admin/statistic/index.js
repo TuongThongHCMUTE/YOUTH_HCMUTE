@@ -7,7 +7,6 @@ import { Typography } from '@mui/material';
 import styles from './index.module.scss';
 // project imports
 import EarningCard from './EarningCard';
-import PopularCard from './PopularCard';
 import TotalOrderLineChartCard from './TotalOrderLineChartCard';
 import TotalIncomeDarkCard from './TotalIncomeDarkCard';
 import TotalIncomeLightCard from './TotalIncomeLightCard';
@@ -62,9 +61,6 @@ const Dashboard = () => {
                         <Grid item xs={12} md={12}>
                             <TotalGrowthBarChart total={billData?.staticBill[0]?.total} data={billData?.staticBillByFaculty} isLoading={isLoading} />
                         </Grid>
-                        {/* <Grid item xs={12} md={3}>
-                            <PopularCard isLoading={isLoading} data={billData?.staticBillByFaculty} />
-                        </Grid> */}
                     </Grid>
                 </Grid>
             </Grid>

@@ -7,13 +7,14 @@ import clsx from 'clsx';
 // Context ================================================================= //
 import AppContext from 'store/AppContext';
 // APIs ==================================================================== //
-import { login, googleLogin } from 'apis/auth';
+import { login, googleLogin, resetPassword } from 'apis/auth';
 // Styles ================================================================== //
 import styles from './LoginModal.module.scss';
 // Assets ================================================================== //
 import logo from 'assets/images/logo-hcmute-small.png';
 // Constants =============================================================== //
-import { LOGIN_STEPS, USER_ROLES, GOOGLE_CLIENT_ID } from 'store/constant';
+import { LOGIN_STEPS, GOOGLE_CLIENT_ID } from 'store/constant';
+import { USER_ROLES } from 'helpers/constants/user';
 // Material UI ============================================================= //
 import {
     Box, 
@@ -53,7 +54,7 @@ const LoginModal = (props) => {
         if (!values.email) {
             errors.email = 'Email không được để trống';
         }
-        if (!values.password) {
+        if (step === LOGIN_STEPS.ADMIN_LOGIN && !values.password) {
             errors.password = 'Mật khẩu không được để trống';
         }
 
@@ -76,7 +77,11 @@ const LoginModal = (props) => {
 
                 switch(user.role) {
                     case USER_ROLES.DOAN_TRUONG:
-                        navigate('/admin');
+                        navigate('/admin/dashboard');
+                        break;
+                    case USER_ROLES.CONG_TAC_VIEN:
+                        navigate('/barcode/tra-cuu')
+                        // navigate('/cong-tac-vien/dashboard');
                         break;
                     default:
                         break;
@@ -106,7 +111,7 @@ const LoginModal = (props) => {
             sessionStorage.setItem('role', user.role);
             dispatch({type: "CURRENT_USER", payload: user});
             
-            navigate('/student');
+            navigate('/sinh-vien/dashboard');
         } catch (error) {
             setAlert({
                 severity: 'error',
@@ -123,6 +128,28 @@ const LoginModal = (props) => {
             message: res.error
         });
     };
+
+    const handleResetPassword = async (values)  => {
+        try {
+            setLoading(true);
+            const res = await resetPassword(values);
+
+            if (res.data.status === 'success') {
+                setAlert({
+                    severity: 'success',
+                    message: res.data.message
+                });
+            }
+        } catch (error) {
+            console.error("error: ", error.response.data.message);
+            setAlert({
+                severity: 'error',
+                message: error.response.data.message
+            });
+        } finally {
+            setLoading(false);
+        }
+    }
     
     return (
         <Modal
@@ -204,6 +231,8 @@ const LoginModal = (props) => {
                             <Formik
                                 initialValues={{ email: '', password: '' }}
                                 enableReinitialize
+                                validateOnChange={false}
+                                validateOnBlur={false}
                                 validate={values => validateData(values)}
                                 onSubmit={(values) => { 
                                     handleAdminLogin(values);
@@ -244,7 +273,15 @@ const LoginModal = (props) => {
                                             error={errors.password}
                                             helperText={errors.password}
                                         />
-                                        <a className={styles.ForgotPasswordLink}>Quên mật khẩu</a>
+                                        <a 
+                                            className={styles.ForgotPasswordLink}
+                                            onClick={e => {
+                                                e.preventDefault();
+                                                setStep(LOGIN_STEPS.FORGOT_PASSWORD)
+                                            }}
+                                        >
+                                            Quên mật khẩu
+                                        </a>
                                         <div className={styles.ButtonWrapper}>
                                             <LoadingButton 
                                                 type='submit'
@@ -266,6 +303,67 @@ const LoginModal = (props) => {
                                 }}
                             >
                                 Bạn là sinh viên?
+                            </a>
+                        </div>
+                    }
+                    {(step === LOGIN_STEPS.FORGOT_PASSWORD) &&
+                        <div className={clsx(styles.BodyWrapper, styles.AdminLoginWrapper)}>
+                            <h3>Nhập email của bạn</h3>
+                            <Formik
+                                initialValues={{ email: '' }}
+                                enableReinitialize
+                                validateOnChange={false}
+                                validateOnBlur={false}
+                                validate={values => validateData(values)}
+                                onSubmit={(values) => { 
+                                    handleResetPassword(values);
+                                }}
+                            >
+                                {({
+                                    values,
+                                    errors,
+                                    touched,
+                                    handleChange,
+                                    setFieldValue,
+                                    handleBlur,
+                                    handleSubmit,
+                                    isSubmitting,
+                                }) => (
+                                    <form className={styles.Form} onSubmit={handleSubmit}>
+                                        <TextField
+                                            type='email' 
+                                            name='email'
+                                            className={clsx('text-field', styles.TextField)}
+                                            variant="filled"
+                                            label="Email"
+                                            fullWidth
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.email || ''}
+                                            error={errors.email}
+                                            helperText={errors.email}
+                                        />
+                                        <div className={styles.ButtonWrapper}>
+                                            <LoadingButton 
+                                                type='submit'
+                                                className={clsx("button", styles.AminLogin)}
+                                                loading={loading}
+                                            >
+                                                Lấy lại mật khẩu
+                                            </LoadingButton>
+                                        </div>
+                                    </form>
+                                )}
+                            </Formik>
+                            <div className={styles.ButtonDivider} />
+                            <a 
+                                className={styles.StudentLoginLink}
+                                onClick={e => {
+                                    e.preventDefault();
+                                    setStep(LOGIN_STEPS.ADMIN_LOGIN)
+                                }}
+                            >
+                                Trở về trang đăng nhập
                             </a>
                         </div>
                     }

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import NumberFormat from 'react-number-format';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
@@ -81,10 +82,20 @@ const TotalIncomeLightCard = ({ isLoading, data }) => {
                                     mb: 0.45
                                 }}
                                 className={classes.padding}
-                                primary={<Typography variant="h4">{data || 0} hóa đơn</Typography>}
+                                primary={data
+                                    ? <NumberFormat 
+                                        value={data}
+                                        displayType={'text'}
+                                        thousandSeparator={true}
+                                        suffix=" sinh viên"
+                                        variant='h4'
+                                        renderText={(value, props) => <Typography {...props}>{value}</Typography>}
+                                    />
+                                    : <Typography variant='h4'>0</Typography>
+                                }
                                 secondary={
                                     <Typography variant="subtitle2" className={classes.secondary}>
-                                        Chưa thanh toán
+                                        Chưa hoàn thành đoàn phí, CTTN
                                     </Typography>
                                 }
                             />

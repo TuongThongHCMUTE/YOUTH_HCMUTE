@@ -41,6 +41,13 @@ const studentSchema = new mongoose.Schema({
     role: {type: String, trim: true}, // DOAN_VIEN
     kichHoatTaiKhoan: {type: Boolean, default: false}, // true, false (Chưa kích hoạt , Đã kích hoạt)
     trangThai: {type: Boolean, default: true}, // true, false (Đang dùng, tạm khóa),
+    bills: [{
+        bill: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Bill'
+        },
+        trangThai: {type: Boolean},
+    }],
     createBy: {type: String},
     updateBy: {type: String}
 }, {timestamps: true})

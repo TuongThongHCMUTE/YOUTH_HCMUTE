@@ -8,7 +8,7 @@ import { ButtonBase } from '@material-ui/core';
 import config from 'config';
 import Logo from 'ui-component/Logo';
 // Constants =============================================================== //
-import { USER_ROLES } from 'store/constant';
+import { USER_ROLES } from 'helpers/constants/user';
 import { MENU_OPEN } from 'store/actions';
 
 // ===========================|| MAIN LOGO ||=========================== //
@@ -22,15 +22,19 @@ const LogoSection = () => {
 
     switch(role) {
         case USER_ROLES.DOAN_TRUONG:
-            redirectTo = '/admin/dashboard/default';
+            redirectTo = '/admin/dashboard/';
             break;
-        case USER_ROLES.SINH_VIEN:
-            redirectTo = '/student/dashboard/default';
+        case USER_ROLES.CONG_TAC_VIEN: 
+            redirectTo = '/cong-tac-vien/dashboard';
+            break;
+        case USER_ROLES.DOAN_VIEN:
+            redirectTo = '/sinh-vien/dashboard/';
             break;
         default:
             redirectTo = config.defaultPath;
             break;
-    }
+    };
+
     return (
         <ButtonBase 
             disableRipple 

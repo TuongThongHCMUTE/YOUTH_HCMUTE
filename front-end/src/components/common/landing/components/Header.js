@@ -12,7 +12,8 @@ import {
 import EastIcon from '@mui/icons-material/East';
 import MenuIcon from '@mui/icons-material/Menu';
 // Constants =============================================================== //
-import { USER_ROLES, LOGIN_STEPS } from 'store/constant';
+import { LOGIN_STEPS } from 'store/constant';
+import { USER_ROLES } from 'helpers/constants/user';
 import config from 'config';
 // Context ================================================================= //
 import AppContext from 'store/AppContext';
@@ -60,10 +61,13 @@ const Header = (props) => {
 
     switch(role) {
         case USER_ROLES.DOAN_TRUONG:
-            redirectTo = '/admin/dashboard/default';
+            redirectTo = '/admin/dashboard/';
             break;
-        case USER_ROLES.SINH_VIEN:
-            redirectTo = '/student/dashboard/default';
+        case USER_ROLES.CONG_TAC_VIEN: 
+            redirectTo = '/cong-tac-vien/dashboard';
+            break;
+        case USER_ROLES.DOAN_VIEN:
+            redirectTo = '/sinh-vien/dashboard/';
             break;
         default:
             redirectTo = config.defaultPath;

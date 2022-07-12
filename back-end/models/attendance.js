@@ -14,6 +14,7 @@ const attendanceSchema = new mongoose.Schema({
     thoiGianDiemDanhVao: {type: Date},
     diemDanhRa: {type: Boolean, default: false},
     thoiGianDiemDanhRa: {type: Date},
+    hoanThanhHoatDong: {type: Boolean, default: false},
     ghiChu: {type: String},
     createBy: {type: String},
     updateBy: {type: String}

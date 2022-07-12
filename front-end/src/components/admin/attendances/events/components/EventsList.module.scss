@@ -1,0 +1,10 @@
+.List {
+    overflow: hidden !important;
+    margin: 12px -12px 0;
+
+    .Items {
+        .Item {
+            padding: 0 12px;
+        }
+    }
+}

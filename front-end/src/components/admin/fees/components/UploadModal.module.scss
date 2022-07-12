@@ -1,0 +1,97 @@
+.ContentWrapper {
+    width: 1200px;
+    height: 80vh;
+    overflow-y: scroll;
+    background-color: white;
+    padding: 0 0 40px;
+
+    .Guide {
+        text-align: center;
+        color: var(--color-grey-600);
+        margin-top: 16px;
+    }
+
+    .ButtonsWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 24px 0;
+
+        .UploadInput {
+            display: none;
+        }
+
+        .DownloadButton {
+            width: 200px;
+            margin-right: 8px;
+            position: relative;
+            a {
+                text-decoration: none;
+                display: block;
+                color: white;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                line-height: 40px;
+            }
+        }
+
+        .UploadButton {
+            width: 200px;
+            margin-left: 8px;
+            background: var(--color-green-400);
+            &:hover {
+                background: var(--color-green-500);
+            }
+        }
+    }
+
+    .FileWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .File {
+            padding: 0 6px 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--color-grey-300);
+            width: fit-content;
+            height: 40px;
+            border-radius: 20px;
+    
+            .IconButton {
+                margin-left: 16px;
+            }
+        }
+
+        .SubmitButton {
+            margin-left: 8px;
+            border-radius: 20px;
+            background-color: var(--color-red-400);
+            &:hover {
+                background-color: var(--color-red-500);
+            }
+        }
+    }
+
+    .TableWrapper {
+        margin-top: 48px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .Title {
+            text-align: center;
+            color: var(--color-primary-400);
+        }
+
+        .Table {
+            margin-top: 24px;
+        }
+    }    
+}

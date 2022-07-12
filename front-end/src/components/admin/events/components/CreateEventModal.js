@@ -12,6 +12,7 @@ import { createOneEvent, updateOneEvent, getOneEventById } from 'apis/event';
 import { uploadFile } from 'apis/file';
 // Constants =============================================================== //
 import merits from 'helpers/constants/merits';
+import { SCALES, SCORES, ACCEPTED_CRITERIAS } from 'helpers/constants/event';
 import { url } from 'store/constant';
 const initialValues = {
     tenHoatDong: '',
@@ -30,13 +31,22 @@ const initialValues = {
     },
     diaDiem: '',
     anhBia: '',
-    quyenLoiThamGia: '',
+    quenLoiThamGia: 'Điểm rèn luyện',
     diemCong: 0,
-    tieuChi: []
+    tieuChi: [],
+    dieuKienHoanThanhs: ['diemDanhVao']
 };
 // Material UI ============================================================= //
 import { 
+  Checkbox,
   Grid,
+  InputLabel,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormHelperText,
+  MenuItem,
+  Select,  
   TextField, 
 } from '@mui/material';
 import DateAdapter from '@mui/lab/AdapterMoment';
@@ -46,7 +56,6 @@ import BaseModal from 'components/common/modal/base/BaseModal';
 import SnackBar from 'components/common/alert/Snackbar';
 import CircularLoading from 'components/common/loading/CircularLoading';
 import Tag from 'components/common/tag';
-import { Box } from '@material-ui/system';
 
 // =======================|| CREATE STUDENT MODAL ||======================== //
 const CreateEventModal = (props) => {
@@ -86,13 +95,43 @@ const CreateEventModal = (props) => {
         const errors = {};
 
         if (!values.tenHoatDong) {
-          errors.ho = 'Tên hoạt động không được để trống.'
+          errors.tenHoatDong = 'Tên hoạt động không được để trống.'
         }
 
-        return errors;
+        if (!values.thoiGianDangKy?.thoiGianBatDau) {
+            errors.batDauDangKy = 'Chọn ngày bắt đầu đăng ký'
+        }
+
+        if (!values.thoiGianDangKy?.thoiGianKetThuc) {
+            errors.ketThucDangKy = 'Chọn ngày kết thúc đăng ký'
+        }
+
+        if (!values.thoiGianToChuc?.thoiGianBatDau) {
+            errors.batDauToChuc = 'Chọn ngày bắt đầu tổ chức'
+        }
+
+        if (!values.thoiGianToChuc?.thoiGianKetThuc) {
+            errors.ketThucToChuc = 'Chọn ngày kết thúc tổ chức'
+        }
+
+        if (!moment(values.thoiGianDangKy?.thoiGianBatDau).isBefore(values.thoiGianDangKy.thoiGianKetThuc)) {
+            errors.ketThucDangKy = 'Thời gian kết thúc phải sau thời gian bắt đầu'
+        }
+
+        if (!moment(values.thoiGianToChuc?.thoiGianBatDau).isBefore(values.thoiGianToChuc.thoiGianKetThuc)) {
+            errors.ketThucToChuc = 'Thời gian kết thúc phải sau thời gian bắt đầu'
+        }
+
+        setErrors(errors);
+        return(errors);
     };
 
     const handleCreateAccount = async (values) => {
+        const e = validateData(values);
+        if (Object.keys(e).length > 0) {
+            return;
+        }
+
         try {
             setCreating(true);
           
@@ -102,6 +141,9 @@ const CreateEventModal = (props) => {
                     severity: 'success',
                     message: type === 'create' ? 'Thêm hoạt động thành công!' : 'Chỉnh sửa hoạt động thành công!'
                 });
+                if (type === 'create') {
+                    setValues(initialValues);
+                };
                 onRefetch();
             }
         } catch (e) {
@@ -147,7 +189,8 @@ const CreateEventModal = (props) => {
                 thoiGianDangKy,
                 thoiGianToChuc
             }));
-        }
+            return;
+        };
 
         setValues(prev => ({
             ...prev,
@@ -155,17 +198,31 @@ const CreateEventModal = (props) => {
         }));
     };
 
+    const handleCheck = (field, checked) => {
+        let newCriterias = values.dieuKienHoanThanhs;
+        if (!checked && field !== 'diemDanhVao') {
+            newCriterias = newCriterias.filter(i => i !== field);
+        } else {
+            newCriterias.push(field);
+        }
+        
+        setValues(prev => ({
+            ...prev,
+            dieuKienHoanThanhs: newCriterias
+        }));
+    }
+
     const handleMeritClick = (merit) => {
         let merits = values.tieuChi;
-        const index = merits.findIndex(i => i.maTieuChi === merit.id);
+        const index = merits.findIndex(i => i.maTieuChi.toLowerCase() === merit.id.toLowerCase());
         
         if (index === -1) {
             merits.push({
-                maTieuChi: merit.id,
+                maTieuChi: merit.id.toLowerCase(),
                 tenTieuChi: merit.content
             })
         } else {
-            merits = merits.filter(i => i.maTieuChi !== merit.id);
+            merits = merits.filter(i => i.maTieuChi.toLowerCase() !== merit.id.toLowerCase());
         }
 
         setValues(prev => ({
@@ -224,6 +281,7 @@ const CreateEventModal = (props) => {
             onClose={() => {
                 setValues(initialValues);
                 setErrors(null);
+                setAlert(null);
                 onClose();
             }}
         >
@@ -292,7 +350,7 @@ const CreateEventModal = (props) => {
                                                 required
                                                 onChange={e => handleChange('tenHoatDong', e.target.value)}
                                                 value={values?.tenHoatDong || ''}
-                                                error={errors?.tenHoatDong}
+                                                // error={errors?.tenHoatDong}
                                                 helperText={errors?.tenHoatDong}
                                             />
                                         </Grid>
@@ -323,16 +381,27 @@ const CreateEventModal = (props) => {
                                             />
                                         </Grid>
                                         <Grid item xs={8} sx={{ p: 2 }}>
-                                            <TextField 
-                                                name='quyMoToChuc'
+                                            <FormControl 
+                                                fullWidth 
+                                                variant='filled' 
                                                 className={styles.TextField}
-                                                variant="filled"
-                                                label="Quy mô tổ chức"
-                                                onChange={e => handleChange('quyMoToChuc', e.target.value)}
-                                                value={values?.quyMoToChuc || ''}
                                                 error={errors?.quyMoToChuc}
-                                                helperText={errors?.quyMoToChuc}
-                                            />
+                                            >
+                                                <InputLabel id="faculty-group">Quy mô tổ chức</InputLabel>
+                                                <Select
+                                                    name='quyMoToChuc'
+                                                    labelId="scales-group"
+                                                    id="input-scale"
+                                                    value={values?.quyMoToChuc || 'Cấp khoa'}
+                                                    label="Quy mô tổ chức"
+                                                    onChange={e => handleChange('quyMoToChuc', e.target.value)}
+                                                >
+                                                    {SCALES.map((i) => (
+                                                        <MenuItem key={i} value={i}>{i}</MenuItem>
+                                                    ))}
+                                                </Select>
+                                                {errors?.quyMoToChuc && <FormHelperText>{errors.quyMoToChuc}</FormHelperText>}
+                                            </FormControl>
                                         </Grid>
                                         <Grid item xs={4} sx={{ p: 2 }}>
                                             <TextField 
@@ -370,7 +439,16 @@ const CreateEventModal = (props) => {
                                                 label="Bắt đầu đăng ký"
                                                 onChange={(value) => handleChange('BAT_DAU_DANG_KY', value)}
                                                 value={values?.thoiGianDangKy?.thoiGianBatDau || moment()}
-                                                renderInput={(props) => <TextField {...props} className={styles.TextField} />}
+                                                // error={errors?.batDauDangKy}
+                                                helperText={errors?.batDauDangKy}
+                                                renderInput={(props) => 
+                                                    <TextField 
+                                                        {...props} 
+                                                        className={styles.TextField}
+                                                        // error={errors?.batDauDangKy}
+                                                        helperText={errors?.batDauDangKy}
+                                                    />
+                                                }
                                             />
                                         </Grid>
                                         <Grid item xs={6} sx={{ p: 2 }}>
@@ -379,7 +457,15 @@ const CreateEventModal = (props) => {
                                                 label="Kết thúc đăng ký"
                                                 onChange={(value) => handleChange('KET_THUC_DANG_KY', value)}
                                                 value={values?.thoiGianDangKy?.thoiGianKetThuc || moment()}
-                                                renderInput={(props) => <TextField {...props} className={styles.TextField} />}
+                                                // error={errors?.ketThucDangKy}
+                                                helperText={errors?.ketThucDangKy}
+                                                renderInput={(props) => 
+                                                    <TextField 
+                                                        {...props} 
+                                                        className={styles.TextField} 
+                                                        // error={errors?.ketThucDangKy}
+                                                        helperText={errors?.ketThucDangKy}
+                                                    />}
                                             />
                                         </Grid>
                                         <Grid item xs={6} sx={{ p: 2 }}>
@@ -388,7 +474,15 @@ const CreateEventModal = (props) => {
                                                 label="Bắt đầu tổ chức"
                                                 onChange={(value) => handleChange('BAT_DAU_TO_CHUC', value)}
                                                 value={values?.thoiGianToChuc?.thoiGianBatDau || moment()}
-                                                renderInput={(props) => <TextField {...props} className={styles.TextField} />}
+                                                // error={errors?.batDauToChuc}
+                                                helperText={errors?.batDauToChuc}
+                                                renderInput={(props) => 
+                                                    <TextField 
+                                                        {...props} 
+                                                        className={styles.TextField} 
+                                                        // error={errors?.batDauToChuc}
+                                                        helperText={errors?.batDauToChuc}
+                                                    />}
                                             />
                                         </Grid>
                                         <Grid item xs={6} sx={{ p: 2 }}>
@@ -397,7 +491,27 @@ const CreateEventModal = (props) => {
                                                 label="Kết thúc tổ chức"
                                                 onChange={(value) => handleChange('KET_THUC_TO_CHUC', value)}
                                                 value={values?.thoiGianToChuc?.thoiGianKetThuc || moment()}
-                                                renderInput={(props) => <TextField {...props} className={styles.TextField} />}
+                                                // error={errors?.ketThucTochuc}
+                                                helperText={errors?.ketThucTochuc}
+                                                renderInput={(props) => 
+                                                    <TextField 
+                                                        {...props} 
+                                                        className={styles.TextField} 
+                                                        // error={errors?.ketThucTochuc}
+                                                        helperText={errors?.ketThucToChuc}
+                                                    />}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sx={{ p: 2 }}>
+                                            <TextField 
+                                                name='diaDiem'
+                                                className={styles.TextField}
+                                                variant="filled"
+                                                label="Địa điểm"
+                                                onChange={e => handleChange('diaDiem', e.target.value)}
+                                                value={values?.diaDiem || ''}
+                                                error={errors?.diaDiem}
+                                                helperText={errors?.diaDiem}
                                             />
                                         </Grid>
                                     </Grid>
@@ -419,16 +533,27 @@ const CreateEventModal = (props) => {
                                 sx={{ display: 'flex', flexWrap: 'wrap' }}
                             >
                                 <Grid item xs={7} sx={{ p: 2 }}>
-                                    <TextField 
-                                        name='quenLoiThamGia'
+                                    <FormControl 
+                                        fullWidth 
+                                        variant='outlined' 
                                         className={styles.TextField}
-                                        variant="outlined"
-                                        label="Quyền lợi tham gia"
-                                        onChange={e => handleChange('quenLoiThamGia', e.target.value)}
-                                        value={values?.quenLoiThamGia || ''}
                                         error={errors?.quenLoiThamGia}
-                                        helperText={errors?.quenLoiThamGia}
-                                    />
+                                    >
+                                        <InputLabel id="scores-group">Quyền lợi tham gia</InputLabel>
+                                        <Select
+                                            name='quenLoiThamGia'
+                                            labelId="scores-group"
+                                            id="input-score"
+                                            value={values?.quenLoiThamGia || 'Điểm rèn luyện'}
+                                            label="Quyền lợi tham gia"
+                                            onChange={e => handleChange('quenLoiThamGia', e.target.value)}
+                                        >
+                                            {SCORES.map((i) => (
+                                                <MenuItem key={i} value={i}>{i}</MenuItem>
+                                            ))}
+                                        </Select>
+                                        {errors?.quyMoToChuc && <FormHelperText>{errors.quyMoToChuc}</FormHelperText>}
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={5} sx={{ p: 2 }}>
                                     <TextField 
@@ -445,6 +570,20 @@ const CreateEventModal = (props) => {
                                     />
                                 </Grid>
                             </Grid>
+                            <h3 className={styles.SectionTitle}>Điều kiện hoàn thành</h3>
+                            <FormGroup className={styles.CheckBoxes}>
+                                { ACCEPTED_CRITERIAS.map(criteria => 
+                                    <FormControlLabel
+                                        className={styles.CheckBox} 
+                                        control={
+                                            <Checkbox  
+                                                checked={values?.dieuKienHoanThanhs?.findIndex(i => i === criteria.value) !== -1}
+                                                onChange={(e) => handleCheck(criteria.value, e.target.checked)} 
+                                            />} 
+                                        label={criteria.display}
+                                    />
+                                )}
+                            </FormGroup>
                             <div className={styles.Divider} />
                             <h3 className={styles.SectionTitle}>Tiêu chí sinh viên 5 tốt</h3>
                             <div className={styles.Merits}>                    
@@ -483,7 +622,9 @@ const CreateEventModal = (props) => {
                                 variant='contained'
                                 className={clsx('button', styles.Button)}
                                 loading={creating}
-                                onClick={() => handleCreateAccount(values)}
+                                onClick={() => {
+                                    handleCreateAccount(values)
+                                }}
                             >
                                 { type === 'create' ? 'Tạo hoạt động' : 'Cập nhật' }
                             </LoadingButton>

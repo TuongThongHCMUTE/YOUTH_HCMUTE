@@ -1,7 +1,8 @@
-const { getQueryParameter, exportExcel, stylesExcel, addHours } = require('../common/index')
+const { getQueryParameter, exportExcel } = require('../common/index')
 const Bill = require('../models/bill')
 const GroupBook = require('../models/groupBook')
 const Student = require('../models/student')
+const excelController = require('../common/xls/billsXls')
 
 const getPaymentDateQuery = (query) => {
     if (query.startDate && query.endDate) {
@@ -53,30 +54,8 @@ exports.exportExcelAllBills = async (req, res, next) => {
         const bills = await Bill.find(query).sort(sort).skip(skip).limit(limit)
                                     .populate('sinhVien','ho ten')
                                     .populate('donVi', 'tenDonVi')
-
-        const columns = [
-            { header: 'Mã số sinh viên', key: 'maSoSV', width: 15, style: stylesExcel.ALIGNMENT_MID_CENTER },
-            { header: 'Họ và tên', key: 'hoVaTen', width: 30, style: stylesExcel.ALIGNMENT_MID },
-            { header: 'Đơn vị', key: 'tenDonVi', width: 30, style: stylesExcel.ALIGNMENT_MID },
-            { header: 'Nộp sổ đoàn', key: 'nopSoDoan', width: 12, style: stylesExcel.ALIGNMENT_MID_CENTER},
-            { header: 'Năm học', key: 'namHoc', width: 12, style: stylesExcel.ALIGNMENT_MID_CENTER},
-            { header: 'Trạng thái', key: 'trangThai', width: 20, style: stylesExcel.ALIGNMENT_MID_CENTER },
-            { header: 'Tổng tiền', key: 'tongTien', width: 15, style: stylesExcel.ALIGNMENT_MID },
-            { header: 'Ngày thanh toán', key: 'ngayThanhToan', width: 25, style: stylesExcel.LONG_DATE_FORMAT }
-        ]
-
-        const data = bills.map(bill => {
-            return {
-                maSoSV: bill.maSoSV,
-                hoVaTen: bill.sinhVien.ho + ' ' + bill.sinhVien.ten,
-                tenDonVi: bill.donVi?.tenDonVi,
-                nopSoDoan: bill.cacKhoanPhi?.find(priceList => priceList.tenChiPhi === 'Sổ đoàn viên') ? 'X' : '',
-                namHoc: bill.namHoc,
-                trangThai: bill.trangThai ? 'Đã thanh toán' : 'Chưa thanh toán',
-                tongTien: bill.tongTien,
-                ngayThanhToan: bill.ngayThanhToan ? addHours(7, bill.ngayThanhToan) : ''
-            }
-        })
+        
+        const { columns, data } = excelController.getXlsForBills(bills)
 
         exportExcel('Bills', columns, data, res)
     } catch (e) {
@@ -92,38 +71,31 @@ exports.getKPIValuesByCheckoutDate = async (req, res, next) => {
 
         const bills = await Bill.find(query)
 
-        let kpiValues = []
+        let kpiValues = {}
         let tongDoanPhi = 0
         bills.forEach(bill => {
             let priceLists = bill.cacKhoanPhi
 
             priceLists.forEach(priceList => {
                 let value = priceList.tenChiPhi == 'Sổ đoàn viên' ? priceList.soLuong : priceList.thanhTien
-                let kpi = kpiValues.find(kpi => kpi.name == priceList.tenChiPhi)
 
-                if (kpi) {
-                    kpi.total += value
+                if (kpiValues[priceList.tenChiPhi]) {
+                    kpiValues[priceList.tenChiPhi].total += value
                 } else {
-                    kpi = {
+                    kpiValues[priceList.tenChiPhi] = {
                         name: priceList.tenChiPhi,
                         total: value
                     }
-                    kpiValues.push(kpi)
                 }
             })
 
             tongDoanPhi += bill.tongTien
         })
 
+        kpiValues = Object.values(kpiValues)
         kpiValues.unshift(
-            {
-                name: 'Tổng tiền đã thu',
-                total: tongDoanPhi
-            },
-            {
-                name: 'Tổng số hóa đơn',
-                total: bills.length
-            }
+            { name: 'Tổng tiền đã thu', total: tongDoanPhi },
+            { name: 'Tổng số hóa đơn', total: bills.length }
         )
 
         res.status(200).json({
@@ -144,6 +116,10 @@ exports.createOneBill = async (req, res, next) => {
         
         const bill = await Bill.create({ ...req.body })
 
+        await Student.findOneAndUpdate(
+                            {maSoSV: bill.maSoSV},
+                            { $push: { bills: {bill: bill._id, trangThai: bill.trangThai} } },
+                            {new: true, runValidators: true})
         res.status(200).json({
             status: 'success',
             data: { bill }
@@ -178,6 +154,10 @@ exports.updateOneBill = async (req, res, next) => {
 
         const bill = await Bill.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
 
+        await Student.findOneAndUpdate({maSoSV: bill.maSoSV, 'bills.bill': bill._id},
+                                        { $set: { 'bills.$.trangThai': bill.trangThai}},
+                                        {new: true, runValidators: true})
+
         res.status(200).json({
             status: 'success',
             data: { bill }
@@ -198,6 +178,10 @@ exports.checkOutBill = async (req, res, next) => {
             bill.trangThai = true,
             bill.ngayThanhToan = bill.ngayThanhToan ? bill.ngayThanhToan : new Date()
             await bill.save()
+
+            await Student.findOneAndUpdate({maSoSV: bill.maSoSV, 'bills.bill': bill._id},
+                            { $set: { 'bills.$.trangThai': bill.trangThai}},
+                            {new: true, runValidators: true})
         }
         
         let bookSummit = bill.cacKhoanPhi.find(data => data.tenChiPhi == 'Sổ đoàn viên' && data.soLuong == 1)    
@@ -251,6 +235,10 @@ exports.cancelPayment = async (req, res, next) => {
                                     .populate('sinhVien','ho ten')
                                     .populate('donVi', 'tenDonVi')
 
+        await Student.findOneAndUpdate({maSoSV: bill.maSoSV, 'bills.bill': bill._id},
+                                { $set: { 'bills.$.trangThai': bill.trangThai}},
+                                {new: true, runValidators: true})
+
         if (huySoDoan) {
             await GroupBook.findOneAndDelete({maSoSV: bill.maSoSV})
             await Student.findOneAndUpdate({maSoSV: bill.maSoSV},
@@ -280,6 +268,8 @@ exports.deleteOneBill = async (req, res, next) => {
         const { id } = req.params
 
         const bill = await Bill.findByIdAndDelete(id)
+
+        await Student.findOneAndUpdate({maSoSV: bill.maSoSV}, { $pull: { bills: {bill: bill._id.toString()}}})
 
         res.status(200).json({
             status: 'success',

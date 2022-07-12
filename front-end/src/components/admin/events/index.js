@@ -5,12 +5,12 @@ import styles from './index.module.scss';
 // Assets ================================================================== //
 import excelImage from 'assets/images/icons/excel.png';
 // APIs ==================================================================== //
-import { getAllEvents, searchEvents } from 'apis/event';
+import { getAllEvents, searchEvents, exportExcelAllEvents } from 'apis/event';
 // Material UI ============================================================= //
 import { Box, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // My Components =========================================================== //
-import SearchBar from 'components/student/activities/seach/SearchBar';
+import SearchBar from 'components/student/activities/search/SearchBar';
 import EventsTable from './components/EventsTable';
 import CreateEventModal from './components/CreateEventModal';
 
@@ -90,6 +90,26 @@ const EventsManagement = () => {
             search(searchValues);
         } else {
             getEvents(searchValues);
+        }
+    };
+
+    const exportExcel = async () => {
+        try {
+            setExporting(true);
+            const res = await exportExcelAllEvents();   
+            const outputFilename = `Danh sách hoạt động.xlsx`;
+        
+            // Download file automatically using link attribute.
+            const url = URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', outputFilename);
+            document.body.appendChild(link);
+            link.click();
+        } catch(err) {
+            alert(err);
+        } finally {
+            setExporting(false);
         }
     };
     

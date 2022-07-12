@@ -1,12 +1,15 @@
 // Node Modules ============================================================ //
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // Styles ================================================================== //
 import styles from './index.module.scss';
 // APIs ==================================================================== //
 import { getAllFaculties } from 'apis/faculty';
 import { getAllClasses, exportExcelAllClasses } from 'apis/class';
+// Context ================================================================= //
+import AppContext from 'store/AppContext';
 // Constants =============================================================== //
 import { DEFAULT_LIMIT } from 'helpers/constants/class';
+import { USER_ROLES } from 'helpers/constants/user';
 // Assets ================================================================== //
 import excelImage from 'assets/images/icons/excel.png';
 // Material UI ============================================================= //
@@ -15,13 +18,16 @@ import { Box, Button } from '@mui/material';
 import SearchBar from './components/SearchBar';
 import ClassesTable from './components/ClassesTable';
 import CreateClassWizard from '../createClassWizard';
+import { display } from '@material-ui/system';
 
 // ===========================|| CLASSES LIST ||============================ //
 const ClassList = () => {
     const defaultSearchValues = {
         faculty: 'all',
         className: '',
-    }
+    };
+
+    const { state } = useContext(AppContext);
 
     const [faculties, setFaculties] = useState([]);
     const [searchValues, setSearchValues] = useState(defaultSearchValues);
@@ -32,7 +38,7 @@ const ClassList = () => {
 
     useEffect(async () => {
         try {
-            const res = await getAllFaculties();
+            const res = await getAllFaculties({ hienThi: true });
 
             if (res.data.status === 'success') {
                 setFaculties(res.data.data.faculties);
@@ -106,14 +112,16 @@ const ClassList = () => {
                         <p className={styles.TotalRecord}>Tổng số: { totalRecords }</p>
                     </div>
                     <div className={styles.ButtonWrapper}>
-                        <Button 
-                            className={styles.ExportButton}
-                            variant='contained'
-                            onClick={(args) => exportExcel({ ...searchValues, ...args})}                     
-                        >
-                            <img src={excelImage} />
-                            Xuất dữ liệu
-                        </Button>
+                        { state && state.user && state.user.role !== USER_ROLES.CONG_TAC_VIEN &&
+                            <Button 
+                                className={styles.ExportButton}
+                                variant='contained'
+                                onClick={(args) => exportExcel({ ...searchValues, ...args})}                     
+                            >
+                                <img src={excelImage} />
+                                Xuất dữ liệu
+                            </Button>
+                        }
                         <Button 
                             className='button'
                             variant='contained'

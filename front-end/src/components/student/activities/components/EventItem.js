@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import moment from 'moment';
+import clsx from 'clsx';
 // Styles ================================================================== //
 import styles from './EventItem.module.scss';
 // Assets ================================================================== //
@@ -18,6 +19,8 @@ import LinearProgressBarWithLabel from 'components/common/progress/LinearProgres
 const EventItem = (props) => {
   const { event, onClick } = props;
 
+  const { attendance } = event;
+
   const [src, setSrc] = useState(event.anhBia);
   const [imgError, setImgError] = useState(false);
 
@@ -30,10 +33,13 @@ const EventItem = (props) => {
 
   return (
     <Box className={styles.Item} onClick={onClick}>
+        { attendance?.diemDanhVao ? <Box className={clsx(styles.Status, styles.CheckedIn)}>Đã tham gia</Box> :
+            attendance?.dangKyThamGia ? <Box className={clsx(styles.Status, styles.Registered)}>Đã đăng ký</Box> : <></>
+        }
         <Box className={styles.ImageWrapper}>
             <img
                 className={styles.Image}
-                src={src}
+                src={src || fallbackSrc}
                 onError={onError}
             />
         </Box>

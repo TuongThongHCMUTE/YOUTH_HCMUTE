@@ -3,13 +3,17 @@ import FitScreenIcon from '@mui/icons-material/FitScreen';
 import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined';
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import EventNoteIcon from '@mui/icons-material/EventNote';
+import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 
 // constant
 const icons = {
     EventNoteIcon,
     FitScreenIcon,
     ViewListOutlinedIcon,
-    WysiwygIcon
+    WysiwygIcon,
+    AssignmentTurnedInOutlinedIcon,
+    LocalAtmIcon,
 };
 
 // ===========================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||=========================== //
@@ -58,11 +62,27 @@ const other = {
             breadcrumbs: false
         },
         {
+            id: 'diem-danh',
+            title: 'Điểm danh',
+            type: 'item',
+            url: '/diem-danh',
+            icon: icons.AssignmentTurnedInOutlinedIcon,
+            breadcrumbs: false
+        },
+        {
             id: 'chi-doan',
             title: 'Danh sách chi đoàn',
             type: 'item',
             url: '/chi-doan',
             icon: icons.ViewListOutlinedIcon,
+            breadcrumbs: false
+        },
+        {
+            id: 'doan-phi',
+            title: 'Sổ đoàn và đoàn phí',
+            type: 'item',
+            url: '/doan-phi',
+            icon: icons.LocalAtmIcon,
             breadcrumbs: false
         }
     ]

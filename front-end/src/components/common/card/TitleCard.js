@@ -4,6 +4,7 @@ const TitleCard = (props) => {
     const { title, children } = props;
 
     const padding = props.padding || '8px 16px';
+    const headerPadding = props.headerPadding || '8px 16px';
     const borderColor = props.borderColor || "var(--color-grey-400)";
     const topColor = props.topColor || "var(--color-primary-400)";
 
@@ -15,7 +16,7 @@ const TitleCard = (props) => {
         },
         Header: {
             margin: '0',
-            padding: padding,
+            padding: headerPadding || padding,
             fontSize: '18px',
             fontWeight: 'bold',
             color: 'var(--color-grey-800)'

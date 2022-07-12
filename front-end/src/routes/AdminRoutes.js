@@ -1,7 +1,7 @@
 // Node Modules ============================================================ //
 import React, { lazy } from 'react';
 // Constants =============================================================== //
-import { USER_ROLES } from 'store/constant';
+import { USER_ROLES } from 'helpers/constants/user';
 // My components =========================================================== //
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
@@ -18,6 +18,11 @@ const StudentsManagement = Loadable(lazy(() => import('components/admin/users/st
 const ManagerDetail = Loadable(lazy(() => import('components/admin/users/managers/components/ManagerDetail')));
 const StudentDetail = Loadable(lazy(() => import('components/admin/users/students/components/StudentDetail')));
 const EventsManagement = Loadable(lazy(() => import('components/admin/events')));
+const AttendanceList = Loadable(lazy(() => import('components/admin/attendances/events')));
+const CheckIn = Loadable(lazy(() => import('components/admin/attendances/checkIn')));
+const AttendanceManagement = Loadable(lazy(() => import('components/admin/attendances/management')));
+const FeeManagement = Loadable(lazy(() => import('components/admin/fees')));
+
 
 // ===========================|| ADMIN ROUTING ||=========================== //
 
@@ -26,20 +31,24 @@ const AdminRoutes = {
     element: <MainLayout />,
     children: [
         {
-            path: 'dashboard',
-            element: <DashboardDefault />
+            path: '/admin/dashboard',
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><DashboardDefault /></Protected>
+        },
+        {
+            path: '/cong-tac-vien/dashboard',
+            element: <Protected roles={[USER_ROLES.CONG_TAC_VIEN]}><DashboardDefault /></Protected>
         },
         {
             path: '/admin',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><Barcode /></Protected>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><Barcode /></Protected>
         },
         {
             path: '/barcode/tra-cuu',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><Barcode /></Protected>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><Barcode /></Protected>
         },
         {
             path: '/barcode/thong-ke',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><BarcodeStatistic /></Protected>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><BarcodeStatistic /></Protected>
         },
         {
             path: '/ho-so',
@@ -51,11 +60,11 @@ const AdminRoutes = {
         },
         {
             path: '/chi-doan',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><ClassList /></Protected>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><ClassList /></Protected>
         },
         {
             path: '/chi-doan/:id',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><ClassDetail /></Protected>
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><ClassDetail /></Protected>
         },
         {
             path: '/users/thong-ke-nguoi-dung',
@@ -76,6 +85,18 @@ const AdminRoutes = {
         {
             path: '/users/sinh-vien/:id',
             element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><StudentDetail /></Protected>
+        },
+        {
+            path: '/diem-danh',
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><AttendanceList /></Protected>
+        },
+        {
+            path: '/diem-danh/:id',
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><CheckIn /></Protected>
+        },
+        {
+            path: '/doan-phi',
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><FeeManagement /></Protected>
         },
         {
             path: '/system-config',

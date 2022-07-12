@@ -20,7 +20,7 @@ exports.stylesExcel = {
 exports.populateFields = {
     attendance: {
         path: 'sinhViens.sinhVien',
-        select: 'maSoSV ho ten',
+        select: 'maSoSV ho ten image',
         populate: {
             path:  'donVi',
             select: 'tenDonVi'
@@ -57,4 +57,8 @@ exports.defaultBill = {
         "soLuong": 1,
         "thanhTien": 2000
     }
+}
+
+exports.selectFields = {
+    'EVENT': 'tenHoatDong moTa thoiGianDangKy thoiGianToChuc diaDiem soLuongSinhVien quyMoToChuc quenLoiThamGia diemCong anhBia tieuChi soLuongSinhVienDangKy hienThi daDuyet'
 }

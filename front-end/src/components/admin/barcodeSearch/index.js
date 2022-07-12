@@ -1,7 +1,9 @@
 // Node Modules ============================================================ //
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // Styles ================================================================== //
 import styles from './index.module.css';
+// Context ================================================================== //
+import AppContext from 'store/AppContext';
 // APIs ==================================================================== //
 import { getOneStudentByStudentId, updateOneStudent } from 'apis/student';
 import { getAllFaculties } from 'apis/faculty';
@@ -14,6 +16,7 @@ import InfoForm from './components/InfoForm';
 import BillForm from './components/BillForm';
 import BarcodeSection from './components/BarcodeSection';
 import ReceiptModal from './components/ReceiptModal';
+import SnackBar from 'components/common/alert/Snackbar';
 
 // ==============================|| BARCODE ||============================== //
 const BarcodePage = () => {
@@ -24,10 +27,14 @@ const BarcodePage = () => {
     const [faculties, setFaculties] = useState([]);
     const [classes, setClasses] = useState([]);
     const [openModal, setOpenModal] = useState(false);
+    const [alert, setAlert] = useState(null);
+
+    const { state } = useContext(AppContext);
+    const user = state ? state.user : null;
 
     useEffect(async () => {
         try {
-            const res = await getAllFaculties();
+            const res = await getAllFaculties({ hienThi: true });
 
             if (res.data.status === 'success') {
                 setFaculties(res.data.data.faculties);
@@ -74,9 +81,16 @@ const BarcodePage = () => {
 
             if (res.data.status === 'success') {
                 setStudent(res.data.data.student);
+                setAlert({
+                    severity: 'success',
+                    message: 'Cập nhật thông tin thành công'
+                });
             }
-        } catch (err) {
-            alert(err)
+        } catch (e) {
+            setAlert({
+                severity: 'error',
+                message: e.response?.data?.message || 'Đã xảy ra lỗi, vui lòng thử lại.'
+            });
         }
     }
 
@@ -91,6 +105,7 @@ const BarcodePage = () => {
     }
 
     return (
+        <>
         <Grid container className={styles.BarcodePage}>
             <Grid 
                 xs={12} 
@@ -138,7 +153,7 @@ const BarcodePage = () => {
                             xs={6}
                             className={styles.InfoForm}
                         >
-                            <InfoForm 
+                            <InfoForm
                                 student={student} 
                                 faculties={faculties}
                                 classes={classes} 
@@ -152,6 +167,7 @@ const BarcodePage = () => {
                             {   
                                 bill 
                                 ?   <BillForm 
+                                        user={user} 
                                         newBill={newBill} 
                                         bill={bill} 
                                         onCheckOut={bill => handleCheckOut(bill)}
@@ -175,6 +191,14 @@ const BarcodePage = () => {
                 bill={bill}
             />
         </Grid>
+        {alert && 
+            <SnackBar 
+                message={alert.message}
+                severity={alert.severity}
+                onClose={() => setAlert(null)}
+            />
+        }
+        </>
     );
 };
 

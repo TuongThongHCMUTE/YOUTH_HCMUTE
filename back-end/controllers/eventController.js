@@ -1,6 +1,25 @@
-const { getQueryParameter, isObjectId, exportExcel} = require('../common/index')
-const Event = require('../models/event')
 const elasticClient = require('../configs/elasticSearch')
+const { getQueryParameter, isObjectId, exportExcel, selectFields } = require('../common/index')
+const Event = require('../models/event')
+const excelController = require('../common/xls/eventsXls')
+const ELASTIC_SEARCH_INDEX = process.env.ELASTIC_SEARCH_INDEX || 'events'
+const merits = require('../common/store/merits')
+
+const getMeritIds = (existIds) => {
+    let meritIds = []
+
+    merits.forEach(merit => 
+        merit.categories.forEach(category => 
+            category.items.forEach(item => {
+                if (!existIds.includes(item.id)){
+                    meritIds.push(item.id)
+                }
+            })
+        )   
+    )
+
+    return meritIds
+}
 
 const getDateQuery = (query) => {
     const { type } = query
@@ -41,11 +60,39 @@ const getDateQuery = (query) => {
 exports.getAllEvents = async (req, res, next) => {
     try {
         const { sort, limit, skip, query } = getQueryParameter(req)
+        const { email } = req.user
+        const xls = query.xls
+
         getDateQuery(query)
 
-        const events = await Event.find(query).sort(sort).skip(skip).limit(limit)
-                                    .select('-sinhViens')
+        let events = []
+        if (email.includes('@student.hcmute.edu.vn')) {
+            const maSoSV = email.slice(0, 8)
+            query.daDuyet = true
+            query.hienThi = true
+
+            const eventsAttendance = await Event.find(query).select(selectFields['EVENT']).select({ sinhViens: {$elemMatch: {maSoSV}}})
+
+            events = eventsAttendance.map(eventAttendance => {
+                const attendance = eventAttendance?.sinhViens[0] ? eventAttendance.sinhViens[0] : null
+                const { sinhViens, ...event } = eventAttendance.toJSON()
+
+                return {
+                    ...event,
+                    attendance
+                }
+            })
+
+        } else {
+            events = await Event.find(query).sort(sort).skip(skip).limit(limit)
+                                        .select('-sinhViens')
+        }
         const countAll = await Event.countDocuments(query)
+
+        if (xls == 'true') {
+            const { columns, data } = excelController.getXlsForEvents(events)
+            return exportExcel('Events', columns, data, res)
+        }
         
         res.status(200).json({
             status: 'success',
@@ -60,6 +107,7 @@ exports.getAllEvents = async (req, res, next) => {
 }
 
 // Get all Events for student
+// get event with attendance of student
 exports.getAttendanceEvents = async (req, res, next) => {
     try {
         const { email } = req.user 
@@ -122,7 +170,7 @@ exports.getEventsForSV5T = async (req, res, next) => {
             sinhViens: {
                 $elemMatch: {
                     maSoSV,
-                    diemDanhVao: true
+                    hoanThanhHoatDong: true
                 }
             },
             tieuChi: {
@@ -145,31 +193,95 @@ exports.getEventsForSV5T = async (req, res, next) => {
     }
 }
 
+// Get all missing event of event in SV5T
+exports.getMissingEventsInSV5T = async (req, res, next) => {
+    try {        
+        const { email } = req.user
+
+        if (!email.includes('@student.hcmute.edu.vn')) {
+            const err = new Error('Không sử dụng tài khoản sinh viên')
+            err.statusCode = 400
+            return next(err)
+        }
+        const maSoSV = email.slice(0, 8)
+        let existIds = []
+        let events = await Event.find({sinhViens:{$elemMatch:{maSoSV, hoanThanhHoatDong: true}}})
+                                    .select('tieuChi')
+
+        events.forEach(event => event.tieuChi.forEach(tieuChi => {
+            if (!existIds.includes(tieuChi.maTieuChi)) {
+                existIds.push(tieuChi.maTieuChi)
+            }
+        }))
+
+        let meritIds = getMeritIds(existIds)
+
+        events = await Event.find({ 'tieuChi.maTieuChi':{$in: meritIds},
+                                    daDuyet: true,
+                                    hienThi: true,
+                                    'thoiGianToChuc.thoiGianBatDau': {$gt: new Date()}
+                                })
+                                .select('-sinhViens')
+
+        res.status(200).json({
+            status: 'success',
+            results: events.length,
+            data: { events }
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
 // Search event Events
 exports.searchAllEvents = async (req, res, next) => {
     try {
         const { limit, skip, sort, query } = getQueryParameter(req)
+        const { email } = req.user
         const { searchString, type } = query
+        const xls = query.xls
+
         getDateQuery(query)
 
-        const results = await elasticClient.searchDoc('events', searchString, skip, null, ['tenHoatDong', 'moTa'])
+        const results = await elasticClient.searchDoc(ELASTIC_SEARCH_INDEX, searchString, skip, null, ['tenHoatDong', 'moTa'])
 
         let events = []
         let totalDocument = 0
         if (results) {
-            const idEvents = results.hits
+            let idEvents = results.hits
                                 .filter(event => isObjectId(event._id))
                                 .map(event => event._id)
-            const matchEvents = await Event.find({_id: { $in: idEvents }})
+
+            let matchEvents = []
+            if (email.includes('@student.hcmute.edu.vn')) {
+                const maSoSV = email.slice(0, 8)
+
+                matchEvents = await Event.find({_id: { $in: idEvents }}).select(selectFields['EVENT']).select({ sinhViens: {$elemMatch: {maSoSV}}})
+                matchEvents = matchEvents.filter(event => event.hienThi == true && event.daDuyet == true)
+
+                idEvents = matchEvents.map(event => event._id.toString())
+            } else {
+                matchEvents = await Event.find({_id: { $in: idEvents }})
                                                 .select('-sinhViens')
+            }
 
-            events = results.hits.map(event => {
-                const dbEvent = matchEvents.find(x => x._id.toString() === event._id)
+            events = results.hits.filter(x => idEvents.includes(x._id)).map(event => {
+                const { sinhViens, ...dbEvent} = matchEvents.find(x => x._id.toString() === event._id).toJSON()
 
-                dbEvent.tenHoatDong = event.highlight?.tenHoatDong ? event.highlight?.tenHoatDong[0] : dbEvent.tenHoatDong
-                dbEvent.moTa = event.highlight?.moTa ? event.highlight?.moTa[0] : dbEvent.moTa
+                let attendance = undefined
+                if (sinhViens) {
+                    attendance = sinhViens[0] ? sinhViens[0] : null
+                }
+
+                if (xls != 'true') {
+                    dbEvent.tenHoatDong = event.highlight?.tenHoatDong ? event.highlight?.tenHoatDong[0] : dbEvent.tenHoatDong
+                    dbEvent.moTa = event.highlight?.moTa ? event.highlight?.moTa[0] : dbEvent.moTa
+                }
+
                 return {
-                    ...dbEvent.toJSON(),
+                    ...dbEvent,
+                    attendance,
                     score: event._score
                 }
             })
@@ -187,16 +299,48 @@ exports.searchAllEvents = async (req, res, next) => {
                 events = events.slice(skip, skip + limit)
             }
         } else {
-            events = await Event.find(
-                { $text: { $search : searchString }, ...query },  
-                { score : { $meta: "textScore" } })
-                .sort({ score: { $meta : 'textScore' }})
-                .skip(skip)
-                .limit(limit)
+
+            if (email.includes('@student.hcmute.edu.vn')) {
+                const maSoSV = email.slice(0, 8)
+                query.daDuyet = true
+                query.hienThi = true
+    
+                const eventsAttendance = await Event.find(  { $text: { $search : searchString }, ...query },  
+                                                            { score : { $meta: "textScore" } })
+                                                        .sort({ score: { $meta : 'textScore' }})
+                                                        .skip(skip)
+                                                        .limit(limit)
+                                                        .select(selectFields['EVENT'])
+                                                        .select({ sinhViens: {$elemMatch: {maSoSV}}})
+    
+                events = eventsAttendance.map(eventAttendance => {
+                    const attendance = eventAttendance?.sinhViens[0] ? eventAttendance.sinhViens[0] : null
+                    const { sinhViens, ...event } = eventAttendance.toJSON()
+    
+                    return {
+                        ...event,
+                        attendance
+                    }
+                })
+    
+            } else {
+                events = await Event.find(
+                    { $text: { $search : searchString }, ...query },  
+                    { score : { $meta: "textScore" } })
+                    .sort({ score: { $meta : 'textScore' }})
+                    .skip(skip)
+                    .limit(limit)
+                    .select('-sinhViens')
+            }
 
             totalDocument = await Event.countDocuments(            
                 { $text: { $search : searchString }, ...query },  
                 { score : { $meta: "textScore" } })
+        }
+
+        if (xls == 'true') {
+            const { columns, data } = excelController.getXlsForEvents(events)
+            return exportExcel('Events', columns, data, res)
         }
 
         res.status(200).json({
@@ -216,7 +360,7 @@ exports.createOneEvent = async (req, res, next) => {
     try {
         const event = await Event.create({ ...req.body })
 
-        await elasticClient.insertOneDoc('events', {
+        await elasticClient.insertOneDoc(ELASTIC_SEARCH_INDEX, {
             id: event._id,
             tenHoatDong: event.tenHoatDong,
             moTa: event.moTa
@@ -268,7 +412,7 @@ exports.updateOneEvent = async (req, res, next) => {
         const event = await Event.findByIdAndUpdate(id, {...req.body}, {new: true, runValidators: true})
                                     .select('-sinhViens')
 
-        await elasticClient.updateOneDoc('events', {
+        await elasticClient.updateOneDoc(ELASTIC_SEARCH_INDEX, {
             id: event._id,
             tenHoatDong: event.tenHoatDong,
             moTa: event.moTa
@@ -292,7 +436,7 @@ exports.deleteOneEvent = async (req, res, next) => {
         const event = await Event.findByIdAndDelete(id)
                                     .select('-sinhViens')
 
-        await elasticClient.deleteOneDoc('events', event._id)
+        await elasticClient.deleteOneDoc(ELASTIC_SEARCH_INDEX, event._id)
 
         res.status(200).json({
             status: 'success',

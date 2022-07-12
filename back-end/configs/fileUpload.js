@@ -30,12 +30,19 @@ const getStorageFile = multer.diskStorage({
 const uploadFile = multer({
         storage: getStorageFile,
         limits: {
-            fileSize: 2000000
+            fileSize: 5000000
         },
         fileFilter(req, file, cb) {
-            if (!file.originalname.match(/\.(jpg|jpeg|png|pdf)$/)) {
-                cb(new Error('Vui lòng upload ảnh hoặc pdf'))
+            if (req.query?.fileType == 'excel') {
+                if (!file.originalname.match(/\.(xlsx)$/)) {
+                    cb(new Error('Vui lòng upload file xlsx'))
+                }
+            } else {
+                if (!file.originalname.match(/\.(jpg|jpeg|png|pdf)$/)) {
+                    cb(new Error('Vui lòng upload ảnh hoặc pdf'))
+                }
             }
+
             cb(undefined, true)
         }
 })

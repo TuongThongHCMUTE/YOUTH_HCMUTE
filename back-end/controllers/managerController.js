@@ -35,6 +35,7 @@ exports.exportExcelAllManagers = async (req, res, next) => {
                                         .populate('donVi', 'tenDonVi')
 
         const columns = [
+            { header: 'STT', key: 'number', width: 6, style: stylesExcel.ALIGNMENT_MID_CENTER },
             { header: 'Tên hiển thị', key: 'tenHienThi', width: 40, style: stylesExcel.ALIGNMENT_MID },
             { header: 'Email', key: 'email', width: 30, style: stylesExcel.ALIGNMENT_MID },
             { header: 'Địa chỉ', key: 'diaChi', width: 30, style: stylesExcel.ALIGNMENT_MID },
@@ -46,8 +47,10 @@ exports.exportExcelAllManagers = async (req, res, next) => {
             { header: 'Trạng thái', key: 'trangThai', width: 15, style: stylesExcel.ALIGNMENT_MID_CENTER },
         ]
 
+        let stt = 1
         const data = managers.map(manager => {
             return {
+                number: stt++,
                 tenHienThi: manager.tenHienThi,
                 email: manager.email,
                 diaChi: manager.diaChi,

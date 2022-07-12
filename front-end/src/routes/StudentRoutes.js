@@ -7,8 +7,8 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import Protected from 'components/common/Protected';
 // Pages =================================================================== //
-const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
-const SearchActivities = Loadable(lazy(() => import('components/student/activities/seach')));
+const StudentDashboard = Loadable(lazy(() => import('components/student/dashboard')));
+const SearchActivities = Loadable(lazy(() => import('components/student/activities/search')));
 const MyActivities = Loadable(lazy(() => import('components/student/activities/personal')));
 
 // ===========================|| ADMIN ROUTING ||=========================== //
@@ -18,8 +18,8 @@ const StudentRoutes = {
     element: <MainLayout />,
     children: [
         {
-            path: 'admin/dashboard/default',
-            element: <DashboardDefault />
+            path: 'sinh-vien/dashboard',
+            element: <Protected roles={[USER_ROLES.SINH_VIEN]}><StudentDashboard /></Protected>
         },
         {
             path: '/tim-kiem',
