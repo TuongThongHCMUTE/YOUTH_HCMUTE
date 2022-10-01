@@ -22,6 +22,7 @@ const AttendanceList = Loadable(lazy(() => import('components/admin/attendances/
 const CheckIn = Loadable(lazy(() => import('components/admin/attendances/checkIn')));
 const AttendanceManagement = Loadable(lazy(() => import('components/admin/attendances/management')));
 const FeeManagement = Loadable(lazy(() => import('components/admin/fees')));
+const SchoolYearManagement = Loadable(lazy(() => import('components/admin/schoolYears')));
 
 
 // ===========================|| ADMIN ROUTING ||=========================== //
@@ -101,6 +102,10 @@ const AdminRoutes = {
         {
             path: '/system-config',
             element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><div></div></Protected>
+        },
+        {
+            path: '/nam-hoc',
+            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><SchoolYearManagement /></Protected>
         },
     ]
 };

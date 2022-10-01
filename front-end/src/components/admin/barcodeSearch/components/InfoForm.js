@@ -78,7 +78,6 @@ const InfoForm = (props) => {
                             container
                             sx={{ display: 'flex', flexWrap: 'wrap' }}
                         >
-                            {/* THÔNG TIN CHUNG */}
                             <Grid item xs={12}>
                                 <h3 className={styles.SectionTitle}>Thông tin chung</h3>
                             </Grid>
@@ -264,7 +263,6 @@ const InfoForm = (props) => {
                                 />
                             </Grid>
 
-                            {/* THÔNG TIN LIÊN HỆ */}
                             <Grid item xs={12}>
                                 <h3 className={styles.SectionTitle}>Thông tin liên hệ</h3>
                             </Grid>
@@ -305,7 +303,6 @@ const InfoForm = (props) => {
                                 />
                             </Grid>
 
-                            {/* ĐOÀN VIÊN */}
                             {
                                 values?.doanVien && (
                                     <>

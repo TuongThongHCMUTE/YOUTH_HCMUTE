@@ -65,7 +65,6 @@ const App = () => {
     };
 
     useEffect(() => {
-        console.log("use effect nè")
         getUser();
         getFaculties();
         getClasses();
