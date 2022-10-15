@@ -21,7 +21,7 @@ import { LoadingButton } from "@mui/lab";
 import SnackBar from 'components/common/alert/Snackbar';
 
 // ===========================|| LOGIN MODAL ||============================= //
-export const LoginModal = (props) => {
+const LoginModal = (props) => {
   const [open, setOpen] = useState(props.visible);
   const [step, setStep] = useState(LOGIN_STEPS.CHOOSE_OPTIONS);
   const [loading, setLoading] = useState(false);
@@ -359,3 +359,5 @@ export const LoginModal = (props) => {
     </Modal>
   );
 };
+
+export default LoginModal;
