@@ -55,10 +55,10 @@ const AdminRoutes = {
             path: '/ho-so',
             element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><div></div></Protected>
         },
-        {
-            path: '/hoat-dong',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><EventsManagement /></Protected>
-        },
+        // {
+        //     path: '/hoat-dong',
+        //     element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><EventsManagement /></Protected>
+        // },
         {
             path: '/chi-doan',
             element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><ClassList /></Protected>
@@ -87,14 +87,14 @@ const AdminRoutes = {
             path: '/users/sinh-vien/:id',
             element: <Protected roles={[USER_ROLES.DOAN_TRUONG]}><StudentDetail /></Protected>
         },
-        {
-            path: '/diem-danh',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><AttendanceList /></Protected>
-        },
-        {
-            path: '/diem-danh/:id',
-            element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><CheckIn /></Protected>
-        },
+        // {
+        //     path: '/diem-danh',
+        //     element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><AttendanceList /></Protected>
+        // },
+        // {
+        //     path: '/diem-danh/:id',
+        //     element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><CheckIn /></Protected>
+        // },
         {
             path: '/doan-phi',
             element: <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}><FeeManagement /></Protected>

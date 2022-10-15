@@ -15,8 +15,9 @@ import {
     Select,  
     TextField, 
 } from '@mui/material';
-import DateAdapter from '@mui/lab/AdapterMoment';
-import { LocalizationProvider, DatePicker} from '@mui/lab';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import LoadingButton from '@mui/lab/LoadingButton';
 // Constants =============================================================== //
 import { bookStatuses, studentStatuses } from 'store/constant';
@@ -73,7 +74,7 @@ const InfoForm = (props) => {
                 isSubmitting,
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <LocalizationProvider locale='vi' dateAdapter={DateAdapter}>                        
+                    <LocalizationProvider locale='vi' dateAdapter={AdapterMoment}>                        
                         <Grid
                             container
                             sx={{ display: 'flex', flexWrap: 'wrap' }}
