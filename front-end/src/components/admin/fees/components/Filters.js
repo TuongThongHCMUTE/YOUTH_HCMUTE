@@ -24,7 +24,8 @@ import SearchIcon from "@mui/icons-material/Search";
 
 // ============================|| FILTERS ||============================= //
 const Filters = (props) => {
-  const { searchValues, setSearchValues, faculties, classes, onSearch } = props;
+  const { searchValues, setSearchValues, faculties, classes, years, onSearch } =
+    props;
 
   const [matchedClasses, setMatchedClasses] = useState([]);
 
@@ -54,7 +55,7 @@ const Filters = (props) => {
         </Grid>
         <Grid item lg={10.5} md={12} className={styles.SearchArea}>
           <Grid container>
-            <Grid item lg={3} md={12} className={styles.Search}>
+            <Grid item lg={6.5} md={12} className={styles.Search}>
               <TextField
                 className={styles.SearchField}
                 variant="outlined"
@@ -143,22 +144,22 @@ const Filters = (props) => {
                   size="small"
                   className="text-field"
                 >
-                  <InputLabel id="class-group">Lớp</InputLabel>
+                  <InputLabel id="year-group">Năm học</InputLabel>
                   <Select
-                    name="lopSV._id"
-                    labelId="class-group"
-                    id="input-class"
-                    value={searchValues.lopSV || "all"}
-                    label="Lớp"
-                    onChange={(e) => handleChange("lopSV", e.target.value)}
+                    name="namHoc.maNamHoc"
+                    labelId="year-group"
+                    id="input-yea"
+                    value={searchValues.namHoc || "all"}
+                    label="Năm học"
+                    onChange={(e) => handleChange("namHoc", e.target.value)}
                   >
-                    {matchedClasses?.length > 0 &&
+                    {years?.length > 0 &&
                       [
-                        { _id: "all", tenLop: "Tất cả lớp" },
-                        ...matchedClasses,
-                      ].map((f) => (
-                        <MenuItem key={f._id} value={f._id}>
-                          {f.tenLop}
+                        { maNamHoc: "all", tenNamHoc: "Tất cả năm học" },
+                        ...years,
+                      ].map((el) => (
+                        <MenuItem key={el.maNamHoc} value={el.maNamHoc}>
+                          {el.tenNamHoc}
                         </MenuItem>
                       ))}
                   </Select>

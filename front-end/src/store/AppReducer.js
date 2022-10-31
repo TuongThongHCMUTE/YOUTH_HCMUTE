@@ -13,6 +13,8 @@ const appReducer = (state, action) => {
       return { ...state, classes: action.payload };
     case "ACTIVE_YEARS":
       return { ...state, years: action.payload };
+    case "CURRENT_YEAR":
+      return { ...state, currentYear: action.payload };
     default:
       return state;
   }

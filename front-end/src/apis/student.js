@@ -70,7 +70,7 @@ export const getListStudentsByStudentId = (id) => {
     return axios(option);
 }
 
-export const getOneStudentByStudentId = (studentId) => {
+export const getOneStudentByStudentId = (studentId, currentYear) => {
     const token = sessionStorage.getItem("token");
     const option = {
         method: 'get',
@@ -78,7 +78,7 @@ export const getOneStudentByStudentId = (studentId) => {
         headers: {
             Authorization: `Bearer ${token}`,
         },
-        params: { maNamHoc: '2021-2022'}
+        params: { maNamHoc: currentYear }
     }
 
     return axios(option);
