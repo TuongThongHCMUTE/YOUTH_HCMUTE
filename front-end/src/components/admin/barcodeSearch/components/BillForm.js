@@ -18,7 +18,10 @@ import {
     Button,
 } from '@mui/material';
 import DateAdapter from '@mui/lab/AdapterMoment';
-import { LocalizationProvider, DatePicker} from '@mui/lab';
+// import { LocalizationProvider, DatePicker} from '@mui/lab';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 // My components =========================================================== //
 import { ConfirmationModal } from 'components/common/modal';
 
@@ -165,7 +168,7 @@ const BillForm = (props) => {
             <div className={styles.Line} />
             <div className={styles.BillOptions}>
                 <h3 className={styles.OptionTitle}>Đoàn phí</h3>
-                <LocalizationProvider locale='vi' dateAdapter={DateAdapter}>
+                <LocalizationProvider locale='vi' dateAdapter={AdapterMoment}>
                     <Grid 
                         container
                         className={styles.Fields}

@@ -6,7 +6,7 @@ import { url } from 'store/constant';
 
 export const getAllStudentBills = (args) => {
     const token = sessionStorage.getItem("token");
-    const { limit, offset, sortBy, isDescending, maSoSV, donVi, lopSV, doanPhi, soDoan, doanVien } = args;
+    const { limit, offset, sortBy, isDescending, maSoSV, donVi, lopSV, namHoc, doanPhi, soDoan, doanVien } = args;
 
     const params = {};
 
@@ -20,6 +20,10 @@ export const getAllStudentBills = (args) => {
 
     if (lopSV && lopSV !== 'all') {
         params.lopSV = lopSV;
+    }
+
+    if (namHoc && namHoc !== 'all') {
+        params['maNamHoc'] = namHoc;
     }
 
     if (doanPhi && doanPhi !== 'all') {
