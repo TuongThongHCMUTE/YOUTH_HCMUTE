@@ -108,7 +108,7 @@ exports.getStudentBarcode = async (req, res, next) => {
                 sinhVien: student._id,
                 donVi: student.donVi,
                 maSoSV: student.maSoSV,
-                namHoc: '2021-2022',
+                namHoc: '2022-2023',
                 cacKhoanPhi: [] 
             });
 
