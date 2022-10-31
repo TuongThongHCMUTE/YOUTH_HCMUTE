@@ -30,6 +30,7 @@ const FeeManagement = () => {
         doanPhi: 'all',
         soDoan: 'all',
         doanVien: 'all',
+        namHoc: state?.currentYear?.maNamHoc || 'all',
     };
 
     const [searchValues, setSearchValues] = useState(defaultSearchValues);
@@ -89,6 +90,7 @@ const FeeManagement = () => {
         searchValues.sortBy,
         searchValues.isDescending,
         searchValues.doanVien,
+        searchValues.namHoc,
     ]);
 
     return (
@@ -96,6 +98,7 @@ const FeeManagement = () => {
             <Filters
                 faculties={state?.faculties}
                 classes={state?.classes}
+                years={state?.years}
                 searchValues={searchValues}
                 setSearchValues={setSearchValues}
                 onSearch={() => handleSearch()}

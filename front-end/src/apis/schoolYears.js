@@ -36,6 +36,20 @@ export const getAllSchoolYears = (args) => {
   return axios(option);
 };
 
+export const getCurrentSchoolYear = () => {
+  const token = sessionStorage.getItem("token");
+
+  const option = {
+    method: "get",
+    url: `${url}/school-years/nam-hoc-hien-tai`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return axios(option);
+};
+
 export const createSchoolYear = (schoolYear) => {
   const token = sessionStorage.getItem("token");
 
