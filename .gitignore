@@ -11,6 +11,11 @@ back-end/common/playRound.js
 # For front-end
 front-end/node_modules
 front-end/package-lock.json
+front-end/yarn.lock
+client/node_modules
+client/package-lock.json
+client/yarn.lock
 
 # For vs code
 .vscode
+*.lock
