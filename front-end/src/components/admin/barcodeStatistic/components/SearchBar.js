@@ -13,8 +13,10 @@ import {
   Select,  
   TextField, 
 } from '@mui/material';
-import DateAdapter from '@mui/lab/AdapterMoment';
-import { LocalizationProvider, DateRangePicker} from '@mui/lab';
+// import { LocalizationProvider, DateRangePicker} from '@mui/lab';
+import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
 // ============================|| SEARCH BAR ||============================= //
 const SearchBar = (props) => {
@@ -57,7 +59,7 @@ const SearchBar = (props) => {
             </Grid>
             <Grid item xs={0.5} className={styles.Divider}></Grid>
             <Grid item xs={4}>
-              <LocalizationProvider locale='vi' dateAdapter={DateAdapter}>
+              <LocalizationProvider locale='vi' dateAdapter={AdapterMoment}>
                 <DateRangePicker
                   inputFormat="DD/MM/yyyy"
                   startText="Ngày bắt đầu"

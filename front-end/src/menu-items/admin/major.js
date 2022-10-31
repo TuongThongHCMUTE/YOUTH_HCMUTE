@@ -53,22 +53,22 @@ const other = {
         //     icon: icons.WysiwygIcon,
         //     breadcrumbs: false
         // },
-        {
-            id: 'hoat-dong',
-            title: 'Hoạt động',
-            type: 'item',
-            url: '/hoat-dong',
-            icon: icons.EventNoteIcon,
-            breadcrumbs: false
-        },
-        {
-            id: 'diem-danh',
-            title: 'Điểm danh',
-            type: 'item',
-            url: '/diem-danh',
-            icon: icons.AssignmentTurnedInOutlinedIcon,
-            breadcrumbs: false
-        },
+        // {
+        //     id: 'hoat-dong',
+        //     title: 'Hoạt động',
+        //     type: 'item',
+        //     url: '/hoat-dong',
+        //     icon: icons.EventNoteIcon,
+        //     breadcrumbs: false
+        // },
+        // {
+        //     id: 'diem-danh',
+        //     title: 'Điểm danh',
+        //     type: 'item',
+        //     url: '/diem-danh',
+        //     icon: icons.AssignmentTurnedInOutlinedIcon,
+        //     breadcrumbs: false
+        // },
         {
             id: 'chi-doan',
             title: 'Danh sách chi đoàn',

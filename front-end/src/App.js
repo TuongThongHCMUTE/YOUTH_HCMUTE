@@ -17,6 +17,7 @@ import NavigationScroll from './layout/NavigationScroll';
 import { getCurrentUser } from 'apis/auth';
 import { getAllClasses } from 'apis/class';
 import { getAllFaculties } from 'apis/faculty';
+import { getAllSchoolYears } from 'apis/schoolYears';
 
 // ===========================|| APP ||=========================== //
 
@@ -64,11 +65,24 @@ const App = () => {
         }
     };
 
+    const getYears = async () => {
+        try {    
+            const response = await getAllSchoolYears({ hienThi: true });
+    
+            if(response.data.data.schoolYears) {
+                const schoolYears = response.data.data.schoolYears;
+                dispatch({type: "ACTIVE_YEARS", payload: schoolYears});
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
-        console.log("use effect nè")
         getUser();
         getFaculties();
         getClasses();
+        getYears();
     }, []);
 
     return (

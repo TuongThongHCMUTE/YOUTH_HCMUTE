@@ -1,11 +1,13 @@
 // assets
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import SettingsApplicationsOutlinedIcon from '@mui/icons-material/SettingsApplicationsOutlined';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 // constant
 const icons = {
     PermIdentityIcon,
-    SettingsApplicationsOutlinedIcon
+    SettingsApplicationsOutlinedIcon,
+    CalendarMonthIcon
 };
 
 // ===========================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||=========================== //
@@ -52,6 +54,14 @@ const other = {
         //     icon: icons.SettingsApplicationsOutlinedIcon,
         //     breadcrumbs: false
         // }
+        {
+            id: 'nam-hoc',
+            title: 'Năm học',
+            type: 'item',
+            url: '/nam-hoc',
+            icon: icons.CalendarMonthIcon,
+            breadcrumbs: false
+        }
     ]
 };
 
