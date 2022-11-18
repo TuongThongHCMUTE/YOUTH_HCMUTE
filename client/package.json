@@ -38,7 +38,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:local": "NODE_ENV=local && react-scripts start",
+    "start:dev": "NODE_ENV=development && react-scripts start",
+    "start:prod": "NODE_ENV=production && react-scripts start",
     "build": "react-scripts build",
+    "build:local": "NODE_ENV=local && react-scripts build",
+    "build:dev": "NODE_ENV=development && react-scripts build",
+    "build:prod": "NODE_ENV=production && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
