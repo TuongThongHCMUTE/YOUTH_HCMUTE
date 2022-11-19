@@ -14,7 +14,7 @@ import {
 
 // ============================|| INTRODUCTION ||=========================== //
 const Introduction = () => {
-  const pageIntroduction = (
+  const pageIntroductionComp = (
     <React.Fragment>
       <div className={styles.Info}>
         <h1>{LANDING_PAGE_INTRODUCTION.header}</h1>
@@ -30,7 +30,7 @@ const Introduction = () => {
     </React.Fragment>
   );
 
-  const pageFeatures = (
+  const pageFeaturesComp = (
     <React.Fragment>
       <div className={styles.Title}>
         <h2>{LANDING_PAGE_FEATURE.header}</h2>
@@ -59,12 +59,12 @@ const Introduction = () => {
     <div id="introduction">
       <Grid container className={styles.Introduction}>
         <Grid item xs={10} className={styles.Content}>
-          {pageIntroduction}
+          {pageIntroductionComp}
         </Grid>
       </Grid>
       <Grid id="feature" container className={styles.FeatureSection}>
         <Grid item xs={10} className={styles.Features}>
-          {pageFeatures}
+          {pageFeaturesComp}
         </Grid>
       </Grid>
     </div>

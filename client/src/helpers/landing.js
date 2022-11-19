@@ -70,4 +70,10 @@ export const LANDING_PAGE_FEATURE = {
       icon: GetAppOutlinedIcon,
     },
   ],
-}
+};
+
+export const STUDENT_FEATURES = [
+  'Sinh viên tra cứu thông tin cá nhân',
+  'Bí thư phê sổ đoàn trực tuyến cho đoàn viên trong chi đoàn',
+  'Đoàn viên đăng ký rút sổ đoàn',
+];
