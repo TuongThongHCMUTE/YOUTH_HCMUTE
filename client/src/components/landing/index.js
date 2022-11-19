@@ -1,5 +1,5 @@
 // Node Modules ============================================================ //
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 // Constants =============================================================== //
 import { LOGIN_STEPS } from 'helpers/auth';
 // Styles ================================================================== //
@@ -19,28 +19,28 @@ const Landing = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [loginStep, setLoginStep] = useState(LOGIN_STEPS.CHOOSE_OPTIONS);
 
-  const handleOpenLoginModal = step => {
+  const openLoginModalHandler = useCallback((step) => {
     setShowLogin(true);
     setLoginStep(step);
-  };
+  }, []);
 
-  const handleCloseLoginModal = () => {
+  const closeLoginModalHandler = useCallback(() => {
     setShowLogin(false);
-  };
+  }, []);
 
   return (
     <div>
-      <Header onOpenLogin={step => handleOpenLoginModal(step)} />
+      <Header onOpenLogin={openLoginModalHandler} />
       <Banner />
       <Introduction />
-      <Student onOpenLogin={step => handleOpenLoginModal(step)} />
-      <Admin onOpenLogin={step => handleOpenLoginModal(step)} />
+      <Student onOpenLogin={openLoginModalHandler} />
+      <Admin onOpenLogin={openLoginModalHandler} />
       <Contact />
       <Footer />
       <LoginModal
         visible={showLogin}
         step={loginStep}
-        onClose={handleCloseLoginModal}
+        onClose={closeLoginModalHandler}
       />
     </div>
   );

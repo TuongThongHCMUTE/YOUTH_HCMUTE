@@ -1,5 +1,5 @@
 // Node Modules ============================================================ //
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Styles ================================================================== //
 import styles from './Header.module.scss';
@@ -9,64 +9,53 @@ import EastIcon from '@mui/icons-material/East';
 import MenuIcon from '@mui/icons-material/Menu';
 // Constants =============================================================== //
 import { LOGIN_STEPS, USER_ROLES } from 'helpers/auth';
+import { LANDING_PAGE_SECTIONS } from 'helpers/landing';
 import config from 'config';
 // My Components =========================================================== //
 // import LogoSection from "layout/MainLayout/LogoSection";
 
+const activeSection = 'header';
+
 // ==============================|| HEADER ||=============================== //
-const Header = props => {
-  const activeSection = 'header';
+const Header = (props) => {
   const navigate = useNavigate();
 
   const [showMenu, setShowMenu] = useState(window.innerWidth > 1024);
+  const [redirectTo, setRedirectTo] = useState(config.defaultPath);
 
   const state = {
     user: false
   };
 
-  const sections = [
-    {
-      id: 'header',
-      display: 'Home'
-    },
-    {
-      id: 'introduction',
-      display: 'Giới thiệu'
-    },
-    {
-      id: 'feature',
-      display: 'Chức năng'
-    },
-    {
-      id: 'student',
-      display: 'Sinh viên'
-    },
-    {
-      id: 'admin',
-      display: 'Quản trị viên'
-    },
-    {
-      id: 'contact',
-      display: 'Liên hệ'
-    }
-  ];
-
   const role = USER_ROLES.DOAN_TRUONG;
-  let redirectTo = config.defaultPath;
 
-  switch (role) {
-    case USER_ROLES.DOAN_TRUONG:
-      redirectTo = '/admin/dashboard/';
-      break;
-    case USER_ROLES.CONG_TAC_VIEN:
-      redirectTo = '/cong-tac-vien/dashboard';
-      break;
-    case USER_ROLES.DOAN_VIEN:
-      redirectTo = '/sinh-vien/dashboard/';
-      break;
-    default:
-      break;
-  }
+  useEffect(() => {
+    switch (role) {
+      case USER_ROLES.DOAN_TRUONG:
+        setRedirectTo('/admin/dashboard/');
+        break;
+      case USER_ROLES.CONG_TAC_VIEN:
+        setRedirectTo('/cong-tac-vien/dashboard');
+        break;
+      case USER_ROLES.DOAN_VIEN:
+        setRedirectTo('/sinh-vien/dashboard/');
+        break;
+      default:
+        setRedirectTo(config.defaultPath);
+        break;
+    }
+  }, [role]);
+
+  const hideMenuHandler = () => {
+    if (window.innerWidth <= 1024) {
+      console.log('change menu')
+      setShowMenu(false);
+    }
+  };
+
+  const toggleMenuHandler = () => {
+    setShowMenu(prev => !prev);
+  };
 
   return (
     <div id="header">
@@ -75,17 +64,11 @@ const Header = props => {
           {/* <LogoSection /> */}
           {showMenu && (
             <ul className={styles.Sections}>
-              {sections.map(item => (
-                <li
-                  key={item.id}
-                >
+              {LANDING_PAGE_SECTIONS.map(item => (
+                <li key={item.id}>
                   <a
-                    className={activeSection === item.id && styles.ActiveLink}
-                    onClick={() => {
-                      if (window.innerWidth <= 1024) {
-                        setShowMenu(false);
-                      }
-                    }}
+                    className={activeSection === item.id ? styles.ActiveLink : ''}
+                    onClick={hideMenuHandler}
                     href={`#${item.id}`}
                   >
                     {item.display}
@@ -97,7 +80,7 @@ const Header = props => {
           <div className={styles.ButtonsWrapper}>
             <IconButton
               className={styles.MenuButton}
-              onClick={() => setShowMenu(prev => !prev)}
+              onClick={toggleMenuHandler}
             >
               <MenuIcon />
             </IconButton>
@@ -125,4 +108,4 @@ const Header = props => {
   );
 };
 
-export default Header;
+export default React.memo(Header);
