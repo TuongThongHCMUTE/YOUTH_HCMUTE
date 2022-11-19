@@ -3,6 +3,16 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PlaceIcon from '@mui/icons-material/Place';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import CallIcon from '@mui/icons-material/Call';
+import {
+  BsFacebook,
+  BsMessenger,
+  BsLinkedin,
+  BsTwitter,
+  BsGlobe
+} from 'react-icons/bs';
 
 export const LANDING_PAGE_SECTIONS = [
   {
@@ -103,6 +113,61 @@ export const ADMIN_FEATURES = [
   {
     name: 'Truy cập bất kỳ đâu',
     icon: CheckCircleIcon,
+  },
+];
+
+export const CONTACT_INFO = [
+  {
+    id: 'address',
+    label: 'Địa chỉ: ',
+    value: 'Số 1 Võ Văn Ngân, P. Linh Chiểu, TP. Thủ Đức. TP. Hồ Chí Minh',
+    icon: PlaceIcon,
+  },
+  {
+    id: 'email-doan',
+    label: 'Email Đoàn Thanh niên: ',
+    value: 'doantruong@hcmute.edu.vn',
+    icon: EmailOutlinedIcon,
+  },
+  {
+    id: 'email-hoi',
+    label: 'Email Hội Sinh viên: ',
+    value: 'hoisinhvien@hcmute.edu.vn',
+    icon: EmailOutlinedIcon,
+  },
+  {
+    id: 'phone',
+    label: 'Số điện thoại: ',
+    value: '08 3897 3871',
+    icon: CallIcon,
+  },
+];
+
+export const SOCIAL_NETWORKS = [
+  {
+    id: 'facebook',
+    url: '',
+    icon: BsFacebook,
+  },
+  {
+    id: 'messenger',
+    url: '',
+    icon: BsMessenger,
+  },
+  {
+    id: 'linkedin',
+    url: '',
+    icon: BsLinkedin,
+  },
+  {
+    id: 'twitter',
+    url: '',
+    icon: BsTwitter,
+  },
+  {
+    id: 'website',
+    url: '',
+    icon: BsGlobe,
   },
 ];
 
