@@ -2,6 +2,7 @@ import FitScreenOutlinedIcon from '@mui/icons-material/FitScreenOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export const LANDING_PAGE_SECTIONS = [
   {
@@ -77,3 +78,50 @@ export const STUDENT_FEATURES = [
   'Bí thư phê sổ đoàn trực tuyến cho đoàn viên trong chi đoàn',
   'Đoàn viên đăng ký rút sổ đoàn',
 ];
+
+export const ADMIN_FEATURES = [
+  {
+    name: 'Số hóa hồ sơ, tiết kiệm thời gian và công sức cho người quản trị',
+    icon: CheckCircleIcon,
+  },
+  {
+    name: 'Tra cứu thông tin nhanh chóng',
+    icon: CheckCircleIcon,
+  },
+  {
+    name: 'Thao tác nghiệp vụ dễ dàng',
+    icon: CheckCircleIcon,
+  },
+  {
+    name: 'Đơn giản hóa các thủ tục trước đây',
+    icon: CheckCircleIcon,
+  },
+  {
+    name: 'Xem thống kê một cách trực quan',
+    icon: CheckCircleIcon,
+  },
+  {
+    name: 'Truy cập bất kỳ đâu',
+    icon: CheckCircleIcon,
+  },
+];
+
+export const transformHomePageData = (homePageData) => {
+  return [
+    {
+      id: 'count-students',
+      name: 'Sinh viên đang học tập',
+      value: homePageData?.totalStudents || 0,
+    },
+    {
+      id: 'count-members',
+      name: 'Đoàn viên đang sinh hoạt',
+      value: homePageData?.totalUnionsMembers || 0,
+    },
+    {
+      id: 'count-faculties',
+      name: 'Cơ sở đoàn trực thuộc',
+      value: homePageData?.totalFaculties || 0,
+    },
+  ];
+};

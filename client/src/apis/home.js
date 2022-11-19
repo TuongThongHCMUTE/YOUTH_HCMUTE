@@ -3,7 +3,7 @@ import { getServer } from 'helpers/server';
 
 const url = getServer();
 
-export const getHomePageStatistic = () => {
+export const getHomePageRequest = () => {
   const option = {
     method: 'get',
     url: `${url}/statistic/trang-chu`

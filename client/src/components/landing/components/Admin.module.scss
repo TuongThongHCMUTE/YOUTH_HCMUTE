@@ -25,22 +25,17 @@
                 align-items: flex-start;
                 justify-content: space-between;
                 margin-top: 40px;
+                padding: 0;
+
+                .ResultItem {
+                    list-style-type: none;
+                }
 
                 .Number {
                     margin: 32px 0;
                     font-size: 68px;
                     font-weight: bold;
                     color: white;
-                    //     color: #1D9D22;
-                    //     text-shadow: 
-                    //     -2px -2px 0 white,
-                    //     0   -2px 0 white,
-                    //     2px -2px 0 white,
-                    //     2px  0   0 white,
-                    //     2px  2px 0 white,
-                    //     0    2px 0 white,
-                    //    -2px  2px 0 white,
-                    //    -2px  0   0 white;
                 }
 
                 .Description {
