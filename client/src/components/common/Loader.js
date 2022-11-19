@@ -1,8 +1,8 @@
-import React from "react";
-import { makeStyles } from "@mui/styles";
+import React from 'react';
+import { makeStyles } from '@mui/styles';
 import { LinearProgress } from '@mui/material';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     position: 'fixed',
     top: 0,

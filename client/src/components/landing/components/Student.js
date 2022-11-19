@@ -8,13 +8,13 @@ import { LOGIN_STEPS } from 'helpers/auth';
 import { Grid, Button } from '@mui/material';
 
 // ================================|| STUDENT ||============================ //
-const Student = (props) => {
+const Student = props => {
   const { onOpenLogin } = props;
 
   const features = [
-    "Sinh viên tra cứu thông tin cá nhân",
-    "Bí thư phê sổ đoàn trực tuyến cho đoàn viên trong chi đoàn",
-    "Đoàn viên đăng ký rút sổ đoàn",
+    'Sinh viên tra cứu thông tin cá nhân',
+    'Bí thư phê sổ đoàn trực tuyến cho đoàn viên trong chi đoàn',
+    'Đoàn viên đăng ký rút sổ đoàn'
   ];
 
   return (
@@ -23,7 +23,7 @@ const Student = (props) => {
         <Grid item xs={10} className={styles.Content}>
           <Grid item xl={5} xs={12} className={styles.Features}>
             {features.map((item, index) => (
-              <div className={styles.Item}>
+              <div className={styles.Item} key={index}>
                 <div className={styles.Index}>{index + 1}</div>
                 <div className={styles.Feature}>{item}</div>
               </div>
@@ -33,7 +33,7 @@ const Student = (props) => {
             <h3>Bạn là sinh viên HCM UTE?</h3>
             <p>Đăng nhập để trải nghiệm các tính năng chỉ bằng 1 click chuột</p>
             <div className={styles.ButtonWrapper}>
-              <Button 
+              <Button
                 className={styles.Button}
                 onClick={() => onOpenLogin(LOGIN_STEPS.STUDENT_LOGIN)}
               >
@@ -44,7 +44,7 @@ const Student = (props) => {
         </Grid>
       </Grid>
     </div>
-  )
-}
+  );
+};
 
 export default Student;

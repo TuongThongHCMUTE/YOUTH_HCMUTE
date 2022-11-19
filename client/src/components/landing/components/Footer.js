@@ -1,9 +1,9 @@
 // Node Modules ============================================================ //
-import React from "react";
+import React from 'react';
 // Styles ================================================================== //
-import styles from "./Footer.module.scss";
+import styles from './Footer.module.scss';
 // Material UI ============================================================= //
-import { Grid } from "@mui/material";
+import { Grid } from '@mui/material';
 
 // ==============================|| FOOTER ||=============================== //
 const Footer = () => {

@@ -1,7 +1,7 @@
 // Node Modules ============================================================ //
-import React, { useState } from "react";
+import React, { useState } from 'react';
 // Constants =============================================================== //
-import { LOGIN_STEPS } from "helpers/auth";
+import { LOGIN_STEPS } from 'helpers/auth';
 // Styles ================================================================== //
 import './index.module.scss';
 // My Components =========================================================== //
@@ -19,7 +19,7 @@ const Landing = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [loginStep, setLoginStep] = useState(LOGIN_STEPS.CHOOSE_OPTIONS);
 
-  const handleOpenLoginModal = (step) => {
+  const handleOpenLoginModal = step => {
     setShowLogin(true);
     setLoginStep(step);
   };
@@ -30,11 +30,11 @@ const Landing = () => {
 
   return (
     <div>
-      <Header onOpenLogin={(step) => handleOpenLoginModal(step)} />
+      <Header onOpenLogin={step => handleOpenLoginModal(step)} />
       <Banner />
       <Introduction />
-      <Student onOpenLogin={(step) => handleOpenLoginModal(step)} />
-      <Admin onOpenLogin={(step) => handleOpenLoginModal(step)} />
+      <Student onOpenLogin={step => handleOpenLoginModal(step)} />
+      <Admin onOpenLogin={step => handleOpenLoginModal(step)} />
       <Contact />
       <Footer />
       <LoginModal

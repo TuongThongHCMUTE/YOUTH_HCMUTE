@@ -15,7 +15,7 @@ import { Button, Grid } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 // ===============================|| ADMIN ||=============================== //
-const Admin = (props) => {
+const Admin = props => {
   const { onOpenLogin } = props;
   const [numbers, setNumbers] = useState(null);
 
@@ -24,7 +24,7 @@ const Admin = (props) => {
       const res = await getHomePageStatistic();
 
       if (res.data.status === 'success') {
-        setNumbers({ ...res.data.data })
+        setNumbers({ ...res.data.data });
       }
     } catch (error) {
       console.log(error);
@@ -33,25 +33,29 @@ const Admin = (props) => {
 
   useEffect(() => {
     fetchStatisticData();
-  }, [])
+  }, []);
 
   return (
     <div id="admin">
       <Grid container className={styles.StatisticSection}>
         <Grid item xs={10} className={styles.Content}>
           <div className={styles.Statistic}>
-            <h3 className={styles.Title}>Hỗ trợ công tác quản lý từ Đoàn trường đến các cơ sở Đoàn</h3>
+            <h3 className={styles.Title}>
+              Hỗ trợ công tác quản lý từ Đoàn trường đến các cơ sở Đoàn
+            </h3>
             <div className={styles.Results}>
               <div className={styles.ResultItem}>
-                <h3 className={styles.Number}>{`${numbers?.totalStudents || 0}`}</h3>
+                <h3 className={styles.Number}>{numbers?.totalStudents || 0}</h3>
                 <p className={styles.Description}>Sinh viên đang học tập</p>
               </div>
               <div className={styles.ResultItem}>
-                <h3 className={styles.Number}>{`${numbers?.totalUnionsMembers || 0}`}</h3>
+                <h3 className={styles.Number}>{`${numbers?.totalUnionsMembers ||
+                  0}`}</h3>
                 <p className={styles.Description}>Đoàn viên đang sinh hoạt</p>
               </div>
               <div className={styles.ResultItem}>
-                <h3 className={styles.Number}>{`${numbers?.totalFaculties || 0}`}</h3>
+                <h3 className={styles.Number}>{`${numbers?.totalFaculties ||
+                  0}`}</h3>
                 <p className={styles.Description}>Cơ sở đoàn trực thuộc</p>
               </div>
             </div>
@@ -64,7 +68,9 @@ const Admin = (props) => {
       <Grid container className={styles.FeaturesSection}>
         <Grid item xs={10} className={styles.Content}>
           <div className={styles.Features}>
-            <h3 className={styles.Title}>Số hóa hồ sơ, tiết kiệm thời gian và công sức cho người quản trị</h3>
+            <h3 className={styles.Title}>
+              Số hóa hồ sơ, tiết kiệm thời gian và công sức cho người quản trị
+            </h3>
             <Grid container className={styles.FeatureList}>
               <Grid item sm={6} xs={12} className={styles.FeatureItem}>
                 <CheckCircleIcon className={styles.Icon} />
@@ -92,8 +98,8 @@ const Admin = (props) => {
               </Grid>
             </Grid>
             <div className={styles.ButtonContainer}>
-              <Button 
-                className={clsx("button", styles.Button)}
+              <Button
+                className={clsx('button', styles.Button)}
                 onClick={() => onOpenLogin(LOGIN_STEPS.ADMIN_LOGIN)}
               >
                 Quản trị viên đăng nhập
@@ -106,7 +112,7 @@ const Admin = (props) => {
         </Grid>
       </Grid>
     </div>
-  )
-}
+  );
+};
 
 export default Admin;

@@ -1,12 +1,12 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
 
 // assets
-import colors from "assets/scss/_themes-vars.module.scss";
+import colors from 'assets/scss/_themes-vars.module.scss';
 
 // project imports
-import componentStyleOverrides from "./compStyleOverride";
-import themePalette from "./palette";
-import themeTypography from "./typography";
+import componentStyleOverrides from './compStyleOverride';
+import themePalette from './palette';
+import themeTypography from './typography';
 
 /**
  * Represent theme style and structure as per Material-UI
@@ -24,23 +24,23 @@ export function theme(customization) {
     darkTextPrimary: color.grey700,
     darkTextSecondary: color.grey500,
     textDark: color.grey900,
-    menuSelected: "var(--color-white)",
-    menuSelectedBack: "var(--color-primary-400)",
+    menuSelected: 'var(--color-white)',
+    menuSelectedBack: 'var(--color-primary-400)',
     divider: color.grey200,
-    customization,
+    customization
   };
 
   return createTheme({
-    direction: "ltr",
+    direction: 'ltr',
     palette: themePalette(themeOption),
     mixins: {
       toolbar: {
-        minHeight: "48px",
-        padding: "16px",
-        "@media (min-width: 600px)": {
-          minHeight: "48px",
-        },
-      },
+        minHeight: '48px',
+        padding: '16px',
+        '@media (min-width: 600px)': {
+          minHeight: '48px'
+        }
+      }
     },
     breakpoints: {
       values: {
@@ -48,11 +48,11 @@ export function theme(customization) {
         sm: 600,
         md: 960,
         lg: 1280,
-        xl: 1920,
-      },
+        xl: 1920
+      }
     },
     typography: themeTypography(themeOption),
-    components: componentStyleOverrides(themeOption),
+    components: componentStyleOverrides(themeOption)
   });
 }
 

@@ -1,11 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
-import customizationReducer from "./reducers/customizationReducer";
-import facultiesSlice from "./reducers/facultiesSlide";
+import { configureStore } from '@reduxjs/toolkit';
+import customizationReducer from './reducers/customization-reducer';
+import facultyReducer from './reducers/faculty-reducer';
 
 const store = configureStore({
   reducer: {
     customization: customizationReducer,
-    faculties: facultiesSlice.reducer,
+    faculties: facultyReducer
   }
 });
 

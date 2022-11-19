@@ -1,22 +1,22 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // Node Modules ============================================================ //
-import React from "react";
+import React from 'react';
 // Styles ================================================================== //
-import styles from "./Contact.module.scss";
+import styles from './Contact.module.scss';
 // Assets ================================================================== //
-import logo from "assets/images/logo-medium.png";
+import logo from 'assets/images/logo-medium.png';
 import {
   BsFacebook,
   BsMessenger,
   BsLinkedin,
   BsTwitter,
-  BsGlobe,
-} from "react-icons/bs";
+  BsGlobe
+} from 'react-icons/bs';
 // Material UI ============================================================= //
-import { Grid } from "@mui/material";
-import PlaceIcon from "@mui/icons-material/Place";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import CallIcon from "@mui/icons-material/Call";
+import { Grid } from '@mui/material';
+import PlaceIcon from '@mui/icons-material/Place';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import CallIcon from '@mui/icons-material/Call';
 
 // ==============================|| CONTACT ||============================== //
 const Contact = () => {
