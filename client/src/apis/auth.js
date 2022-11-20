@@ -3,7 +3,7 @@ import { getServer } from 'helpers/server';
 
 const url = getServer();
 
-export const login = data => {
+export const loginRequest = data => {
   const option = {
     method: 'post',
     url: `${url}/auth/dang-nhap`,
@@ -12,7 +12,7 @@ export const login = data => {
   return axios(option);
 };
 
-export const googleLogin = data => {
+export const googleLoginRequest = data => {
   const option = {
     method: 'post',
     url: `${url}/auth/dang-nhap-google`,
@@ -21,7 +21,7 @@ export const googleLogin = data => {
   return axios(option);
 };
 
-export const getCurrentUser = () => {
+export const getCurrentUserRequest = () => {
   const token = sessionStorage.getItem('token');
   const option = {
     method: 'get',
@@ -33,7 +33,7 @@ export const getCurrentUser = () => {
   return axios(option);
 };
 
-export const resetPassword = data => {
+export const resetPasswordRequest = data => {
   const option = {
     method: 'put',
     url: `${url}/auth/cap-lai-mat-khau`,

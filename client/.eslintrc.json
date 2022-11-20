@@ -19,8 +19,8 @@
     "no-param-reassign": "off",
     "no-return-await": "off",
     "no-underscore-dangle": "off",
+    "no-unused-vars": "warn",
     "class-methods-use-this": "off",
-    "no-unused-vars": "error",
     "import/no-unresolved": "off"
   },
   "parserOptions": {

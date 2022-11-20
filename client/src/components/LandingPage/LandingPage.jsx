@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 // Constants =============================================================== //
 import { LOGIN_STEPS } from 'helpers/auth';
 // Styles ================================================================== //
-import './index.module.scss';
+import './LandingPage.module.scss';
 // My Components =========================================================== //
 import Header from './components/Header';
 import Banner from './components/Banner';
@@ -29,7 +29,7 @@ const Landing = () => {
   }, []);
 
   return (
-    <div>
+    <React.Fragment>
       <Header onOpenLogin={openLoginModalHandler} />
       <Banner />
       <Introduction />
@@ -42,7 +42,7 @@ const Landing = () => {
         step={loginStep}
         onClose={closeLoginModalHandler}
       />
-    </div>
+    </React.Fragment>
   );
 };
 
