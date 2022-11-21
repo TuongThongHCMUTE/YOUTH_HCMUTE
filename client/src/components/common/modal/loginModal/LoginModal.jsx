@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // Redux
 import { useDispatch } from 'react-redux';
 import { uiActions } from 'redux/reducers/ui-reducer';
+import { authActions } from 'redux/reducers/auth-reducer';
 // APIs ==================================================================== //
 import {
   loginRequest,
@@ -13,6 +14,8 @@ import {
 // Helpers =============================================================== //
 import { LOGIN_STEPS, USER_ROLES } from 'helpers/auth';
 import { ALERT_STATUS } from 'helpers/ui';
+import { ROUTE } from 'helpers/route';
+import { saveTokenToStorage } from 'helpers/storage';
 // Styles ================================================================== //
 import styles from './LoginModal.module.scss';
 // Material UI ============================================================= //
@@ -55,6 +58,30 @@ const LoginModal = props => {
     );
   };
 
+  const saveAuthInfo = (user, token) => {
+    dispatch(
+      authActions.login({
+        token: token,
+        user: user,
+      })
+    );
+    saveTokenToStorage(token);
+  };
+
+  const navigateToDashboard = (role) => {
+    switch (role) {
+      case USER_ROLES.DOAN_TRUONG:
+        navigate(ROUTE.adminDashboard);
+        break;
+      case USER_ROLES.SINH_VIEN:
+        navigate(ROUTE.studentDashboard);
+        break;
+      default:
+        navigate(ROUTE.home);
+        break;
+    }
+  };
+
   const adminLoginHandler = async data => {
     try {
       setLoading(true);
@@ -64,17 +91,8 @@ const LoginModal = props => {
         const token = res.data.data.token;
         const user = res.data.data.user;
 
-        sessionStorage.setItem('token', token);
-        sessionStorage.setItem('role', user.role);
-        // dispatch({ type: "CURRENT_USER", payload: user });
-
-        switch (user.role) {
-          case USER_ROLES.DOAN_TRUONG:
-            // navigate('/admin/dashboard');
-            break;
-          default:
-            break;
-        }
+        saveAuthInfo(user, token);
+        navigateToDashboard(user.role);
       }
     } catch (error) {
       showAlert(error.response.data.message, ALERT_STATUS.error);
@@ -87,15 +105,11 @@ const LoginModal = props => {
     try {
       setLoading(true);
       const res = await googleLoginRequest({ token: tokenId });
-
       const token = res.data.data.token;
       const user = res.data.data.user;
 
-      sessionStorage.setItem('token', token);
-      sessionStorage.setItem('role', user.role);
-      // dispatch({ type: "CURRENT_USER", payload: user });
-
-      navigate('/sinh-vien/dashboard');
+      saveAuthInfo(user, token);
+      navigateToDashboard(user.role);
     } catch (error) {
       showAlert(error.response.data.message, ALERT_STATUS.error);
     } finally {

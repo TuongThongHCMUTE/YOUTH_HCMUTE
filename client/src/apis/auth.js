@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getServer } from 'helpers/server';
+import { getTokenFromStorage } from 'helpers/storage';
 
 const url = getServer();
 
@@ -22,7 +23,7 @@ export const googleLoginRequest = data => {
 };
 
 export const getCurrentUserRequest = () => {
-  const token = sessionStorage.getItem('token');
+  const token = getTokenFromStorage();
   const option = {
     method: 'get',
     url: `${url}/auth/ca-nhan`,

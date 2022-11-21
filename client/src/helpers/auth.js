@@ -14,7 +14,8 @@ export const LOGIN_STEPS = {
 export const USER_ROLES = {
   ADMIN: 'ADMIN',
   DOAN_TRUONG: 'DOAN_TRUONG',
-  SINH_VIEN: 'DOAN_VIEN'
+  SINH_VIEN: 'DOAN_VIEN',
+  GUEST: 'GUEST',
 };
 
 export const validateLoginValues = (values) => {
