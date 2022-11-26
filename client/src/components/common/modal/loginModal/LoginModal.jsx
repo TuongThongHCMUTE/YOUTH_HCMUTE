@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { uiActions } from 'redux/reducers/ui-reducer';
-import { authActions } from 'redux/reducers/auth-reducer';
+import { login } from 'redux/actions/auth-actions';
+import { defaultPathSelector } from 'redux/selectors/ui-selectors';
 // APIs ==================================================================== //
 import {
   loginRequest,
@@ -12,10 +13,8 @@ import {
   resetPasswordRequest
 } from 'apis/auth';
 // Helpers =============================================================== //
-import { LOGIN_STEPS, USER_ROLES } from 'helpers/auth';
+import { LOGIN_STEPS } from 'helpers/auth';
 import { ALERT_STATUS } from 'helpers/ui';
-import { ROUTE } from 'helpers/route';
-import { saveTokenToStorage } from 'helpers/storage';
 // Styles ================================================================== //
 import styles from './LoginModal.module.scss';
 // Material UI ============================================================= //
@@ -35,6 +34,7 @@ const LoginModal = props => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const redirectTo = useSelector(defaultPathSelector);
 
   useEffect(() => {
     setOpen(props.visible);
@@ -60,26 +60,15 @@ const LoginModal = props => {
 
   const saveAuthInfo = (user, token) => {
     dispatch(
-      authActions.login({
+      login({
         token: token,
-        user: user,
+        user: user
       })
     );
-    saveTokenToStorage(token);
   };
 
-  const navigateToDashboard = (role) => {
-    switch (role) {
-      case USER_ROLES.DOAN_TRUONG:
-        navigate(ROUTE.adminDashboard);
-        break;
-      case USER_ROLES.SINH_VIEN:
-        navigate(ROUTE.studentDashboard);
-        break;
-      default:
-        navigate(ROUTE.home);
-        break;
-    }
+  const navigateToDashboard = () => {
+    navigate(redirectTo);
   };
 
   const adminLoginHandler = async data => {
@@ -92,7 +81,7 @@ const LoginModal = props => {
         const user = res.data.data.user;
 
         saveAuthInfo(user, token);
-        navigateToDashboard(user.role);
+        navigateToDashboard();
       }
     } catch (error) {
       showAlert(error.response.data.message, ALERT_STATUS.error);
@@ -109,7 +98,7 @@ const LoginModal = props => {
       const user = res.data.data.user;
 
       saveAuthInfo(user, token);
-      navigateToDashboard(user.role);
+      navigateToDashboard();
     } catch (error) {
       showAlert(error.response.data.message, ALERT_STATUS.error);
     } finally {

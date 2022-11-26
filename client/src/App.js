@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 // Redux =================================================================== //
 import { useSelector, useDispatch } from 'react-redux';
-import { authActions } from 'redux/reducers/auth-reducer';
+import { login } from 'redux/actions/auth-actions';
 import { customizationSelector } from 'redux/selectors/customization-selectors';
 // APIs ==================================================================== //
 import { getCurrentUserRequest } from 'apis/auth';
@@ -21,6 +21,7 @@ import Routes from './routes';
 // Project Imports ========================================================= //
 import NavigationScroll from './layout/NavigationScroll';
 import Snackbar from 'components/common/alert/Snackbar'
+import Loader from 'components/common/Loader';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const App = () => {
           const token = getTokenFromStorage();
           const user = res.data.data.user;
           dispatch(
-            authActions.login({
+            login({
               token: token,
               user: user,
             })
@@ -58,7 +59,7 @@ const App = () => {
       <ThemeProvider theme={themes(customization)}>
         <CssBaseline />
         <NavigationScroll>
-          {authenticating && <h1>Authenticating</h1>}
+          {authenticating && <Loader />}
           <Snackbar />
           <Routes />
         </NavigationScroll>

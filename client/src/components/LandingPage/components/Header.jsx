@@ -1,16 +1,19 @@
 // Node Modules ============================================================ //
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Styles ================================================================== //
 import styles from './Header.module.scss';
+// Redux =================================================================== //
+import { useSelector } from 'react-redux';
+import { userSelector } from 'redux/selectors/auth-selectors';
+import { defaultPathSelector } from 'redux/selectors/ui-selectors';
 // Material UI ============================================================= //
 import { Button, Grid, IconButton } from '@mui/material';
 import EastIcon from '@mui/icons-material/East';
 import MenuIcon from '@mui/icons-material/Menu';
 // Constants =============================================================== //
-import { LOGIN_STEPS, USER_ROLES } from 'helpers/auth';
+import { LOGIN_STEPS } from 'helpers/auth';
 import { LANDING_PAGE_SECTIONS } from 'helpers/landing';
-import config from 'config';
 // My Components =========================================================== //
 // import LogoSection from "layout/MainLayout/LogoSection";
 
@@ -19,36 +22,13 @@ const activeSection = 'header';
 // ==============================|| HEADER ||=============================== //
 const Header = (props) => {
   const navigate = useNavigate();
+  const user = useSelector(userSelector);
+  const redirectTo = useSelector(defaultPathSelector);
 
   const [showMenu, setShowMenu] = useState(window.innerWidth > 1024);
-  const [redirectTo, setRedirectTo] = useState(config.defaultPath);
-
-  const state = {
-    user: false
-  };
-
-  const role = USER_ROLES.DOAN_TRUONG;
-
-  useEffect(() => {
-    switch (role) {
-      case USER_ROLES.DOAN_TRUONG:
-        setRedirectTo('/admin/dashboard/');
-        break;
-      case USER_ROLES.CONG_TAC_VIEN:
-        setRedirectTo('/cong-tac-vien/dashboard');
-        break;
-      case USER_ROLES.DOAN_VIEN:
-        setRedirectTo('/sinh-vien/dashboard/');
-        break;
-      default:
-        setRedirectTo(config.defaultPath);
-        break;
-    }
-  }, [role]);
 
   const hideMenuHandler = () => {
     if (window.innerWidth <= 1024) {
-      console.log('change menu')
       setShowMenu(false);
     }
   };
@@ -84,7 +64,7 @@ const Header = (props) => {
             >
               <MenuIcon />
             </IconButton>
-            {state?.user ? (
+            {user ? (
               <Button
                 className="button"
                 endIcon={<EastIcon />}

@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { ROUTE } from 'helpers/route';
 
 const uiSlice = createSlice({
   name: 'ui',
   initialState: {
     loading: false,
     alert: null,
+    defaultPath: ROUTE.home,
   },
   reducers: {
     showLoading(state) {
@@ -19,6 +21,9 @@ const uiSlice = createSlice({
     hideAlert(state) {
       state.alert = null;
     },
+    changeDefaultPath(state, action) {
+      state.defaultPath = action.payload;
+    }
   },
 });
 
