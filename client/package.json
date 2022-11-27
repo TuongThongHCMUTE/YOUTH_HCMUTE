@@ -10,6 +10,7 @@
     "@mui/material": "^5.10.2",
     "@mui/styles": "^5.10.2",
     "@reduxjs/toolkit": "^1.8.5",
+    "@tabler/icons": "^1.113.0",
     "axios": "^0.27.2",
     "clsx": "^1.2.1",
     "cra-template": "1.2.0",

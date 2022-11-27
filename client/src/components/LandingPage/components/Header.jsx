@@ -15,7 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { LOGIN_STEPS } from 'helpers/auth';
 import { LANDING_PAGE_SECTIONS } from 'helpers/landing';
 // My Components =========================================================== //
-// import LogoSection from "layout/MainLayout/LogoSection";
+import LogoSection from 'layout/MainLayout/LogoSection';
 
 const activeSection = 'header';
 
@@ -41,7 +41,7 @@ const Header = (props) => {
     <div id="header">
       <Grid container className={styles.Header}>
         <Grid item xl={10} xs={11} className={styles.Content}>
-          {/* <LogoSection /> */}
+          <LogoSection />
           {showMenu && (
             <ul className={styles.Sections}>
               {LANDING_PAGE_SECTIONS.map(item => (
