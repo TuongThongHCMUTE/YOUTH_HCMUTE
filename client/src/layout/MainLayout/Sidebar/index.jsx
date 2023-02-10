@@ -11,12 +11,12 @@ import { Box, Drawer, useMediaQuery } from '@mui/material';
 import MenuList from './MenuList';
 import LogoSection from '../LogoSection';
 import MenuCard from './MenuCard';
-import { drawerWidth } from 'helpers/theme';
 // Helpers ================================================================= //
-import adminMenuItems from 'helpers/menu-items/admin';
-import studentMenuItems from 'helpers/menu-items/student';
-import collaboratorMenuItems from 'helpers/menu-items/collaborator';
-import { USER_ROLES } from 'helpers/auth';
+import { drawerWidth } from 'helpers/theme';
+import { getMenu } from 'helpers/menu-items';
+// Redux =================================================================== //
+import { useSelector } from 'react-redux';
+import { roleSelector } from 'redux/selectors/auth-selectors';
 // Style Constant ========================================================== //
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -66,23 +66,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
-  // Match MenuItems
-  const matchMenuItems = () => {
-    const role = sessionStorage.getItem('role');
-
-    switch (role) {
-      case USER_ROLES.DOAN_TRUONG:
-        return adminMenuItems;
-      case USER_ROLES.CONG_TAC_VIEN:
-        return collaboratorMenuItems;
-      case USER_ROLES.SINH_VIEN:
-        return studentMenuItems;
-      default:
-        return studentMenuItems;
-    }
-  };
-
-  const menuItems = matchMenuItems();
+  const menuItems = getMenu(useSelector(roleSelector));
 
   const drawer = (
     <>

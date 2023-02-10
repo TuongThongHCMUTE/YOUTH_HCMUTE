@@ -1,13 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const facultiesSlice = createSlice({
-  name: 'faculties',
-  initialState: { status: 'idle', faculties: [] },
+const facultySlice = createSlice({
+  name: 'faculty',
+  initialState: { 
+    faculties: [],
+  },
   reducers: {
-    addFaculty: (state, action) => {
-      state.push(action.payload)
+    setFaculties: (state, action) => {
+      state.faculties = action.payload.faculties;
     }
   }
 });
 
-export default facultiesSlice;
+export const facultyActions = facultySlice.actions;
+
+export default facultySlice.reducer;

@@ -7,17 +7,15 @@ import clsx from 'clsx';
 import { makeStyles, useTheme } from '@mui/styles';
 import { AppBar, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
 // Components ============================================================== //
-import Breadcrumbs from 'component/common/extended/Breadcrumbs';
+import Breadcrumbs from 'components/common/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
 // Helpers ================================================================= //
-import adminNavigation from 'helpers/menu-items/admin';
-import collaboratorNavigation from 'helpers/menu-items/collaborator';
-import studentNavigation from 'helpers/menu-items/student';
 import { drawerWidth } from 'helpers/theme';
-import { USER_ROLES } from 'helpers/auth';
+import { getMenu } from 'helpers/menu-items';
 // Redux Store ============================================================= //
 import { SET_MENU } from 'redux/actions/customization-actions';
+import { roleSelector } from 'redux/selectors/auth-selectors';
 // Assets ================================================================== //
 import { IconChevronRight } from '@tabler/icons';
 // Style Constant ========================================================== //
@@ -78,6 +76,7 @@ const useStyles = makeStyles(theme => ({
 const MainLayout = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const role = useSelector(roleSelector);
   const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
 
   // Handle left drawer
@@ -91,23 +90,7 @@ const MainLayout = () => {
     dispatch({ type: SET_MENU, opened: !matchDownMd });
   }, [matchDownMd]);
 
-  // Match Navigation
-  const matchNavigation = () => {
-    const role = sessionStorage.getItem('role');
-
-    switch (role) {
-      case USER_ROLES.DOAN_TRUONG:
-        return adminNavigation;
-      case USER_ROLES.CONG_TAC_VIEN:
-        return collaboratorNavigation;
-      case USER_ROLES.SINH_VIEN:
-        return studentNavigation;
-      default:
-        return studentNavigation;
-    }
-  };
-
-  const navigation = matchNavigation();
+  const navigation = getMenu(role);
 
   return (
     <div className={classes.root}>

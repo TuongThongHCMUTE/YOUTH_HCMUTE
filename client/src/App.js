@@ -7,8 +7,10 @@ import {
 } from '@mui/material';
 // Redux =================================================================== //
 import { useSelector, useDispatch } from 'react-redux';
-import { login } from 'redux/actions/auth-actions';
+import { login, logout } from 'redux/actions/auth-actions';
+import { fetchFaculties } from 'redux/actions/faculty-actions';
 import { customizationSelector } from 'redux/selectors/customization-selectors';
+import { accessTokenSelector } from 'redux/selectors/auth-selectors';
 // APIs ==================================================================== //
 import { getCurrentUserRequest } from 'apis/auth';
 // Helpers ================================================================= //
@@ -26,6 +28,7 @@ import Loader from 'components/common/Loader';
 const App = () => {
   const dispatch = useDispatch();
   const customization = useSelector(customizationSelector);
+  const token = useSelector(accessTokenSelector);
 
   const [authenticating, setAuthenticating] = useState(false);
 
@@ -45,7 +48,7 @@ const App = () => {
           );
         }
       } catch (error) {
-        console.error(error);
+        dispatch(logout());
       } finally {
         setAuthenticating(false);
       }
@@ -53,6 +56,12 @@ const App = () => {
 
     auth();
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchFaculties());
+    }
+  }, [dispatch, token])
 
   return (
     <StyledEngineProvider injectFirst>

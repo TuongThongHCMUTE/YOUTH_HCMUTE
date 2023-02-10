@@ -1,10 +1,10 @@
-import dashboard from './dashboard';
+// import dashboard from './dashboard';
 import major from './major';
 
 // ===========================|| MENU ITEMS ||=========================== //
 
 const menuItems = {
-    items: [major]
+  items: [major]
 };
 
 export default menuItems;

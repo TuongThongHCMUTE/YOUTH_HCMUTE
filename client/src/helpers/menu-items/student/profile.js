@@ -4,26 +4,26 @@ import SettingsApplicationsOutlinedIcon from '@mui/icons-material/SettingsApplic
 
 // constant
 const icons = {
-    PermIdentityIcon,
-    SettingsApplicationsOutlinedIcon
+  PermIdentityIcon,
+  SettingsApplicationsOutlinedIcon
 };
 
 // ===========================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||=========================== //
 
 const profile = {
-    id: 'profile',
-    title: 'Hồ sơ',
-    type: 'group',
-    children: [
-        {
-            id: 'ca-nhan',
-            title: 'Thông tin cá nhân',
-            type: 'item',
-            url: '/student',
-            icon: icons.PermIdentityIcon,
-            breadcrumbs: false
-        }
-    ]
+  id: 'profile',
+  title: 'Hồ sơ',
+  type: 'group',
+  children: [
+    {
+      id: 'ca-nhan',
+      title: 'Thông tin cá nhân',
+      type: 'item',
+      url: '/student',
+      icon: icons.PermIdentityIcon,
+      breadcrumbs: false
+    }
+  ]
 };
 
 export default profile;

@@ -2,10 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { uiActions } from 'redux/reducers/ui-reducer';
 import { login } from 'redux/actions/auth-actions';
-import { defaultPathSelector } from 'redux/selectors/ui-selectors';
 // APIs ==================================================================== //
 import {
   loginRequest,
@@ -15,6 +14,7 @@ import {
 // Helpers =============================================================== //
 import { LOGIN_STEPS } from 'helpers/auth';
 import { ALERT_STATUS } from 'helpers/ui';
+import { ROUTE } from 'helpers/route';
 // Styles ================================================================== //
 import styles from './LoginModal.module.scss';
 // Material UI ============================================================= //
@@ -34,7 +34,6 @@ const LoginModal = props => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const redirectTo = useSelector(defaultPathSelector);
 
   useEffect(() => {
     setOpen(props.visible);
@@ -67,10 +66,6 @@ const LoginModal = props => {
     );
   };
 
-  const navigateToDashboard = () => {
-    navigate(redirectTo);
-  };
-
   const adminLoginHandler = async data => {
     try {
       setLoading(true);
@@ -81,7 +76,7 @@ const LoginModal = props => {
         const user = res.data.data.user;
 
         saveAuthInfo(user, token);
-        navigateToDashboard();
+        navigate(ROUTE.adminDashboard);
       }
     } catch (error) {
       showAlert(error.response.data.message, ALERT_STATUS.error);
@@ -98,7 +93,7 @@ const LoginModal = props => {
       const user = res.data.data.user;
 
       saveAuthInfo(user, token);
-      navigateToDashboard();
+      navigate(ROUTE.studentDashboard);
     } catch (error) {
       showAlert(error.response.data.message, ALERT_STATUS.error);
     } finally {
