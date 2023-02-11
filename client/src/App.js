@@ -12,6 +12,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { login, logout } from 'redux/actions/auth-actions';
 import { fetchFaculties } from 'redux/actions/faculty-actions';
+import { fetchYears } from 'redux/actions/year-actions';
 import { customizationSelector } from 'redux/selectors/customization-selectors';
 import { accessTokenSelector } from 'redux/selectors/auth-selectors';
 // APIs ==================================================================== //
@@ -85,6 +86,7 @@ const App = () => {
   useEffect(() => {
     if (token) {
       dispatch(fetchFaculties());
+      dispatch(fetchYears());
     }
   }, [dispatch, token])
 
