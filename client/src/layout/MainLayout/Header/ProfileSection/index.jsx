@@ -8,9 +8,7 @@ import {
   displayNameSelector,
   positionSelector
 } from 'redux/selectors/auth-selectors';
-import { defaultPathSelector } from 'redux/selectors/ui-selectors';
 import { logout } from 'redux/actions/auth-actions';
-
 // Material UI ============================================================= //
 import { makeStyles, useTheme } from '@mui/styles';
 import {
@@ -35,6 +33,8 @@ import UpgradePlanCard from './UpgradePlanCard';
 // Assets ================================================================== //
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
+// Helpers ================================================================= //
+import { ROUTE } from 'helpers/route';
 // Styles ================================================================== //
 const useStyles = makeStyles(theme => ({
   navContainer: {
@@ -131,7 +131,6 @@ const ProfileSection = () => {
   const userAvatar = useSelector(avatarSelector);
   const userDisplayName = useSelector(displayNameSelector);
   const userPosition = useSelector(positionSelector);
-  const redirectTo = useSelector(defaultPathSelector);
 
   const [selectedIndex] = useState(1);
   const [open, setOpen] = useState(false);
@@ -148,7 +147,7 @@ const ProfileSection = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate(redirectTo);
+    navigate(ROUTE.home);
   };
 
   const handleToggle = () => {

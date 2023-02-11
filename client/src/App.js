@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 // Material UI ============================================================= //
 import {
   ThemeProvider,
   StyledEngineProvider,
   CssBaseline,
+  Backdrop,
+  Typography,
 } from '@mui/material';
 // Redux =================================================================== //
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,6 +19,8 @@ import { getCurrentUserRequest } from 'apis/auth';
 // Helpers ================================================================= //
 import { HTTP_RESPONSE_STATUS } from 'helpers/http';
 import { getTokenFromStorage } from 'helpers/storage';
+import { ROUTE } from 'helpers/route';
+import { USER_ROLES } from 'helpers/auth';
 // Default Theme =========================================================== //
 import themes from './themes';
 // Routing ================================================================= //
@@ -27,10 +32,28 @@ import Loader from 'components/common/Loader';
 
 const App = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const customization = useSelector(customizationSelector);
   const token = useSelector(accessTokenSelector);
 
   const [authenticating, setAuthenticating] = useState(false);
+
+  const navigateToDashboard = (role) => {
+    switch (role) {
+      case USER_ROLES.ADMIN:
+        navigate(ROUTE.adminDashboard);
+        break;
+      case USER_ROLES.DOAN_TRUONG:
+        navigate(ROUTE.adminDashboard);
+        break;
+      case USER_ROLES.SINH_VIEN:
+        navigate(ROUTE.studentDashboard);
+        break;
+      default:
+        navigate(ROUTE.home);
+        break;
+    }
+  };
 
   useEffect(() => {
     const auth = async () => {
@@ -46,9 +69,11 @@ const App = () => {
               user: user,
             })
           );
+          navigateToDashboard(user.role);
         }
       } catch (error) {
         dispatch(logout());
+        navigateToDashboard(USER_ROLES.GUEST);
       } finally {
         setAuthenticating(false);
       }
@@ -68,8 +93,17 @@ const App = () => {
       <ThemeProvider theme={themes(customization)}>
         <CssBaseline />
         <NavigationScroll>
+          {/* Loading */}
           {authenticating && <Loader />}
+          <Backdrop
+            sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={authenticating}
+          >
+            <Typography variant='h4' color='#fff'>Authenticating...</Typography>
+          </Backdrop>
+          {/* Alert Message */}
           <Snackbar />
+          {/* App Routes */}
           <Routes />
         </NavigationScroll>
       </ThemeProvider>
