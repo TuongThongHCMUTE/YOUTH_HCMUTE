@@ -11,6 +11,7 @@ import {
 // Redux =================================================================== //
 import { useSelector, useDispatch } from 'react-redux';
 import { login, logout } from 'redux/actions/auth-actions';
+import { fetchClasses } from 'redux/actions/class-actions';
 import { fetchFaculties } from 'redux/actions/faculty-actions';
 import { fetchYears } from 'redux/actions/year-actions';
 import { customizationSelector } from 'redux/selectors/customization-selectors';
@@ -87,6 +88,7 @@ const App = () => {
     if (token) {
       dispatch(fetchFaculties());
       dispatch(fetchYears());
+      dispatch(fetchClasses());
     }
   }, [dispatch, token])
 

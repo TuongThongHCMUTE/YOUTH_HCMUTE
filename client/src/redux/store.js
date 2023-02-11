@@ -4,6 +4,7 @@ import uiReducer from './reducers/ui-reducer';
 import authReducer from './reducers/auth-reducer';
 import facultyReducer from './reducers/faculty-reducer';
 import yearReducer from './reducers/year-reducer';
+import classReducer from './reducers/class-reducer';
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     ui: uiReducer,
     auth: authReducer,
     faculty: facultyReducer,
+    class: classReducer,
     year: yearReducer,
   }
 });
