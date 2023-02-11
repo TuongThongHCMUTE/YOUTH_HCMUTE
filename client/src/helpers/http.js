@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import { uiActions } from 'redux/reducers/ui-reducer';
+import { ALERT_STATUS } from 'helpers/ui';
 
 export const HTTP_RESPONSE_STATUS = {
   ok: 200,
@@ -34,4 +36,24 @@ export const renderHttpRequestParams = (args = {}) => {
   }
 
   return params;
+};
+
+export const handleErrorResponse = (
+  error,
+  errorMessage = 'Đã xảy ra lỗi!',
+  dispatch,
+  callback
+) => {
+  if (_.isFunction(dispatch)) {
+    dispatch(
+      uiActions.showAlert({
+        message: error.response?.data?.message || errorMessage,
+        errorCode: error.response?.status,
+        severity: ALERT_STATUS.error
+      })
+    );
+  }
+  if (_.isFunction(callback)) {
+    callback();
+  }
 };

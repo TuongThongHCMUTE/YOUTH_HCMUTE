@@ -1,7 +1,6 @@
 import { getYears } from 'apis/year';
-import { ALERT_STATUS } from 'helpers/ui';
+import { handleErrorResponse } from 'helpers/http';
 import { yearActions } from 'redux/reducers/year-reducer';
-import { uiActions } from 'redux/reducers/ui-reducer';
 
 export const fetchYears = () => {
   return async dispatch => {
@@ -11,13 +10,7 @@ export const fetchYears = () => {
       const currentYear = years.find(year => year.namHocHienTai === true);
       dispatch(yearActions.setYears({ years, currentYear }));
     } catch (error) {
-      dispatch(
-        uiActions.showAlert({
-          message:
-            error.response?.data?.message || 'Fetching years data failed!',
-          severity: ALERT_STATUS.error
-        })
-      );
+      handleErrorResponse(error, 'Fetching years data failed!', dispatch);
     }
   };
 };

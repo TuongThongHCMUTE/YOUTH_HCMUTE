@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 // Material UI ============================================================= //
 import {
   ThemeProvider,
@@ -19,10 +19,9 @@ import { accessTokenSelector } from 'redux/selectors/auth-selectors';
 // APIs ==================================================================== //
 import { getCurrentUserRequest } from 'apis/auth';
 // Helpers ================================================================= //
-import { HTTP_RESPONSE_STATUS } from 'helpers/http';
+import { HTTP_RESPONSE_STATUS, handleErrorResponse } from 'helpers/http';
 import { getTokenFromStorage } from 'helpers/storage';
 import { ROUTE } from 'helpers/route';
-import { USER_ROLES } from 'helpers/auth';
 // Default Theme =========================================================== //
 import themes from './themes';
 // Routing ================================================================= //
@@ -34,36 +33,26 @@ import Loader from 'components/common/Loader';
 
 const App = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const customization = useSelector(customizationSelector);
   const token = useSelector(accessTokenSelector);
+  const navigate = useNavigate();
 
   const [authenticating, setAuthenticating] = useState(false);
 
-  const navigateToDashboard = (role) => {
-    switch (role) {
-      case USER_ROLES.ADMIN:
-        navigate(ROUTE.adminDashboard);
-        break;
-      case USER_ROLES.DOAN_TRUONG:
-        navigate(ROUTE.adminDashboard);
-        break;
-      case USER_ROLES.SINH_VIEN:
-        navigate(ROUTE.studentDashboard);
-        break;
-      default:
-        navigate(ROUTE.home);
-        break;
-    }
-  };
-
   useEffect(() => {
     const auth = async () => {
+      const token = getTokenFromStorage();
+      
+      if (!token) {
+        dispatch(logout());
+        navigate(ROUTE.home);
+        return;
+      }
+    
       setAuthenticating(true);
       try {
         const res = await getCurrentUserRequest();
         if (res.status === HTTP_RESPONSE_STATUS.ok) {
-          const token = getTokenFromStorage();
           const user = res.data.data.user;
           dispatch(
             login({
@@ -71,11 +60,9 @@ const App = () => {
               user: user,
             })
           );
-          navigateToDashboard(user.role);
         }
       } catch (error) {
-        dispatch(logout());
-        navigateToDashboard(USER_ROLES.GUEST);
+        handleErrorResponse(error, 'Fetching classes data failed!', dispatch);
       } finally {
         setAuthenticating(false);
       }

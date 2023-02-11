@@ -1,7 +1,6 @@
 import { getClasses } from 'apis/class';
-import { ALERT_STATUS } from 'helpers/ui';
+import { handleErrorResponse } from 'helpers/http';
 import { classActions } from 'redux/reducers/class-reducer';
-import { uiActions } from 'redux/reducers/ui-reducer';
 
 export const fetchClasses = () => {
   return async dispatch => {
@@ -10,13 +9,7 @@ export const fetchClasses = () => {
       const classes = res.data?.data?.classes || [];
       dispatch(classActions.setClasses({ classes }));
     } catch (error) {
-      dispatch(
-        uiActions.showAlert({
-          message:
-            error.response?.data?.message || 'Fetching faculties data failed!',
-          severity: ALERT_STATUS.error
-        })
-      );
+      handleErrorResponse(error, 'Fetching classes data failed!', dispatch);
     }
   };
 };
