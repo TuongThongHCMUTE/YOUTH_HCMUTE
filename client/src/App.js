@@ -42,7 +42,7 @@ const App = () => {
   useEffect(() => {
     const auth = async () => {
       const token = getTokenFromStorage();
-      
+
       if (!token) {
         dispatch(logout());
         navigate(ROUTE.home);
@@ -62,7 +62,7 @@ const App = () => {
           );
         }
       } catch (error) {
-        handleErrorResponse(error, 'Fetching classes data failed!', dispatch);
+        handleErrorResponse(error, 'Session time out. Please login again!', dispatch);
       } finally {
         setAuthenticating(false);
       }
