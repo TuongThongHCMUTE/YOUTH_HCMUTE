@@ -1,0 +1,34 @@
+.text-field {
+    width: 100%;
+}
+
+.text-field > div {
+    border-radius: 0px;
+}
+
+.button {
+    background-color: var(--color-primary-400);
+    border-radius: 0;
+    padding: 4px 24px;
+    height: 40px;
+    color: white;
+}
+
+.button:hover {
+    background-color: var(--color-primary-800);
+}
+
+.radio.Mui-checked {
+    color: var(--color-primary-400);
+}
+
+.linear-progress-bar .MuiLinearProgress-root {
+    height: 8px;
+    border-radius: 4px;
+    background-color: var(--color-grey-400);
+}
+
+.linear-progress-bar .MuiLinearProgress-bar {
+    border-radius: 4px;
+    background-color: var(--color-primary-400);
+}

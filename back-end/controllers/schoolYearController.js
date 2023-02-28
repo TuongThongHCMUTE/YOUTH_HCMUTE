@@ -24,7 +24,7 @@ exports.getAllSchoolYears = async (req, res, next) => {
 // Create new SchoolYear
 exports.createOneSchoolYear = async (req, res, next) => {
     try {
-        if (req.body.namHocHienTai) {
+        if (req.body.namHocHienTai == true) {
             await SchoolYear.updateMany({namHocHienTai: true}, {namHocHienTai: false})
             req.body.hienThi = true
         }
@@ -78,7 +78,7 @@ exports.updateOneSchoolYearByMaNamHoc = async (req, res, next) => {
     try {
         const { maNamHoc } = req.params
 
-        if (req.body.namHocHienTai) {
+        if (req.body.namHocHienTai == true) {
             await SchoolYear.updateMany({namHocHienTai: true}, {namHocHienTai: false})
             req.body.hienThi = true
         }

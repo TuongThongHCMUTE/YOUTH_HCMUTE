@@ -31,6 +31,7 @@ const BarcodePage = () => {
 
     const { state } = useContext(AppContext);
     const user = state ? state.user : null;
+    const currentYear = state ? state.currentYear : null;
 
     useEffect(async () => {
         try {
@@ -62,7 +63,7 @@ const BarcodePage = () => {
         }
         
         try {
-            const res = await getOneStudentByStudentId(searchValue);
+            const res = await getOneStudentByStudentId(searchValue, currentYear.maNamHoc);
 
             if (res.data.status === 'success') {
                 setStudent(res.data.data.student);
@@ -71,7 +72,7 @@ const BarcodePage = () => {
                 setSearchValue('');
             }
         } catch (err) {
-            alert(err);
+            console.error(err);
         }
     }
 
