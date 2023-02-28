@@ -98,7 +98,7 @@ exports.getStudentBarcode = async (req, res, next) => {
                                         .populate('donVi', 'tenDonVi')
                                         .populate('lopSV', 'tenLop nganhHoc')
                                         .populate('thongTinDoanVien.soDoan', 'trangThaiSoDoan')
-        let bill = await Bill.findOne({ maSoSV, maNamHoc })
+        let bill = await Bill.findOne({ maSoSV, namHoc: maNamHoc })
 
         let newBill = false
         if (student && !bill) {
@@ -108,7 +108,7 @@ exports.getStudentBarcode = async (req, res, next) => {
                 sinhVien: student._id,
                 donVi: student.donVi,
                 maSoSV: student.maSoSV,
-                namHoc: '2022-2023',
+                namHoc: maNamHoc,
                 cacKhoanPhi: [] 
             });
 
