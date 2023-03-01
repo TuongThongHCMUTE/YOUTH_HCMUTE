@@ -4,7 +4,7 @@ export const drawerWidth = 260;
 export const appDrawerWidth = 320;
 
 // server
-export const url = 'https://dev-yhcmute.com/api/v1';
+export const url = 'https://dev-doanvien.yhcmute.com/api/v1';
 // export const url = 'http://localhost:5000/api/v1';
 
 
