@@ -3,10 +3,12 @@ import { uiActions } from 'redux/reducers/ui-reducer';
 import { ALERT_STATUS } from 'helpers/ui';
 
 export const HTTP_RESPONSE_STATUS = {
-  ok: 200,
+  success: 200,
   created: 201,
   unauthorized: 401
 };
+
+export const DEFAULT_ERROR_MESSAGE = 'Đã xảy ra lỗi. Vui lòng thử lại!';
 
 export const renderHttpRequestParams = (args = {}) => {
   const {

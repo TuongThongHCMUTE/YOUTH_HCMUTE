@@ -52,7 +52,7 @@ const App = () => {
       setAuthenticating(true);
       try {
         const res = await getCurrentUserRequest();
-        if (res.status === HTTP_RESPONSE_STATUS.ok) {
+        if (res.status === HTTP_RESPONSE_STATUS.success) {
           const user = res.data.data.user;
           dispatch(
             login({
@@ -90,7 +90,7 @@ const App = () => {
             sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
             open={authenticating}
           >
-            <Typography variant='h4' color='#fff'>Authenticating...</Typography>
+            <Typography variant='h4' color='#fff'>Đang xác thực...</Typography>
           </Backdrop>
           {/* Alert Message */}
           <Snackbar />

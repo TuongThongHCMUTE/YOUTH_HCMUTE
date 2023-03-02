@@ -6,6 +6,10 @@
     border-radius: 0px;
 }
 
+.text-field input, .text-field .css-a54e4f-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    font-weight: normal;
+}
+
 .button {
     background-color: var(--color-primary-400);
     border-radius: 0;

@@ -14,6 +14,7 @@ export const LOGIN_STEPS = {
 export const USER_ROLES = {
   ADMIN: 'ADMIN',
   DOAN_TRUONG: 'DOAN_TRUONG',
+  CONG_TAC_VIEN: 'CONG_TAC_VIEN',
   SINH_VIEN: 'DOAN_VIEN',
   GUEST: 'GUEST',
 };

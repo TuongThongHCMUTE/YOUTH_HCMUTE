@@ -1,8 +1,8 @@
 const API_LOCAL = 'localhost:5000/api/v1';
 
-const API_DEV = 'https://dev-youthhcmute-be.onrender.com/api/v1';
+const API_DEV = 'http://dev-doanvien.yhcmute.com/api/v1';
 
-const API_PROD = 'https://prod-youthhcmute-be.herokuapp.com/api/v1';
+const API_PROD = 'https://doanvien.yhcmute.com/api/v1';
 
 export const getServer = () => {
   switch(process.env.NODE_ENV) {
