@@ -63,7 +63,7 @@ const BarcodePage = () => {
         }
         
         try {
-            const res = await getOneStudentByStudentId(searchValue, currentYear.maNamHoc);
+            const res = await getOneStudentByStudentId(searchValue);
 
             if (res.data.status === 'success') {
                 setStudent(res.data.data.student);

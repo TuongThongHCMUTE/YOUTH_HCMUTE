@@ -1,0 +1,1 @@
+export const customizationSelector = (state) => state.customization;

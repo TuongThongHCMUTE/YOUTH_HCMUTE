@@ -1,0 +1,173 @@
+.StatisticSection {
+    display: flex;
+    justify-content: center;
+    background-color: var(--color-primary-400);
+
+    .Content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 52px 0;
+
+        .Statistic {
+            flex: 1;
+
+            .Title {
+                margin: 0;
+                font-size: 32px;
+                line-height: 34px;
+                font-weight: bold;
+                color: white;
+            }
+
+            .Results {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                margin-top: 40px;
+                padding: 0;
+
+                .ResultItem {
+                    list-style-type: none;
+                }
+
+                .Number {
+                    margin: 32px 0;
+                    font-size: 68px;
+                    font-weight: bold;
+                    color: white;
+                }
+
+                .Description {
+                    font-size: 18px;
+                    color: white;
+                }
+            }
+        }
+
+        .ImageContainer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            img {
+                height: 200px;
+                margin-left: 200px;
+            }
+        }
+    }
+}
+
+.FeaturesSection {
+    display: flex;
+    justify-content: center;
+    background-color: var(--color-primary-200);
+    padding-bottom: 40px;
+
+    .Content {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 52px 0;
+
+        .Features {
+            flex: 1;
+
+            .Title {
+                margin: 0;
+                font-size: 32px;
+                line-height: 32px;
+                font-weight: bold;
+                color: var(--color-primary-400);
+            }
+
+            .FeatureList {
+                display: flex;
+                margin-top: 40px;
+
+                .FeatureItem {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    margin-bottom: 16px;
+                    font-size: 16px;
+
+                    .Icon {
+                        width: 36px;
+                        height: 36px;
+                        margin-right: 16px;
+                        color: #1D9D22;
+                    }
+                }
+            }
+
+            .ButtonContainer {
+                display: flex;
+                justify-content: center;
+
+                .Button {
+                    padding: 26px 28px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: white;
+                    margin-top: 20px;
+                }
+            }
+        }
+
+        .ImageContainer {
+            img {
+                height: 350px;
+                border: solid 5px white;
+            }
+        }
+    }
+}
+
+/* Tablet & mobile */
+@media (max-width: 1024px) {
+    .StatisticSection {
+        .Content {
+            .ImageContainer {
+                display: none;
+            }
+        }
+    }
+
+    .FeaturesSection {
+        .Content {
+            flex-direction: column;
+
+            .ImageContainer {
+                margin-top: 24px;
+                width: 100%;
+
+                img {
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .StatisticSection {
+        .Content {
+            padding: 28px 0;
+
+            .Statistic {
+                .Title {
+                    text-align: center;
+                    font-size: 24px;
+                }
+
+                .Results {
+                    flex-direction: column;
+                    align-items: center;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}

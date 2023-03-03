@@ -1,12 +1,12 @@
-import axios from "axios";
-import { getServer } from "helpers/server";
+import axios from 'axios';
+import { getServer } from 'helpers/server';
 
 const url = getServer();
 
-export const getHomePageStatistic = () => {
+export const getHomePageRequest = () => {
   const option = {
-    method: "get",
-    url: `${url}/statistic/trang-chu`,
+    method: 'get',
+    url: `${url}/statistic/trang-chu`
   };
 
   return axios(option);

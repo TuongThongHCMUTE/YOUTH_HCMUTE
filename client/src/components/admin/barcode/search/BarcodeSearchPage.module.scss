@@ -1,0 +1,181 @@
+.BarcodePage {
+  .SearchSection {
+    position: fixed;
+    z-index: 10;
+    background-color: var(--color-primary-200);
+    height: 80px;
+    width: 100%;
+    overflow-x: scroll;
+    padding: 0 32px;
+    border-bottom: 2px solid var(--color-grey-400);
+
+    @media (max-width: 960px) {
+      margin: -32px -16px;
+    }
+
+    .Title {
+      display: inline-block;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--color-grey-700);
+      text-transform: uppercase;
+      min-width: fit-content;
+    }
+
+    .Search {
+      height: 40px;
+      display: flex;
+
+      .SearchTextField {
+        background: white;
+        height: 100%;
+        width: 250px;
+        margin-left: 120px;
+        padding: 0 0 0 16px;
+      }
+
+      .SearchTextField input {
+        font-size: 16px;
+      }
+
+      .SearchTextField input::placeholder {
+        font-size: 16px;
+        color: var(--color-grey-800);
+      }
+
+      .SearchButton {
+        position: relative;
+        background-color: var(--color-primary-400);
+        height: 100%;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .SearchButton:hover {
+        background-color: var(--color-primary-800);
+      }
+    }
+  }
+
+  .BodySection {
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-between;
+
+    .InfoForm {
+      padding: 20px 28px;
+
+      .SectionTitle {
+        text-transform: uppercase;
+        margin-top: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--color-primary-800);
+      }
+    }
+
+    .BillForm {
+      background-color: var(--color-primary-200);
+      width: 100%;
+
+      .NoDataMessage {
+        margin-top: 24px;
+        font-size: 18px;
+        color: var(--color-grey-700);
+      }
+
+      .BillTitle {
+        font-size: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+        text-align: center;
+        color: var(--color-black);
+        margin-top: 28px;
+        margin-left: 24px;
+      }
+
+      .Items {
+        padding: 0;
+      }
+
+
+      .Items>li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 24px;
+      }
+
+      .Items>li p {
+        font-size: 16px;
+        margin: 12px 0;
+        color: var(--color-black);
+      }
+
+      .Total {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 24px;
+        background-color: var(--color-primary-300);
+      }
+
+      .Total p {
+        margin: 12px 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--color-black);
+      }
+
+      .CheckOut {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 24px 0;
+        flex-direction: column;
+      }
+
+      .CheckOut>p {
+        margin: 16px 0 0 0;
+      }
+
+      .Line {
+        margin: 20px 0 40px;
+        width: 100%;
+        height: 1px;
+        background-color: var(--color-grey-200);
+      }
+
+      .OptionTitle {
+        text-transform: uppercase;
+        margin-left: 24px;
+        margin-top: 24px;
+        color: var(--color-black);
+      }
+
+      .Fields {
+        padding: 0 16px;
+      }
+
+      .CheckBoxes {
+        margin: 0 48px;
+      }
+    }
+  }
+
+  .Line {
+    width: 100%;
+    height: 3px;
+    margin: 0 120px;
+    background-color: var(--color-grey-400);
+  }
+
+  .NoDataMessage {
+    margin-top: 64px;
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+    color: var(--color-grey-400);
+  }
+}
