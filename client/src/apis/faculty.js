@@ -1,13 +1,13 @@
 import axios from 'axios';
-import _ from 'lodash';
 import { getServer } from 'helpers/server';
 import { getTokenFromStorage } from 'helpers/storage';
+import { renderHttpRequestParams } from 'helpers/http';
 
 const url = getServer();
 
 export const getFaculties = (...args) => {
   const token = getTokenFromStorage();
-  const { hienThi } = args;
+  const params = renderHttpRequestParams({ ...args, defaultSortBy: 'thuTu' });
 
   return axios({
     method: 'get',
@@ -15,8 +15,6 @@ export const getFaculties = (...args) => {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    params: {
-      hienThi: _.isBoolean(hienThi) ? hienThi : null,
-    },
+    params: params
   });
 };

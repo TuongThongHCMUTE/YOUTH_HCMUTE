@@ -19,7 +19,9 @@ export const renderHttpRequestParams = (args = {}) => {
     hienThi,
     defaultSortBy = null,
     className,
-    faculty
+    faculty,
+    studentId,
+    status,
   } = args;
 
   const params = {
@@ -35,6 +37,12 @@ export const renderHttpRequestParams = (args = {}) => {
   }
   if (faculty && faculty !== 'all') {
     params.donVi = faculty;
+  }
+  if (studentId && studentId !== '') {
+    params.maSoSV = studentId;
+  }
+  if (status !== 'all') {
+    params.trangThai = status;
   }
 
   return params;
