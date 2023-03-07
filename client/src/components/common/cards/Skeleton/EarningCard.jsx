@@ -5,7 +5,6 @@ import { Card, CardContent, Grid, Skeleton } from '@mui/material';
 // Style Constant ========================================================== //
 const useStyles = makeStyles({
   cardHeading: {
-    marginRight: '8px',
     marginTop: '18px',
     marginBottom: '14px'
   }

@@ -122,7 +122,7 @@ const BarcodeSearchPage = () => {
         className={styles.SearchSection}
       >
         <Typography variant="h1" className={styles.Title}>
-          Tra cứu thông tin
+          Tra cứu thông tin:
         </Typography>
         <Box className={styles.Search}>
           <Input

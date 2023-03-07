@@ -8,6 +8,7 @@ import Loadable from 'components/common/Loadable';
 import Protected from 'components/common/Protected';
 // Pages =================================================================== //
 const BarcodeSearchPage = Loadable(lazy(() => import('components/admin/barcode/search/BarcodeSearchPage')));
+const BarcodeStatisticPage = Loadable(lazy(() => import('components/admin/barcode/statistic/BarcodeStatisticPage')));
 
 // ===========================|| ADMIN ROUTING ||=========================== //
 const adminRoutes = {
@@ -29,7 +30,15 @@ const adminRoutes = {
           <BarcodeSearchPage />
         </Protected>
       )
-    }
+    },
+    {
+      path: '/barcode/thong-ke',
+      element: (
+        <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}>
+          <BarcodeStatisticPage />
+        </Protected>
+      )
+    },
   ]
 };
 export default adminRoutes;
