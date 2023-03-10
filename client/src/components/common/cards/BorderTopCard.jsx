@@ -4,7 +4,7 @@ const BorderTopCard = ({ borderColor, topColor, children }) => {
   const styles = {
     BorderTopCard: {
       border: `1px solid ${borderColor}`,
-      borderTop: `4px solid ${topColor}`
+      borderTop: `3px solid ${topColor}`
     }
   };
 

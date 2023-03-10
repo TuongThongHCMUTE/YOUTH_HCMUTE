@@ -22,6 +22,7 @@ export const renderHttpRequestParams = (args = {}) => {
     faculty,
     studentId,
     status,
+    display,
   } = args;
 
   const params = {
@@ -43,6 +44,9 @@ export const renderHttpRequestParams = (args = {}) => {
   }
   if (status !== 'all') {
     params.trangThai = status;
+  }
+  if (display !== 'all') {
+    params.hienThi = display;
   }
 
   return params;

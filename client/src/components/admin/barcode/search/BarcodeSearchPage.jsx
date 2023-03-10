@@ -176,7 +176,7 @@ const BarcodeSearchPage = () => {
         {student ? (
           <>
             <Grid item lg={6} className={styles.InfoForm}>
-              <Stack spacing={3}>
+              <Stack spacing={3} mb={3}>
                 <Barcode data={student} />
                 <Divider sx={{ px: 2 }} />
                 <StudentInfoForm
