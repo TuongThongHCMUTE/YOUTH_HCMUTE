@@ -12,9 +12,22 @@ export const searchStudentInfoRequest = (studentId, year = {}) => {
     method: 'get',
     url: `${url}/students/thong-tin-barcode/${studentId}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     },
-    params: { maNamHoc: year },
+    params: { maNamHoc: year }
+  });
+};
+
+export const searchStudentsByStudentIdRequest = studentId => {
+  const token = getTokenFromStorage();
+
+  return axios({
+    method: 'get',
+    url: `${url}/students`,
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    params: { maSoSV: studentId }
   });
 };
 
@@ -26,8 +39,8 @@ export const updateStudentRequest = ({ googleId, ...student }) => {
     method: 'put',
     url: `${url}/students/${student._id}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     },
-    data: student,
+    data: student
   });
 };

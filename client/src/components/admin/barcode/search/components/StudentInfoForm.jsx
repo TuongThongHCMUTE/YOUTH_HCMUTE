@@ -211,12 +211,12 @@ const StudentInfoForm = props => {
                   <DatePicker
                     name={item.name}
                     views={['year', 'month', 'day']}
-                    inputFormat="DD/MM/yyyy"
+                    inputFormat="DD/MM/YYYY"
                     label={getLabel(item)}
                     value={
                       values && values[item.name]
                         ? moment(values[item.name]).format('YYYY-MM-DD')
-                        : moment(item.defaultValue).format('YYY-MM-DD')
+                        : moment(item.defaultValue).format('YYYY-MM-DD')
                     }
                     onChange={value => setFieldValue(item.name, value)}
                     renderInput={params => (
@@ -448,7 +448,7 @@ const StudentInfoForm = props => {
                     <DatePicker
                       name="thongTinDoanVien.ngayVaoDoan"
                       views={['year', 'month', 'day']}
-                      inputFormat="DD/MM/yyyy"
+                      inputFormat="DD/MM/YYYY"
                       label="Ngày vào Đoàn"
                       value={
                         values.thongTinDoanVien?.ngayVaoDoan

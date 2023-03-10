@@ -53,7 +53,7 @@ const other = {
     // },
     {
       id: 'chi-doan',
-      title: 'Danh sách chi đoàn',
+      title: 'Chi đoàn',
       type: 'item',
       url: '/chi-doan',
       icon: icons.ViewListOutlinedIcon,

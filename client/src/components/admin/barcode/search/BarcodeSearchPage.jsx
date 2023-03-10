@@ -175,7 +175,7 @@ const BarcodeSearchPage = () => {
       <Grid container className={styles.BodySection}>
         {student ? (
           <>
-            <Grid item lg={6} className={styles.InfoForm}>
+            <Grid item lg={6.5} className={styles.InfoForm}>
               <Stack spacing={3} mb={3}>
                 <Barcode data={student} />
                 <Divider sx={{ px: 2 }} />
@@ -185,7 +185,7 @@ const BarcodeSearchPage = () => {
                 />
               </Stack>
             </Grid>
-            <Grid item lg={6} className={styles.BillForm}>
+            <Grid item lg={5.5} className={styles.BillForm}>
               {bill ? (
                 <BillForm
                   bill={bill}

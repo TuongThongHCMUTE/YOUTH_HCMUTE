@@ -1,0 +1,373 @@
+.ClassDetailPage {
+  .Header {
+    background-color: var(--color-primary-200);
+    width: 100%;
+    height: fit-content;
+    padding: 16px 32px;
+    border-bottom: 2px solid var(--color-grey-400);
+
+    @media (max-width: 960px) {
+      width: 100vw;
+      margin: -32px -16px 0;
+    }
+
+    .Title {
+      display: inline-block;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--color-grey-700);
+      text-transform: uppercase;
+    }
+  }
+
+  .Link {
+    padding: 0 0 0 32px;
+    height: 48px;
+
+    @media (max-width: 600px) {
+      padding: 0;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-grey-700);
+
+      .BackIcon {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .Body {
+    padding: 8px 32px;
+
+    @media (max-width: 600px) {
+      padding: 8px 0;
+    }
+
+    .Left {
+      padding-right: 16px;
+
+      .Form {
+        padding: 16px 0;
+
+        .TextField {
+          margin-bottom: 32px;
+
+          p {
+            position: absolute;
+            left: 0;
+            top: 100%;
+          }
+        }
+
+        .Actions {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+
+          button {
+            min-width: 120px;
+          }
+        }
+      }
+    }
+
+    .Right {
+      padding-left: 16px;
+
+      .Left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 16px 32px;
+
+        .Info {
+          width: 100%;
+
+          .NoInfo {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-grey-400);
+            margin-top: 16px;
+          }
+        }
+
+        .Card {
+          position: relative;
+          margin: 16px 0px;
+          background-color: var(--color-primary-200);
+          border: 1px solid var(--color-grey-300);
+          border-radius: 5px;
+          padding: 16px;
+
+          &:hover {
+            border-color: var(--color-primary-400);
+          }
+
+          .Name {
+            .StudentName {
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+
+              h5 {
+                margin: 0 24px 0 0;
+                font-size: 14px;
+                color: var(--color-grey-800);
+              }
+
+              .Secretary,
+              .DeputySecretary {
+                height: 28px;
+                width: fit-content;
+                padding: 0 12px;
+                border-radius: 14px;
+                text-align: center;
+                vertical-align: middle;
+                line-height: 28px;
+                font-size: 13px;
+                font-weight: 500;
+                color: white;
+              }
+
+              .Secretary {
+                background: var(--color-primary-400);
+              }
+
+              .DeputySecretary {
+                background: #1F7244;
+              }
+            }
+
+            .StudentId {
+              font-size: 14px;
+              font-weight: 400;
+              color: var(--color-grey-600);
+              margin: 0;
+            }
+          }
+
+          .Contact {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 16px;
+
+            h5 {
+              font-size: 14px;
+              font-weight: 400;
+              color: var(--color-grey-600);
+              margin: 0;
+            }
+
+            h6 {
+              font-size: 14px;
+              font-weight: 500;
+              color: var(--color-grey-800);
+              margin: 0;
+            }
+
+            @media (-webkit-min-device-pixel-ratio: 1.25) {
+              flex-direction: column;
+              align-items: flex-start;
+              margin-top: 0;
+
+              h5 {
+                margin-top: 12px;
+              }
+            }
+          }
+
+          .RemoveButton {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+          }
+        }
+
+        .Actions {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          margin: 16px 0;
+
+          button {
+            min-width: 120px;
+          }
+        }
+      }
+
+      .Right {
+        position: relative;
+        background-color: var(--color-primary-200);
+        margin: 0;
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .Search {
+          width: 100%;
+          display: flex;
+        }
+
+        .SearchTextField {
+          height: 100%;
+          flex: 1;
+        }
+
+        .SearchTextField input {
+          font-size: 14px;
+        }
+
+        .SearchTextField input::placeholder {
+          font-size: 14px;
+          color: var(--color-grey-800);
+        }
+
+        .SearchButton {
+          position: relative;
+          background-color: var(--color-primary-400);
+          height: 100%;
+          border-radius: 0;
+          box-shadow: none;
+        }
+
+        .SearchButton:hover {
+          background-color: var(--color-primary-800);
+        }
+
+        .SearchResults {
+          width: 100%;
+          margin-top: 32px;
+          background-color: var(--color-white);
+          border: 1px solid var(--color-grey-400);
+
+          .ResultHeader {
+            .TopBorder {
+              width: 100%;
+              height: 2px;
+              background-color: var(--color-primary-400);
+            }
+
+            h4 {
+              margin: 6px 8px;
+              font-size: 13px;
+              font-weight: 500;
+              color: var(--color-grey-800);
+            }
+          }
+
+          .ResultBody {
+            height: fit-content;
+            max-height: 350px;
+            overflow-y: scroll;
+
+            .NoResults {
+              text-align: center;
+              color: var(--color-grey-400);
+            }
+
+            .Item {
+              .Content {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 8px;
+
+                &:hover {
+                  background-color: var(--color-grey-100);
+
+                  .Positions {
+                    visibility: visible;
+                  }
+                }
+
+                .Info {
+                  h5 {
+                    margin: 2px 0;
+                    font-size: 13px;
+                    font-weight: 500;
+                    color: var(--color-grey-800);
+                  }
+
+                  h6 {
+                    margin: 0;
+                    font-size: 13px;
+                    font-weight: 400;
+                    color: var(--color-grey-600);
+                  }
+                }
+
+                .Positions {
+                  visibility: hidden;
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+
+                  .Secretary,
+                  .DeputySecretary {
+                    height: 28px;
+                    width: 80px;
+                    border-radius: 14px;
+                    text-align: center;
+                    vertical-align: middle;
+                    line-height: 28px;
+                    font-weight: 500;
+                    cursor: pointer;
+                  }
+
+                  .Secretary {
+                    color: var(--color-primary-800);
+
+                    &:hover {
+                      background: var(--color-primary-800);
+                      color: white;
+                    }
+                  }
+
+                  .DeputySecretary {
+                    color: #1F7244;
+                    margin-left: 4px;
+
+                    &:hover {
+                      background: #1F7244;
+                      color: white;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          .Divider {
+            width: 100%;
+            height: 1px;
+            background-color: var(--color-grey-400);
+          }
+        }
+      }
+    }
+
+    @media (max-width: 1280px) {
+      >.Left {
+        padding-right: 0;
+      }
+
+      >.Right {
+        padding-left: 0;
+        margin-top: 32px;
+      }
+    }
+  }
+}

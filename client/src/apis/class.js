@@ -19,6 +19,18 @@ export const getClassesRequest = (args) => {
   });
 };
 
+export const getClassByIdRequest = (id) => {
+  const token = getTokenFromStorage();
+
+  return axios({
+    method: 'get',
+    url: `${url}/classes/${id}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const updateClassRequest = (data) => {
   const token = getTokenFromStorage();
 
