@@ -1,6 +1,5 @@
 // Node Modules ============================================================ //
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 // Material UI ============================================================= //
 import {
@@ -14,9 +13,11 @@ import {
   TableRow,
   Paper
 } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import LockIcon from '@mui/icons-material/Lock';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 // Components ============================================================== //
 import BorderTopCard from 'components/common/cards/BorderTopCard';
 import TableHead from 'components/common/TableHead';
@@ -25,80 +26,73 @@ import { ConfirmationModal } from 'components/common/modal';
 
 const HEAD_CELLS = [
   {
-    id: 'name',
-    numeric: false,
+    id: 'maNamHoc',
+    align: 'left',
     disablePadding: false,
-    label: 'Tên lớp'
+    label: 'Mã năm học',
   },
   {
-    id: 'faculty',
-    numeric: false,
+    id: 'tenNamHoc',
+    align: 'left',
     disablePadding: false,
-    label: 'Đơn vị'
+    label: 'Tên năm học',
   },
   {
-    id: 'major',
-    numeric: false,
+    id: 'ngayBatDau',
+    align: 'left',
     disablePadding: false,
-    label: 'Ngành học'
+    label: 'Ngày bắt đầu',
   },
   {
-    id: 'secretary',
-    numeric: false,
+    id: 'ngayKetThuc',
+    align: 'left',
     disablePadding: false,
-    label: 'Bí thư'
+    label: 'Ngày kết thúc',
   },
   {
-    id: 'deputySecretary',
-    numeric: false,
+    id: 'hienThi',
+    align: 'center',
     disablePadding: false,
-    label: 'Phó Bí thư'
+    label: 'Hiển thị',
   },
   {
-    id: 'createdAt',
-    numeric: false,
+    id: 'actions',
+    align: 'right',
     disablePadding: false,
-    label: 'Ngày tạo'
+    label: 'Actions',
   },
-  {
-    id: 'status',
-    numeric: true,
-    disablePadding: false,
-    label: ''
-  }
 ];
 
 const mapOrderBy = field => {
   switch (field) {
-    case 'name':
-      return 'tenLop';
-    case 'status':
+    case 'maNamHoc':
+      return 'maNamHoc';
+    case 'tenNamHoc':
+      return 'tenNamHoc';
+    case 'ngayBatDau':
+      return 'ngayBatDau';
+    case 'ngayKetThuc':
+      return 'ngayKetThuc';
+    case 'hienThi':
       return 'hienThi';
-    case 'major':
-      return 'nganhHoc';
-    case 'createdAt':
-      return 'createdAt';
     default:
       return undefined;
   }
 };
 
-const createData = studentClass => {
+const createData = year => {
   return {
-    id: studentClass._id,
-    name: studentClass.tenLop,
-    faculty: studentClass.donVi?.tenDonVi,
-    status: studentClass.hienThi,
-    major: studentClass.nganhHoc,
-    secretary: studentClass.quanLy.filter(i => i.chucVu === 'BI_THU')[0],
-    deputySecretary: studentClass.quanLy.filter(
-      i => i.chucVu === 'PHO_BI_THU'
-    )[0],
-    createdAt: studentClass.createdAt
+    id: year._id,
+    maNamHoc: year.maNamHoc,
+    tenNamHoc: year.tenNamHoc,
+    ngayBatDau: year.ngayBatDau,
+    ngayKetThuc: year.ngayKetThuc,
+    namHocHienTai: year.namHocHienTai,
+    hienThi: year.hienThi
   };
 };
 
-// ===========================|| CLASSES TABLE ||=========================== //
+// ============================|| YEARS TABLE ||============================ //
 export default function EnhancedTable(props) {
   const {
     data,
@@ -107,16 +101,15 @@ export default function EnhancedTable(props) {
     onRefetch,
     onUpdate,
     onDelete,
+    onOpenCreateModal,
   } = props;
 
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('maNamHoc');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selected, setSelected] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     onRefetch({
@@ -133,13 +126,23 @@ export default function EnhancedTable(props) {
     setOrderBy(property);
   };
 
-  const handleClick = (_event, id) => {
-    navigate(`/chi-doan/${id}`);
+  const handleClick = (_event, year) => {
+    _event.stopPropagation();
+    onOpenCreateModal({
+      isDisplay: true,
+      isUpdate: true,
+      year: year,
+    });
   };
 
   const handleChangeStatus = (_event, id, status) => {
     _event.stopPropagation();
-    onUpdate({ _id: id, hienThi: status })
+    onUpdate({ maNamHoc: id, hienThi: status })
+  };
+
+  const handleActiveYear = (_event, id, isActive) => {
+    _event.stopPropagation();
+    onUpdate({ maNamHoc: id, namHocHienTai: isActive })
   };
 
   const handleDelete = async id => {
@@ -173,7 +176,7 @@ export default function EnhancedTable(props) {
               >
                 <TableHead
                   headCells={HEAD_CELLS}
-                  ignoreFields={['secretary', 'deputySecretary', 'faculty', 'actions']}
+                  ignoreFields={[]}
                   order={order}
                   orderBy={orderBy}
                   onRequestSort={handleRequestSort}
@@ -189,32 +192,50 @@ export default function EnhancedTable(props) {
                         tabIndex={-1}
                         key={row.id}
                       >
-                        <TableCell p={1}>{row.name}</TableCell>
-                        <TableCell align="left">{row.faculty}</TableCell>
-                        <TableCell align="left">{row.major}</TableCell>
+                        <TableCell p={1}>{row.maNamHoc}</TableCell>
+                        <TableCell align="left">{row.tenNamHoc}</TableCell>
                         <TableCell align="left">
-                          {row.secretary?.hoTen}
+                          {row.ngayBatDau
+                            ? moment(row.ngayBatDau).format('DD/MM/YYYY')
+                            : 'N/A'}
                         </TableCell>
                         <TableCell align="left">
-                          {row.deputySecretary?.hoTen}
+                          {row.ngayKetThuc
+                            ? moment(row.ngayKetThuc).format('DD/MM/YYYY')
+                            : 'N/A'}
                         </TableCell>
-                        <TableCell align="left">
-                          {moment(row.createdAt).format('DD/MM/YYYY hh:mm A')}
+                        <TableCell align="center">
+                          <IconButton
+                            onClick={event =>
+                              handleChangeStatus(event, row.maNamHoc, !row.hienThi)
+                            }
+                          >
+                            {row.hienThi ? (
+                              <VisibilityIcon color="success" />
+                            ) : (
+                              <VisibilityOffIcon />
+                            )}
+                          </IconButton>
                         </TableCell>
                         <TableCell align="right">
                           <IconButton
-                            onClick={event =>
-                              handleChangeStatus(event, row.id, !row.status)
-                            }
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              handleActiveYear(
+                                event,
+                                row.maNamHoc,
+                                !row.namHocHienTai
+                              );
+                            }}
                           >
-                            {row.status ? (
-                              <LockOpenIcon color="success" />
+                            {row.namHocHienTai ? (
+                              <AccessTimeFilledIcon color="primary" />
                             ) : (
-                              <LockIcon />
+                              <AccessTimeIcon />
                             )}
                           </IconButton>
                           <IconButton
-                            onClick={event => {
+                            onClick={(event) => {
                               event.stopPropagation();
                               setSelected(row);
                               setShowConfirmation(true);
@@ -245,7 +266,7 @@ export default function EnhancedTable(props) {
       </Box>
       <ConfirmationModal
         visible={showConfirmation}
-        message={`Bạn có chắc chắn xóa lớp ${selected?.name}?`}
+        message={`Bạn có chắc chắn xóa năm học ${selected?.tenNamHoc}?`}
         onConfirm={() =>
           handleDelete(selected?.id).then(setShowConfirmation(false))
         }

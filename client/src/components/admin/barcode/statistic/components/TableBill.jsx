@@ -80,7 +80,7 @@ const createData = bill => {
   return {
     id: bill._id,
     studentId: bill.maSoSV,
-    name: bill.sinhVien.ho + ' ' + bill.sinhVien.ten,
+    name: bill.sinhVien?.ho + ' ' + bill.sinhVien?.ten,
     faculty: bill.donVi?.tenDonVi,
     total: bill.tongTien,
     status: bill.trangThai ? 'Đã thanh toán' : 'Chưa thanh toán',

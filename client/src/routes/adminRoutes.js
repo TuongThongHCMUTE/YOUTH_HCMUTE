@@ -19,6 +19,9 @@ const ClassManagementPage = Loadable(
 const ClassDetailPage = Loadable(
   lazy(() => import('components/admin/classes/detail/ClassDetailPage'))
 );
+const YearManagementPage = Loadable(
+  lazy(() => import('components/admin/years/YearManagementPage'))
+);
 
 // ===========================|| ADMIN ROUTING ||=========================== //
 const adminRoutes = {
@@ -62,6 +65,14 @@ const adminRoutes = {
       element: (
         <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}>
           <ClassDetailPage />
+        </Protected>
+      )
+    },
+    {
+      path: '/nam-hoc',
+      element: (
+        <Protected roles={[USER_ROLES.DOAN_TRUONG, USER_ROLES.CONG_TAC_VIEN]}>
+          <YearManagementPage />
         </Protected>
       )
     },
