@@ -4,7 +4,7 @@ export const drawerWidth = 260;
 export const appDrawerWidth = 320;
 
 // server
-export const url = 'https://doanvien.yhcmute.com/api/v1';
+export const url = 'http://dev-doanvien.yhcmute.com/api/v1';
 
 // student
 export const bookStatuses = [
