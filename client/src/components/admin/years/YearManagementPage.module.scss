@@ -11,3 +11,21 @@
     }
   }
 }
+
+.Form {
+  max-width: 800px;
+}
+
+.SectionTitle {
+  margin-left: 16px;
+  font-size: 20px;
+  color: var(--color-grey-700);
+}
+
+.TextField {
+  width: 100%;
+}
+
+.TextField>div {
+  border-radius: 0px;
+}

@@ -19,6 +19,19 @@ export const getYearsRequest = (args) => {
   });
 };
 
+export const createYearRequest = (data) => {
+  const token = getTokenFromStorage();
+
+  return axios({
+    method: 'post',
+    url: `${url}/school-years`,
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data: data
+  });
+};
+
 export const updateYearRequest = (data) => {
   const token = getTokenFromStorage();
 

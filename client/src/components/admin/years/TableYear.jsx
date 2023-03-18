@@ -85,6 +85,8 @@ const createData = year => {
     id: year._id,
     maNamHoc: year.maNamHoc,
     tenNamHoc: year.tenNamHoc,
+    chuDeNamHoc: year.chuDeNamHoc,
+    moTa: year.moTa,
     ngayBatDau: year.ngayBatDau,
     ngayKetThuc: year.ngayKetThuc,
     namHocHienTai: year.namHocHienTai,
@@ -188,7 +190,7 @@ export default function EnhancedTable(props) {
                       <TableRow
                         sx={{ cursor: 'pointer' }}
                         hover
-                        onClick={event => handleClick(event, row.id)}
+                        onClick={event => handleClick(event, row)}
                         tabIndex={-1}
                         key={row.id}
                       >
@@ -268,7 +270,7 @@ export default function EnhancedTable(props) {
         visible={showConfirmation}
         message={`Bạn có chắc chắn xóa năm học ${selected?.tenNamHoc}?`}
         onConfirm={() =>
-          handleDelete(selected?.id).then(setShowConfirmation(false))
+          handleDelete(selected?.maNamHoc).then(setShowConfirmation(false))
         }
         onCancel={() => setShowConfirmation(false)}
       />

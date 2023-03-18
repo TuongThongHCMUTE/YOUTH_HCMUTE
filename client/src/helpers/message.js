@@ -5,6 +5,8 @@ export const ERROR_MESSAGE = {
   requireClassName: 'Tên chi đoàn không được để trống.',
   requireFaculty: 'Khoa không được để trống',
   requireMajor: 'Ngành học không được để trống',
+  requireYearCode: 'Mã năm học không được để trống',
+  requireYearName: 'Tên năm học không được để trống',
   invalidPassword: 'Mật khẩu không hợp lệ.',
   passwordNotMatch: 'Mật khẩu không trùng khớp',
 };
