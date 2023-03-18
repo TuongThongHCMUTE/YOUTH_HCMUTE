@@ -14,9 +14,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '16.15.1'
-      - run: npm install --legacy-peer-deps
+      - run: yarn install
         working-directory: ./client
-      - run: npm run build:dev
+      - run: yarn build
         working-directory: ./client
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

@@ -1,4 +1,4 @@
-export { default as LoginModal } from './LoginModal/LoginModal.jsx';
+// export { default as LoginModal } from './LoginModal/LoginModal.jsx';
 
 export { default as ConfirmationModal } from './ConfirmationModal/ConfirmationModal.jsx';
 
