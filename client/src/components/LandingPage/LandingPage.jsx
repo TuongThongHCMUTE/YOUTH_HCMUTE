@@ -12,7 +12,7 @@ import Student from './components/Student';
 import Admin from './components/Admin';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import { LoginModal } from 'components/common/modal';
+// import { LoginModal } from 'components/common/modal';
 
 // ===========================|| LANDING PAGE ||============================ //
 const Landing = () => {
@@ -37,11 +37,11 @@ const Landing = () => {
       <Admin onOpenLogin={openLoginModalHandler} />
       <Contact />
       <Footer />
-      <LoginModal
+      {/* <LoginModal
         visible={showLogin}
         step={loginStep}
         onClose={closeLoginModalHandler}
-      />
+      /> */}
     </React.Fragment>
   );
 };
