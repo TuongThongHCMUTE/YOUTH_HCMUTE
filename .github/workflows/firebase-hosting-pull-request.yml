@@ -9,9 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd client && npm ci --legacy-peer-deps && npm run build:dev
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '16.15.1'
+      - run: npm install --legacy-peer-deps
+        working-directory: ./client
+      - run: npm run build:dev
+        working-directory: ./client
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
+          entrypoint: ./client         
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DEV_YOUTH_HCMUTE }}'
           projectId: dev-youth-hcmute
