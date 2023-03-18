@@ -27,7 +27,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 // My components =========================================================== //
-import BaseModal from 'components/common/modal/BaseModal/BaseModal';
+import { BaseModal } from 'components/common/modal';
 
 // ========================|| YEAR DETAIL MODAL ||========================== //
 const YearDetailModal = props => {

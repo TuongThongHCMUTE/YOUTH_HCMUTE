@@ -30,7 +30,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 // Components ============================================================== //
-import ConfirmationModal from 'components/common/modal/ConfirmationModal/ConfirmationModal';
+import { ConfirmationModal } from 'components/common/modal';
 
 // =============================|| BILL FORM ||============================= //
 const Bill = props => {
