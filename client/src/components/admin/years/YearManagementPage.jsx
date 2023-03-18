@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import styles from './YearManagementPage.module.scss';
 // Redux Store ============================================================= //
 import { uiActions } from 'redux/reducers/ui-reducer';
+import { fetchYears } from 'redux/actions/year-actions';
 // APIs ==================================================================== //
 import {
   getYearsRequest,
@@ -78,6 +79,7 @@ const YearManagementPage = () => {
       const res = await updateYearRequest(data);
       if (res.status === HTTP_RESPONSE_STATUS.success) {
         handleSearch(filters);
+        dispatch(fetchYears());
       }
       dispatch(
         uiActions.showAlert({
@@ -95,6 +97,7 @@ const YearManagementPage = () => {
       const res = await deleteYearRequest(id);
       if (res.status === HTTP_RESPONSE_STATUS.success) {
         handleSearch(filters);
+        dispatch(fetchYears());
       }
       dispatch(
         uiActions.showAlert({
@@ -113,6 +116,7 @@ const YearManagementPage = () => {
       const res = isUpdate ? await updateYearRequest(data) : await createYearRequest(data);
       if (res.status === HTTP_RESPONSE_STATUS.success) {
         handleSearch(filters);
+        dispatch(fetchYears());
       }
       dispatch(
         uiActions.showAlert({
