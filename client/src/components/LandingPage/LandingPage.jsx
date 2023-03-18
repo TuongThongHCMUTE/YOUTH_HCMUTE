@@ -12,7 +12,7 @@ import Student from './components/Student';
 import Admin from './components/Admin';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import { LoginModal } from 'components/common/modal';
+import LoginModal from 'components/common/modal/LoginModal/LoginModal';
 
 // ===========================|| LANDING PAGE ||============================ //
 const Landing = () => {

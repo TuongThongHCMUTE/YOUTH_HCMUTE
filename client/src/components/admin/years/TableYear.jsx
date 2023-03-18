@@ -22,7 +22,7 @@ import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import BorderTopCard from 'components/common/cards/BorderTopCard';
 import TableHead from 'components/common/TableHead';
 import TablePagination from 'components/common/TablePagination';
-import { ConfirmationModal } from 'components/common/modal';
+import ConfirmationModal from 'components/common/modal/ConfirmationModal/ConfirmationModal';
 
 const HEAD_CELLS = [
   {
