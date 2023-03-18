@@ -1,7 +1,7 @@
 // Node Modules ============================================================ //
 import React from 'react';
 // Styles ================================================================== //
-import styles from '../LoginModal.module.scss';
+import styles from './index.module.scss';
 // Assets ================================================================== //
 import logo from 'assets/images/logo-hcmute-small.png';
 // Material UI ============================================================= //

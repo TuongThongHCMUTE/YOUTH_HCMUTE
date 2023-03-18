@@ -16,15 +16,15 @@ import { LOGIN_STEPS } from 'helpers/auth';
 import { ALERT_STATUS } from 'helpers/ui';
 import { ROUTE } from 'helpers/route';
 // Styles ================================================================== //
-import styles from './LoginModal.module.scss';
+import styles from './index.module.scss';
 // Material UI ============================================================= //
 import { Box, Modal } from '@mui/material';
 // Components ============================================================== //
-import LoginModalHeader from './components/LoginModalHeader';
-import ChooseOption from './components/ChooseOption';
-import StudentLogin from './components/StudentLogin';
-import AdminLogin from './components/AdminLogin';
-import ForgotPassword from './components/ForgotPassword';
+import LoginModalHeader from './LoginModalHeader';
+import ChooseOption from './ChooseOption';
+import StudentLogin from './StudentLogin';
+import AdminLogin from './AdminLogin';
+import ForgotPassword from './ForgotPassword';
 
 // ===========================|| LOGIN MODAL ||============================= //
 const LoginModal = props => {

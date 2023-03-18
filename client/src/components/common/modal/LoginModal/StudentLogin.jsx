@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import { GoogleLogin } from 'react-google-login';
 import { LoadingButton } from '@mui/lab';
 // Styles ================================================================== //
-import styles from '../LoginModal.module.scss';
+import styles from './index.module.scss';
 // Helpers ================================================================= //
 import { LOGIN_STEPS, GOOGLE_CLIENT_ID } from 'helpers/auth';
 

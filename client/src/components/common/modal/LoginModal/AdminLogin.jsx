@@ -6,7 +6,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { Formik } from 'formik';
 // Styles ================================================================== //
-import styles from '../LoginModal.module.scss';
+import styles from './index.module.scss';
 // Helpers ================================================================= //
 import { LOGIN_STEPS, validateLoginValues } from 'helpers/auth';
 // Material UI ============================================================= //
