@@ -57,7 +57,7 @@ const BillForm = (props) => {
     // Các khoản phí khác
     const soDoanIndex = fees.findIndex(f => f.tenChiPhi === 'Sổ đoàn viên');
     const cttnIndex = fees.findIndex(f => f.tenChiPhi === 'Kinh phí đóng góp công trình thanh niên');
-    const theHVIdex = fees.findIndex(f => f.tenChiPhi === 'Kinh phí làm thẻ Hội viên hội sinh viên Việt Nam');
+    const theHVIdex = fees.findIndex(f => f.tenChiPhi === 'Hội phí');
 
     const calculateTotalPrice = (fees) => {
         const total = fees.reduce((sum, i) => sum + i.thanhTien, 0);
@@ -86,12 +86,12 @@ const BillForm = (props) => {
         }
         // if user chooses the option 'Sổ đoàn' or 'Thẻ hội viên' => the value is 1
         // otherwise, the value is 0
-        else if (field === 'so-doan' || field === 'the-hoi-vien') {
+        else if (field === 'so-doan') {
             fee.soLuong = value ? 1 : 0;
         }
         // if user chooses the option 'Công trình thanh niên' => the value is 12
         // otherwise, the value is 0 
-        else if (field === 'cong-trinh-thanh-nien') {
+        else if (field === 'cong-trinh-thanh-nien' || field === 'the-hoi-vien') {
             fee.soLuong = value ? 12 : 0;
         }
 
@@ -242,10 +242,10 @@ const BillForm = (props) => {
                     <FormControlLabel 
                         control={
                             <Checkbox  
-                                checked={fees[theHVIdex].soLuong === 1}
+                                checked={fees[theHVIdex].soLuong === 12}
                                 onChange={e => handleChange('the-hoi-vien', e.target.checked, theHVIdex)} 
                             />} 
-                        label="Chi phí làm thẻ hội viên Hội Sinh viên Việt Nam " 
+                        label="Hội phí" 
                     />
                 </FormGroup>
             </div>

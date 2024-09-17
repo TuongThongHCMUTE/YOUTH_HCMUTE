@@ -104,7 +104,7 @@ const ReceiptModal = props => {
           <div className={styles.Record}>Hồ sơ gồm</div>
           <ul className={styles.Items}>
             {bill?.cacKhoanPhi?.map(i =>
-              i.tenChiPhi === 'Đoàn phí' ? (
+              i.tenChiPhi === 'Đoàn phí' || 'Hội phí' ? (
                 <li key={i.thuTu} className={styles.Record}>
                   {`${i.thuTu}. ${i.tenChiPhi}: ${i.donGia}đ x ${i.soLuong} ${
                     i.donViTinh

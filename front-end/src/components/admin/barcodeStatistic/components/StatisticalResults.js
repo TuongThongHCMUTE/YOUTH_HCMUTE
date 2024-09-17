@@ -23,7 +23,7 @@ const StatisticalResults = (props) => {
     const additionalFee = data.filter(i => i.name === 'Truy thu Đoàn phí')[0];
     const book = data.filter(i => i.name === 'Sổ đoàn viên')[0];
     const constructionFee = data.filter(i => i.name === 'Kinh phí đóng góp công trình thanh niên')[0];
-    const cardFee = data.filter(i => i.name === 'Kinh phí làm thẻ Hội viên hội sinh viên Việt Nam')[0];
+    const cardFee = data.filter(i => i.name === 'Hội phí')[0];
 
     if (loading) {
         return (

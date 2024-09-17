@@ -32,7 +32,7 @@ const Overview = ({ loading, data }) => {
     i => i.name === 'Kinh phí đóng góp công trình thanh niên'
   )[0];
   const theHV = data.filter(
-    i => i.name === 'Kinh phí làm thẻ Hội viên hội sinh viên Việt Nam'
+    i => i.name === 'Hội phí'
   )[0];
 
   if (loading) {

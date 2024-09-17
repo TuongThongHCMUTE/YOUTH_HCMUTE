@@ -53,7 +53,7 @@ const ReceiptModal = ({ openModal, onClose, onCheckOut, student, bill }) => {
                         <div className={styles.Record}>Hồ sơ gồm</div>
                         <ul className={styles.Items}>
                             {bill?.cacKhoanPhi?.map(i => 
-                                i.tenChiPhi === 'Đoàn phí' 
+                                i.tenChiPhi === 'Đoàn phí' || i.tenChiPhi === 'Hội phí'
                                 ? <li className={styles.Record}>{`${i.thuTu}. ${i.tenChiPhi}: ${i.donGia}đ x ${i.soLuong} ${i.donViTinh} = ${i.thanhTien}đ (Từ ${moment(i.ngayBatDau).format('DD/MM/yyyy')} đến ${moment(i.ngayKetThuc).format('DD/MM/yyyy')}) (${i.thuTu})`}</li>
                                 : <li className={styles.Record}>{`${i.thuTu}. ${i.tenChiPhi}: ${i.donGia}đ x ${i.soLuong} ${i.donViTinh} = ${i.thanhTien}đ (${i.thuTu})`}</li>
                             )}

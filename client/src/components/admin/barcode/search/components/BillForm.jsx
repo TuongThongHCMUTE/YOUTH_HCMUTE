@@ -68,7 +68,7 @@ const Bill = props => {
     f => f.tenChiPhi === 'Kinh phí đóng góp công trình thanh niên'
   );
   const theHVIndex = fees.findIndex(
-    f => f.tenChiPhi === 'Kinh phí làm thẻ Hội viên hội sinh viên Việt Nam'
+    f => f.tenChiPhi === 'Hội phí'
   );
 
   const calculateTotalPrice = fees =>
@@ -91,9 +91,9 @@ const Bill = props => {
       );
     } else if (field === 'additionalFee') {
       fee.soLuong = value;
-    } else if (field === 'so-doan' || field === 'the-hoi-vien') {
+    } else if (field === 'so-doan') {
       fee.soLuong = value ? 1 : 0;
-    } else if (field === 'cong-trinh-thanh-nien') {
+    } else if (field === 'cong-trinh-thanh-nien' || field === 'the-hoi-vien') {
       fee.soLuong = value ? 12 : 0;
     }
 
@@ -234,7 +234,7 @@ const Bill = props => {
                 }
               />
             }
-            label="Chi phí làm thẻ hội viên Hội Sinh viên Việt Nam "
+            label="Hội phí"
           />
         </FormGroup>
       </div>
